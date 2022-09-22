@@ -41,3 +41,8 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew build
+
+    # Required check does not show the action name.
+    # https://github.com/orgs/community/discussions/33579
+    - name: Success
+      run: echo All test successful
