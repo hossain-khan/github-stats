@@ -76,6 +76,7 @@ internal class ClientTest {
         assertThat(timelineEvents).isNotEmpty()
         assertThat(timelineEvents).hasSize(3)
     }
+
     @Test
     fun `given empty timeline response - provides empty timeline events`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody("[]"))
