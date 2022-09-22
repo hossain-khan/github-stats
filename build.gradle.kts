@@ -36,9 +36,18 @@ dependencies {
     // https://github.com/square/moshi
     implementation("com.squareup.moshi:moshi:1.14.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    implementation("com.squareup.moshi:moshi-adapters:1.14.0")
 
 
+    //
+    // =======================
+    // Unit Test Dependencies
+    // =======================
+    //
     testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 }
 
 tasks.test {
