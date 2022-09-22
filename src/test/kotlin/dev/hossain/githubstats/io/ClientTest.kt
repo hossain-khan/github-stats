@@ -36,7 +36,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with review_requested event - parses review_requested event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-review-requested-event.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
         val event = timelineEvents.find { it is ReviewRequestedEvent }
@@ -47,7 +47,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with merged event - parses merged event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-merged-event.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
 
@@ -58,7 +58,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with reviewed event - parses reviewed event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-reviewed-event.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
 
@@ -66,6 +66,15 @@ internal class ClientTest {
         assertThat(event).isNotNull()
 
         assertThat((event as ReviewedEvent).submitted_at).isEqualTo("2022-06-08T02:24:27Z")
+    }
+
+    @Test
+    fun `given multiple timeline events - provides multiple parsed timeline events`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
+
+        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        assertThat(timelineEvents).isNotEmpty()
+        assertThat(timelineEvents).hasSize(3)
     }
 
     @Test
