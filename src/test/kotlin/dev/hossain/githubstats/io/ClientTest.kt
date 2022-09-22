@@ -27,7 +27,7 @@ internal class ClientTest {
     }
 
     @Test
-    fun getGithubService() = runTest {
+    fun `given timeline response - parses timeline into model classes`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
@@ -36,7 +36,7 @@ internal class ClientTest {
 
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String = "workflows_get_success_response.json"): String {
+    private fun respond(jsonResponseFile: String): String {
         return ClientTest::class.java.getResource("/$jsonResponseFile")!!.readText()
     }
     // endregion: Test Utility Functions
