@@ -81,12 +81,11 @@ object Client {
             val properties = Properties()
             properties.load(propertiesFile.inputStream())
 
-            if (properties.containsKey("access_token").not()) {
-                throw IllegalStateException("Please provide access token in `local.properties`.")
-            }
-
-            return properties.getProperty("access_token")
+            return properties.getProperty("access_token", "MISSING-TOKEN")
         } else {
+            if (System.getenv("IS_GITHUB_CI") == "true") {
+                return "CI-JOB-ON-GITHUB-ACTION"
+            }
             throw IllegalStateException("Please provide access token in `local.properties`.")
         }
     }

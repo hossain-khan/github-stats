@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  IS_GITHUB_CI: true
+
 jobs:
   build:
 
@@ -37,4 +40,4 @@ jobs:
       run: ./gradlew lintKotlin
 
     - name: Build with Gradle
-      run: ./gradlew assemble
+      run: ./gradlew build
