@@ -1,5 +1,8 @@
 package dev.hossain.githubstats.io
 
+import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.model.timeline.PrMergedEvent
+import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.service.GithubService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -31,11 +34,20 @@ internal class ClientTest {
     }
 
     @Test
-    fun `given timeline response - parses timeline into timeline events`() = runTest {
+    fun `given timeline with review_requested event - parses review_requested event successfully`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
-        assertEquals(false, timelineEvents.isEmpty())
+        assertThat(timelineEvents.find { it is ReviewRequestedEvent }).isNotNull()
+    }
+
+    @Test
+    fun `given timeline with merged event - parses merged event successfully`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
+
+        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+
+        assertThat(timelineEvents.find { it is PrMergedEvent }).isNotNull()
     }
 
     @Test
