@@ -1,8 +1,9 @@
 package dev.hossain.githubstats.io
 
 import com.google.common.truth.Truth.assertThat
-import dev.hossain.githubstats.model.timeline.PrMergedEvent
+import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
+import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.service.GithubService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -38,7 +39,10 @@ internal class ClientTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
-        assertThat(timelineEvents.find { it is ReviewRequestedEvent }).isNotNull()
+        val event = timelineEvents.find { it is ReviewRequestedEvent }
+        assertThat(event).isNotNull()
+
+        assertThat((event as ReviewRequestedEvent).created_at).isEqualTo("2022-09-21T14:37:39Z")
     }
 
     @Test
@@ -47,7 +51,21 @@ internal class ClientTest {
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
 
-        assertThat(timelineEvents.find { it is PrMergedEvent }).isNotNull()
+        val event = timelineEvents.find { it is MergedEvent }
+        assertThat(event).isNotNull()
+        assertThat((event as MergedEvent).created_at).isEqualTo("2021-02-22T07:43:05Z")
+    }
+
+    @Test
+    fun `given timeline with reviewed event - parses reviewed event successfully`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
+
+        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+
+        val event = timelineEvents.find { it is ReviewedEvent }
+        assertThat(event).isNotNull()
+
+        assertThat((event as ReviewedEvent).submitted_at).isEqualTo("2022-06-08T02:24:27Z")
     }
 
     @Test

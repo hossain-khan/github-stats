@@ -98,5 +98,45 @@
     "commit_url": "https://api.github.com/repos/square/moshi/commits/156b1f03656891d87f6b8d3bdd0fff2650fa9b8b",
     "created_at": "2021-02-22T07:43:05Z",
     "performed_via_github_app": null
+  },
+  {
+    "id": 999035409,
+    "node_id": "PRR_kwDOAE6eHc47jBIR",
+    "user": {
+      "login": "juliaogris",
+      "id": 1596871,
+      "node_id": "MDQ6VXNlcjE1OTY4NzE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1596871?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/juliaogris",
+      "html_url": "https://github.com/juliaogris",
+      "followers_url": "https://api.github.com/users/juliaogris/followers",
+      "following_url": "https://api.github.com/users/juliaogris/following{/other_user}",
+      "gists_url": "https://api.github.com/users/juliaogris/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/juliaogris/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/juliaogris/subscriptions",
+      "organizations_url": "https://api.github.com/users/juliaogris/orgs",
+      "repos_url": "https://api.github.com/users/juliaogris/repos",
+      "events_url": "https://api.github.com/users/juliaogris/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/juliaogris/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "",
+    "commit_id": "7c15f6ec3115fdc48f9e4146b77b87c41ea1370d",
+    "submitted_at": "2022-06-08T02:24:27Z",
+    "state": "approved",
+    "html_url": "https://github.com/square/okhttp/pull/7314#pullrequestreview-999035409",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/7314",
+    "author_association": "NONE",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/7314#pullrequestreview-999035409"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/7314"
+      }
+    },
+    "event": "reviewed"
   }
 ]
