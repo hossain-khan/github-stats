@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.io
 
+import dev.hossain.githubstats.service.GithubService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
+/**
+ * Tests [GithubService] APIs.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ClientTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
@@ -17,7 +21,7 @@ internal class ClientTest {
     @BeforeEach
     fun setUp() {
         mockWebServer = MockWebServer()
-        mockWebServer.start()
+        mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
     }
 
@@ -27,11 +31,19 @@ internal class ClientTest {
     }
 
     @Test
-    fun `given timeline response - parses timeline into model classes`() = runTest {
+    fun `given timeline response - parses timeline into timeline events`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
         assertEquals(false, timelineEvents.isEmpty())
+    }
+
+    @Test
+    fun `given empty timeline response - provides empty timeline events`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody("[]"))
+
+        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        assertEquals(true, timelineEvents.isEmpty())
     }
 
     // region: Test Utility Functions
