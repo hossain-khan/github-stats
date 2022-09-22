@@ -68,5 +68,35 @@
       "site_admin": false
     },
     "performed_via_github_app": null
+  },
+  {
+    "id": 4358085088,
+    "node_id": "MDExOk1lcmdlZEV2ZW50NDM1ODA4NTA4OA==",
+    "url": "https://api.github.com/repos/square/moshi/issues/events/4358085088",
+    "actor": {
+      "login": "ZacSweers",
+      "id": 1361086,
+      "node_id": "MDQ6VXNlcjEzNjEwODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1361086?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ZacSweers",
+      "html_url": "https://github.com/ZacSweers",
+      "followers_url": "https://api.github.com/users/ZacSweers/followers",
+      "following_url": "https://api.github.com/users/ZacSweers/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ZacSweers/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ZacSweers/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ZacSweers/subscriptions",
+      "organizations_url": "https://api.github.com/users/ZacSweers/orgs",
+      "repos_url": "https://api.github.com/users/ZacSweers/repos",
+      "events_url": "https://api.github.com/users/ZacSweers/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ZacSweers/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "merged",
+    "commit_id": "156b1f03656891d87f6b8d3bdd0fff2650fa9b8b",
+    "commit_url": "https://api.github.com/repos/square/moshi/commits/156b1f03656891d87f6b8d3bdd0fff2650fa9b8b",
+    "created_at": "2021-02-22T07:43:05Z",
+    "performed_via_github_app": null
   }
 ]
