@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    // For build.gradle.kts (Kotlin DSL)
     kotlin("jvm") version "1.7.10"
     id("org.jmailen.kotlinter") version "3.12.0"
     application
@@ -14,6 +15,9 @@ repositories {
 }
 
 dependencies {
+    // https://github.com/Kotlin/kotlinx.coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
     // https://square.github.io/okhttp/
     // define a BOM and its version
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
@@ -31,6 +35,7 @@ dependencies {
 
     // https://github.com/square/moshi
     implementation("com.squareup.moshi:moshi:1.14.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
 
 
     testImplementation(kotlin("test"))
