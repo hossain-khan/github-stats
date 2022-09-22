@@ -1,9 +1,14 @@
 package dev.hossain.githubstats.io
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
+import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.service.GithubService
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,12 +17,19 @@ import java.io.File
 import java.util.Properties
 
 /**
- * Github client with retrofit service.
+ * GitHub client with Retrofit service.
  */
 object Client {
     private val httpClient = okHttpClient()
 
+    // Test backdoor to set base URL using mock server
+    internal var baseUrl: HttpUrl = "https://api.github.com/".toHttpUrlOrNull()!!
+
     private val moshi = Moshi.Builder()
+        .add(
+            PolymorphicJsonAdapterFactory.of(TimelineEvent::class.java, "event")
+                .withSubtype(ReviewRequestedEvent::class.java, "review_requested")
+        )
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
@@ -48,7 +60,7 @@ object Client {
 
     val githubService: GithubService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
+            .baseUrl(baseUrl)
             .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
