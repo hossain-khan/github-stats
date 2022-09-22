@@ -2,10 +2,9 @@ package dev.hossain.githubstats.model.timeline
 
 import dev.hossain.githubstats.model.User
 
-data class MergedEvent(
+data class ClosedEvent(
     val actor: User,
     val created_at: String,
     val event: String,
-    val id: Long,
-    val url: String
+    val id: Long
 ) : TimelineEvent

@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.io
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
@@ -66,6 +67,18 @@ internal class ClientTest {
         assertThat(event).isNotNull()
 
         assertThat((event as ReviewedEvent).submitted_at).isEqualTo("2022-06-08T02:24:27Z")
+    }
+
+    @Test
+    fun `given timeline with closed event - parses closed event successfully`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-closed-event.json")))
+
+        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+
+        val event = timelineEvents.find { it is ClosedEvent }
+        assertThat(event).isNotNull()
+
+        assertThat((event as ClosedEvent).created_at).isEqualTo("2021-02-22T07:43:05Z")
     }
 
     @Test
