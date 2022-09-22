@@ -1,5 +1,8 @@
 package dev.hossain.githubstats
 
+/**
+ * Internal build config.
+ */
 object BuildConfig {
-    const val DEBUG = true
+    const val DEBUG = false
 }

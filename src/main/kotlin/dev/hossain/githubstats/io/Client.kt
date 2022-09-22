@@ -31,12 +31,14 @@ object Client {
             builder.addInterceptor(logging)
         }
 
+        // Sets up global header for the GitHub API requests
         builder.addInterceptor { chain ->
             val originalRequest = chain.request()
             val requestBuilder = originalRequest.newBuilder()
                 .header("User-Agent", "Kotlin-Cli")
                 .header("Accept", "application/vnd.github.v3+json")
-                .header("Authorization", getAccessToken())
+                // https://docs.github.com/en/rest/overview/other-authentication-methods
+                .header("Authorization", "Bearer ${getAccessToken()}")
 
             chain.proceed(requestBuilder.build())
         }
