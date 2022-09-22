@@ -5,8 +5,10 @@ import dev.hossain.githubstats.model.User
 
 @Json
 data class ReviewRequestedEvent(
-    val id: Int,
-    val actor: User,
+    val id: Long,
     val event: String,
-    val created_at: String
+    val created_at: String,
+    val actor: User,
+    val requested_reviewer: User,
+    val review_requester: User
 ) : TimelineEvent
