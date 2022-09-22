@@ -2,9 +2,9 @@ package dev.hossain.githubstats.model.timeline
 
 import dev.hossain.githubstats.model.User
 
-data class PrMergedEvent(
-    val id: Long,
+data class MergedEvent(
+    val actor: User,
     val created_at: String,
-    val url: String,
-    val actor: User
+    val id: Long,
+    val url: String
 ) : TimelineEvent
