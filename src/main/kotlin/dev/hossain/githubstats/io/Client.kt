@@ -4,6 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
@@ -30,8 +31,9 @@ object Client {
     private val moshi = Moshi.Builder()
         .add(
             PolymorphicJsonAdapterFactory.of(TimelineEvent::class.java, "event")
-                .withSubtype(ReviewRequestedEvent::class.java, "review_requested")
+                .withSubtype(ClosedEvent::class.java, "closed")
                 .withSubtype(MergedEvent::class.java, "merged")
+                .withSubtype(ReviewRequestedEvent::class.java, "review_requested")
                 .withSubtype(ReviewedEvent::class.java, "reviewed")
         )
         .addLast(KotlinJsonAdapterFactory())
