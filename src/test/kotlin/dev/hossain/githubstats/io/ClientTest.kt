@@ -111,6 +111,15 @@ internal class ClientTest {
         assertEquals(true, timelineEvents.isEmpty())
     }
 
+    @Test
+    fun `given pull request response - provides parsed PR data`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-number.json")))
+
+        val pullRequest = Client.githubService.pullRequest("X", "Y", 1)
+
+        assertThat(pullRequest.created_at).isEqualTo("2021-08-18T15:23:51Z")
+    }
+
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
