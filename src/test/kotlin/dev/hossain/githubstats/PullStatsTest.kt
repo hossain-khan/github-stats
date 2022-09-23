@@ -41,11 +41,20 @@ internal class PullStatsTest {
 
         val calculateStats = pullStats.calculateStats(123)
 
+        // TODO Test requires update based on return data
         assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Failure::class.java)
     }
 
     @Test
     fun `calculateStats - given merged with no reviewer - provides no related metrics`() = runTest {
+        // Uses data from https://github.com/hossain-khan/github-stats/pull/27
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27.json")))
+
+        val calculateStats = pullStats.calculateStats(123)
+
+        // TODO Test requires update based on return data
+        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Failure::class.java)
     }
 
     @Test
@@ -54,6 +63,14 @@ internal class PullStatsTest {
 
     @Test
     fun `calculateStats - given no assigned reviewer added - provides metrics based on approval event`() = runTest {
+        // Uses data from https://github.com/square/retrofit/pull/3114
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3114.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3114.json")))
+
+        val calculateStats = pullStats.calculateStats(123)
+
+        // TODO Test requires update based on return data
+        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Failure::class.java)
     }
 
     // region: Test Utility Functions
