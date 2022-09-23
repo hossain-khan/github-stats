@@ -3,6 +3,7 @@ package dev.hossain.githubstats.io
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
+import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.service.GithubService
@@ -79,6 +80,18 @@ internal class ClientTest {
         assertThat(event).isNotNull()
 
         assertThat((event as ClosedEvent).created_at).isEqualTo("2021-02-22T07:43:05Z")
+    }
+
+    @Test
+    fun `given timeline with ready_for_review event - parses ready_for_review event successfully`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-ready-for-review-event.json")))
+
+        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+
+        val event = timelineEvents.find { it is ReadyForReviewEvent }
+        assertThat(event).isNotNull()
+
+        assertThat((event as ReadyForReviewEvent).created_at).isEqualTo("2022-09-21T14:32:13Z")
     }
 
     @Test
