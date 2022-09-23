@@ -9,7 +9,11 @@ fun main(args: Array<String>) {
     println("Program arguments: ${args.joinToString()}")
 
     runBlocking {
-        val listRepos = Client.githubService.listRepos("hossain-khan")
-        println(listRepos)
+        val pullRequest = Client.githubService.pullRequest(
+            BuildConfig.REPO_OWNER,
+            BuildConfig.REPO_ID,
+            3618
+        )
+        println(pullRequest)
     }
 }
