@@ -6,6 +6,7 @@ import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
+import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import dev.hossain.githubstats.service.GithubService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -67,7 +68,9 @@ internal class ClientTest {
         val event = timelineEvents.find { it is ReviewedEvent }
         assertThat(event).isNotNull()
 
-        assertThat((event as ReviewedEvent).submitted_at).isEqualTo("2022-06-08T02:24:27Z")
+        val reviewedEvent = event as ReviewedEvent
+        assertThat(reviewedEvent.submitted_at).isEqualTo("2022-06-08T02:24:27Z")
+        assertThat(reviewedEvent.state).isEqualTo(ReviewState.APPROVED)
     }
 
     @Test
