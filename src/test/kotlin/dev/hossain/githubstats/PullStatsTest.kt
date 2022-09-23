@@ -45,6 +45,20 @@ internal class PullStatsTest {
     }
 
     @Test
+    fun `calculateStats - pr creator commented on PR - does not contain review metrics for pr creator`() = runTest {
+        // Uses data from https://github.com/square/retrofit/pull/3267
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3267.json")))
+
+        val statsResult = pullStats.calculateStats(123)
+
+        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+
+        assertThat((statsResult as PullStats.StatsResult.Success).reviewTime)
+            .doesNotContainKey("JakeWharton")
+    }
+
+    @Test
     fun `calculateStats - given merged with no reviewer - provides no related metrics`() = runTest {
         // Uses data from https://github.com/hossain-khan/github-stats/pull/27
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))

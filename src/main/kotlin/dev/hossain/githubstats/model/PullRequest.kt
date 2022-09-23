@@ -9,6 +9,7 @@ data class PullRequest(
     val title: String,
     val url: String,
     val html_url: String,
+    val user: User,
     val created_at: String,
     val updated_at: String?,
     val closed_at: String?,

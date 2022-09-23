@@ -14,6 +14,9 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import kotlin.time.Duration
 
+/**
+ * Creates PR stats using combination of data from the PR.
+ */
 class PullStats(private val githubService: GithubService) {
 
     sealed class StatsResult {
@@ -38,7 +41,7 @@ class PullStats(private val githubService: GithubService) {
 
         val prCreatedOn = pullRequest.created_at.toInstant()
         val prAvailableForReview = prAvailableForReviewTime(prCreatedOn, pullTimelineEvents)
-        val prReviewers: Set<User> = prReviewers(pullTimelineEvents)
+        val prReviewers: Set<User> = prReviewers(pullRequest.user, pullTimelineEvents)
         val reviewCompletionInfo: Map<String, Duration> =
             reviewTimeByUser(prAvailableForReview, prReviewers, pullTimelineEvents)
 
@@ -80,14 +83,17 @@ class PullStats(private val githubService: GithubService) {
     /**
      * Extracts all the PR reviewers who reviewed or has been requested to review.
      */
-    private fun prReviewers(pullTimelineEvents: List<TimelineEvent>): Set<User> {
+    private fun prReviewers(
+        prAuthor: User,
+        pullTimelineEvents: List<TimelineEvent>
+    ): Set<User> {
         return pullTimelineEvents.asSequence().filter { it.eventType == ReviewRequestedEvent.TYPE }
             .map { it as ReviewRequestedEvent }
             .map { it.actor }.plus(
                 pullTimelineEvents.asSequence().filter { it.eventType == ReviewedEvent.TYPE }
                     .map { it as ReviewedEvent }
                     .map { it.user }
-            ).toSet()
+            ).toSet().minus(prAuthor)
     }
 
     private fun prAvailableForReviewTime(
@@ -102,6 +108,6 @@ class PullStats(private val githubService: GithubService) {
             return reviewRequestedEvent.created_at.toInstant()
         }
 
-        return prCreatedOn // FIXME
+        return prCreatedOn // FIXME - this needs more testing
     }
 }

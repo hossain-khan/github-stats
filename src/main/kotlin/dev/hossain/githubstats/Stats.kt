@@ -9,8 +9,6 @@ import java.time.format.FormatStyle
 import java.util.Locale
 
 fun main(args: Array<String>) {
-    println("Hello World!")
-
     println("Program arguments: ${args.joinToString()}")
 
     val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
