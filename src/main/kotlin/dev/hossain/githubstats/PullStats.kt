@@ -2,6 +2,7 @@ package dev.hossain.githubstats
 
 import dev.hossain.githubstats.BuildConfig.REPO_ID
 import dev.hossain.githubstats.BuildConfig.REPO_OWNER
+import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
@@ -11,22 +12,21 @@ import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.service.GithubService
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toJavaInstant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
 import kotlin.time.Duration
 
 class PullStats(private val githubService: GithubService) {
 
-    private val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-        .withLocale(Locale.US)
-        .withZone(ZoneId.systemDefault())
-
     sealed class StatsResult {
-        data class Success(val data: String)
-        object Failure : StatsResult()
+        data class Success(
+            val pullRequest: PullRequest,
+            val reviewTime: Map<String, Duration>,
+            val prReadyOn: Instant,
+            val prMergedOn: Instant
+        ) : StatsResult()
+
+        data class Failure(
+            val error: Throwable
+        ) : StatsResult()
     }
 
     suspend fun calculateStats(prNumber: Int): StatsResult {
@@ -34,29 +34,20 @@ class PullStats(private val githubService: GithubService) {
         val pullTimelineEvents = githubService.timelineEvents(REPO_OWNER, REPO_ID, prNumber)
 
         val mergedEvent: MergedEvent = pullTimelineEvents.find { it.eventType == MergedEvent.TYPE } as MergedEvent?
-            ?: throw IllegalStateException("PR has not been merged, no reason to check stats.")
+            ?: return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
 
         val prCreatedOn = pullRequest.created_at.toInstant()
         val prAvailableForReview = prAvailableForReviewTime(prCreatedOn, pullTimelineEvents)
         val prReviewers: Set<User> = prReviewers(pullTimelineEvents)
-        val reviewCompletionInfo = reviewTimeByUser(prAvailableForReview, prReviewers, pullTimelineEvents)
+        val reviewCompletionInfo: Map<String, Duration> =
+            reviewTimeByUser(prAvailableForReview, prReviewers, pullTimelineEvents)
 
-        println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
-
-        println("PR: ${pullRequest.title} (${pullRequest.html_url})")
-        println("PR Available: ${dateFormatter.format(prAvailableForReview.toJavaInstant())}")
-        println("Review Time: $reviewCompletionInfo")
-        println(
-            "PR Merged in: ${mergedEvent.created_at.toInstant() - prAvailableForReview} on ${
-            dateFormatter.format(
-                mergedEvent.created_at.toInstant().toJavaInstant()
-            )
-            }"
+        return StatsResult.Success(
+            pullRequest = pullRequest,
+            reviewTime = reviewCompletionInfo,
+            prReadyOn = prAvailableForReview,
+            prMergedOn = mergedEvent.created_at.toInstant()
         )
-
-        println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
-
-        return StatsResult.Failure
     }
 
     private fun reviewTimeByUser(

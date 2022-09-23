@@ -41,8 +41,7 @@ internal class PullStatsTest {
 
         val calculateStats = pullStats.calculateStats(123)
 
-        // TODO Test requires update based on return data
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Failure::class.java)
+        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
     }
 
     @Test
@@ -53,8 +52,7 @@ internal class PullStatsTest {
 
         val calculateStats = pullStats.calculateStats(123)
 
-        // TODO Test requires update based on return data
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Failure::class.java)
+        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
     }
 
     @Test
@@ -69,8 +67,7 @@ internal class PullStatsTest {
 
         val calculateStats = pullStats.calculateStats(123)
 
-        // TODO Test requires update based on return data
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Failure::class.java)
+        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
     }
 
     // region: Test Utility Functions
