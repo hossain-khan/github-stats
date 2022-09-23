@@ -5,6 +5,11 @@ import dev.hossain.githubstats.model.timeline.TimelineEvent
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+/**
+ * REST API service for GitHub
+ *
+ * See [GitHub API Browser](https://docs.github.com/en/rest)
+ */
 interface GithubService {
     @GET("users/{user}/repos")
     suspend fun listRepos(@Path("user") user: String): List<Repo>
