@@ -3,6 +3,9 @@ package dev.hossain.githubstats.model.timeline
 import com.squareup.moshi.Json
 import dev.hossain.githubstats.model.User
 
+/**
+ * PR merged event from [Timeline](https://docs.github.com/en/rest/issues/timeline)
+ */
 data class MergedEvent(
     val actor: User,
     val created_at: String,

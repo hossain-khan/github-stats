@@ -3,6 +3,9 @@ package dev.hossain.githubstats.model.timeline
 import com.squareup.moshi.Json
 import dev.hossain.githubstats.model.User
 
+/**
+ * PR review requested event from [Timeline](https://docs.github.com/en/rest/issues/timeline)
+ */
 data class ReviewRequestedEvent(
     val id: Long,
     @Json(name = "event")
