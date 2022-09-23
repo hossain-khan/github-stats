@@ -34,7 +34,7 @@ internal class PullStatsTest {
     }
 
     @Test
-    fun calculateStats() = runTest {
+    fun `calculateStats - given pr review - calculates time taken to provide review`() = runTest {
         // Uses data from https://github.com/jquery/jquery/pull/5046
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-jquery-5046.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
@@ -42,6 +42,18 @@ internal class PullStatsTest {
         val calculateStats = pullStats.calculateStats(123)
 
         assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Failure::class.java)
+    }
+
+    @Test
+    fun `calculateStats - given merged with no reviewer - provides no related metrics`() = runTest {
+    }
+
+    @Test
+    fun `calculateStats - given pr was draft - provides time taken after pr was ready for review`() = runTest {
+    }
+
+    @Test
+    fun `calculateStats - given no assigned reviewer added - provides metrics based on approval event`() = runTest {
     }
 
     // region: Test Utility Functions
