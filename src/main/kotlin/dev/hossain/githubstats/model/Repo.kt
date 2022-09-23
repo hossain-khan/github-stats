@@ -4,5 +4,5 @@ import com.squareup.moshi.Json
 
 @Json
 data class Repo(
-    val id: Int
+    val id: Long
 )
