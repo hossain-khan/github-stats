@@ -10,6 +10,7 @@ import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
+import dev.hossain.githubstats.model.timeline.UnknownEvent
 import dev.hossain.githubstats.service.GithubService
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -31,12 +32,14 @@ object Client {
 
     private val moshi = Moshi.Builder()
         .add(
+            // https://github.com/square/moshi/blob/master/moshi-adapters/src/main/java/com/squareup/moshi/adapters/PolymorphicJsonAdapterFactory.kt
             PolymorphicJsonAdapterFactory.of(TimelineEvent::class.java, "event")
-                .withSubtype(ClosedEvent::class.java, "closed")
-                .withSubtype(MergedEvent::class.java, "merged")
-                .withSubtype(ReadyForReviewEvent::class.java, "ready_for_review")
-                .withSubtype(ReviewRequestedEvent::class.java, "review_requested")
-                .withSubtype(ReviewedEvent::class.java, "reviewed")
+                .withSubtype(ClosedEvent::class.java, ClosedEvent.TYPE)
+                .withSubtype(MergedEvent::class.java, MergedEvent.TYPE)
+                .withSubtype(ReadyForReviewEvent::class.java, ReadyForReviewEvent.TYPE)
+                .withSubtype(ReviewRequestedEvent::class.java, ReviewRequestedEvent.TYPE)
+                .withSubtype(ReviewedEvent::class.java, ReviewedEvent.TYPE)
+                .withDefaultValue(UnknownEvent())
         )
         .addLast(KotlinJsonAdapterFactory())
         .build()

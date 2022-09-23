@@ -4,6 +4,8 @@ plugins {
     // For build.gradle.kts (Kotlin DSL)
     kotlin("jvm") version "1.7.10"
     id("org.jmailen.kotlinter") version "3.12.0"
+    // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
+    // id("com.google.devtools.ksp") version "1.7.10-1.0.6" // Not needed yet.
     application
 }
 
@@ -40,6 +42,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.14.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     implementation("com.squareup.moshi:moshi-adapters:1.14.0")
+    // ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0") // Not needed yet.
 
 
     //
