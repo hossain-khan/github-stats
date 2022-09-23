@@ -38,7 +38,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with review_requested event - parses review_requested event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-review-requested-event.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-review-requested.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
         val event = timelineEvents.find { it is ReviewRequestedEvent }
@@ -49,7 +49,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with merged event - parses merged event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-merged-event.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-merged.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
 
@@ -60,7 +60,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with reviewed event - parses reviewed event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-reviewed-event.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-reviewed.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
 
@@ -72,7 +72,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with closed event - parses closed event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-closed-event.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-closed.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
 
@@ -84,7 +84,7 @@ internal class ClientTest {
 
     @Test
     fun `given timeline with ready_for_review event - parses ready_for_review event successfully`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-ready-for-review-event.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-ready-for-review.json")))
 
         val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
 
