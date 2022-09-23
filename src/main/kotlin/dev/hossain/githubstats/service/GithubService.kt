@@ -1,7 +1,7 @@
 package dev.hossain.githubstats.service
 
 import dev.hossain.githubstats.model.PullRequest
-import dev.hossain.githubstats.model.Repo
+import dev.hossain.githubstats.model.Repository
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,7 +13,7 @@ import retrofit2.http.Path
  */
 interface GithubService {
     @GET("users/{user}/repos")
-    suspend fun listRepos(@Path("user") user: String): List<Repo>
+    suspend fun listRepos(@Path("user") user: String): List<Repository>
 
     /**
      * Lists details of a pull request by providing its number.
