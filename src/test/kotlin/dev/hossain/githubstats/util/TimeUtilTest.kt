@@ -1,8 +1,14 @@
 package dev.hossain.githubstats.util
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
+import kotlinx.datetime.toJavaInstant
 import org.junit.jupiter.api.Test
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 import kotlin.time.Duration
 
 internal class TimeUtilTest {
@@ -15,8 +21,8 @@ internal class TimeUtilTest {
         val instantNow = Clock.System.now()
         println(instantNow.toString())
 
-        val instant1 = dateText1.toInstant()
-        val instant2 = dateText2.toInstant()
+        val instant1: Instant = dateText1.toInstant()
+        val instant2: Instant = dateText2.toInstant()
         println(instant1.toString())
         println(instant2.toString())
 
@@ -24,5 +30,23 @@ internal class TimeUtilTest {
         val durationSinceThen2: Duration = instantNow - instant2
         println(durationSinceThen1)
         println(durationSinceThen2)
+    }
+
+    @Test
+    fun testDateTimeFormat() {
+        val instantNow = Clock.System.now()
+        val shortFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+            .withLocale(Locale.US)
+            .withZone(ZoneId.systemDefault())
+        val mediumFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            .withLocale(Locale.US)
+            .withZone(ZoneId.systemDefault())
+        val fullFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+            .withLocale(Locale.US)
+            .withZone(ZoneId.systemDefault())
+
+        println(shortFormat.format(instantNow.toJavaInstant()))
+        println(mediumFormat.format(instantNow.toJavaInstant()))
+        println(fullFormat.format(instantNow.toJavaInstant()))
     }
 }
