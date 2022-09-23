@@ -70,7 +70,7 @@ internal class ClientTest {
 
         val reviewedEvent = event as ReviewedEvent
         assertThat(reviewedEvent.submitted_at).isEqualTo("2022-06-08T02:24:27Z")
-        assertThat(reviewedEvent.state).isEqualTo(ReviewState.approved)
+        assertThat(reviewedEvent.state).isEqualTo(ReviewState.APPROVED)
     }
 
     @Test

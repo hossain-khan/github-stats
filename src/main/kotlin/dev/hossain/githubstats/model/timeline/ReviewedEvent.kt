@@ -21,5 +21,11 @@ data class ReviewedEvent(
     /**
      * PR review states for [ReviewedEvent.state]
      */
-    enum class ReviewState { approved, commented }
+    enum class ReviewState {
+        @Json(name = "approved")
+        APPROVED,
+
+        @Json(name = "commented")
+        COMMENTED
+    }
 }
