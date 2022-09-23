@@ -10,11 +10,16 @@ data class ReviewedEvent(
     @Json(name = "event")
     override val eventType: String = TYPE,
     val id: Long,
-    val state: String,
+    val state: ReviewState,
     val submitted_at: String,
     val user: User
 ) : TimelineEvent {
     companion object {
         const val TYPE = "reviewed"
     }
+
+    /**
+     * PR review states for [ReviewedEvent.state]
+     */
+    enum class ReviewState { approved, commented }
 }
