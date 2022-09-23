@@ -1,3 +1,3 @@
 package dev.hossain.githubstats.model.timeline
 
-class UnknownEvent(override val eventType: String = "UNKNOWN") : TimelineEvent
+data class UnknownEvent(override val eventType: String = "UNKNOWN") : TimelineEvent
