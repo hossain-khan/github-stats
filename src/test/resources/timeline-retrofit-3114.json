@@ -1,0 +1,193 @@
+[
+  {
+    "sha": "c04ebd2566f1135bb46a0d39d2833133be6afa13",
+    "node_id": "MDY6Q29tbWl0ODkyMjc1OmMwNGViZDI1NjZmMTEzNWJiNDZhMGQzOWQyODMzMTMzYmU2YWZhMTM=",
+    "url": "https://api.github.com/repos/square/retrofit/git/commits/c04ebd2566f1135bb46a0d39d2833133be6afa13",
+    "html_url": "https://github.com/square/retrofit/commit/c04ebd2566f1135bb46a0d39d2833133be6afa13",
+    "author": {
+      "name": "Joel Handwell",
+      "email": "joelhandwell@gmail.com",
+      "date": "2019-06-05T02:33:02Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2019-06-05T02:33:02Z"
+    },
+    "tree": {
+      "sha": "f8a600d73ed336bf127a8fbf0ecea4a6e5abd2ff",
+      "url": "https://api.github.com/repos/square/retrofit/git/trees/f8a600d73ed336bf127a8fbf0ecea4a6e5abd2ff"
+    },
+    "message": "Add JAXB Converter in Document",
+    "parents": [
+      {
+        "sha": "ce6e0d17005afd09c46e4fe6cf40643b0913c59d",
+        "url": "https://api.github.com/repos/square/retrofit/git/commits/ce6e0d17005afd09c46e4fe6cf40643b0913c59d",
+        "html_url": "https://github.com/square/retrofit/commit/ce6e0d17005afd09c46e4fe6cf40643b0913c59d"
+      }
+    ],
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJc9yneCRBK7hj4Ov3rIwAAdHIIAGb+hOfBD7b6p79wGLcoieqJ\nnemxffL99g9IiMf2G7ACJmuDamkxEPzEG2/8Afr1SMjZV3CDcQcZVV/REmvV8edO\n2h7tScfFnoLdBJfZXkad1tBqbEzuatfQW18D9PIYH5VpUbkVDzSjOQSxNGr7uxp0\n0Ob/hHVdTBscKQV5cIblyKUTD4mg2Km8WJMh6XPi6PtjyMRbatoqW6Uh397bAmA4\nLBCGxYDfBljiW7iGDxSQ83nvNLLcZ/yL8KtnWtNR0dJJNKbnPpY29F/wMD+DPzo7\nJnuiSFmQAWImo2d2XkyUw9xWnSozyh8Rl6G+6kNHtJam1Q+cshtTJinuVo6Q50w=\n=5kzw\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree f8a600d73ed336bf127a8fbf0ecea4a6e5abd2ff\nparent ce6e0d17005afd09c46e4fe6cf40643b0913c59d\nauthor Joel Handwell <joelhandwell@gmail.com> 1559701982 +0900\ncommitter GitHub <noreply@github.com> 1559701982 +0900\n\nAdd JAXB Converter in Document"
+    },
+    "event": "committed"
+  },
+  {
+    "id": 2391420018,
+    "node_id": "MDExOk1lcmdlZEV2ZW50MjM5MTQyMDAxOA==",
+    "url": "https://api.github.com/repos/square/retrofit/issues/events/2391420018",
+    "actor": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "merged",
+    "commit_id": "defefd624ea2d036108768b9a658051fbae5b7a3",
+    "commit_url": "https://api.github.com/repos/square/retrofit/commits/defefd624ea2d036108768b9a658051fbae5b7a3",
+    "created_at": "2019-06-05T14:27:25Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 2391420027,
+    "node_id": "MDExOkNsb3NlZEV2ZW50MjM5MTQyMDAyNw==",
+    "url": "https://api.github.com/repos/square/retrofit/issues/events/2391420027",
+    "actor": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "closed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2019-06-05T14:27:25Z",
+    "state_reason": null,
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/square/retrofit/issues/comments/499106703",
+    "html_url": "https://github.com/square/retrofit/pull/3114#issuecomment-499106703",
+    "issue_url": "https://api.github.com/repos/square/retrofit/issues/3114",
+    "id": 499106703,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDQ5OTEwNjcwMw==",
+    "user": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2019-06-05T14:27:27Z",
+    "updated_at": "2019-06-05T14:27:27Z",
+    "author_association": "MEMBER",
+    "body": "Thanks!",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/retrofit/issues/comments/499106703/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 2394038913,
+    "node_id": "MDE5OkhlYWRSZWZEZWxldGVkRXZlbnQyMzk0MDM4OTEz",
+    "url": "https://api.github.com/repos/square/retrofit/issues/events/2394038913",
+    "actor": {
+      "login": "joelhandwell",
+      "id": 3857152,
+      "node_id": "MDQ6VXNlcjM4NTcxNTI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3857152?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/joelhandwell",
+      "html_url": "https://github.com/joelhandwell",
+      "followers_url": "https://api.github.com/users/joelhandwell/followers",
+      "following_url": "https://api.github.com/users/joelhandwell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/joelhandwell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/joelhandwell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/joelhandwell/subscriptions",
+      "organizations_url": "https://api.github.com/users/joelhandwell/orgs",
+      "repos_url": "https://api.github.com/users/joelhandwell/repos",
+      "events_url": "https://api.github.com/users/joelhandwell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/joelhandwell/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "head_ref_deleted",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2019-06-06T11:34:48Z",
+    "performed_via_github_app": null
+  }
+]
