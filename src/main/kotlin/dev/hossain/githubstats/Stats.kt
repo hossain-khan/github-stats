@@ -19,7 +19,10 @@ fun main(args: Array<String>) {
 
     val pullStats = PullStats(Client.githubService)
     runBlocking {
-        when (val result = pullStats.calculateStats(3613)) {
+        // Interesting PRs:
+        // https://github.com/square/retrofit/pull/3613
+        // https://github.com/square/retrofit/pull/3267
+        when (val result = pullStats.calculateStats(3267)) {
             is PullStats.StatsResult.Failure -> {
                 println("Got error for stats: ${result.error}")
             }
