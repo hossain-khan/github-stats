@@ -18,6 +18,9 @@ dependencies {
     // https://github.com/Kotlin/kotlinx.coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
+    // https://github.com/Kotlin/kotlinx-datetime
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
     // https://square.github.io/okhttp/
     // define a BOM and its version
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
