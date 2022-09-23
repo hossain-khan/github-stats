@@ -43,6 +43,7 @@ class PullStats(private val githubService: GithubService) {
 
         println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
 
+        println("PR: ${pullRequest.title} (${pullRequest.html_url})")
         println("PR Available: ${dateFormatter.format(prAvailableForReview.toJavaInstant())}")
         println("Review Time: $reviewCompletionInfo")
         println(
