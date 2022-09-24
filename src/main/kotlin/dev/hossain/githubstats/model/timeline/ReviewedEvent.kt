@@ -25,6 +25,9 @@ data class ReviewedEvent(
         @Json(name = "approved")
         APPROVED,
 
+        @Json(name = "changes_requested")
+        CHANGE_REQUESTED,
+
         @Json(name = "commented")
         COMMENTED
     }

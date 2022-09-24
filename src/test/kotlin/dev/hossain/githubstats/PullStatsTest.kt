@@ -9,6 +9,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.time.Duration
 
 /**
  * Tests Pull Request stats calculator [PullStats].
@@ -53,6 +54,24 @@ internal class PullStatsTest {
         val statsResult = pullStats.calculateStats(123)
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+    }
+
+    @Test
+    fun `calculateStats - given reviewer was added later - provides time after reviewer was added`() = runTest {
+        // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
+        // User `naomi-lgbt` was added later in the PR.
+        // This is also interesting PR because changes was requested (See issue #51)
+
+        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47594.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47594.json")))
+
+        val statsResult = pullStats.calculateStats(123)
+
+        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+
+        val reviewTime = (statsResult as PullStats.StatsResult.Success).reviewTime["naomi-lgbt"]
+        assertThat(reviewTime).isLessThan(Duration.parse("8h"))
     }
 
     @Test
