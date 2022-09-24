@@ -57,6 +57,13 @@ class PullStats(private val githubService: GithubService) {
         )
     }
 
+    /**
+     * Provides the time required to approve the PR.
+     *
+     * NOTE: Future improvement, should provide both metrics:
+     * - Time to first review
+     * - Turn around time to approve
+     */
     private fun reviewTimeByUser(
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
@@ -65,19 +72,31 @@ class PullStats(private val githubService: GithubService) {
         val reviewTimesByUser = mutableMapOf<String, Duration>()
 
         prReviewers.forEach { reviewer ->
+            // Find out if user has approved the PR, if not, do not include in stats
+            val hasApprovedPr = pullTimelineEvents.asSequence().filter { it.eventType == ReviewedEvent.TYPE }
+                .map { it as ReviewedEvent }.any { it.user == reviewer && it.state == ReviewedEvent.ReviewState.APPROVED }
+
+            if (hasApprovedPr.not()) {
+                return@forEach
+            }
+
             // Find out if user has been requested to review later
             val requestedLater = pullTimelineEvents.asSequence().filter { it.eventType == ReviewRequestedEvent.TYPE }
                 .map { it as ReviewRequestedEvent }.any { it.requested_reviewer == reviewer }
 
-            val reviewedByUserEvent: ReviewedEvent =
-                pullTimelineEvents.find { it.eventType == ReviewedEvent.TYPE && (it as ReviewedEvent).user == reviewer } as ReviewedEvent
+            val approvedPrEvent: ReviewedEvent =
+                pullTimelineEvents.find {
+                    it.eventType == ReviewedEvent.TYPE &&
+                        (it as ReviewedEvent).user == reviewer &&
+                        it.state == ReviewedEvent.ReviewState.APPROVED
+                } as ReviewedEvent
             if (requestedLater) {
                 val reviewRequestedEvent =
                     pullTimelineEvents.find { it.eventType == ReviewRequestedEvent.TYPE && (it as ReviewRequestedEvent).requested_reviewer == reviewer } as ReviewRequestedEvent
                 reviewTimesByUser[reviewer.login] =
-                    reviewedByUserEvent.submitted_at.toInstant() - reviewRequestedEvent.created_at.toInstant()
+                    approvedPrEvent.submitted_at.toInstant() - reviewRequestedEvent.created_at.toInstant()
             } else {
-                reviewTimesByUser[reviewer.login] = reviewedByUserEvent.submitted_at.toInstant() - prAvailableForReview
+                reviewTimesByUser[reviewer.login] = approvedPrEvent.submitted_at.toInstant() - prAvailableForReview
             }
         }
 
