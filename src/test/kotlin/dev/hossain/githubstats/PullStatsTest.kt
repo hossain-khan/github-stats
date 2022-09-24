@@ -46,7 +46,7 @@ internal class PullStatsTest {
 
     @Test
     fun `calculateStats - given many pr comments and review - calculates only the approval time`() = runTest {
-        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4519
+        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-opensearch-4515.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
 
