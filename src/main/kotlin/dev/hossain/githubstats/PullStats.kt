@@ -111,9 +111,9 @@ class PullStats(private val githubService: GithubService) {
         val wasDraftPr: Boolean = pullTimelineEvents.any { it.eventType == ReadyForReviewEvent.TYPE }
 
         if (wasDraftPr) {
-            val reviewRequestedEvent =
-                pullTimelineEvents.find { it.eventType == ReadyForReviewEvent.TYPE }!! as ReviewRequestedEvent
-            return reviewRequestedEvent.created_at.toInstant()
+            val readyForReview =
+                pullTimelineEvents.find { it.eventType == ReadyForReviewEvent.TYPE }!! as ReadyForReviewEvent
+            return readyForReview.created_at.toInstant()
         }
 
         return prCreatedOn // FIXME - this needs more testing
