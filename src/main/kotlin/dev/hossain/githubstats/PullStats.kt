@@ -4,7 +4,6 @@ import dev.hossain.githubstats.BuildConfig.REPO_ID
 import dev.hossain.githubstats.BuildConfig.REPO_OWNER
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
-import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
@@ -36,8 +35,13 @@ class PullStats(private val githubService: GithubService) {
         val pullRequest = githubService.pullRequest(REPO_OWNER, REPO_ID, prNumber)
         val pullTimelineEvents = githubService.timelineEvents(REPO_OWNER, REPO_ID, prNumber)
 
-        val mergedEvent: MergedEvent = pullTimelineEvents.find { it.eventType == MergedEvent.TYPE } as MergedEvent?
-            ?: return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
+        if (pullRequest.merged.not()) {
+            return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
+        }
+
+        // Seems like merged event is not a good indicator, see https://github.com/opensearch-project/OpenSearch/pull/4515
+        /*val mergedEvent: MergedEvent = pullTimelineEvents.find { it.eventType == MergedEvent.TYPE } as MergedEvent?
+            ?: return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))*/
 
         val prCreatedOn = pullRequest.created_at.toInstant()
         val prAvailableForReview = prAvailableForReviewTime(prCreatedOn, pullTimelineEvents)
@@ -49,7 +53,7 @@ class PullStats(private val githubService: GithubService) {
             pullRequest = pullRequest,
             reviewTime = reviewCompletionInfo,
             prReadyOn = prAvailableForReview,
-            prMergedOn = mergedEvent.created_at.toInstant()
+            prMergedOn = pullRequest.merged_at!!.toInstant()
         )
     }
 
@@ -81,19 +85,23 @@ class PullStats(private val githubService: GithubService) {
     }
 
     /**
-     * Extracts all the PR reviewers who reviewed or has been requested to review.
+     * Extracts all the PR reviewers who reviewed (approved or commented)
+     * or has been requested to review.
      */
     private fun prReviewers(
         prAuthor: User,
         pullTimelineEvents: List<TimelineEvent>
     ): Set<User> {
-        return pullTimelineEvents.asSequence().filter { it.eventType == ReviewRequestedEvent.TYPE }
+        return pullTimelineEvents.asSequence()
+            .filter { it.eventType == ReviewRequestedEvent.TYPE }
             .map { it as ReviewRequestedEvent }
             .map { it.actor }.plus(
-                pullTimelineEvents.asSequence().filter { it.eventType == ReviewedEvent.TYPE }
+                pullTimelineEvents.asSequence()
+                    .filter { it.eventType == ReviewedEvent.TYPE }
                     .map { it as ReviewedEvent }
                     .map { it.user }
-            ).toSet().minus(prAuthor)
+            ).toSet()
+            .minus(prAuthor)
     }
 
     private fun prAvailableForReviewTime(

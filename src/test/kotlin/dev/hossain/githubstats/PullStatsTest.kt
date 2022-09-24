@@ -45,6 +45,17 @@ internal class PullStatsTest {
     }
 
     @Test
+    fun `calculateStats - given many pr comments and review - calculates only the approval time`() = runTest {
+        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4519
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-opensearch-4515.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
+
+        val statsResult = pullStats.calculateStats(123)
+
+        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+    }
+
+    @Test
     fun `calculateStats - pr creator commented on PR - does not contain review metrics for pr creator`() = runTest {
         // Uses data from https://github.com/square/retrofit/pull/3267
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
