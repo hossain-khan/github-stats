@@ -12,7 +12,10 @@ data class ReviewRequestedEvent(
     override val eventType: String = TYPE,
     val created_at: String,
     val actor: User,
-    val requested_reviewer: User,
+    /**
+     * This is null when [requested_team] is used
+     */
+    val requested_reviewer: User?,
     val review_requester: User
 ) : TimelineEvent {
     companion object {
