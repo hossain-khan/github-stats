@@ -45,7 +45,10 @@ object Client {
         .build()
 
     private fun okHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
+        val logging = HttpLoggingInterceptor {
+            // Use JVM console logger using error stream.
+            System.err.println(it)
+        }
         logging.level = HttpLoggingInterceptor.Level.BODY
         val builder = OkHttpClient.Builder()
 
