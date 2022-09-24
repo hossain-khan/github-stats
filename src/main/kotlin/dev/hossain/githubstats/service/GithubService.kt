@@ -5,6 +5,7 @@ import dev.hossain.githubstats.model.Repository
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * REST API service for GitHub
@@ -37,6 +38,8 @@ interface GithubService {
     suspend fun timelineEvents(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Path("issue_number") issue: Int
+        @Path("issue_number") issue: Int,
+        @Query("page") page: Int = 1,
+        @Query("per_page") size: Int = 100
     ): List<TimelineEvent>
 }

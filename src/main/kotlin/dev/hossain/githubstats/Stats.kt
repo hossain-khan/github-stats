@@ -15,7 +15,8 @@ fun main(args: Array<String>) {
         // https://github.com/square/retrofit/pull/3613
         // https://github.com/square/retrofit/pull/3267
         // https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
-        when (val result = pullStats.calculateStats(47594)) {
+        // https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
+        when (val result = pullStats.calculateStats(47550)) {
             is PullStats.StatsResult.Failure -> {
                 println("Got error for stats: ${result.error}")
             }
