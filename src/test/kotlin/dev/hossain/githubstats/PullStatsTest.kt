@@ -75,6 +75,23 @@ internal class PullStatsTest {
     }
 
     @Test
+    fun `calculateStats - given multiple reviews and dismissed reviews - provides stats accordingly`() = runTest {
+        // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
+        // A lot of review comments, 2 people approved after dismissal
+
+        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
+
+        val statsResult = pullStats.calculateStats(123)
+
+        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+
+        val reviewTime = (statsResult as PullStats.StatsResult.Success).reviewTime
+        assertThat(reviewTime).hasSize(2)
+    }
+
+    @Test
     fun `calculateStats - pr creator commented on PR - does not contain review metrics for pr creator`() = runTest {
         // Uses data from https://github.com/square/retrofit/pull/3267
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
