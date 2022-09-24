@@ -29,6 +29,9 @@ data class ReviewedEvent(
         CHANGE_REQUESTED,
 
         @Json(name = "commented")
-        COMMENTED
+        COMMENTED,
+
+        @Json(name = "dismissed")
+        DISMISSED
     }
 }
