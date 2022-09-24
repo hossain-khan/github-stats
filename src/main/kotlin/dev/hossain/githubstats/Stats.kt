@@ -20,7 +20,8 @@ fun main(args: Array<String>) {
         // Interesting PRs:
         // https://github.com/square/retrofit/pull/3613
         // https://github.com/square/retrofit/pull/3267
-        when (val result = pullStats.calculateStats(3267)) {
+        // https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
+        when (val result = pullStats.calculateStats(47594)) {
             is PullStats.StatsResult.Failure -> {
                 println("Got error for stats: ${result.error}")
             }
