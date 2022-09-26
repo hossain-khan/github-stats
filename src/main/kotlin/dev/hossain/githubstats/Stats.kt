@@ -12,19 +12,8 @@ fun main(args: Array<String>) {
     val authorStats = PrAuthorStats(githubService, pullStats)
     val formatter: StatsFormatter = PicnicTableFormatter()
     runBlocking {
-        when (val result = pullStats.calculateStats(47550)) {
-            is PullStats.StatsResult.Failure -> {
-                println("Got error for stats: ${result.error}")
-            }
-            is PullStats.StatsResult.Success -> {
-                println(formatter.formatPrStats(result.stats))
-            }
-        }
+        val prAuthorStats = authorStats.authorStats("naomi-lgbt")
 
-        val prAuthorStats = authorStats.authorStats("hossain-khan")
-
-        prAuthorStats.forEach {
-            println(formatter.formatPrStats(it))
-        }
+        println(formatter.formatAuthorStats(prAuthorStats))
     } // end runBlocking
 }

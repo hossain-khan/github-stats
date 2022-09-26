@@ -30,6 +30,18 @@ class PullStats(private val githubService: GithubService) {
     /**
      * Calculates Pull Request stats for given [prNumber].
      *
+     * Example usage:
+     * ```kotlin
+     * when (val result = pullStats.calculateStats(47550)) {
+     *     is PullStats.StatsResult.Failure -> {
+     *         println("Got error for stats: ${result.error}")
+     *     }
+     *     is PullStats.StatsResult.Success -> {
+     *         println(formatter.formatPrStats(result.stats))
+     *     }
+     * }
+     * ```
+     *
      * Interesting PRs:
      * - https://github.com/square/retrofit/pull/3613
      * - https://github.com/square/retrofit/pull/3267

@@ -1,6 +1,8 @@
 package dev.hossain.githubstats.formatter
 
+import com.jakewharton.picnic.TextAlignment.TopLeft
 import com.jakewharton.picnic.table
+import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
@@ -40,6 +42,39 @@ class PicnicTableFormatter : StatsFormatter {
             }
             row("Merged On", dateFormatter.format(prStats.prMergedOn.toJavaInstant()))
             row("Open → Merge", "${prStats.prMergedOn - prStats.prReadyOn}")
+        }.toString()
+    }
+
+    override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
+        return table {
+            cellStyle {
+                border = true
+                alignment = TopLeft
+                paddingLeft = 1
+                paddingRight = 1
+            }
+
+            stats.forEach { stat ->
+                // Author header
+                row {
+                    cell("Review stats for \"${stat.reviewerId}\" on ${stat.repoId}") {
+                        columnSpan = 2
+                    }
+                }
+
+                row("Total Reviews", "${stat.totalReviews}")
+                row {
+                    cell("Review Durations") {
+                        rowSpan = stat.stats.size
+                    }
+                    cell("${stat.stats.first().reviewCompletion} for PR#${stat.stats.first().pullRequest.number}")
+                }
+                // This row has only one cell because earlier data will carry over and push it to the right.
+                stat.stats.drop(1).forEach {
+                    row("${it.reviewCompletion} for PR#${it.pullRequest.number}")
+                }
+                row("Average Time", "${stat.average}")
+            } // end author stats
         }.toString()
     }
 }
