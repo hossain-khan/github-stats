@@ -24,7 +24,7 @@ class PrAuthorStats constructor(
         val prStatsList: List<PrStats> = closedPrs.items
             .filter { it.pull_request != null }
             .map {
-                delay(200) // Slight delay to avoid per-second limit
+                delay(100) // Slight delay to avoid per-second limit
 
                 try {
                     pullStats.calculateStats(owner = owner, repo = repo, prNumber = it.number)
