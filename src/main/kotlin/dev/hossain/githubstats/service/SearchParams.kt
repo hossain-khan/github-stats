@@ -24,7 +24,7 @@ class SearchParams constructor(
             "+" +
             encode("is:pr", UTF_8) +
             "+" +
-            encode("$repoOwner/$repoId", UTF_8) +
+            encode("repo:$repoOwner/$repoId", UTF_8) +
             "+" +
             encode("author:$author", UTF_8)
     }
