@@ -12,14 +12,14 @@ abstract class PropertiesReader(fileName: String) {
     init {
         val propertiesFile = File(fileName)
         if (propertiesFile.exists()) {
-            val properties = Properties()
             properties.load(propertiesFile.inputStream())
         } else {
-            if (System.getenv("IS_GITHUB_CI") != "true") {
+            if (System.getenv("IS_GITHUB_CI") == "true") {
+                properties.load(File("local_sample.properties").inputStream())
+            } else {
                 throw IllegalStateException("Please create `local.properties` with config values. See `local_sample.properties`.")
             }
         }
-        properties.load(propertiesFile.inputStream())
     }
 
     fun getProperty(key: String): String = properties.getProperty(key)
