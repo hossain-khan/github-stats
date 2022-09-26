@@ -1,7 +1,5 @@
 package dev.hossain.githubstats
 
-import dev.hossain.githubstats.BuildConfig.REPO_ID
-import dev.hossain.githubstats.BuildConfig.REPO_OWNER
 import dev.hossain.githubstats.service.GithubService
 import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
@@ -16,10 +14,10 @@ class PrAuthorStats constructor(
     private val pullStats: PullStats
 ) {
 
-    suspend fun authorStats(author: String): List<AuthorReviewStats> {
+    suspend fun authorStats(owner: String, repo: String, author: String): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
         val closedPrs = githubService.searchIssues(
-            searchQuery = SearchParams(repoOwner = REPO_OWNER, repoId = REPO_ID, author = author).toQuery()
+            searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author).toQuery()
         )
 
         // For each PR by author, get the review stats on the PR
@@ -29,7 +27,7 @@ class PrAuthorStats constructor(
                 delay(200) // Slight delay to avoid per-second limit
 
                 try {
-                    pullStats.calculateStats(it.number)
+                    pullStats.calculateStats(owner = owner, repo = repo, prNumber = it.number)
                 } catch (e: Exception) {
                     println("Error getting PR#${it.number}. Got: ${e.message}")
                     PullStats.StatsResult.Failure(e)
@@ -66,7 +64,7 @@ class PrAuthorStats constructor(
                 .div(totalReviews)
 
             AuthorReviewStats(
-                repoId = REPO_ID,
+                repoId = repo,
                 prAuthorId = author,
                 reviewerId = user,
                 average = averageReviewTime,

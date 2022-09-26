@@ -1,7 +1,5 @@
 package dev.hossain.githubstats
 
-import dev.hossain.githubstats.BuildConfig.REPO_ID
-import dev.hossain.githubstats.BuildConfig.REPO_OWNER
 import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
@@ -48,9 +46,9 @@ class PullStats(private val githubService: GithubService) {
      * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
      * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
      */
-    suspend fun calculateStats(prNumber: Int): StatsResult {
-        val pullRequest = githubService.pullRequest(REPO_OWNER, REPO_ID, prNumber)
-        val pullTimelineEvents = githubService.timelineEvents(REPO_OWNER, REPO_ID, prNumber)
+    suspend fun calculateStats(owner: String, repo: String, prNumber: Int): StatsResult {
+        val pullRequest = githubService.pullRequest(owner, repo, prNumber)
+        val pullTimelineEvents = githubService.timelineEvents(owner, repo, prNumber)
 
         if (pullRequest.merged == null || pullRequest.merged == false) {
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))

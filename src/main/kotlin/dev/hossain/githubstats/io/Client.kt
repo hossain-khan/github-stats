@@ -12,14 +12,13 @@ import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.model.timeline.UnknownEvent
 import dev.hossain.githubstats.service.GithubService
+import dev.hossain.githubstats.util.LocalProperties
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.File
-import java.util.Properties
 
 /**
  * GitHub client with Retrofit service.
@@ -86,17 +85,7 @@ object Client {
      * Provides access token from `local.properties` config file.
      */
     private fun getAccessToken(): String {
-        val propertiesFile = File("local.properties")
-        if (propertiesFile.exists()) {
-            val properties = Properties()
-            properties.load(propertiesFile.inputStream())
-
-            return properties.getProperty("access_token", "MISSING-TOKEN")
-        } else {
-            if (System.getenv("IS_GITHUB_CI") == "true") {
-                return "CI-JOB-ON-GITHUB-ACTION"
-            }
-            throw IllegalStateException("Please provide access token in `local.properties`.")
-        }
+        val localProperties = LocalProperties()
+        return localProperties.getProperty("access_token")
     }
 }
