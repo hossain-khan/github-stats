@@ -1,6 +1,6 @@
 package dev.hossain.githubstats.model
 
-data class PullRequest(
+data class Issue(
     val id: Long,
     val state: String,
     val title: String,
@@ -11,5 +11,5 @@ data class PullRequest(
     val created_at: String,
     val updated_at: String?,
     val closed_at: String?,
-    val merged_at: String?
+    val pull_request: IssuePullRequest?
 )

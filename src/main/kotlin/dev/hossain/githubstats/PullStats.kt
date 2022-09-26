@@ -35,7 +35,7 @@ class PullStats(private val githubService: GithubService) {
         val pullRequest = githubService.pullRequest(REPO_OWNER, REPO_ID, prNumber)
         val pullTimelineEvents = githubService.timelineEvents(REPO_OWNER, REPO_ID, prNumber)
 
-        if (pullRequest.merged.not()) {
+        if (pullRequest.merged == null || pullRequest.merged == false) {
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
         }
 
