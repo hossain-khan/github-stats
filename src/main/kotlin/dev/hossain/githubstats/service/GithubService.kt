@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.service
 
+import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.PullRequestState
 import dev.hossain.githubstats.model.Repository
@@ -68,4 +69,34 @@ interface GithubService {
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
         @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
     ): List<TimelineEvent>
+
+    /**
+     * Search issues and pull requests
+     * Find issues by state and keyword. This method returns up to 100 results per page.
+     * When searching for issues, you can get text match metadata for the issue title, issue body,
+     * and issue comment body fields when you pass the text-match media type.
+     * For more details about how to receive highlighted search results, see Text match metadata.
+     *
+     * https://docs.github.com/en/rest/search#search-issues-and-pull-requests
+     */
+    @GET("/search/issues")
+    suspend fun searchIssues(
+        /**
+         * The query contains one or more search keywords and qualifiers. Qualifiers allow you to
+         * limit your search to specific areas of GitHub.
+         * The REST API supports the same qualifiers as the web interface for GitHub.
+         * To learn more about the format of the query, see Constructing a search query.
+         * See "Searching issues and pull requests" for a detailed list of qualifiers.
+         *
+         * Example: `repo:REPO`, `author:USER`, `is:pr`
+         *          is:pr+repo:rails/rails+author:userlogin
+         *
+         *
+         * https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests
+         * @see SearchParams.toQuery
+         */
+        @Query("q", encoded = true) searchQuery: String,
+        @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
+        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
+    ): IssueSearchResult
 }

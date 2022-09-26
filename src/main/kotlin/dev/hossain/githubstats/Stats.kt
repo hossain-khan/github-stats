@@ -5,6 +5,7 @@ import dev.hossain.githubstats.BuildConfig.REPO_OWNER
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client
+import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.runBlocking
 
 fun main(args: Array<String>) {
@@ -27,12 +28,17 @@ fun main(args: Array<String>) {
 //            }
 //        }
 
-        val pullRequests = Client.githubService.pullRequests(
-            REPO_OWNER, REPO_ID, null,
-            "open",
-            1,
-            2
+//        val pullRequests = Client.githubService.pullRequests(
+//            REPO_OWNER, REPO_ID, null,
+//            "open",
+//            1,
+//            2
+//        )
+//        println(pullRequests)
+
+        val closedPrs = Client.githubService.searchIssues(
+            SearchParams(repoOwner = REPO_OWNER, repoId = REPO_ID, author = "DanielRosa74").toQuery()
         )
-        println(pullRequests)
-    }
+        println(closedPrs)
+    } // end runBlocking
 }
