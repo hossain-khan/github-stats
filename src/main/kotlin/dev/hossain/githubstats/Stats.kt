@@ -1,5 +1,6 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client.githubService
@@ -11,13 +12,22 @@ fun main(args: Array<String>) {
 
     val pullStats = PullStats(githubService)
     val authorStats = PrAuthorStats(githubService, pullStats)
-    val formatter: StatsFormatter = PicnicTableFormatter()
+    val formatters: List<StatsFormatter> = listOf(
+        PicnicTableFormatter(),
+        CsvFormatter()
+    )
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
-    runBlocking {
-        val prAuthorStats = authorStats.authorStats(repoOwner, repoId, "hossain-khan")
+    val prAuthorUserId = "naomi-lgbt"
 
-        println(formatter.formatAuthorStats(prAuthorStats))
+    println("Getting PR stats for author '$prAuthorUserId' from '$repoId' repository.")
+
+    runBlocking {
+        val prAuthorStats = authorStats.authorStats(repoOwner, repoId, prAuthorUserId)
+
+        formatters.forEach {
+            println(it.formatAuthorStats(prAuthorStats))
+        }
     }
 }

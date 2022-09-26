@@ -44,6 +44,9 @@ dependencies {
     implementation("com.squareup.moshi:moshi-adapters:1.14.0")
     // ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0") // Not needed yet.
 
+    // https://github.com/doyaaaaaken/kotlin-csv
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.6.0") //for JVM platform
+
 
     //
     // =======================
