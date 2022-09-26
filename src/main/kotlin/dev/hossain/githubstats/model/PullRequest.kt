@@ -10,7 +10,7 @@ data class PullRequest(
     val url: String,
     val html_url: String,
     val user: User,
-    val merged: Boolean,
+    val merged: Boolean?,
     val created_at: String,
     val updated_at: String?,
     val closed_at: String?,
