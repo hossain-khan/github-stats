@@ -21,17 +21,17 @@ class SearchParams constructor(
      */
     fun toQuery(): String {
         return encode("is:closed", UTF_8) +
-                "+" +
-                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-based-on-whether-a-pull-request-is-merged-or-unmerged
-                encode("is:pr", UTF_8) +
-                "+" +
-                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-based-on-whether-a-pull-request-is-merged-or-unmerged
-                encode("is:merged", UTF_8) +
-                "+" +
-                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-within-a-users-or-organizations-repositories
-                encode("repo:$repoOwner/$repoId", UTF_8) +
-                "+" +
-                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-author
-                encode("author:$author", UTF_8)
+            "+" +
+            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-based-on-whether-a-pull-request-is-merged-or-unmerged
+            encode("is:pr", UTF_8) +
+            "+" +
+            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-based-on-whether-a-pull-request-is-merged-or-unmerged
+            encode("is:merged", UTF_8) +
+            "+" +
+            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-within-a-users-or-organizations-repositories
+            encode("repo:$repoOwner/$repoId", UTF_8) +
+            "+" +
+            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-author
+            encode("author:$author", UTF_8)
     }
 }
