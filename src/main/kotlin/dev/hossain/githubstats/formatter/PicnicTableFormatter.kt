@@ -80,9 +80,12 @@ class PicnicTableFormatter : StatsFormatter {
             }
 
             stats.forEach { stat ->
-                // Author header
+                // Author header item for all the author specific stats
                 row {
-                    cell("Reviewer stats for \"${stat.reviewerId}\"") {
+                    cellStyle {
+                        paddingTop = 1
+                    }
+                    cell("● PR reviewer stats for \"${stat.reviewerId}\"") {
                         columnSpan = 2
                     }
                 }
