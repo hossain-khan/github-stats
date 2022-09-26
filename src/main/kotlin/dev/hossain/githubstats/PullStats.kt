@@ -2,7 +2,6 @@ package dev.hossain.githubstats
 
 import dev.hossain.githubstats.BuildConfig.REPO_ID
 import dev.hossain.githubstats.BuildConfig.REPO_OWNER
-import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
@@ -20,10 +19,7 @@ class PullStats(private val githubService: GithubService) {
 
     sealed class StatsResult {
         data class Success(
-            val pullRequest: PullRequest,
-            val reviewTime: Map<String, Duration>,
-            val prReadyOn: Instant,
-            val prMergedOn: Instant
+            val stats: PrStats
         ) : StatsResult()
 
         data class Failure(
@@ -31,6 +27,27 @@ class PullStats(private val githubService: GithubService) {
         ) : StatsResult()
     }
 
+    /**
+     * Calculates Pull Request stats for given [prNumber].
+     *
+     * Example usage:
+     * ```kotlin
+     * when (val result = pullStats.calculateStats(47550)) {
+     *     is PullStats.StatsResult.Failure -> {
+     *         println("Got error for stats: ${result.error}")
+     *     }
+     *     is PullStats.StatsResult.Success -> {
+     *         println(formatter.formatPrStats(result.stats))
+     *     }
+     * }
+     * ```
+     *
+     * Interesting PRs:
+     * - https://github.com/square/retrofit/pull/3613
+     * - https://github.com/square/retrofit/pull/3267
+     * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
+     * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
+     */
     suspend fun calculateStats(prNumber: Int): StatsResult {
         val pullRequest = githubService.pullRequest(REPO_OWNER, REPO_ID, prNumber)
         val pullTimelineEvents = githubService.timelineEvents(REPO_OWNER, REPO_ID, prNumber)
@@ -50,10 +67,12 @@ class PullStats(private val githubService: GithubService) {
             reviewTimeByUser(prAvailableForReview, prReviewers, pullTimelineEvents)
 
         return StatsResult.Success(
-            pullRequest = pullRequest,
-            reviewTime = reviewCompletionInfo,
-            prReadyOn = prAvailableForReview,
-            prMergedOn = pullRequest.merged_at!!.toInstant()
+            PrStats(
+                pullRequest = pullRequest,
+                reviewTime = reviewCompletionInfo,
+                prReadyOn = prAvailableForReview,
+                prMergedOn = pullRequest.merged_at!!.toInstant()
+            )
         )
     }
 
@@ -74,7 +93,8 @@ class PullStats(private val githubService: GithubService) {
         prReviewers.forEach { reviewer ->
             // Find out if user has approved the PR, if not, do not include in stats
             val hasApprovedPr = pullTimelineEvents.asSequence().filter { it.eventType == ReviewedEvent.TYPE }
-                .map { it as ReviewedEvent }.any { it.user == reviewer && it.state == ReviewedEvent.ReviewState.APPROVED }
+                .map { it as ReviewedEvent }
+                .any { it.user == reviewer && it.state == ReviewedEvent.ReviewState.APPROVED }
 
             if (hasApprovedPr.not()) {
                 return@forEach

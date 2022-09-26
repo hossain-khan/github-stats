@@ -1,44 +1,19 @@
 package dev.hossain.githubstats
 
-import dev.hossain.githubstats.BuildConfig.REPO_ID
-import dev.hossain.githubstats.BuildConfig.REPO_OWNER
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
-import dev.hossain.githubstats.io.Client
-import dev.hossain.githubstats.service.SearchParams
+import dev.hossain.githubstats.io.Client.githubService
 import kotlinx.coroutines.runBlocking
 
 fun main(args: Array<String>) {
     println("Program arguments: ${args.joinToString()}")
 
-    val pullStats = PullStats(Client.githubService)
+    val pullStats = PullStats(githubService)
+    val authorStats = PrAuthorStats(githubService, pullStats)
     val formatter: StatsFormatter = PicnicTableFormatter()
     runBlocking {
-        // Interesting PRs:
-        // https://github.com/square/retrofit/pull/3613
-        // https://github.com/square/retrofit/pull/3267
-        // https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
-        // https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
-//        when (val result = pullStats.calculateStats(47550)) {
-//            is PullStats.StatsResult.Failure -> {
-//                println("Got error for stats: ${result.error}")
-//            }
-//            is PullStats.StatsResult.Success -> {
-//                println(formatter.formatPrStats(result))
-//            }
-//        }
+        val prAuthorStats = authorStats.authorStats("Sembauke")
 
-//        val pullRequests = Client.githubService.pullRequests(
-//            REPO_OWNER, REPO_ID, null,
-//            "open",
-//            1,
-//            2
-//        )
-//        println(pullRequests)
-
-        val closedPrs = Client.githubService.searchIssues(
-            SearchParams(repoOwner = REPO_OWNER, repoId = REPO_ID, author = "DanielRosa74").toQuery()
-        )
-        println(closedPrs)
-    } // end runBlocking
+        println(formatter.formatAuthorStats(prAuthorStats))
+    }
 }

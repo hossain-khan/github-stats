@@ -2,6 +2,10 @@ package dev.hossain.githubstats.model
 
 data class PullRequest(
     val id: Long,
+    /**
+     * Pull request number.
+     */
+    val number: Int,
     val state: String,
     val title: String,
     val url: String,

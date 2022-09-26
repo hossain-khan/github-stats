@@ -23,5 +23,5 @@ class IssuePullRequest(
     /**
      * Example: "2022-07-21T17:18:10Z"
      */
-    val merged_at: String
+    val merged_at: String?
 )
