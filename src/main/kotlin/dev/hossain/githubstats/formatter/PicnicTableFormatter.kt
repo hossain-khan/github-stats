@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.formatter
 
+import com.jakewharton.picnic.TextAlignment.TopCenter
 import com.jakewharton.picnic.TextAlignment.TopLeft
 import com.jakewharton.picnic.table
 import dev.hossain.githubstats.AuthorReviewStats
@@ -46,6 +47,10 @@ class PicnicTableFormatter : StatsFormatter {
     }
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
+        if (stats.isEmpty()) {
+            return "ERROR: No stats to format."
+        }
+
         return table {
             cellStyle {
                 border = true
@@ -54,10 +59,30 @@ class PicnicTableFormatter : StatsFormatter {
                 paddingRight = 1
             }
 
+            // Provide global info about this stats
+            header {
+                cellStyle {
+                    border = false
+                    alignment = TopCenter
+                    paddingBottom = 1
+                    paddingTop = 2
+                }
+                row {
+                    // Export global info for the stats
+                    val prAuthorId = stats.first().prAuthorId
+                    val repoId = stats.first().repoId
+                    val headingText = "PR reviewer's stats for PR created by '$prAuthorId' on '$repoId' repository."
+                    val headingSeparator = "-".repeat(headingText.length)
+                    cell("$headingSeparator\n$headingText\n$headingSeparator") {
+                        columnSpan = 2
+                    }
+                }
+            }
+
             stats.forEach { stat ->
                 // Author header
                 row {
-                    cell("Review stats for \"${stat.reviewerId}\" on ${stat.repoId}") {
+                    cell("Reviewer stats for \"${stat.reviewerId}\"") {
                         columnSpan = 2
                     }
                 }
@@ -74,7 +99,7 @@ class PicnicTableFormatter : StatsFormatter {
                     row("${it.reviewCompletion} for PR#${it.pullRequest.number}")
                 }
                 row("Average Time", "${stat.average}")
-            } // end author stats
+            }
         }.toString()
     }
 }

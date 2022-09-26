@@ -15,5 +15,5 @@ fun main(args: Array<String>) {
         val prAuthorStats = authorStats.authorStats("naomi-lgbt")
 
         println(formatter.formatAuthorStats(prAuthorStats))
-    } // end runBlocking
+    }
 }
