@@ -14,8 +14,21 @@ class CsvFormatter : StatsFormatter {
         // Create multiple CSV file per author for better visualization
         // Also create a single CSV with total reviews to visualize responsiveness to author
 
+        // Write combine review count by reviewer
+        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed"))
+        val combinedReportFileName = "REPORT-${stats.first().prAuthorId}-all-reviewers.csv"
+        csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
+
         val filesCreated = mutableListOf<String>()
         stats.forEach { stat ->
+            // Add a row for total reviews done by reviewer in the combined report
+            csvWriter().writeAll(
+                listOf(listOf(stat.reviewerId, stat.totalReviews)),
+                combinedReportFileName,
+                append = true
+            )
+
+            // Individual report per reviewer
             val fileName = generateCsvFileName(stat)
             val headerItem: List<String> = listOf("Reviewer", "PR Number", "Review time (hours)")
 
@@ -33,19 +46,6 @@ class CsvFormatter : StatsFormatter {
 
             filesCreated.add(fileName)
         }
-
-        // Write combine review count by reviewer
-        val headerRow = listOf(listOf("Reviewer", "Total PR Reviewed"))
-        val combinedReportFileName = "REPORT-${stats.first().prAuthorId}-all-reviewers.csv"
-        csvWriter().writeAll(headerRow, combinedReportFileName)
-        stats.forEach { stat ->
-            csvWriter().writeAll(
-                listOf(listOf(stat.reviewerId, stat.totalReviews)),
-                combinedReportFileName,
-                append = true
-            )
-        }
-
         return "Generated following files: \n${filesCreated.joinToString()} and $combinedReportFileName"
     }
 

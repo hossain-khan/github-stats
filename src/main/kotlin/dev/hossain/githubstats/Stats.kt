@@ -19,8 +19,12 @@ fun main(args: Array<String>) {
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
+    val prAuthorUserId = "naomi-lgbt"
+
+    println("Getting PR stats for author '$prAuthorUserId' from '$repoId' repository.")
+
     runBlocking {
-        val prAuthorStats = authorStats.authorStats(repoOwner, repoId, "hossain-khan")
+        val prAuthorStats = authorStats.authorStats(repoOwner, repoId, prAuthorUserId)
 
         formatters.forEach {
             println(it.formatAuthorStats(prAuthorStats))
