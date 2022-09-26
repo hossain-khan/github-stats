@@ -2,6 +2,10 @@ package dev.hossain.githubstats.model
 
 data class Issue(
     val id: Long,
+    /**
+     * Issue or PR number.
+     */
+    val number: Int,
     val state: String,
     val title: String,
     val url: String,

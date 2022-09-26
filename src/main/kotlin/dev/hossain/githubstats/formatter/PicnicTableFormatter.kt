@@ -1,7 +1,7 @@
 package dev.hossain.githubstats.formatter
 
 import com.jakewharton.picnic.table
-import dev.hossain.githubstats.PullStats
+import dev.hossain.githubstats.PrStats
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -16,7 +16,7 @@ class PicnicTableFormatter : StatsFormatter {
         .withLocale(Locale.US)
         .withZone(ZoneId.systemDefault())
 
-    override fun formatPrStats(prStats: PullStats.StatsResult.Success): String {
+    override fun formatPrStats(prStats: PrStats): String {
         return table {
             cellStyle {
                 border = true

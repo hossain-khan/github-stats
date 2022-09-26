@@ -70,7 +70,8 @@ internal class PullStatsTest {
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
 
-        val reviewTime = (statsResult as PullStats.StatsResult.Success).reviewTime["naomi-lgbt"]
+        val result = statsResult as PullStats.StatsResult.Success
+        val reviewTime = result.stats.reviewTime["naomi-lgbt"]
         assertThat(reviewTime).isLessThan(Duration.parse("8h"))
     }
 
@@ -87,7 +88,8 @@ internal class PullStatsTest {
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
 
-        val reviewTime = (statsResult as PullStats.StatsResult.Success).reviewTime
+        val result = statsResult as PullStats.StatsResult.Success
+        val reviewTime = result.stats.reviewTime
         assertThat(reviewTime).hasSize(2)
     }
 
@@ -101,7 +103,8 @@ internal class PullStatsTest {
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
 
-        assertThat((statsResult as PullStats.StatsResult.Success).reviewTime)
+        val result = statsResult as PullStats.StatsResult.Success
+        assertThat(result.stats.reviewTime)
             .doesNotContainKey("JakeWharton")
     }
 
