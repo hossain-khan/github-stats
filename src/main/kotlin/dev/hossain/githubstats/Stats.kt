@@ -12,7 +12,7 @@ fun main(args: Array<String>) {
     val authorStats = PrAuthorStats(githubService, pullStats)
     val formatter: StatsFormatter = PicnicTableFormatter()
     runBlocking {
-        val prAuthorStats = authorStats.authorStats("Sembauke")
+        val prAuthorStats = authorStats.authorStats("naomi-lgbt")
 
         println(formatter.formatAuthorStats(prAuthorStats))
     }

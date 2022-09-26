@@ -96,6 +96,17 @@ interface GithubService {
          * @see SearchParams.toQuery
          */
         @Query("q", encoded = true) searchQuery: String,
+        /**
+         * Sorts the results of your query by the number of comments, reactions, reactions-+1, reactions--1,
+         * reactions-smile, reactions-thinking_face, reactions-heart, reactions-tada, or interactions.
+         * You can also sort results by how recently the items were created or updated, Default: best match
+         */
+        @Query("sort") sort: String = "created",
+        /**
+         * Determines whether the first search result returned is the highest number of matches (desc)
+         * or lowest number of matches (asc). This parameter is ignored unless you provide sort.
+         */
+        @Query("order") order: String = "desc",
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
         @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
     ): IssueSearchResult
