@@ -27,6 +27,15 @@ class PullStats(private val githubService: GithubService) {
         ) : StatsResult()
     }
 
+    /**
+     * Calculates Pull Request stats for given [prNumber].
+     *
+     * Interesting PRs:
+     * - https://github.com/square/retrofit/pull/3613
+     * - https://github.com/square/retrofit/pull/3267
+     * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
+     * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
+     */
     suspend fun calculateStats(prNumber: Int): StatsResult {
         val pullRequest = githubService.pullRequest(REPO_OWNER, REPO_ID, prNumber)
         val pullTimelineEvents = githubService.timelineEvents(REPO_OWNER, REPO_ID, prNumber)

@@ -13,9 +13,9 @@ class PrAuthorStats constructor(
 
     suspend fun authorStats(author: String): List<PrStats> {
         val closedPrs = githubService.searchIssues(
-            searchQuery = SearchParams(repoOwner = REPO_OWNER, repoId = REPO_ID, author = "DanielRosa74").toQuery(),
+            searchQuery = SearchParams(repoOwner = REPO_OWNER, repoId = REPO_ID, author = author).toQuery(),
             page = 1,
-            size = 30
+            size = 10
         )
 
         return closedPrs.items

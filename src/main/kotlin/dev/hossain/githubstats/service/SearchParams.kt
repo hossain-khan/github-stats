@@ -1,5 +1,8 @@
 package dev.hossain.githubstats.service
 
+import java.net.URLEncoder.encode
+import kotlin.text.Charsets.UTF_8
+
 /**
  * Convenience class to search for PRs.
  *
@@ -17,6 +20,12 @@ class SearchParams constructor(
      * - `is%3Apr+is%3Aclosed+author%3ADanielRosa74`
      */
     fun toQuery(): String {
-        return "is:closed+is:pr+$repoOwner/$repoId+author:$author"
+        return encode("is:closed", UTF_8) +
+            "+" +
+            encode("is:pr", UTF_8) +
+            "+" +
+            encode("$repoOwner/$repoId", UTF_8) +
+            "+" +
+            encode("author:$author", UTF_8)
     }
 }
