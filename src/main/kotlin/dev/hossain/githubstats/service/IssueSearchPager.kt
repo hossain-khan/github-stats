@@ -32,6 +32,10 @@ class IssueSearchPager constructor(
 
             allSearchedIssues.addAll(issueSearchResult.items)
 
+            if (BuildConfig.DEBUG) {
+                println("Loaded ${issueSearchResult.items.size} of total $totalItemCount merged PRs (Page#$pageNumber)")
+            }
+
             pageNumber++
             delay(BuildConfig.API_REQUEST_DELAY_MS)
         } while (pageNumber <= maxPageNeeded)

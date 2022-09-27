@@ -74,6 +74,10 @@ class PrAuthorStats constructor(
             )
         }.sortedByDescending { it.totalReviews }
 
+        if (BuildConfig.DEBUG) {
+            println("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
+        }
+
         return authorReviewStats
     }
 }

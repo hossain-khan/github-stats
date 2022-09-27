@@ -51,7 +51,7 @@ object Client {
         logging.level = HttpLoggingInterceptor.Level.BODY
         val builder = OkHttpClient.Builder()
 
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG_HTTP_REQUESTS) {
             // Only add HTTP logs for debug builds
             builder.addInterceptor(logging)
         }

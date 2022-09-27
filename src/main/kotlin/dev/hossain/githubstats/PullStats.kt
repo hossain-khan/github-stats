@@ -54,6 +54,10 @@ class PullStats(private val githubService: GithubService) {
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
         }
 
+        if (BuildConfig.DEBUG) {
+            println("- Getting PR#$prNumber info. Loaded ${pullTimelineEvents.size} events from the PR.")
+        }
+
         // Seems like merged event is not a good indicator, see https://github.com/opensearch-project/OpenSearch/pull/4515
         /*val mergedEvent: MergedEvent = pullTimelineEvents.find { it.eventType == MergedEvent.TYPE } as MergedEvent?
             ?: return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))*/
