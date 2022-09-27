@@ -13,6 +13,10 @@ class CsvFormatter : StatsFormatter {
     }
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
+        if (stats.isEmpty()) {
+            return "⚠ ERROR: No stats to format. No CSV files for you! ¯\\_(ツ)_/¯"
+        }
+
         // Create multiple CSV file per author for better visualization
         // Also create a single CSV with total reviews to visualize responsiveness to author
         val prAuthorId = stats.first().prAuthorId
