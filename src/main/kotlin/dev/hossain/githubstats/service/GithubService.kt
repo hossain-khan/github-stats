@@ -17,7 +17,7 @@ import retrofit2.http.Query
 interface GithubService {
     companion object {
         private const val DEFAULT_PAGE_NUMBER = 1
-        private const val DEFAULT_PAGE_SIZE = 100
+        const val DEFAULT_PAGE_SIZE = 100
     }
 
     @GET("users/{user}/repos")

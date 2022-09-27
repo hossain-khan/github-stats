@@ -1,6 +1,7 @@
 package dev.hossain.githubstats
 
-import dev.hossain.githubstats.service.GithubService
+import dev.hossain.githubstats.model.Issue
+import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
@@ -10,21 +11,21 @@ import kotlin.time.Duration
  */
 typealias UserId = String
 class PrAuthorStats constructor(
-    private val githubService: GithubService,
+    private val issueSearchPager: IssueSearchPager,
     private val pullStats: PullStats
 ) {
 
     suspend fun authorStats(owner: String, repo: String, author: String): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
-        val closedPrs = githubService.searchIssues(
+        val closedPrs: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author).toQuery()
         )
 
         // For each PR by author, get the review stats on the PR
-        val prStatsList: List<PrStats> = closedPrs.items
+        val prStatsList: List<PrStats> = closedPrs
             .filter { it.pull_request != null }
             .map {
-                delay(100) // Slight delay to avoid per-second limit
+                delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
 
                 try {
                     pullStats.calculateStats(owner = owner, repo = repo, prNumber = it.number)

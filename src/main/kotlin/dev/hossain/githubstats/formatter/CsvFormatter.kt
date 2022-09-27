@@ -16,7 +16,7 @@ class CsvFormatter : StatsFormatter {
 
         // Write combine review count by reviewer
         val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed"))
-        val combinedReportFileName = "REPORT-${stats.first().prAuthorId}-all-reviewers.csv"
+        val combinedReportFileName = "REPORT_-_${stats.first().prAuthorId}-all-reviewers.csv"
         csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
 
         val filesCreated = mutableListOf<String>()
