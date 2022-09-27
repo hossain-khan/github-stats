@@ -7,10 +7,16 @@ import kotlinx.datetime.periodUntil
 import kotlinx.datetime.toDateTimePeriod
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toJavaInstant
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.Period
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.time.temporal.TemporalAdjuster
+import java.time.temporal.TemporalAdjusters
 import java.util.Locale
 import kotlin.time.Duration
 
@@ -83,5 +89,54 @@ internal class TimeUtilTest {
         println("Difference duration in period = ${duration.toDateTimePeriod()}")
 
         println("- - - - - - - - - - - - - - - - - - - - - - - - -")
+    }
+
+    @Test
+    fun whenAdjust_thenNextSunday() {
+        val localDate: LocalDate = LocalDate.of(2017, 7, 8)
+        val nextSunday: LocalDate = localDate.with(TemporalAdjusters.next(DayOfWeek.SUNDAY))
+        val expected = "2017-07-09"
+        assertEquals(expected, nextSunday.toString())
+    }
+
+    @Test
+    fun whenAdjust_thenFourteenDaysAfterDate() {
+        val localDate = LocalDate.of(2017, 7, 8)
+        val temporalAdjuster = TemporalAdjuster { t -> t.plus(Period.ofDays(14)) }
+        val result = localDate.with(temporalAdjuster)
+        val fourteenDaysAfterDate = "2017-07-22"
+        assertEquals(fourteenDaysAfterDate, result.toString())
+    }
+
+    var NEXT_WORKING_DAY = TemporalAdjusters.ofDateAdjuster { date: LocalDate ->
+        val dayOfWeek = date.dayOfWeek
+        val daysToAdd: Int = if (dayOfWeek == DayOfWeek.FRIDAY) 3 else if (dayOfWeek == DayOfWeek.SATURDAY) 2 else 1
+        date.plusDays(daysToAdd.toLong())
+    }
+
+    @Test
+    fun whenAdjust_thenNextWorkingDay() {
+        val localDate = LocalDate.of(2017, 7, 8)
+        val temporalAdjuster: TemporalAdjuster = NEXT_WORKING_DAY
+        val result = localDate.with(temporalAdjuster)
+        assertEquals("2017-07-10", result.toString())
+    }
+
+    @Test
+    fun testTemporalAdjusters() {
+        val localDate = LocalDate.now()
+        println("current date : $localDate")
+
+        val with = localDate.with(TemporalAdjusters.firstDayOfMonth())
+        println("firstDayOfMonth : $with")
+
+        val with1 = localDate.with(TemporalAdjusters.lastDayOfMonth())
+        println("lastDayOfMonth : $with1")
+
+        val with2 = localDate.with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+        println("next monday : $with2")
+
+        val with3 = localDate.with(TemporalAdjusters.firstDayOfNextMonth())
+        println("firstDayOfNextMonth : $with3")
     }
 }
