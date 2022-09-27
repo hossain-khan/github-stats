@@ -48,7 +48,7 @@ class PicnicTableFormatter : StatsFormatter {
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
-            return "ERROR: No stats to format."
+            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ¯\\_(ツ)_/¯"
         }
 
         return table {

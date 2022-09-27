@@ -2,7 +2,9 @@ package dev.hossain.githubstats.formatter
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import dev.hossain.githubstats.AuthorReviewStats
+import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
+import java.io.File
 import kotlin.time.DurationUnit
 
 class CsvFormatter : StatsFormatter {
@@ -11,12 +13,26 @@ class CsvFormatter : StatsFormatter {
     }
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
+        if (stats.isEmpty()) {
+            return "⚠ ERROR: No stats to format. No CSV files for you! ¯\\_(ツ)_/¯"
+        }
+
         // Create multiple CSV file per author for better visualization
         // Also create a single CSV with total reviews to visualize responsiveness to author
+        val prAuthorId = stats.first().prAuthorId
+
+        // Create report dir for the author
+        val directory = File("REPORTS-$prAuthorId")
+        if (directory.exists().not() && directory.mkdir()) {
+            if (BuildConfig.DEBUG) {
+                println("The reporting directory ${directory.path} created successfully.")
+            }
+        }
 
         // Write combine review count by reviewer
-        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed"))
-        val combinedReportFileName = "REPORT_-_${stats.first().prAuthorId}-all-reviewers.csv"
+        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId"))
+
+        val combinedReportFileName = directory.path + File.separator + "REPORT_-_$prAuthorId-all-reviewers.csv"
         csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
 
         val filesCreated = mutableListOf<String>()
@@ -29,7 +45,7 @@ class CsvFormatter : StatsFormatter {
             )
 
             // Individual report per reviewer
-            val fileName = generateCsvFileName(stat)
+            val fileName = generateCsvFileName(directory, stat)
             val headerItem: List<String> = listOf("Reviewer", "PR Number", "Review time (hours)")
 
             csvWriter().open(fileName) {
@@ -49,7 +65,7 @@ class CsvFormatter : StatsFormatter {
         return "Generated following files: \n${filesCreated.joinToString()} and $combinedReportFileName"
     }
 
-    private fun generateCsvFileName(authorStats: AuthorReviewStats): String {
-        return "REPORT-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"
+    private fun generateCsvFileName(directory: File, authorStats: AuthorReviewStats): String {
+        return directory.path + File.separator + "REPORT-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"
     }
 }
