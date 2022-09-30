@@ -16,6 +16,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.time.temporal.TemporalAdjuster
@@ -112,8 +113,8 @@ internal class TimeUtilTest {
 
         println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
         val date1JavaInstant: java.time.Instant = date1.toJavaInstant()
-        val zonedDateTime1 = date1JavaInstant.atZone(ZoneId.systemDefault())
-        val nextWorkingDay = zonedDateTime1.with(Temporals.nextWorkingDay())
+        val zonedDateTime1: ZonedDateTime = date1JavaInstant.atZone(ZoneId.systemDefault())
+        val nextWorkingDay: ZonedDateTime = zonedDateTime1.with(Temporals.nextWorkingDay())
         val nextWorkingDayOrSame = zonedDateTime1.with(Temporals.nextWorkingDayOrSame())
         val previousWorkingDay = zonedDateTime1.with(Temporals.previousWorkingDay())
         val previousWorkingDayOrSame = zonedDateTime1.with(Temporals.previousWorkingDayOrSame())
@@ -123,8 +124,8 @@ internal class TimeUtilTest {
         )
 
         val date2JavaInstant: java.time.Instant = date2.toJavaInstant()
-        val zonedDateTime2 = date2JavaInstant.atZone(ZoneId.systemDefault())
-        val nextWorkingDay2 = zonedDateTime2.with(Temporals.nextWorkingDay())
+        val zonedDateTime2: ZonedDateTime = date2JavaInstant.atZone(ZoneId.systemDefault())
+        val nextWorkingDay2: ZonedDateTime = zonedDateTime2.with(Temporals.nextWorkingDay())
         val nextWorkingDayOrSame2 = zonedDateTime2.with(Temporals.nextWorkingDayOrSame())
         val previousWorkingDay2 = zonedDateTime2.with(Temporals.previousWorkingDay())
         val previousWorkingDayOrSame2 = zonedDateTime2.with(Temporals.previousWorkingDayOrSame())
@@ -132,6 +133,19 @@ internal class TimeUtilTest {
             "Date#2: ($zonedDateTime2) \nnextWorkingDay=$nextWorkingDay2, \nnextWorkingDayOrSame=$nextWorkingDayOrSame2" +
                 "\npreviousWorkingDay=$previousWorkingDay2, \npreviousWorkingDayOrSame=$previousWorkingDayOrSame2"
         )
+
+        // Represent a span-of-time in terms of days (24-hour chunks of time, not calendar days), hours, minutes, seconds.
+        // Internally, a count of whole seconds plus a fractional second (nanoseconds).
+        val durationZ1Z2: java.time.Duration = java.time.Duration.between(zonedDateTime1, zonedDateTime2)
+        println("durationZ1Z2=$durationZ1Z2")
+
+        // Represent a span-of-time in terms of years-months-days.
+        // Extract the date-only from the date-time-zone object.
+        val periodZ1Z2 = Period.between(
+            zonedDateTime1.toLocalDate(),
+            zonedDateTime2.toLocalDate()
+        )
+        println("periodZ1Z2=$periodZ1Z2")
         println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
     }
 
