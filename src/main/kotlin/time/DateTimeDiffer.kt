@@ -5,7 +5,10 @@ import kotlinx.datetime.toJavaInstant
 import org.threeten.extra.Temporals
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 object DateTimeDiffer {
     /**
@@ -24,6 +27,12 @@ object DateTimeDiffer {
     fun diffWorkingHours(startTime: Instant, endTime: Instant, zoneId: ZoneId): Duration {
         val startDateTime: ZonedDateTime = startTime.toJavaInstant().atZone(zoneId)
         val endDateTime: ZonedDateTime = endTime.toJavaInstant().atZone(zoneId)
+
+        if (endDateTime.isBefore(startDateTime)) {
+            throw IllegalArgumentException("The end time $endTime is before $startTime.")
+        }
+
+        val startToEndDiff = endTime - startTime
 
         /*
          * Things to consider:
@@ -46,38 +55,61 @@ object DateTimeDiffer {
          *   ➜ Is end time next day during working hours?
          */
 
-        println("startDateTime=$startDateTime and $endDateTime")
-
         val startTimeNextWorkingDay = startDateTime.with(Temporals.nextWorkingDayOrSame())
         val endTimeNextWorkingDay = endDateTime.with(Temporals.nextWorkingDayOrSame())
-        println("startTimeNextWorkingDay=$startTimeNextWorkingDay : " + startTimeNextWorkingDay.equals(startDateTime))
-        println("endTimeNextWorkingDay=$endTimeNextWorkingDay : " + endTimeNextWorkingDay.equals(endDateTime))
+        val startNextWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
+        val startNonWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
+        val endNextWorkingHourOrSame = endDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
+        val endNonWorkingHourOrSame = endDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
 
-        if (startTimeNextWorkingDay.equals(startDateTime).not()) {
-            val nextWorkingDayDiff = java.time.Duration.between(startDateTime, startTimeNextWorkingDay)
-            println("nextWorkingDayDiff=$nextWorkingDayDiff")
+        println(
+            "startDateTime=$startDateTime\nendDateTime=$endDateTime;" +
+                "\nstartTimeNextWorkingDay=$startTimeNextWorkingDay" +
+                "\nendTimeNextWorkingDay=$endTimeNextWorkingDay" +
+                "\nstartNextWorkingHourOrSame=$startNextWorkingHourOrSame" +
+                "\nstartNonWorkingHourOrSame=$startNonWorkingHourOrSame" +
+                "\nendNextWorkingHourOrSame=$endNextWorkingHourOrSame" +
+                "\nendNonWorkingHourOrSame=$endNonWorkingHourOrSame"
+        )
+
+        return when {
+            startDateTime.isSameDay(endDateTime) && isOnWorkingDay(startDateTime) && isOnWorkingDay(endDateTime) -> {
+                when {
+                    isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> {
+                        return startToEndDiff
+                    }
+
+                    (isWithinWorkingHour(startDateTime) || isWithinWorkingHour(endDateTime)).not() -> {
+                        // Both start and end time was before/after working hour. Make the diff almost zero.
+                        return Duration.parse("1m") // Kudos, you get bonus point
+                    }
+
+                    isWithinWorkingHour(startDateTime).not() -> {
+                        return startToEndDiff - (startDateTime.diffWith(startDateTime.nextWorkingHour()))
+                    }
+
+                    isWithinWorkingHour(endDateTime).not() -> {
+                        return startToEndDiff - (startDateTime.nextNonWorkingHour().diffWith(endDateTime))
+                    }
+
+                    else -> {
+                        return startToEndDiff
+                    }
+                }
+            }
+
+            else -> {
+                startToEndDiff - (startDateTime.nextNonWorkingHour().diffWith(endDateTime.prevWorkingHour()))
+            }
         }
-
-        val nextWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
-        println("nextWorkingHourOrSame = $nextWorkingHourOrSame")
-
-        val nextNonWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
-        println("nextNonWorkingHourOrSame = $nextNonWorkingHourOrSame")
-
-        // Basically find how many hours between start and end time was non-countable
-        // Count hours til end of the day if it's in working hours
-        // - else, counter will start from next business day
-        // Then if the end date is on next day, count hours from next working day
-
-        return endTime - startTime
     }
 
-    fun isOnWorkingDay(zonedDateTime: ZonedDateTime): Boolean {
+    private fun isOnWorkingDay(zonedDateTime: ZonedDateTime): Boolean {
         val nextWorkingDayOrSame = zonedDateTime.nextWorkingDay()
         return zonedDateTime == nextWorkingDayOrSame
     }
 
-    fun isWithinWorkingHour(zonedDateTime: ZonedDateTime): Boolean {
+    private fun isWithinWorkingHour(zonedDateTime: ZonedDateTime): Boolean {
         val nonWorkingHour = zonedDateTime.nextWorkingHour()
         return zonedDateTime == nonWorkingHour
     }
@@ -86,5 +118,18 @@ object DateTimeDiffer {
     private fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDayOrSame())
     private fun ZonedDateTime.nextWorkingHour() = this.with(TemporalsExtension.nextWorkingHourOrSame())
     private fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
+    private fun ZonedDateTime.prevWorkingHour() = this.with(TemporalsExtension.prevWorkingHourOrSame())
+
+    private fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
+        return java.time.Duration.between(this, endDateTime).seconds.toDuration(DurationUnit.SECONDS)
+    }
+
+    private fun Instant.isSameDay(other: Instant): Boolean {
+        return this.toJavaInstant().truncatedTo(ChronoUnit.DAYS) == other.toJavaInstant().truncatedTo(ChronoUnit.DAYS)
+    }
+
+    private fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean {
+        return this.year == other.year && this.month == other.month && this.dayOfMonth == other.dayOfMonth
+    }
     // endregion: Internal Extension Functions
 }
