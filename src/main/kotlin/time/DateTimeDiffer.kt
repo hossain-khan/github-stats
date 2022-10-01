@@ -61,7 +61,6 @@ object DateTimeDiffer {
         val nextWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
         println("nextWorkingHourOrSame = $nextWorkingHourOrSame")
 
-
         val nextNonWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
         println("nextNonWorkingHourOrSame = $nextNonWorkingHourOrSame")
 
