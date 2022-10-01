@@ -3,6 +3,7 @@ package time
 import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.ZoneId
@@ -19,6 +20,17 @@ internal class DateTimeDifferTest {
     }
 
     // - https://timestampgenerator.com/
+
+    @Test
+    fun `diff - given start time is after end time - throws error`() {
+        val startTime: Instant = Instant.parse("2022-09-05T11:30:00-05:00")
+        val endTime: Instant = Instant.parse("2022-09-05T10:00:00-05:00")
+
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            DateTimeDiffer.diffWorkingHours(startTime, endTime, ZoneId.systemDefault())
+        }
+    }
+
     @Test
     fun `diff - given start time and end time both in working day and hour - provides right diff`() {
         val startTime: Instant = Instant.parse("2022-09-05T10:00:00-05:00")

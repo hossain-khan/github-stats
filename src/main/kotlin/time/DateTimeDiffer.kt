@@ -26,6 +26,11 @@ object DateTimeDiffer {
     fun diffWorkingHours(startTime: Instant, endTime: Instant, zoneId: ZoneId): Duration {
         val startDateTime: ZonedDateTime = startTime.toJavaInstant().atZone(zoneId)
         val endDateTime: ZonedDateTime = endTime.toJavaInstant().atZone(zoneId)
+
+        if (endDateTime.isBefore(startDateTime)) {
+            throw IllegalArgumentException("The end time $endTime is before $startTime.")
+        }
+
         val startToEndDiff = endTime - startTime
 
         /*
