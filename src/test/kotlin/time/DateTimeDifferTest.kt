@@ -68,6 +68,26 @@ internal class DateTimeDifferTest {
     }
 
     @Test
+    fun `diff - given start time and end time both in working day but start & end time is before working hour - provides almost diff zero`() {
+        val startTime: Instant = Instant.parse("2022-09-05T06:00:00-04:00") // 06:00am
+        val endTime: Instant = Instant.parse("2022-09-05T07:00:00-04:00") // 07:00am same day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("1m".duration())
+    }
+
+    @Test
+    fun `diff - given start time and end time both in working day but start & end time is after working hour - provides almost diff zero`() {
+        val startTime: Instant = Instant.parse("2022-09-05T18:00:00-04:00") // 06:00pm
+        val endTime: Instant = Instant.parse("2022-09-05T21:00:00-04:00") // 09:00pm same day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("1m".duration())
+    }
+
+    @Test
     fun `diffWorkingHours - given start time is weekends`() {
         // Sat Jan 01 2022 10:00:00 GMT-0500 (Eastern Standard Time)
         // Sat Jan 01 2022 15:00:00 GMT+0000

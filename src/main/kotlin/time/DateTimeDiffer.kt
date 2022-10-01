@@ -79,6 +79,10 @@ object DateTimeDiffer {
             isOnWorkingDay(startDateTime) && isOnWorkingDay(endDateTime) -> {
                 when {
                     isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> return startToEndDiff
+                    (isWithinWorkingHour(startDateTime) || isWithinWorkingHour(endDateTime)).not() -> {
+                        // Both start and end time was before/after working hour. Make the diff almost zero.
+                        return Duration.parse("1m") // Kudos, you get bonus point
+                    }
                     isWithinWorkingHour(startDateTime).not() -> {
                         return startToEndDiff - (startDateTime.diffWith(startDateTime.nextWorkingHour()))
                     }
