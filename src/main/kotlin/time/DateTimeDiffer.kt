@@ -24,15 +24,15 @@ object DateTimeDiffer {
      *    Start                        End
      * ```
      */
-    fun diffWorkingHours(startTime: Instant, endTime: Instant, zoneId: ZoneId): Duration {
-        val startDateTime: ZonedDateTime = startTime.toJavaInstant().atZone(zoneId)
-        val endDateTime: ZonedDateTime = endTime.toJavaInstant().atZone(zoneId)
+    fun diffWorkingHours(startInstant: Instant, endInstant: Instant, zoneId: ZoneId): Duration {
+        val startDateTime: ZonedDateTime = startInstant.toJavaInstant().atZone(zoneId)
+        val endDateTime: ZonedDateTime = endInstant.toJavaInstant().atZone(zoneId)
 
         if (endDateTime.isBefore(startDateTime)) {
-            throw IllegalArgumentException("The end time $endTime is before $startTime.")
+            throw IllegalArgumentException("The end time $endInstant is before $startInstant.")
         }
 
-        val startToEndDiff = endTime - startTime
+        val startToEndDiff = endInstant - startInstant
 
         /*
          * Things to consider:
@@ -72,7 +72,7 @@ object DateTimeDiffer {
                 "\nendNonWorkingHourOrSame=$endNonWorkingHourOrSame"
         )
 
-        return when {
+        when {
             startDateTime.isSameDay(endDateTime) && isOnWorkingDay(startDateTime) && isOnWorkingDay(endDateTime) -> {
                 when {
                     isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> {
@@ -99,13 +99,45 @@ object DateTimeDiffer {
             }
 
             else -> {
-                startToEndDiff - (startDateTime.nextNonWorkingHour().diffWith(endDateTime.prevWorkingHour()))
+                var nonWorkingDuration = Duration.ZERO
+                var immediateNextWorkingDay = startDateTime
+                do {
+                    immediateNextWorkingDay = immediateNextWorkingDay.nextWorkingDay()
+                    println(
+                        "while $immediateNextWorkingDay (${immediateNextWorkingDay.isBefore(endDateTime)} & ${
+                        !immediateNextWorkingDay.isSameDay(
+                            endDateTime
+                        )
+                        })"
+                    )
+
+                    when {
+                        immediateNextWorkingDay.isSameDay(endDateTime) -> {
+                            val diffWith =
+                                immediateNextWorkingDay.prevWorkingDay().nextNonWorkingHour()
+                                    .diffWith(endDateTime.prevWorkingHour())
+                            println("nonWorkingDuration (last day) = $nonWorkingDuration + $diffWith")
+                            nonWorkingDuration = nonWorkingDuration.plus(diffWith)
+                        }
+
+                        else -> {
+                            println("nonWorkingDuration = $nonWorkingDuration + 16h")
+                            nonWorkingDuration = nonWorkingDuration.plus(Duration.parse("16h"))
+                        }
+                    }
+
+                    nonWorkingDuration = nonWorkingDuration.plus(Duration.ZERO)
+                } while (immediateNextWorkingDay.isBefore(endDateTime) && !immediateNextWorkingDay.isSameDay(endDateTime))
+
+                val diffWorkingHoursOnly = startToEndDiff - nonWorkingDuration
+                println("Return: ($startToEndDiff - $nonWorkingDuration) = $diffWorkingHoursOnly")
+                return diffWorkingHoursOnly
             }
         }
     }
 
     private fun isOnWorkingDay(zonedDateTime: ZonedDateTime): Boolean {
-        val nextWorkingDayOrSame = zonedDateTime.nextWorkingDay()
+        val nextWorkingDayOrSame = zonedDateTime.nextWorkingDayOrSame()
         return zonedDateTime == nextWorkingDayOrSame
     }
 
@@ -115,9 +147,13 @@ object DateTimeDiffer {
     }
 
     // region: Internal Extension Functions
-    private fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDayOrSame())
+    private fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDay())
+    private fun ZonedDateTime.prevWorkingDay() = this.with(Temporals.previousWorkingDay())
+    private fun ZonedDateTime.nextWorkingDayOrSame() = this.with(Temporals.nextWorkingDayOrSame())
     private fun ZonedDateTime.nextWorkingHour() = this.with(TemporalsExtension.nextWorkingHourOrSame())
     private fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
+
+    /** Previous working start hour of the day.*/
     private fun ZonedDateTime.prevWorkingHour() = this.with(TemporalsExtension.prevWorkingHourOrSame())
 
     private fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
