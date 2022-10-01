@@ -42,8 +42,8 @@ object TemporalsExtension {
         return Adjuster.NEXT_WORKING_HOUR
     }
 
-    fun nextNonWorkingHourOrSame(): TemporalAdjuster {
-        return Adjuster.NEXT_NON_WORKING_HOUR_OR_SAME
+    fun nextWorkingHourOrSame(): TemporalAdjuster {
+        return Adjuster.NEXT_WORKING_HOUR_OR_SAME
     }
 
     /**
@@ -103,7 +103,9 @@ object TemporalsExtension {
         },
 
         /**
-         * Next non-working hour adjuster.
+         * Next working hour adjuster.
+         * Provides next working hour or same if already in working hour.
+         *
          * - 12:00am to 8:00AM -> 9:00 AM
          * - 05:00pm to 11:59pm -> Next day 9:00AM
          *
@@ -112,7 +114,7 @@ object TemporalsExtension {
          * - Input: 6:00AM -> 9:00AM (same day)
          * - Input: 2:00AM -> 9:00AM (same day)
          */
-        NEXT_NON_WORKING_HOUR_OR_SAME {
+        NEXT_WORKING_HOUR_OR_SAME {
             override fun adjustInto(temporal: Temporal): Temporal {
                 return when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
                     in 0..8 -> temporal.plus((9 - hour).toLong(), ChronoUnit.HOURS)
@@ -143,17 +145,6 @@ object TemporalsExtension {
                 return when (temporal[ChronoField.DAY_OF_WEEK]) {
                     6 -> temporal.plus(2, ChronoUnit.DAYS)
                     7 -> temporal.plus(1, ChronoUnit.DAYS)
-                    else -> temporal
-                }
-            }
-        },
-
-        /** Next working hour adjuster.*/
-        NEXT_WORKING_HOUR_OR_SAME {
-            override fun adjustInto(temporal: Temporal): Temporal {
-                return when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
-                    in 0..8 -> temporal.plus(hour.toLong(), ChronoUnit.HOURS)
-                    in 18..23 -> temporal.plus(hour.toLong() - 17, ChronoUnit.HOURS)
                     else -> temporal
                 }
             }

@@ -35,9 +35,27 @@ object DateTimeDiffer {
             println("nextWorkingDayDiff=$nextWorkingDayDiff")
         }
 
-        val nonWorkingHour = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
+        val nonWorkingHour = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
         println("Next nonWorkingHour = $nonWorkingHour")
+
+        // Basically find how many hours between start and end time was non-countable
+        // Count hours til end of the day if it's in working hours
+        // - else, counter will start from next business day
+        // Then if the end date is on next day, count hours from next working day
 
         return endTime - startTime
     }
+
+    fun isOnWorkingDay(zonedDateTime: ZonedDateTime): Boolean {
+        val nextWorkingDayOrSame = zonedDateTime.nextWorkingDay()
+        return zonedDateTime == nextWorkingDayOrSame
+    }
+
+    fun isWithinWorkingHour(zonedDateTime: ZonedDateTime): Boolean {
+        val nonWorkingHour = zonedDateTime.nextWorkingHour()
+        return zonedDateTime == nonWorkingHour
+    }
+
+    private inline fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDayOrSame())
+    private inline fun ZonedDateTime.nextWorkingHour() = this.with(TemporalsExtension.nextWorkingHourOrSame())
 }
