@@ -80,13 +80,12 @@ object DateTimeDiffer {
                 when {
                     isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> return startToEndDiff
                     isWithinWorkingHour(startDateTime).not() -> {
-                        return startToEndDiff
+                        return startToEndDiff - (startDateTime.diffWith(startDateTime.nextWorkingHour()))
                     }
 
                     isWithinWorkingHour(endDateTime).not() -> {
-                        return startToEndDiff - startDateTime.nextNonWorkingHour().diffWith(endDateTime)
+                        return startToEndDiff - (startDateTime.nextNonWorkingHour().diffWith(endDateTime))
                     }
-
                     else -> return startToEndDiff
                 }
             }

@@ -11,7 +11,7 @@ import kotlin.time.Duration
 
 internal class DateTimeDifferTest {
     /*
-     * System fault on my machine is: `America/Toronto`
+     * System default on my machine is: `America/Toronto`
      * Currently Eastern Daylight Time (EDT), UTC -4
      * Standard time (Eastern Standard Time (EST), UTC -5) starts Nov. 6, 2022
      */
@@ -55,6 +55,16 @@ internal class DateTimeDifferTest {
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
         assertThat(diffWorkingHours).isEqualTo("7h".duration())
+    }
+
+    @Test
+    fun `diff - given start time and end time both in working day but start time is outside working hour - provides diff excluding non-working hours`() {
+        val startTime: Instant = Instant.parse("2022-09-05T06:00:00-04:00") // 06:00am
+        val endTime: Instant = Instant.parse("2022-09-05T12:00:00-04:00") // 12:00pm same day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("3h".duration())
     }
 
     @Test
