@@ -6,6 +6,8 @@ import org.threeten.extra.Temporals
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 object DateTimeDiffer {
     /**
@@ -24,6 +26,7 @@ object DateTimeDiffer {
     fun diffWorkingHours(startTime: Instant, endTime: Instant, zoneId: ZoneId): Duration {
         val startDateTime: ZonedDateTime = startTime.toJavaInstant().atZone(zoneId)
         val endDateTime: ZonedDateTime = endTime.toJavaInstant().atZone(zoneId)
+        val startToEndDiff = endTime - startTime
 
         /*
          * Things to consider:
@@ -46,30 +49,25 @@ object DateTimeDiffer {
          *   ➜ Is end time next day during working hours?
          */
 
-        println("startDateTime=$startDateTime and $endDateTime")
-
         val startTimeNextWorkingDay = startDateTime.with(Temporals.nextWorkingDayOrSame())
         val endTimeNextWorkingDay = endDateTime.with(Temporals.nextWorkingDayOrSame())
-        println("startTimeNextWorkingDay=$startTimeNextWorkingDay : " + startTimeNextWorkingDay.equals(startDateTime))
-        println("endTimeNextWorkingDay=$endTimeNextWorkingDay : " + endTimeNextWorkingDay.equals(endDateTime))
-
-        if (startTimeNextWorkingDay.equals(startDateTime).not()) {
-            val nextWorkingDayDiff = java.time.Duration.between(startDateTime, startTimeNextWorkingDay)
-            println("nextWorkingDayDiff=$nextWorkingDayDiff")
-        }
-
         val nextWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
-        println("nextWorkingHourOrSame = $nextWorkingHourOrSame")
-
         val nextNonWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
-        println("nextNonWorkingHourOrSame = $nextNonWorkingHourOrSame")
 
-        // Basically find how many hours between start and end time was non-countable
-        // Count hours til end of the day if it's in working hours
-        // - else, counter will start from next business day
-        // Then if the end date is on next day, count hours from next working day
+        println(
+            "startTimeNextWorkingDay=$startTimeNextWorkingDay\nendTimeNextWorkingDay=$endTimeNextWorkingDay" +
+                "\nnextWorkingHourOrSame=$nextWorkingHourOrSame\nnextNonWorkingHourOrSame=$nextNonWorkingHourOrSame"
+        )
 
-        return endTime - startTime
+        val durationDiff = java.time.Duration.between(nextNonWorkingHourOrSame, nextWorkingHourOrSame)
+        println("startToEndDiff = $startToEndDiff")
+        return when {
+            isOnWorkingDay(startDateTime) && isOnWorkingDay(endDateTime) -> {
+                startToEndDiff
+            }
+
+            else -> startToEndDiff - durationDiff.seconds.toDuration(DurationUnit.SECONDS)
+        }
     }
 
     fun isOnWorkingDay(zonedDateTime: ZonedDateTime): Boolean {

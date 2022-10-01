@@ -1,10 +1,12 @@
 package time
 
+import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.ZoneId
+import kotlin.time.Duration
 
 internal class DateTimeDifferTest {
 
@@ -14,6 +16,20 @@ internal class DateTimeDifferTest {
 
     @AfterEach
     fun tearDown() {
+    }
+
+    // - https://timestampgenerator.com/
+    @Test
+    fun `diff - given start time and end time both in working day and hour - provides right diff`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-05:00")
+        val endTime: Instant = Instant.parse("2022-09-05T11:30:00-05:00")
+
+        // America/Toronto
+        val zoneId = ZoneId.systemDefault()
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("1h 30m".duration())
     }
 
     @Test
@@ -66,4 +82,6 @@ internal class DateTimeDifferTest {
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
         println("RESULT: diffWorkingHours() = $diffWorkingHours")
     }
+
+    private fun String.duration(): Duration = Duration.parse(this)
 }
