@@ -25,7 +25,7 @@ internal class DateTimeDifferTest {
     fun tearDown() {
     }
 
-    // - https://timestampgenerator.com/
+    // - Sample: Mon, 05 Sep 2022 10:00:00 -0400 @ https://timestampgenerator.com/1662386400/-04:00
 
     @Test
     fun `diff - given start time is after end time - throws error`() {
@@ -85,6 +85,16 @@ internal class DateTimeDifferTest {
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
         assertThat(diffWorkingHours).isEqualTo("1m".duration())
+    }
+
+    @Test
+    fun `diff - given start time in working hour and end time is next day working hour - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
+        val endTime: Instant = Instant.parse("2022-09-06T10:00:00-04:00") // 10:00am next day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("8h".duration())
     }
 
     @Test

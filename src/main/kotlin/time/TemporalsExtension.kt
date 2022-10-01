@@ -52,6 +52,10 @@ object TemporalsExtension {
         return Adjuster.NEXT_WORKING_HOUR_OR_SAME
     }
 
+    fun prevWorkingHourOrSame(): TemporalAdjuster {
+        return Adjuster.PREV_WORKING_HOUR_OR_SAME
+    }
+
     /**
      * Returns an adjuster that returns the previous working day, ignoring Saturday and Sunday.
      *
@@ -108,6 +112,7 @@ object TemporalsExtension {
                         // When it's within 9:00AM to 5:00PM - shift to after 5:00pm
                         temporal.plus(17 - hour.toLong(), ChronoUnit.HOURS)
                     }
+
                     else -> temporal
                 }
             }
@@ -133,6 +138,29 @@ object TemporalsExtension {
                         // Set the temporal to next day @ 9:00am
                         temporal.plus((24 - hour + 9).toLong(), ChronoUnit.HOURS)
                     }
+
+                    else -> temporal
+                }
+            }
+        },
+
+        /**
+         * Previous working start hour of the day.
+         */
+        PREV_WORKING_HOUR_OR_SAME {
+            override fun adjustInto(temporal: Temporal): Temporal {
+                return when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
+                    in 9..17 -> temporal.minus((hour - 9).toLong(), ChronoUnit.HOURS)
+                    in 0..8 -> {
+                        // Set time to end of the day on previous day
+                        temporal.minus((hour + 7).toLong(), ChronoUnit.HOURS)
+                    }
+
+                    in 18..23 -> {
+                        // Set them to end of the day @ 5:00pm
+                        temporal.minus((hour - 17).toLong(), ChronoUnit.HOURS)
+                    }
+
                     else -> temporal
                 }
             }

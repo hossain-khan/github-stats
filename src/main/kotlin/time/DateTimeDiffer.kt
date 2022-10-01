@@ -5,6 +5,7 @@ import kotlinx.datetime.toJavaInstant
 import org.threeten.extra.Temporals
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -71,18 +72,18 @@ object DateTimeDiffer {
                 "\nendNonWorkingHourOrSame=$endNonWorkingHourOrSame"
         )
 
-        val durationDiff = java.time.Duration.between(startNonWorkingHourOrSame, startNextWorkingHourOrSame)
-        val diffNonWorking = java.time.Duration.between(startNonWorkingHourOrSame, endDateTime)
-
-        println("startToEndDiff = $startToEndDiff and $durationDiff and $diffNonWorking")
         return when {
-            isOnWorkingDay(startDateTime) && isOnWorkingDay(endDateTime) -> {
+            startDateTime.isSameDay(endDateTime) && isOnWorkingDay(startDateTime) && isOnWorkingDay(endDateTime) -> {
                 when {
-                    isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> return startToEndDiff
+                    isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> {
+                        return startToEndDiff
+                    }
+
                     (isWithinWorkingHour(startDateTime) || isWithinWorkingHour(endDateTime)).not() -> {
                         // Both start and end time was before/after working hour. Make the diff almost zero.
                         return Duration.parse("1m") // Kudos, you get bonus point
                     }
+
                     isWithinWorkingHour(startDateTime).not() -> {
                         return startToEndDiff - (startDateTime.diffWith(startDateTime.nextWorkingHour()))
                     }
@@ -90,11 +91,16 @@ object DateTimeDiffer {
                     isWithinWorkingHour(endDateTime).not() -> {
                         return startToEndDiff - (startDateTime.nextNonWorkingHour().diffWith(endDateTime))
                     }
-                    else -> return startToEndDiff
+
+                    else -> {
+                        return startToEndDiff
+                    }
                 }
             }
 
-            else -> startToEndDiff - durationDiff.seconds.toDuration(DurationUnit.SECONDS)
+            else -> {
+                startToEndDiff - (startDateTime.nextNonWorkingHour().diffWith(endDateTime.prevWorkingHour()))
+            }
         }
     }
 
@@ -112,9 +118,18 @@ object DateTimeDiffer {
     private fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDayOrSame())
     private fun ZonedDateTime.nextWorkingHour() = this.with(TemporalsExtension.nextWorkingHourOrSame())
     private fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
+    private fun ZonedDateTime.prevWorkingHour() = this.with(TemporalsExtension.prevWorkingHourOrSame())
 
     private fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
         return java.time.Duration.between(this, endDateTime).seconds.toDuration(DurationUnit.SECONDS)
+    }
+
+    private fun Instant.isSameDay(other: Instant): Boolean {
+        return this.toJavaInstant().truncatedTo(ChronoUnit.DAYS) == other.toJavaInstant().truncatedTo(ChronoUnit.DAYS)
+    }
+
+    private fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean {
+        return this.year == other.year && this.month == other.month && this.dayOfMonth == other.dayOfMonth
     }
     // endregion: Internal Extension Functions
 }
