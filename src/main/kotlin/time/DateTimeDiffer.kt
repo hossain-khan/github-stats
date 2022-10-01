@@ -56,31 +56,51 @@ object DateTimeDiffer {
 
         val startTimeNextWorkingDay = startDateTime.with(Temporals.nextWorkingDayOrSame())
         val endTimeNextWorkingDay = endDateTime.with(Temporals.nextWorkingDayOrSame())
-        val nextWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
-        val nextNonWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
+        val startNextWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
+        val startNonWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
+        val endNextWorkingHourOrSame = endDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
+        val endNonWorkingHourOrSame = endDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
 
         println(
-            "startTimeNextWorkingDay=$startTimeNextWorkingDay\nendTimeNextWorkingDay=$endTimeNextWorkingDay" +
-                "\nnextWorkingHourOrSame=$nextWorkingHourOrSame\nnextNonWorkingHourOrSame=$nextNonWorkingHourOrSame"
+            "startDateTime=$startDateTime\nendDateTime=$endDateTime;" +
+                "\nstartTimeNextWorkingDay=$startTimeNextWorkingDay" +
+                "\nendTimeNextWorkingDay=$endTimeNextWorkingDay" +
+                "\nstartNextWorkingHourOrSame=$startNextWorkingHourOrSame" +
+                "\nstartNonWorkingHourOrSame=$startNonWorkingHourOrSame" +
+                "\nendNextWorkingHourOrSame=$endNextWorkingHourOrSame" +
+                "\nendNonWorkingHourOrSame=$endNonWorkingHourOrSame"
         )
 
-        val durationDiff = java.time.Duration.between(nextNonWorkingHourOrSame, nextWorkingHourOrSame)
-        println("startToEndDiff = $startToEndDiff")
+        val durationDiff = java.time.Duration.between(startNonWorkingHourOrSame, startNextWorkingHourOrSame)
+        val diffNonWorking = java.time.Duration.between(startNonWorkingHourOrSame, endDateTime)
+
+        println("startToEndDiff = $startToEndDiff and $durationDiff and $diffNonWorking")
         return when {
             isOnWorkingDay(startDateTime) && isOnWorkingDay(endDateTime) -> {
-                startToEndDiff
+                when {
+                    isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> return startToEndDiff
+                    isWithinWorkingHour(startDateTime).not() -> {
+                        return startToEndDiff
+                    }
+
+                    isWithinWorkingHour(endDateTime).not() -> {
+                        return startToEndDiff - startDateTime.nextNonWorkingHour().diffWith(endDateTime)
+                    }
+
+                    else -> return startToEndDiff
+                }
             }
 
             else -> startToEndDiff - durationDiff.seconds.toDuration(DurationUnit.SECONDS)
         }
     }
 
-    fun isOnWorkingDay(zonedDateTime: ZonedDateTime): Boolean {
+    private fun isOnWorkingDay(zonedDateTime: ZonedDateTime): Boolean {
         val nextWorkingDayOrSame = zonedDateTime.nextWorkingDay()
         return zonedDateTime == nextWorkingDayOrSame
     }
 
-    fun isWithinWorkingHour(zonedDateTime: ZonedDateTime): Boolean {
+    private fun isWithinWorkingHour(zonedDateTime: ZonedDateTime): Boolean {
         val nonWorkingHour = zonedDateTime.nextWorkingHour()
         return zonedDateTime == nonWorkingHour
     }
@@ -89,5 +109,9 @@ object DateTimeDiffer {
     private fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDayOrSame())
     private fun ZonedDateTime.nextWorkingHour() = this.with(TemporalsExtension.nextWorkingHourOrSame())
     private fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
+
+    private fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
+        return java.time.Duration.between(this, endDateTime).seconds.toDuration(DurationUnit.SECONDS)
+    }
     // endregion: Internal Extension Functions
 }
