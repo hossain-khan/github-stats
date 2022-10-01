@@ -8,6 +8,19 @@ import java.time.ZonedDateTime
 import kotlin.time.Duration
 
 object DateTimeDiffer {
+    /**
+     *
+     * ```
+     *   +------+------+------+------+------+------+------+
+     *   |      |      |      |      |      |      |      |
+     *   |  M   |  T   |  W   |  T   |  F   |  S   |  S   |
+     *   |      |      |      |      |      |      |      |
+     *   +------+------+------+------+------+------+------+
+     *      ↑                           ↑
+     *    Week                         Week
+     *    Start                        End
+     * ```
+     */
     fun diffWorkingHours(startTime: Instant, endTime: Instant, zoneId: ZoneId): Duration {
         val startDateTime: ZonedDateTime = startTime.toJavaInstant().atZone(zoneId)
         val endDateTime: ZonedDateTime = endTime.toJavaInstant().atZone(zoneId)
@@ -21,6 +34,16 @@ object DateTimeDiffer {
          * - End DateTime
          *   • Was it done during working day and time?
          *   • What if it was done in non-working hour (after hours)? how do we credit the reviewer?
+         *
+         * Data Available:
+         * ✔ Start time
+         *   ➜ Is it during working hours?
+         *   ➜ Is it during working day?
+         *   ➜ What is end of the day time?
+         *   ➜ When does next day working hour begin?
+         * ✔ End time
+         *   ➜ Is end time on same day as start time?
+         *   ➜ Is end time next day during working hours?
          */
 
         println("startDateTime=$startDateTime and $endDateTime")
@@ -56,6 +79,6 @@ object DateTimeDiffer {
         return zonedDateTime == nonWorkingHour
     }
 
-    private inline fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDayOrSame())
-    private inline fun ZonedDateTime.nextWorkingHour() = this.with(TemporalsExtension.nextWorkingHourOrSame())
+    private fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDayOrSame())
+    private fun ZonedDateTime.nextWorkingHour() = this.with(TemporalsExtension.nextWorkingHourOrSame())
 }
