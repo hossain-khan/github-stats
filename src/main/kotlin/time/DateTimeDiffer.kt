@@ -78,6 +78,10 @@ object DateTimeDiffer {
                 return workingDuration(startDateTime, endDateTime)
             }
 
+            !isOnWorkingDay(startDateTime) && !isOnWorkingDay(endDateTime) -> {
+                return Duration.parse("0s")
+            }
+
             else -> {
                 var workingHours = Duration.ZERO
                 var previousWorkingDay = startDateTime

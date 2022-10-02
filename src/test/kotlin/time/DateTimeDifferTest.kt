@@ -48,6 +48,26 @@ internal class DateTimeDifferTest {
     }
 
     @Test
+    fun `diff - given start time and end time both in non-working day but in working hour - provides zero working hour`() {
+        val startTime: Instant = Instant.parse("2022-09-03T10:00:00-04:00") // 10:00am Saturday
+        val endTime: Instant = Instant.parse("2022-09-03T11:30:00-04:00") // 11:30am same day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("0s".duration())
+    }
+
+    @Test
+    fun `diff - given start time and end time both in non-working day and hour and spans two days - provides zero working hour`() {
+        val startTime: Instant = Instant.parse("2022-09-03T10:00:00-04:00") // 10:00am Saturday
+        val endTime: Instant = Instant.parse("2022-09-04T20:00:00-04:00") // 8:00pm Sunday
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("0s".duration())
+    }
+
+    @Test
     fun `diff - given start time and end time both in working day but end time is outside working hour - provides diff excluding non-working hours`() {
         val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
         val endTime: Instant = Instant.parse("2022-09-05T20:00:00-04:00") // 8:00pm same day
@@ -88,6 +108,16 @@ internal class DateTimeDifferTest {
     }
 
     @Test
+    fun `diff - given start time and end time both in working day but start & end time is before and after working hour - provides working hour diff`() {
+        val startTime: Instant = Instant.parse("2022-09-05T06:00:00-04:00") // 06:00am
+        val endTime: Instant = Instant.parse("2022-09-05T21:00:00-04:00") // 09:00pm same day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("8h".duration())
+    }
+
+    @Test
     fun `diff - given start time in working hour and end time is next day working hour - provides diff of working hour only`() {
         val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
         val endTime: Instant = Instant.parse("2022-09-06T10:00:00-04:00") // 10:00am next day
@@ -118,48 +148,13 @@ internal class DateTimeDifferTest {
     }
 
     @Test
-    fun `diffWorkingHours - given start time is weekends`() {
-        // Sat Jan 01 2022 10:00:00 GMT-0500 (Eastern Standard Time)
-        // Sat Jan 01 2022 15:00:00 GMT+0000
-        val startTime: Instant = Instant.fromEpochSeconds(1641049200)
-
-        // Mon Jan 03 2022 14:00:00 GMT-0500 (Eastern Standard Time)
-        // Mon Jan 03 2022 19:00:00 GMT+0000
-        val endTime: Instant = Instant.fromEpochSeconds(1641236400)
+    fun `diff - given start time and end time spans whole week - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am Monday
+        val endTime: Instant = Instant.parse("2022-09-09T16:00:00-04:00") // 04:00pm Friday
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
-        println("RESULT: diffWorkingHours() = $diffWorkingHours")
-    }
 
-    @Test
-    fun `diffWorkingHours - given start time is before work hour beings`() {
-        // Fri Jan 07 2022 03:00:00 GMT-0500 (Eastern Standard Time)
-        // Fri Jan 07 2022 08:00:00 GMT+0000
-        val startTime: Instant = Instant.fromEpochSeconds(1641542400)
-
-        // Fri Jan 07 2022 15:00:00 GMT-0500 (Eastern Standard Time)
-        // Fri Jan 07 2022 20:00:00 GMT+0000
-        val endTime: Instant = Instant.fromEpochSeconds(1641585600)
-
-        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
-        println("RESULT: diffWorkingHours() = $diffWorkingHours")
-    }
-
-    @Test
-    fun `diffWorkingHours - given start time is after work hour ends`() {
-        // Wed Jan 05 2022 21:00:00 GMT-0500 (Eastern Standard Time)
-        // Thu Jan 06 2022 02:00:00 GMT+0000
-        val startTime: Instant = Instant.fromEpochSeconds(1641434400)
-
-        // Thu Jan 06 2022 14:00:00 GMT-0500 (Eastern Standard Time)
-        // Thu Jan 06 2022 19:00:00 GMT+0000
-        val endTime: Instant = Instant.fromEpochSeconds(1641495600)
-
-        // America/Toronto
-        val zoneId = ZoneId.systemDefault()
-
-        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
-        println("RESULT: diffWorkingHours() = $diffWorkingHours")
+        assertThat(diffWorkingHours).isEqualTo("38h".duration())
     }
 
     private fun String.duration(): Duration = Duration.parse(this)
