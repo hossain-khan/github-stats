@@ -78,7 +78,7 @@ object DateTimeDiffer {
                 return workingDuration(startDateTime, endDateTime)
             }
 
-            !startDateTime.isOnWorkingDay() && !endDateTime.isOnWorkingDay() -> {
+            startDateTime.isOnWorkingDay().not() && endDateTime.isOnWorkingDay().not() -> {
                 return Duration.parse("0s")
             }
 
