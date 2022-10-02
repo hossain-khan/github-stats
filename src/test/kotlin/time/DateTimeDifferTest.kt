@@ -74,7 +74,7 @@ internal class DateTimeDifferTest {
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
-        assertThat(diffWorkingHours).isEqualTo("1m".duration())
+        assertThat(diffWorkingHours).isEqualTo("0s".duration())
     }
 
     @Test
@@ -84,7 +84,7 @@ internal class DateTimeDifferTest {
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
-        assertThat(diffWorkingHours).isEqualTo("1m".duration())
+        assertThat(diffWorkingHours).isEqualTo("0s".duration())
     }
 
     @Test
@@ -95,6 +95,16 @@ internal class DateTimeDifferTest {
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
         assertThat(diffWorkingHours).isEqualTo("8h".duration())
+    }
+
+    @Test
+    fun `diff - given start time in working hour and end time is next day after working hour - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
+        val endTime: Instant = Instant.parse("2022-09-06T20:00:00-04:00") // 08:00pm next day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("15h".duration())
     }
 
     @Test

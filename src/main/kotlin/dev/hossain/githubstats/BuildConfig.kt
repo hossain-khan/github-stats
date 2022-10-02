@@ -2,6 +2,7 @@ package dev.hossain.githubstats
 
 /**
  * Internal build config.
+ * NOTE: Take a look at https://github.com/gmazzo/gradle-buildconfig-plugin
  */
 object BuildConfig {
     /**

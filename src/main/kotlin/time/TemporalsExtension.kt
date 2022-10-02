@@ -57,6 +57,13 @@ object TemporalsExtension {
     }
 
     /**
+     * Provides (approximate) time that indicates start of day at 12:00am of that day.
+     */
+    fun startOfDay(): TemporalAdjuster {
+        return Adjuster.START_OF_DAY
+    }
+
+    /**
      * Returns an adjuster that returns the previous working day, ignoring Saturday and Sunday.
      *
      *
@@ -98,6 +105,17 @@ object TemporalsExtension {
                     5 -> temporal.plus(3, ChronoUnit.DAYS)
                     else -> temporal.plus(1, ChronoUnit.DAYS)
                 }
+            }
+        },
+
+        /** Beginning of the day. */
+        START_OF_DAY {
+            override fun adjustInto(temporal: Temporal): Temporal {
+                val hour: Int = temporal[ChronoField.HOUR_OF_DAY]
+                val minutes: Int = temporal[ChronoField.MINUTE_OF_HOUR]
+
+                // Does minimal subtraction to make it beginning of the day (ignores seconds, micro seconds et al).
+                return temporal.minus(hour.toLong(), ChronoUnit.HOURS)
             }
         },
 
