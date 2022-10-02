@@ -35,8 +35,6 @@ object DateTimeDiffer {
             throw IllegalArgumentException("The end time $endInstant is before $startInstant.")
         }
 
-        val startToEndDiff = endInstant - startInstant
-
         /*
          * Things to consider:
          * - Start DateTime:
@@ -87,7 +85,6 @@ object DateTimeDiffer {
 
                 while (immediateNextWorkingDay.isBefore(endDateTime) && !immediateNextWorkingDay.isSameDay(endDateTime)) {
                     val workingHoursToday = workingDuration(previousWorkingDay, immediateNextWorkingDay)
-                    println("Add $workingHoursToday to $workingHours")
                     workingHours = workingHours.plus(workingHoursToday)
 
                     previousWorkingDay = previousWorkingDay.nextWorkingDay().prevWorkingHour()
@@ -98,53 +95,6 @@ object DateTimeDiffer {
                 workingHours = workingHours.plus(workingDuration(endDateTime.startOfDay(), endDateTime))
                 return workingHours
             }
-
-            /*else -> {
-                var nonWorkingDuration = Duration.ZERO
-                var immediateNextWorkingDay = startDateTime
-                do {
-                    // Total time diff = 34 hours
-                    // 7 working hours first day and 8 working hour second day = 15 hours
-                    // 7 non-working hour on first day till 12am
-                    // 9 non-working hour on second day till 9 am
-                    // 3 non-working hour on second day till 8pm
-                    // TOTAL non-working= 19 hours
-                    //
-                    val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
-                    val endTime: Instant = Instant.parse("2022-09-06T20:00:00-04:00") // 08:00pm next day
-
-                    immediateNextWorkingDay = immediateNextWorkingDay.nextWorkingDay()
-                    println(
-                        "while $immediateNextWorkingDay (${immediateNextWorkingDay.isBefore(endDateTime)} & ${
-                        !immediateNextWorkingDay.isSameDay(
-                            endDateTime
-                        )
-                        })"
-                    )
-
-                    when {
-                        // 10am next day
-                        immediateNextWorkingDay.isSameDay(endDateTime) -> {
-                            val diffWith =
-                                immediateNextWorkingDay.prevWorkingDay().nextNonWorkingHour()
-                                    .diffWith(endDateTime.prevWorkingHour())
-                            println("nonWorkingDuration (last day) = $nonWorkingDuration + $diffWith")
-                            nonWorkingDuration = nonWorkingDuration.plus(diffWith)
-                        }
-
-                        else -> {
-                            println("nonWorkingDuration = $nonWorkingDuration + 16h")
-                            nonWorkingDuration = nonWorkingDuration.plus(Duration.parse("16h"))
-                        }
-                    }
-
-                    nonWorkingDuration = nonWorkingDuration.plus(Duration.ZERO)
-                } while (immediateNextWorkingDay.isBefore(endDateTime) && !immediateNextWorkingDay.isSameDay(endDateTime))
-
-                val diffWorkingHoursOnly = startToEndDiff - nonWorkingDuration
-                println("Return: ($startToEndDiff - $nonWorkingDuration) = $diffWorkingHoursOnly")
-                return diffWorkingHoursOnly
-            }*/
         }
     }
 
@@ -153,7 +103,6 @@ object DateTimeDiffer {
         endDateTime: ZonedDateTime
     ): Duration {
         val startToEndDiff = startDateTime.diffWith(endDateTime)
-        println("workingDuration() - startToEndDiff = $startToEndDiff")
         when {
             isWithinWorkingHour(startDateTime) && isWithinWorkingHour(endDateTime) -> {
                 return startToEndDiff

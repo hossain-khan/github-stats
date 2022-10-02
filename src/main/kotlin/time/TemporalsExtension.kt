@@ -112,9 +112,8 @@ object TemporalsExtension {
         START_OF_DAY {
             override fun adjustInto(temporal: Temporal): Temporal {
                 val hour: Int = temporal[ChronoField.HOUR_OF_DAY]
-                val minutes: Int = temporal[ChronoField.MINUTE_OF_HOUR]
 
-                // Does minimal subtraction to make it beginning of the day (ignores seconds, micro seconds et al).
+                // Does minimal subtraction to make it beginning of the day (ignores minutes, seconds, et al).
                 return temporal.minus(hour.toLong(), ChronoUnit.HOURS)
             }
         },
