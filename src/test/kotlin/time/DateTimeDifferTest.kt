@@ -98,6 +98,16 @@ internal class DateTimeDifferTest {
     }
 
     @Test
+    fun `diff - given start time and end time spans multiple working days - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am Monday
+        val endTime: Instant = Instant.parse("2022-09-08T10:00:00-04:00") // 10:00am 3 days layer
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("24h".duration())
+    }
+
+    @Test
     fun `diffWorkingHours - given start time is weekends`() {
         // Sat Jan 01 2022 10:00:00 GMT-0500 (Eastern Standard Time)
         // Sat Jan 01 2022 15:00:00 GMT+0000
