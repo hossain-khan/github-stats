@@ -2,12 +2,10 @@ package time
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
-import org.threeten.extra.Temporals
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.time.temporal.ChronoUnit
 import java.util.Locale
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
@@ -143,9 +141,8 @@ object DateTimeDiffer {
 
     // region: Internal Extension Functions
     private fun ZonedDateTime.startOfDay() = this.with(TemporalsExtension.startOfDay())
-    private fun ZonedDateTime.nextWorkingDay() = this.with(Temporals.nextWorkingDay())
-    private fun ZonedDateTime.prevWorkingDay() = this.with(Temporals.previousWorkingDay())
-    private fun ZonedDateTime.nextWorkingDayOrSame() = this.with(Temporals.nextWorkingDayOrSame())
+    private fun ZonedDateTime.nextWorkingDay() = this.with(TemporalsExtension.nextWorkingDay())
+    private fun ZonedDateTime.nextWorkingDayOrSame() = this.with(TemporalsExtension.nextWorkingDayOrSame())
     private fun ZonedDateTime.nextWorkingHourOrSame() = this.with(TemporalsExtension.nextWorkingHourOrSame())
     private fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
 
@@ -154,10 +151,6 @@ object DateTimeDiffer {
 
     private fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
         return java.time.Duration.between(this, endDateTime).seconds.toDuration(DurationUnit.SECONDS)
-    }
-
-    private fun Instant.isSameDay(other: Instant): Boolean {
-        return this.toJavaInstant().truncatedTo(ChronoUnit.DAYS) == other.toJavaInstant().truncatedTo(ChronoUnit.DAYS)
     }
 
     private fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean {

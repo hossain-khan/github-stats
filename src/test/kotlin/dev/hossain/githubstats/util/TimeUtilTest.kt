@@ -11,7 +11,7 @@ import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toLocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.threeten.extra.Temporals
+import time.TemporalsExtension
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Period
@@ -114,24 +114,19 @@ internal class TimeUtilTest {
         println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
         val date1JavaInstant: java.time.Instant = date1.toJavaInstant()
         val zonedDateTime1: ZonedDateTime = date1JavaInstant.atZone(ZoneId.systemDefault())
-        val nextWorkingDay: ZonedDateTime = zonedDateTime1.with(Temporals.nextWorkingDay())
-        val nextWorkingDayOrSame = zonedDateTime1.with(Temporals.nextWorkingDayOrSame())
-        val previousWorkingDay = zonedDateTime1.with(Temporals.previousWorkingDay())
-        val previousWorkingDayOrSame = zonedDateTime1.with(Temporals.previousWorkingDayOrSame())
+        val nextWorkingDay: ZonedDateTime = zonedDateTime1.with(TemporalsExtension.nextWorkingDay())
+        val nextWorkingDayOrSame = zonedDateTime1.with(TemporalsExtension.nextWorkingDayOrSame())
+
         println(
-            "Date#1: ($zonedDateTime1) \nnextWorkingDay=$nextWorkingDay, \nnextWorkingDayOrSame=$nextWorkingDayOrSame, " +
-                "\npreviousWorkingDay=$previousWorkingDay, \npreviousWorkingDayOrSame=$previousWorkingDayOrSame"
+            "Date#1: ($zonedDateTime1) \nnextWorkingDay=$nextWorkingDay, \nnextWorkingDayOrSame=$nextWorkingDayOrSame"
         )
 
         val date2JavaInstant: java.time.Instant = date2.toJavaInstant()
         val zonedDateTime2: ZonedDateTime = date2JavaInstant.atZone(ZoneId.systemDefault())
-        val nextWorkingDay2: ZonedDateTime = zonedDateTime2.with(Temporals.nextWorkingDay())
-        val nextWorkingDayOrSame2 = zonedDateTime2.with(Temporals.nextWorkingDayOrSame())
-        val previousWorkingDay2 = zonedDateTime2.with(Temporals.previousWorkingDay())
-        val previousWorkingDayOrSame2 = zonedDateTime2.with(Temporals.previousWorkingDayOrSame())
+        val nextWorkingDay2: ZonedDateTime = zonedDateTime2.with(TemporalsExtension.nextWorkingDay())
+        val nextWorkingDayOrSame2 = zonedDateTime2.with(TemporalsExtension.nextWorkingDayOrSame())
         println(
-            "Date#2: ($zonedDateTime2) \nnextWorkingDay=$nextWorkingDay2, \nnextWorkingDayOrSame=$nextWorkingDayOrSame2" +
-                "\npreviousWorkingDay=$previousWorkingDay2, \npreviousWorkingDayOrSame=$previousWorkingDayOrSame2"
+            "Date#2: ($zonedDateTime2) \nnextWorkingDay=$nextWorkingDay2, \nnextWorkingDayOrSame=$nextWorkingDayOrSame2"
         )
 
         // Represent a span-of-time in terms of days (24-hour chunks of time, not calendar days), hours, minutes, seconds.
