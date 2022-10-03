@@ -21,7 +21,7 @@ class PrAuthorStats constructor(
         owner: String,
         repo: String,
         author: String,
-        reviewersZoneId: ZoneId
+        zoneId: ZoneId
     ): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
@@ -39,7 +39,7 @@ class PrAuthorStats constructor(
                         owner = owner,
                         repo = repo,
                         prNumber = it.number,
-                        reviewersZoneId = reviewersZoneId
+                        zoneId = zoneId
                     )
                 } catch (e: Exception) {
                     println("Error getting PR#${it.number}. Got: ${e.message}")

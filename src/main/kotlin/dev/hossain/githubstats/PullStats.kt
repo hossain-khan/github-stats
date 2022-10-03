@@ -47,7 +47,7 @@ class PullStats(private val githubService: GithubService) {
         owner: String,
         repo: String,
         prNumber: Int,
-        reviewersZoneId: ZoneId
+        zoneId: ZoneId
     ): StatsResult {
         val pullRequest = githubService.pullRequest(owner, repo, prNumber)
         val pullTimelineEvents = githubService.timelineEvents(owner, repo, prNumber)
@@ -72,7 +72,7 @@ class PullStats(private val githubService: GithubService) {
             prAvailableForReview = prAvailableForReview,
             prReviewers = prReviewers,
             pullTimelineEvents = pullTimelineEvents,
-            reviewersZoneId = reviewersZoneId
+            zoneId = zoneId
         )
 
         return StatsResult.Success(
@@ -97,7 +97,7 @@ class PullStats(private val githubService: GithubService) {
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
         pullTimelineEvents: List<TimelineEvent>,
-        reviewersZoneId: ZoneId
+        zoneId: ZoneId
     ): Map<String, Duration> {
         val reviewTimesByUser = mutableMapOf<String, Duration>()
 
@@ -131,7 +131,7 @@ class PullStats(private val githubService: GithubService) {
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = reviewRequestedEvent.created_at.toInstant(),
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = reviewersZoneId
+                    zoneId = zoneId
                 )
                 if (BuildConfig.DEBUG) {
                     println(
@@ -149,7 +149,7 @@ class PullStats(private val githubService: GithubService) {
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = prAvailableForReview,
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = reviewersZoneId
+                    zoneId = zoneId
                 )
                 if (BuildConfig.DEBUG) {
                     println(

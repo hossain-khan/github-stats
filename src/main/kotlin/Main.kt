@@ -31,19 +31,19 @@ fun main() {
         "Vancouver" to ZoneId.of("America/Vancouver")
     )
 
-    val reviewerZoneId: ZoneId = requireNotNull(zoneIds["Toronto"])
+    val authorsZoneId: ZoneId = requireNotNull(zoneIds["Toronto"])
 
     val formatters: List<StatsFormatter> = listOf(
-        PicnicTableFormatter(reviewerZoneId),
+        PicnicTableFormatter(authorsZoneId),
         CsvFormatter(),
-        FileWriterFormatter(PicnicTableFormatter(reviewerZoneId))
+        FileWriterFormatter(PicnicTableFormatter(authorsZoneId))
     )
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
     val prAuthorUserIds = localProperties.getAuthors().split(",").map { it.trim() }
 
-    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $reviewerZoneId.")
+    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $authorsZoneId.")
 
     runBlocking {
         prAuthorUserIds.forEach { authorId ->
@@ -56,7 +56,7 @@ fun main() {
                     owner = repoOwner,
                     repo = repoId,
                     author = authorId,
-                    reviewersZoneId = reviewerZoneId
+                    zoneId = authorsZoneId
                 )
 
                 formatters.forEach {
