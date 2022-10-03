@@ -29,8 +29,10 @@ class LocalProperties : PropertiesReader("local.properties") {
     companion object {
         private const val KEY_REPO_OWNER = "repository_owner"
         private const val KEY_REPO_ID = "repository_id"
+        private const val KEY_AUTHOR_IDS = "authors"
     }
 
     fun getRepoOwner(): String = getProperty(KEY_REPO_OWNER)
     fun getRepoId(): String = getProperty(KEY_REPO_ID)
+    fun getAuthors(): String = getProperty(KEY_AUTHOR_IDS)
 }

@@ -25,7 +25,7 @@ class FileWriterFormatter constructor(
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No CSV files for you! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No stats to format. No files to write! ¯\\_(ツ)_/¯"
         }
 
         // Create multiple CSV file per author for better visualization
