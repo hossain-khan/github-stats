@@ -16,9 +16,6 @@ import kotlinx.coroutines.runBlocking
  * Also check out [BuildConfig] for available runtime config for debugging.
  */
 fun main() {
-    val issueSearchPager = IssueSearchPager(githubService)
-    val pullStats = PullStats(githubService)
-    val authorStats = PrAuthorStats(issueSearchPager, pullStats)
     val formatters: List<StatsFormatter> = listOf(
         PicnicTableFormatter(),
         CsvFormatter(),
@@ -27,15 +24,23 @@ fun main() {
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
-    val prAuthorUserId = "DanielRosa74" // "ieahleen", "naomi-lgbt", "ieahleen"
+    val prAuthorUserIds = localProperties.getAuthors().split(",").map { it.trim() }
 
-    println("Getting PR stats for author '$prAuthorUserId' from '$repoId' repository.")
+    println("Getting PR stats for ${prAuthorUserIds} authors from '$repoId' repository.")
 
     runBlocking {
-        val prAuthorStats = authorStats.authorStats(repoOwner, repoId, prAuthorUserId)
+        prAuthorUserIds.forEach { authorId ->
+            println("■ Building stats for `$authorId`.")
+            val issueSearchPager = IssueSearchPager(githubService)
+            val pullStats = PullStats(githubService)
+            val authorStats = PrAuthorStats(issueSearchPager, pullStats)
+            val prAuthorStats = authorStats.authorStats(repoOwner, repoId, authorId)
 
-        formatters.forEach {
-            println(it.formatAuthorStats(prAuthorStats))
+            formatters.forEach {
+                println(it.formatAuthorStats(prAuthorStats))
+            }
+
+            println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }
 }
