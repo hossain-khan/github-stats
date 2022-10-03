@@ -1,6 +1,7 @@
 package dev.hossain.githubstats
 
 import dev.hossain.githubstats.formatter.CsvFormatter
+import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client.githubService
@@ -16,7 +17,8 @@ fun main(args: Array<String>) {
     val authorStats = PrAuthorStats(issueSearchPager, pullStats)
     val formatters: List<StatsFormatter> = listOf(
         PicnicTableFormatter(),
-        CsvFormatter()
+        CsvFormatter(),
+        FileWriterFormatter(PicnicTableFormatter())
     )
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
