@@ -207,5 +207,25 @@ internal class DateTimeDifferTest {
         assertThat(diffWorkingHours).isEqualTo("10h".duration())
     }
 
+    @Test
+    fun `diff - given multiple weekends between start and end time - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-01T14:00:00-04:00") // 02:00pm Thursday
+        val endTime: Instant = Instant.parse("2022-09-13T14:00:00-04:00") // 2:00pm Tuesday 2 weeks later
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("64h".duration())
+    }
+
+    @Test
+    fun `diff - given multiple weekends between start and end time also during weekends - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-03T10:00:00-04:00") // 10:00am Saturday
+        val endTime: Instant = Instant.parse("2022-09-18T20:00:00-04:00") // 8:00pm Sunday 2 weeks later
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("80h".duration())
+    }
+
     private fun String.duration(): Duration = Duration.parse(this)
 }
