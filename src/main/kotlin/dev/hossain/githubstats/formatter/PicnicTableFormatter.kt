@@ -14,10 +14,12 @@ import java.util.Locale
 /**
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
  */
-class PicnicTableFormatter : StatsFormatter {
+class PicnicTableFormatter constructor(
+    private val zoneId: ZoneId
+) : StatsFormatter {
     private val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
         .withLocale(Locale.US)
-        .withZone(ZoneId.systemDefault())
+        .withZone(zoneId)
 
     override fun formatPrStats(prStats: PrStats): String {
         return table {

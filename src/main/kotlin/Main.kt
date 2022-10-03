@@ -9,6 +9,7 @@ import dev.hossain.githubstats.io.Client.githubService
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.coroutines.runBlocking
+import java.time.ZoneId
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -18,17 +19,18 @@ import kotlin.time.Duration.Companion.milliseconds
  * Also check out [BuildConfig] for available runtime config for debugging.
  */
 fun main() {
+    val zoneId = ZoneId.systemDefault()
     val formatters: List<StatsFormatter> = listOf(
-        PicnicTableFormatter(),
+        PicnicTableFormatter(zoneId),
         CsvFormatter(),
-        FileWriterFormatter(PicnicTableFormatter())
+        FileWriterFormatter(PicnicTableFormatter(zoneId))
     )
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
     val prAuthorUserIds = localProperties.getAuthors().split(",").map { it.trim() }
 
-    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository.")
+    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $zoneId.")
 
     runBlocking {
         prAuthorUserIds.forEach { authorId ->
@@ -37,7 +39,12 @@ fun main() {
                 val issueSearchPager = IssueSearchPager(githubService)
                 val pullStats = PullStats(githubService)
                 val authorStats = PrAuthorStats(issueSearchPager, pullStats)
-                val prAuthorStats = authorStats.authorStats(repoOwner, repoId, authorId)
+                val prAuthorStats = authorStats.authorStats(
+                    owner = repoOwner,
+                    repo = repoId,
+                    author = authorId,
+                    reviewersZoneId = zoneId
+                )
 
                 formatters.forEach {
                     println(it.formatAuthorStats(prAuthorStats))

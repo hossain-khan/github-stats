@@ -33,7 +33,7 @@ internal class DateTimeDifferTest {
         val endTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00")
 
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            DateTimeDiffer.diffWorkingHours(startTime, endTime, ZoneId.systemDefault())
+            DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
         }
     }
 

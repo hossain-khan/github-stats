@@ -9,6 +9,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
@@ -19,6 +20,7 @@ internal class PullStatsTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
     lateinit var pullStats: PullStats
+    private val zoneId = ZoneId.systemDefault()
 
     private companion object {
         const val REPO_OWNER = "owner"
@@ -45,7 +47,7 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-jquery-5046.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
 
-        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123)
+        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
         assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
     }
@@ -56,7 +58,7 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-opensearch-4515.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123)
+        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
     }
@@ -71,7 +73,7 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47594.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47594.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123)
+        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
 
@@ -89,7 +91,7 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123)
+        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
 
@@ -104,7 +106,7 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3267.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123)
+        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
         assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
 
@@ -119,7 +121,7 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27.json")))
 
-        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123)
+        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
         assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
     }
@@ -134,7 +136,7 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3114.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3114.json")))
 
-        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123)
+        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
         assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
     }
