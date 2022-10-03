@@ -1,4 +1,4 @@
-package time
+package dev.hossain.time
 
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit

@@ -1,4 +1,4 @@
-package time
+package dev.hossain.time
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant

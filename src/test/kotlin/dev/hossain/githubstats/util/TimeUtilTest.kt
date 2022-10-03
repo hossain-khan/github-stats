@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.util
 
+import dev.hossain.time.TemporalsExtension
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -11,7 +12,6 @@ import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toLocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import time.TemporalsExtension
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Period

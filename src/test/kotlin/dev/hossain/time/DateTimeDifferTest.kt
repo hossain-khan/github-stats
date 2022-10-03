@@ -1,4 +1,4 @@
-package time
+package dev.hossain.time
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
