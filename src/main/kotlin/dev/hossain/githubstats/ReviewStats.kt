@@ -5,6 +5,11 @@ import kotlinx.datetime.Instant
 import kotlin.time.Duration
 
 /**
+ * Type alias for GitHub user login/id.
+ */
+typealias UserId = String
+
+/**
  * Stats related to single PR.
  */
 data class PrStats(

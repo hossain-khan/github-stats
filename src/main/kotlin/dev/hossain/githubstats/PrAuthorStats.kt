@@ -8,10 +8,10 @@ import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
- * Type alias for GitHub user login/id.
+ * Generates PR stats for all the PRs created by the specific author.
+ *
+ * @see PrReviewerStats
  */
-typealias UserId = String
-
 class PrAuthorStats constructor(
     private val issueSearchPager: IssueSearchPager,
     private val pullStats: PullStats
