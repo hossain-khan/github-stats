@@ -56,38 +56,35 @@ object DateTimeDiffer {
          *   ➜ Is end time next day during working hours?
          */
 
-        val startTimeNextWorkingDay = startDateTime.with(Temporals.nextWorkingDayOrSame())
-        val endTimeNextWorkingDay = endDateTime.with(Temporals.nextWorkingDayOrSame())
-        val startNextWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
-        val startNonWorkingHourOrSame = startDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
-        val endNextWorkingHourOrSame = endDateTime.with(TemporalsExtension.nextWorkingHourOrSame())
-        val endNonWorkingHourOrSame = endDateTime.with(TemporalsExtension.nextNonWorkingHourOrSame())
-
-        println(
-            "startDateTime=${startDateTime.format()}\nendDateTime=${endDateTime.format()};" +
-                "\nstartTimeNextWorkingDay=${startTimeNextWorkingDay.format()}" +
-                "\nendTimeNextWorkingDay=${endTimeNextWorkingDay.format()}" +
-                "\nstartNextWorkingHourOrSame=${startNextWorkingHourOrSame.format()}" +
-                "\nstartNonWorkingHourOrSame=${startNonWorkingHourOrSame.format()}" +
-                "\nendNextWorkingHourOrSame=${endNextWorkingHourOrSame.format()}" +
-                "\nendNonWorkingHourOrSame=${endNonWorkingHourOrSame.format()}"
-        )
-
         when {
-            startDateTime.isSameDay(endDateTime) && startDateTime.isOnWorkingDay() && endDateTime.isOnWorkingDay() -> {
+            startDateTime.isSameDay(endDateTime) &&
+                startDateTime.isOnWorkingDay() &&
+                endDateTime.isOnWorkingDay() -> {
                 return workingDuration(startDateTime, endDateTime)
             }
 
-            startDateTime.isOnWorkingDay().not() && endDateTime.isOnWorkingDay().not() -> {
+            startDateTime.isOnWorkingDay().not() &&
+                endDateTime.isOnWorkingDay().not() &&
+                (endInstant - startInstant < Duration.parse("2d")) -> {
                 return Duration.parse("0s")
             }
 
             else -> {
                 var workingHours = Duration.ZERO
-                var previousWorkingDay = startDateTime
-                var immediateNextWorkingDay = startDateTime.nextNonWorkingHour()
+                var previousWorkingDay =
+                    if (startDateTime.isAfterWorkingHour()) startDateTime.nextWorkingHourOrSame() else startDateTime
+                var immediateNextWorkingDay = previousWorkingDay.nextNonWorkingHour()
 
                 while (immediateNextWorkingDay.isBefore(endDateTime) && !immediateNextWorkingDay.isSameDay(endDateTime)) {
+                    if (previousWorkingDay.isSameDay(immediateNextWorkingDay) &&
+                        previousWorkingDay.isOnWorkingDay().not()
+                    ) {
+                        // Skip calculating weekends
+                        previousWorkingDay = previousWorkingDay.nextWorkingDay().prevWorkingHour()
+                        immediateNextWorkingDay = immediateNextWorkingDay.nextWorkingDay()
+                        continue
+                    }
+
                     val workingHoursToday = workingDuration(previousWorkingDay, immediateNextWorkingDay)
                     workingHours = workingHours.plus(workingHoursToday)
 
@@ -96,7 +93,9 @@ object DateTimeDiffer {
                 }
 
                 // Finally calculate the last day
-                workingHours = workingHours.plus(workingDuration(endDateTime.startOfDay(), endDateTime))
+                if (endDateTime.isOnWorkingDay()) {
+                    workingHours = workingHours.plus(workingDuration(endDateTime.startOfDay(), endDateTime))
+                }
                 return workingHours
             }
         }
