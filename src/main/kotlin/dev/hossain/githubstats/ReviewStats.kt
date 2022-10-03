@@ -4,13 +4,53 @@ import dev.hossain.githubstats.model.PullRequest
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 
-data class ReviewStats(
+/**
+ * Stats related to single PR.
+ */
+data class PrStats(
+    /**
+     * The PR information including PR number and URL.
+     */
     val pullRequest: PullRequest,
-    val reviewCompletion: Duration,
+    /**
+     * A map containing `reviewer-id -> PR review time` in working hours (excludes weekends and after hours)
+     */
+    val reviewTime: Map<String, Duration>,
+    /**
+     * Date and time when the PR was ready for review for the specific author.
+     */
     val prReadyOn: Instant,
+    /**
+     * Date and time when the PR was merged successfully.
+     */
     val prMergedOn: Instant
 )
 
+/**
+ * PR review stats for a specific author.
+ */
+data class ReviewStats(
+    /**
+     * The PR information including PR number and URL.
+     */
+    val pullRequest: PullRequest,
+    /**
+     * PR review completion time in working hours (excludes weekends and after hours)
+     */
+    val reviewCompletion: Duration,
+    /**
+     * Date and time when the PR was ready for review for the specific author.
+     */
+    val prReadyOn: Instant,
+    /**
+     * Date and time when the PR was merged successfully.
+     */
+    val prMergedOn: Instant
+)
+
+/**
+ * Stats for a author by specific [reviewerId].
+ */
 data class AuthorReviewStats(
     val repoId: String,
     val prAuthorId: UserId,
