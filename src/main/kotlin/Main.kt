@@ -19,18 +19,31 @@ import kotlin.time.Duration.Companion.milliseconds
  * Also check out [BuildConfig] for available runtime config for debugging.
  */
 fun main() {
-    val zoneId = ZoneId.systemDefault()
+    /**
+     * Convenient map to get [ZoneId] for some known locations.
+     * REF: https://mkyong.com/java8/java-display-all-zoneid-and-its-utc-offset/
+     */
+    val zoneIds = mapOf(
+        "Atlanta" to ZoneId.of("America/New_York"),
+        "New York" to ZoneId.of("America/New_York"),
+        "San Francisco" to ZoneId.of("America/Los_Angeles"),
+        "Toronto" to ZoneId.of("America/Toronto"),
+        "Vancouver" to ZoneId.of("America/Vancouver")
+    )
+
+    val reviewerZoneId: ZoneId = requireNotNull(zoneIds["Toronto"])
+
     val formatters: List<StatsFormatter> = listOf(
-        PicnicTableFormatter(zoneId),
+        PicnicTableFormatter(reviewerZoneId),
         CsvFormatter(),
-        FileWriterFormatter(PicnicTableFormatter(zoneId))
+        FileWriterFormatter(PicnicTableFormatter(reviewerZoneId))
     )
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
     val prAuthorUserIds = localProperties.getAuthors().split(",").map { it.trim() }
 
-    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $zoneId.")
+    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $reviewerZoneId.")
 
     runBlocking {
         prAuthorUserIds.forEach { authorId ->
@@ -43,7 +56,7 @@ fun main() {
                     owner = repoOwner,
                     repo = repoId,
                     author = authorId,
-                    reviewersZoneId = zoneId
+                    reviewersZoneId = reviewerZoneId
                 )
 
                 formatters.forEach {
