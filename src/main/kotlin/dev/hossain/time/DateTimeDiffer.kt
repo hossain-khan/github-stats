@@ -11,8 +11,13 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+/**
+ * Contains utility function to diff date-time.
+ */
 object DateTimeDiffer {
     /**
+     * Provides working hours between two instants on given [ZoneId].
+     * It adds all the working hours between `9:00AM` and `5:00PM` excluding weekends (Saturday and Sunday).
      *
      * ```
      *   +------+------+------+------+------+------+------+
@@ -24,6 +29,8 @@ object DateTimeDiffer {
      *    Week                         Week
      *    Start                        End
      * ```
+     *
+     * NOTE: The weekends and work hours are currently non-configurable and can be found at [TemporalsExtension].
      */
     fun diffWorkingHours(startInstant: Instant, endInstant: Instant, zoneId: ZoneId): Duration {
         val startDateTime: ZonedDateTime = startInstant.toJavaInstant().atZone(zoneId)
@@ -33,40 +40,23 @@ object DateTimeDiffer {
             throw IllegalArgumentException("The end time $endInstant is before $startInstant.")
         }
 
-        /*
-         * Things to consider:
-         * - Start DateTime:
-         *   • Was it opened during working day and working hour?
-         *   • When is the next working day and hour and the difference between start date time?
-         *   • Need to ensure that next working day+hour does not exceed the end time
-         * - End DateTime
-         *   • Was it done during working day and time?
-         *   • What if it was done in non-working hour (after hours)? how do we credit the reviewer?
-         *
-         * Data Available:
-         * ✔ Start time
-         *   ➜ Is it during working hours?
-         *   ➜ Is it during working day?
-         *   ➜ What is end of the day time?
-         *   ➜ When does next day working hour begin?
-         * ✔ End time
-         *   ➜ Is end time on same day as start time?
-         *   ➜ Is end time next day during working hours?
-         */
-
         when {
             startDateTime.isSameDay(endDateTime) &&
                 startDateTime.isOnWorkingDay() &&
                 endDateTime.isOnWorkingDay() -> {
+                // Both start and end times are working day. Consider single day calculation.
+                // Future Note: this logic ideally could also be merged with multi-day calculation
                 return workingDuration(startDateTime, endDateTime)
             }
 
             startDateTime.isOnWorkingDay().not() &&
                 endDateTime.isOnWorkingDay().not() &&
                 (endInstant - startInstant < Duration.parse("2d")) -> {
-                return Duration.parse("0s")
+                // Silly logic to check if both start and end time happened in one weekend
+                return Duration.ZERO
             }
 
+            // Loop though all dates and sums up only the working hours on working day.
             else -> {
                 var workingHours = Duration.ZERO
                 var previousWorkingDay =
@@ -117,7 +107,7 @@ object DateTimeDiffer {
                     startDateTime.isAfterWorkingHour() && endDateTime.isAfterWorkingHour()
                 ) {
                     // Both start and end time was before/after working hour. Make the diff almost zero.
-                    Duration.parse("0s") // Kudos, you get bonus point
+                    Duration.ZERO // Kudos, you get bonus point
                 } else {
                     // That means, the start hour is before working hour,
                     // and the end hour is after working hour.

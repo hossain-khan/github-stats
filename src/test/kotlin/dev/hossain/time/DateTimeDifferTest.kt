@@ -54,7 +54,7 @@ internal class DateTimeDifferTest {
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
-        assertThat(diffWorkingHours).isEqualTo("0s".duration())
+        assertThat(diffWorkingHours).isEqualTo(Duration.ZERO)
     }
 
     @Test
@@ -64,7 +64,7 @@ internal class DateTimeDifferTest {
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
-        assertThat(diffWorkingHours).isEqualTo("0s".duration())
+        assertThat(diffWorkingHours).isEqualTo(Duration.ZERO)
     }
 
     @Test
@@ -94,7 +94,7 @@ internal class DateTimeDifferTest {
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
-        assertThat(diffWorkingHours).isEqualTo("0s".duration())
+        assertThat(diffWorkingHours).isEqualTo(Duration.ZERO)
     }
 
     @Test
@@ -104,7 +104,7 @@ internal class DateTimeDifferTest {
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
-        assertThat(diffWorkingHours).isEqualTo("0s".duration())
+        assertThat(diffWorkingHours).isEqualTo(Duration.ZERO)
     }
 
     @Test
