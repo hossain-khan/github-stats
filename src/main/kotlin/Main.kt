@@ -9,6 +9,8 @@ import dev.hossain.githubstats.io.Client.githubService
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.coroutines.runBlocking
+import kotlin.system.measureTimeMillis
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Runs PR stats on specified repository for specific autor.
@@ -26,20 +28,24 @@ fun main() {
     val repoId: String = localProperties.getRepoId()
     val prAuthorUserIds = localProperties.getAuthors().split(",").map { it.trim() }
 
-    println("Getting PR stats for ${prAuthorUserIds} authors from '$repoId' repository.")
+    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository.")
 
     runBlocking {
         prAuthorUserIds.forEach { authorId ->
             println("■ Building stats for `$authorId`.")
-            val issueSearchPager = IssueSearchPager(githubService)
-            val pullStats = PullStats(githubService)
-            val authorStats = PrAuthorStats(issueSearchPager, pullStats)
-            val prAuthorStats = authorStats.authorStats(repoOwner, repoId, authorId)
+            val reportBuildTime = measureTimeMillis {
+                val issueSearchPager = IssueSearchPager(githubService)
+                val pullStats = PullStats(githubService)
+                val authorStats = PrAuthorStats(issueSearchPager, pullStats)
+                val prAuthorStats = authorStats.authorStats(repoOwner, repoId, authorId)
 
-            formatters.forEach {
-                println(it.formatAuthorStats(prAuthorStats))
+                formatters.forEach {
+                    println(it.formatAuthorStats(prAuthorStats))
+                }
             }
-
+            if (BuildConfig.DEBUG) {
+                println("\nⓘ Stats generation for `$authorId` took ${reportBuildTime.milliseconds}")
+            }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }
