@@ -43,7 +43,12 @@ class PullStats(private val githubService: GithubService) {
      * }
      * ```
      */
-    suspend fun calculateStats(owner: String, repo: String, prNumber: Int): StatsResult {
+    suspend fun calculateStats(
+        owner: String,
+        repo: String,
+        prNumber: Int,
+        zoneId: ZoneId
+    ): StatsResult {
         val pullRequest = githubService.pullRequest(owner, repo, prNumber)
         val pullTimelineEvents = githubService.timelineEvents(owner, repo, prNumber)
 
@@ -62,8 +67,13 @@ class PullStats(private val githubService: GithubService) {
         val prCreatedOn = pullRequest.created_at.toInstant()
         val prAvailableForReview = prAvailableForReviewTime(prCreatedOn, pullTimelineEvents)
         val prReviewers: Set<User> = prReviewers(pullRequest.user, pullTimelineEvents)
-        val reviewCompletionInfo: Map<String, Duration> =
-            reviewTimeByUser(pullRequest, prAvailableForReview, prReviewers, pullTimelineEvents)
+        val reviewCompletionInfo: Map<String, Duration> = reviewTimeByUser(
+            pullRequest = pullRequest,
+            prAvailableForReview = prAvailableForReview,
+            prReviewers = prReviewers,
+            pullTimelineEvents = pullTimelineEvents,
+            zoneId = zoneId
+        )
 
         return StatsResult.Success(
             PrStats(
@@ -86,7 +96,8 @@ class PullStats(private val githubService: GithubService) {
         pullRequest: PullRequest,
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
-        pullTimelineEvents: List<TimelineEvent>
+        pullTimelineEvents: List<TimelineEvent>,
+        zoneId: ZoneId
     ): Map<String, Duration> {
         val reviewTimesByUser = mutableMapOf<String, Duration>()
 
@@ -120,7 +131,7 @@ class PullStats(private val githubService: GithubService) {
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = reviewRequestedEvent.created_at.toInstant(),
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = ZoneId.systemDefault()
+                    zoneId = zoneId
                 )
                 if (BuildConfig.DEBUG) {
                     println(
@@ -138,7 +149,7 @@ class PullStats(private val githubService: GithubService) {
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = prAvailableForReview,
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = ZoneId.systemDefault()
+                    zoneId = zoneId
                 )
                 if (BuildConfig.DEBUG) {
                     println(

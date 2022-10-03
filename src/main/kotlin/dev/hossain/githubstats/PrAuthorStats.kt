@@ -4,18 +4,25 @@ import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
+import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
  * Type alias for GitHub user login/id.
  */
 typealias UserId = String
+
 class PrAuthorStats constructor(
     private val issueSearchPager: IssueSearchPager,
     private val pullStats: PullStats
 ) {
 
-    suspend fun authorStats(owner: String, repo: String, author: String): List<AuthorReviewStats> {
+    suspend fun authorStats(
+        owner: String,
+        repo: String,
+        author: String,
+        zoneId: ZoneId
+    ): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author).toQuery()
@@ -28,7 +35,12 @@ class PrAuthorStats constructor(
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
 
                 try {
-                    pullStats.calculateStats(owner = owner, repo = repo, prNumber = it.number)
+                    pullStats.calculateStats(
+                        owner = owner,
+                        repo = repo,
+                        prNumber = it.number,
+                        zoneId = zoneId
+                    )
                 } catch (e: Exception) {
                     println("Error getting PR#${it.number}. Got: ${e.message}")
                     PullStats.StatsResult.Failure(e)

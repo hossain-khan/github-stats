@@ -9,6 +9,7 @@ import dev.hossain.githubstats.io.Client.githubService
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.coroutines.runBlocking
+import java.time.ZoneId
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -18,17 +19,31 @@ import kotlin.time.Duration.Companion.milliseconds
  * Also check out [BuildConfig] for available runtime config for debugging.
  */
 fun main() {
+    /**
+     * Convenient map to get [ZoneId] for some known locations.
+     * REF: https://mkyong.com/java8/java-display-all-zoneid-and-its-utc-offset/
+     */
+    val zoneIds = mapOf(
+        "Atlanta" to ZoneId.of("America/New_York"),
+        "New York" to ZoneId.of("America/New_York"),
+        "San Francisco" to ZoneId.of("America/Los_Angeles"),
+        "Toronto" to ZoneId.of("America/Toronto"),
+        "Vancouver" to ZoneId.of("America/Vancouver")
+    )
+
+    val authorsZoneId: ZoneId = requireNotNull(zoneIds["Toronto"])
+
     val formatters: List<StatsFormatter> = listOf(
-        PicnicTableFormatter(),
+        PicnicTableFormatter(authorsZoneId),
         CsvFormatter(),
-        FileWriterFormatter(PicnicTableFormatter())
+        FileWriterFormatter(PicnicTableFormatter(authorsZoneId))
     )
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
     val prAuthorUserIds = localProperties.getAuthors().split(",").map { it.trim() }
 
-    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository.")
+    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $authorsZoneId.")
 
     runBlocking {
         prAuthorUserIds.forEach { authorId ->
@@ -37,7 +52,12 @@ fun main() {
                 val issueSearchPager = IssueSearchPager(githubService)
                 val pullStats = PullStats(githubService)
                 val authorStats = PrAuthorStats(issueSearchPager, pullStats)
-                val prAuthorStats = authorStats.authorStats(repoOwner, repoId, authorId)
+                val prAuthorStats = authorStats.authorStats(
+                    owner = repoOwner,
+                    repo = repoId,
+                    author = authorId,
+                    zoneId = authorsZoneId
+                )
 
                 formatters.forEach {
                     println(it.formatAuthorStats(prAuthorStats))
