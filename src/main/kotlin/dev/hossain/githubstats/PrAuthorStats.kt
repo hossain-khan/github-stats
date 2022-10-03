@@ -17,6 +17,19 @@ class PrAuthorStats constructor(
     private val pullStats: PullStats
 ) {
 
+    /**
+     * Generates stats for reviews given by different PR reviewers for specified PR [author].
+     *
+     * For example, assume 'Bob' is a contributor on a specific repo called 'Awesome Json Library'.
+     * This will be generated PR reviews for all the PRs 'Bob' has created and will be grouped by
+     * all the PR authors like 'Sally', 'Mike', 'Jim' and so on.
+     *
+     * ```
+     * Sally -> 78 PRs reviewed; Average Review Time: 2 hours 8 min
+     * Mike -> 42 PRs reviewed; Average Review Time: 8 hours 32 min
+     * Jim -> 13 PRs reviewed; Average Review Time: 14 hours 21 min
+     * ```
+     */
     suspend fun authorStats(
         owner: String,
         repo: String,
