@@ -1,4 +1,4 @@
-package time
+package dev.hossain.time
 
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
@@ -6,8 +6,8 @@ import java.time.temporal.Temporal
 import java.time.temporal.TemporalAdjuster
 
 /**
- * Some adjusters are borrowed from `org.threeten.extra`.
- * Cleanup required to remove duplicates.
+ * Contains some utility, helpful [TemporalAdjuster].
+ * Some adjusters are borrowed from [`org.threeten.extra`](https://www.threeten.org/threeten-extra/apidocs/org.threeten.extra/org/threeten/extra/Temporals.html).
  */
 object TemporalsExtension {
     /**
@@ -63,35 +63,6 @@ object TemporalsExtension {
         return Adjuster.START_OF_DAY
     }
 
-    /**
-     * Returns an adjuster that returns the previous working day, ignoring Saturday and Sunday.
-     *
-     *
-     * Some territories have weekends that do not consist of Saturday and Sunday.
-     * No implementation is supplied to support this, however an adjuster
-     * can be easily written to do so.
-     *
-     * @return the previous working day adjuster, not null
-     */
-    fun previousWorkingDay(): TemporalAdjuster {
-        return Adjuster.PREVIOUS_WORKING
-    }
-
-    /**
-     * Returns an adjuster that returns the previous working day or same day if already working day, ignoring Saturday and Sunday.
-     *
-     *
-     * Some territories have weekends that do not consist of Saturday and Sunday.
-     * No implementation is supplied to support this, however an adjuster
-     * can be easily written to do so.
-     *
-     * @return the previous working day or same adjuster, not null
-     */
-    fun previousWorkingDayOrSame(): TemporalAdjuster {
-        return Adjuster.PREVIOUS_WORKING_OR_SAME
-    }
-
-    // -----------------------------------------------------------------------
     // -----------------------------------------------------------------------
     /**
      * Enum implementing the adjusters.
@@ -183,34 +154,12 @@ object TemporalsExtension {
             }
         },
 
-        /** Previous working day adjuster.  */
-        PREVIOUS_WORKING {
-            override fun adjustInto(temporal: Temporal): Temporal {
-                return when (temporal[ChronoField.DAY_OF_WEEK]) {
-                    1 -> temporal.minus(3, ChronoUnit.DAYS)
-                    7 -> temporal.minus(2, ChronoUnit.DAYS)
-                    else -> temporal.minus(1, ChronoUnit.DAYS)
-                }
-            }
-        },
-
         /** Next working day or same adjuster.  */
         NEXT_WORKING_OR_SAME {
             override fun adjustInto(temporal: Temporal): Temporal {
                 return when (temporal[ChronoField.DAY_OF_WEEK]) {
                     6 -> temporal.plus(2, ChronoUnit.DAYS)
                     7 -> temporal.plus(1, ChronoUnit.DAYS)
-                    else -> temporal
-                }
-            }
-        },
-
-        /** Previous working day or same adjuster.  */
-        PREVIOUS_WORKING_OR_SAME {
-            override fun adjustInto(temporal: Temporal): Temporal {
-                return when (temporal[ChronoField.DAY_OF_WEEK]) {
-                    6 -> temporal.minus(1, ChronoUnit.DAYS)
-                    7 -> temporal.minus(2, ChronoUnit.DAYS)
                     else -> temporal
                 }
             }

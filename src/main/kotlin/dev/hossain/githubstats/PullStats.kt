@@ -1,13 +1,16 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.service.GithubService
+import dev.hossain.time.DateTimeDiffer
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
+import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
@@ -39,12 +42,6 @@ class PullStats(private val githubService: GithubService) {
      *     }
      * }
      * ```
-     *
-     * Interesting PRs:
-     * - https://github.com/square/retrofit/pull/3613
-     * - https://github.com/square/retrofit/pull/3267
-     * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
-     * - https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
      */
     suspend fun calculateStats(owner: String, repo: String, prNumber: Int): StatsResult {
         val pullRequest = githubService.pullRequest(owner, repo, prNumber)
@@ -55,7 +52,7 @@ class PullStats(private val githubService: GithubService) {
         }
 
         if (BuildConfig.DEBUG) {
-            println("- Getting PR#$prNumber info. Loaded ${pullTimelineEvents.size} events from the PR.")
+            println("\n- Getting PR#$prNumber info. Loaded ${pullTimelineEvents.size} events from the PR.")
         }
 
         // Seems like merged event is not a good indicator, see https://github.com/opensearch-project/OpenSearch/pull/4515
@@ -66,7 +63,7 @@ class PullStats(private val githubService: GithubService) {
         val prAvailableForReview = prAvailableForReviewTime(prCreatedOn, pullTimelineEvents)
         val prReviewers: Set<User> = prReviewers(pullRequest.user, pullTimelineEvents)
         val reviewCompletionInfo: Map<String, Duration> =
-            reviewTimeByUser(prAvailableForReview, prReviewers, pullTimelineEvents)
+            reviewTimeByUser(pullRequest, prAvailableForReview, prReviewers, pullTimelineEvents)
 
         return StatsResult.Success(
             PrStats(
@@ -86,6 +83,7 @@ class PullStats(private val githubService: GithubService) {
      * - Turn around time to approve
      */
     private fun reviewTimeByUser(
+        pullRequest: PullRequest,
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
         pullTimelineEvents: List<TimelineEvent>
@@ -115,10 +113,41 @@ class PullStats(private val githubService: GithubService) {
             if (requestedLater) {
                 val reviewRequestedEvent =
                     pullTimelineEvents.find { it.eventType == ReviewRequestedEvent.TYPE && (it as ReviewRequestedEvent).requested_reviewer == reviewer } as ReviewRequestedEvent
-                reviewTimesByUser[reviewer.login] =
-                    approvedPrEvent.submitted_at.toInstant() - reviewRequestedEvent.created_at.toInstant()
+                val openToCloseDuration = (
+                    pullRequest.merged_at?.toInstant()
+                        ?: approvedPrEvent.submitted_at.toInstant()
+                    ) - reviewRequestedEvent.created_at.toInstant()
+                val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
+                    startInstant = reviewRequestedEvent.created_at.toInstant(),
+                    endInstant = approvedPrEvent.submitted_at.toInstant(),
+                    zoneId = ZoneId.systemDefault()
+                )
+                if (BuildConfig.DEBUG) {
+                    println(
+                        "  -- Reviewed in `$reviewTimeInWorkingHours` by `${reviewer.login}`. " +
+                            "PR open->merged: $openToCloseDuration"
+                    )
+                }
+
+                reviewTimesByUser[reviewer.login] = reviewTimeInWorkingHours
             } else {
-                reviewTimesByUser[reviewer.login] = approvedPrEvent.submitted_at.toInstant() - prAvailableForReview
+                val openToCloseDuration = (
+                    pullRequest.merged_at?.toInstant()
+                        ?: approvedPrEvent.submitted_at.toInstant()
+                    ) - prAvailableForReview
+                val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
+                    startInstant = prAvailableForReview,
+                    endInstant = approvedPrEvent.submitted_at.toInstant(),
+                    zoneId = ZoneId.systemDefault()
+                )
+                if (BuildConfig.DEBUG) {
+                    println(
+                        "  -- Reviewed in `$reviewTimeInWorkingHours` by `${reviewer.login}`. " +
+                            "PR open->merged: $openToCloseDuration"
+                    )
+                }
+
+                reviewTimesByUser[reviewer.login] = reviewTimeInWorkingHours
             }
         }
 
@@ -145,6 +174,10 @@ class PullStats(private val githubService: GithubService) {
             .minus(prAuthor)
     }
 
+    /**
+     * Provides date-time when the PR was actually available for review
+     * by considering PR creation time and ready for review event time.
+     */
     private fun prAvailableForReviewTime(
         prCreatedOn: Instant,
         pullTimelineEvents: List<TimelineEvent>
