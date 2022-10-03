@@ -1,5 +1,6 @@
-package dev.hossain.githubstats
-
+import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.PrAuthorStats
+import dev.hossain.githubstats.PullStats
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
@@ -9,9 +10,12 @@ import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.coroutines.runBlocking
 
-fun main(args: Array<String>) {
-    println("Program arguments: ${args.joinToString()}")
-
+/**
+ * Runs PR stats on specified repository for specific autor.
+ * See **`local_sample.properties`** for more information on configuration available.
+ * Also check out [BuildConfig] for available runtime config for debugging.
+ */
+fun main() {
     val issueSearchPager = IssueSearchPager(githubService)
     val pullStats = PullStats(githubService)
     val authorStats = PrAuthorStats(issueSearchPager, pullStats)
@@ -23,7 +27,7 @@ fun main(args: Array<String>) {
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
-    val prAuthorUserId = "naomi-lgbt" // "naomi-lgbt", "ieahleen"
+    val prAuthorUserId = "DanielRosa74" // "ieahleen", "naomi-lgbt", "ieahleen"
 
     println("Getting PR stats for author '$prAuthorUserId' from '$repoId' repository.")
 
