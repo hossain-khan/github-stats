@@ -73,7 +73,7 @@ fun main() {
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
 
-        // TESTING - reviewer stats
+        // TESTING - reviewer stats with first user only
         val reviewerUserId = prAuthorUserIds.firstOrNull() ?: "UNKNOWN_USER_ID"
         val issueSearchPager = IssueSearchPager(githubService)
         val pullStats = PullStats(githubService)

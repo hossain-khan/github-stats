@@ -90,6 +90,7 @@ class CsvFormatter : StatsFormatter {
                     it.prReadyOn.toString(),
                     it.prMergedOn.toString(),
                     (it.prMergedOn - it.prReadyOn).toString(),
+                    it.pullRequest.user.login,
                     it.pullRequest.html_url
                 )
             }
