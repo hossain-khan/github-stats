@@ -5,7 +5,6 @@ import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.util.FileUtil
-import java.io.File
 import kotlin.time.DurationUnit
 
 class CsvFormatter : StatsFormatter {
@@ -22,13 +21,10 @@ class CsvFormatter : StatsFormatter {
         // Also create a single CSV with total reviews to visualize responsiveness to author
         val prAuthorId = stats.first().prAuthorId
 
-        // Create report dir for the author
-        val directory: File = FileUtil.createReportDir(prAuthorId)
-
         // Write combine review count by reviewer
         val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId"))
 
-        val combinedReportFileName = directory.path + File.separator + "REPORT_-_$prAuthorId-all-reviewers.csv"
+        val combinedReportFileName = FileUtil.allReviewersForAuthorFile(prAuthorId)
         csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
 
         val filesCreated = mutableListOf<String>()
@@ -41,7 +37,7 @@ class CsvFormatter : StatsFormatter {
             )
 
             // Individual report per reviewer
-            val fileName = generateCsvFileName(directory, stat)
+            val fileName = FileUtil.reviewedForAuthorFileName(stat)
             val headerItem: List<String> = listOf("Reviewer", "PR Number", "Review time (hours)")
 
             csvWriter().open(fileName) {
@@ -97,9 +93,5 @@ class CsvFormatter : StatsFormatter {
         }
 
         return "Written '$reviewedForFile' and '$reviewerPrStatsFile'."
-    }
-
-    private fun generateCsvFileName(directory: File, authorStats: AuthorReviewStats): String {
-        return directory.path + File.separator + "REPORT-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"
     }
 }
