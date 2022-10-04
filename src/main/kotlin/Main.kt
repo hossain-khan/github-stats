@@ -35,11 +35,6 @@ fun main() {
 
     val authorsZoneId: ZoneId = requireNotNull(zoneIds["Toronto"])
 
-    val formatters: List<StatsFormatter> = listOf(
-        PicnicTableFormatter(authorsZoneId),
-        CsvFormatter(),
-        FileWriterFormatter(PicnicTableFormatter(authorsZoneId))
-    )
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
@@ -48,7 +43,13 @@ fun main() {
         .filter { it.isNotEmpty() }
         .map { it.trim() }
 
-    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $authorsZoneId.")
+    val formatters: List<StatsFormatter> = listOf(
+        PicnicTableFormatter(authorsZoneId, dateLimit),
+        CsvFormatter(dateLimit),
+        FileWriterFormatter(PicnicTableFormatter(authorsZoneId, dateLimit))
+    )
+
+    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $authorsZoneId since $dateLimit.")
 
     runBlocking {
         prAuthorUserIds.forEach { authorId ->
