@@ -4,6 +4,7 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.ReviewerReviewStats
 import java.io.File
 import kotlin.time.DurationUnit
 
@@ -63,6 +64,10 @@ class CsvFormatter : StatsFormatter {
             filesCreated.add(fileName)
         }
         return "Generated following files: \n${filesCreated.joinToString()} and $combinedReportFileName"
+    }
+
+    override fun formatReviewerStats(stats: ReviewerReviewStats): String {
+        TODO("Not yet implemented")
     }
 
     private fun generateCsvFileName(directory: File, authorStats: AuthorReviewStats): String {

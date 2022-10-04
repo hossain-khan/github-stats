@@ -5,6 +5,7 @@ import com.jakewharton.picnic.TextAlignment.TopLeft
 import com.jakewharton.picnic.table
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.ReviewerReviewStats
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -106,5 +107,9 @@ class PicnicTableFormatter constructor(
                 row("Average Time", "${stat.average}")
             }
         }.toString()
+    }
+
+    override fun formatReviewerStats(stats: ReviewerReviewStats): String {
+        TODO("Not yet implemented")
     }
 }
