@@ -1,9 +1,9 @@
 package dev.hossain.githubstats.formatter
 
 import dev.hossain.githubstats.AuthorReviewStats
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
+import dev.hossain.githubstats.util.FileUtil
 import java.io.File
 
 /**
@@ -15,11 +15,8 @@ class FileWriterFormatter constructor(
     override fun formatPrStats(prStats: PrStats): String {
         val formattedPrStats = formatter.formatPrStats(prStats)
 
-        // Create report dir for the author
-        val directory = createReportDir("PRs")
-
-        val combinedReportFileName = directory.path + File.separator + "REPORT-PR-${prStats.pullRequest.number}.txt"
-        File(combinedReportFileName).writeText(formattedPrStats)
+        val prStatsFileName = FileUtil.prReportFile(prStats)
+        File(prStatsFileName).writeText(formattedPrStats)
 
         return ""
     }
@@ -33,12 +30,9 @@ class FileWriterFormatter constructor(
         // Also create a single CSV with total reviews to visualize responsiveness to author
         val prAuthorId = stats.first().prAuthorId
 
-        // Create report dir for the author
-        val directory = createReportDir(prAuthorId)
-
         val formattedAuthorStats = formatter.formatAuthorStats(stats)
 
-        val combinedReportFileName = directory.path + File.separator + "REPORT_-_$prAuthorId.txt"
+        val combinedReportFileName = FileUtil.authorReportFile(prAuthorId)
         File(combinedReportFileName).writeText(formattedAuthorStats)
 
         return ""
@@ -46,15 +40,5 @@ class FileWriterFormatter constructor(
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         return ""
-    }
-
-    private fun createReportDir(directoryName: String): File {
-        val directory = File("REPORTS-$directoryName")
-        if (directory.exists().not() && directory.mkdir()) {
-            if (BuildConfig.DEBUG) {
-                println("The reporting directory ${directory.path} created successfully.")
-            }
-        }
-        return directory
     }
 }
