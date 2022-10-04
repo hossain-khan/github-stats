@@ -83,7 +83,9 @@ fun main() {
             reviewer = "ArielLeslie",
             zoneId = authorsZoneId
         )
-        println("Got $prAuthorStats")
+        formatters.forEach {
+            println(it.formatReviewerStats(prAuthorStats))
+        }
 
         println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
     }

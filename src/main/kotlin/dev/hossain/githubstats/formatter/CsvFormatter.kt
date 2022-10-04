@@ -67,7 +67,7 @@ class CsvFormatter : StatsFormatter {
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
-        TODO("Not yet implemented")
+        return ""
     }
 
     private fun generateCsvFileName(directory: File, authorStats: AuthorReviewStats): String {

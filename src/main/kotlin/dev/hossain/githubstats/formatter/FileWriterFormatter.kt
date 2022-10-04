@@ -45,7 +45,7 @@ class FileWriterFormatter constructor(
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
-        TODO("Not yet implemented")
+        return ""
     }
 
     private fun createReportDir(directoryName: String): File {
