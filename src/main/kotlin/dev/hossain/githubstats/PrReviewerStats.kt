@@ -5,6 +5,7 @@ import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
 import java.time.ZoneId
+import kotlin.time.Duration
 
 /**
  * PR review stats for all the PRs reviewed by specific reviewer.
@@ -15,13 +16,12 @@ class PrReviewerStats constructor(
     private val issueSearchPager: IssueSearchPager,
     private val pullStats: PullStats
 ) {
-
     suspend fun reviewerStats(
         owner: String,
         repo: String,
         reviewer: String,
         zoneId: ZoneId
-    ) {
+    ): ReviewerReviewStats {
         val reviewedClosedPrs: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(repoOwner = owner, repoId = repo, reviewer = reviewer).toQuery()
         )
@@ -52,10 +52,6 @@ class PrReviewerStats constructor(
                 it.stats
             }
 
-        // Make 2 kinds of stats i guess?
-        // 1. All the PRs reviewed by the reviewer and their time
-        // 2. Some stats about how many PRs are reviewed by the reviewer for specific author
-        // 3. Also may be who does reviewer enjoy reviewing with?
         val reviewerPrStats: List<ReviewStats> = prStatsList.filter { it.reviewTime.containsKey(reviewer) }
             .map { stats ->
                 ReviewStats(
@@ -76,10 +72,19 @@ class PrReviewerStats constructor(
             }
         }
 
-        println("Gotta process reviewer's stats for ${prStatsList.size} PRs. ${reviewerPrStats.size}, ${reviewerReviewedFor.size}")
-
         if (BuildConfig.DEBUG) {
             println("✅ Completed loading ${prStatsList.size} PRs reviewed by '$reviewer'.")
         }
+
+        return ReviewerReviewStats(
+            repoId = repo,
+            reviewerId = reviewer,
+            average = reviewerPrStats.map { it.reviewCompletion }
+                .fold(Duration.ZERO, Duration::plus)
+                .div(reviewerPrStats.size),
+            totalReviews = reviewerPrStats.size,
+            reviewedPrStats = reviewerPrStats,
+            reviewedForPrStats = reviewerReviewedFor
+        )
     }
 }

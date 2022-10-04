@@ -1,3 +1,4 @@
+import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStats
 import dev.hossain.githubstats.PrReviewerStats
@@ -55,7 +56,7 @@ fun main() {
                 val issueSearchPager = IssueSearchPager(githubService)
                 val pullStats = PullStats(githubService)
                 val authorStats = PrAuthorStats(issueSearchPager, pullStats)
-                val prAuthorStats = authorStats.authorStats(
+                val prAuthorStats: List<AuthorReviewStats> = authorStats.authorStats(
                     owner = repoOwner,
                     repo = repoId,
                     author = authorId,
@@ -79,8 +80,11 @@ fun main() {
         val prAuthorStats = reviewerStats.reviewerStats(
             owner = repoOwner,
             repo = repoId,
-            reviewer = "naomi-lgbt",
+            reviewer = "ArielLeslie",
             zoneId = authorsZoneId
         )
+        println("Got $prAuthorStats")
+
+        println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
     }
 }
