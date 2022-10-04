@@ -2,7 +2,7 @@ package dev.hossain.githubstats
 
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.service.IssueSearchPager
-import dev.hossain.githubstats.service.ReviewerSearchParams
+import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
 import java.time.ZoneId
 import kotlin.time.Duration
@@ -38,13 +38,15 @@ class PrAuthorStats constructor(
     ): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
-            // searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author).toQuery()
-            searchQuery = ReviewerSearchParams(repoOwner = owner, repoId = repo, reviewer = author).toQuery()
+            searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author).toQuery()
         )
 
         // For each PR by author, get the review stats on the PR
         val prStatsList: List<PrStats> = closedPrs
-            .filter { it.pull_request != null }
+            .filter {
+                // Makes sure it is a PR, not an issue
+                it.pull_request != null
+            }
             .map {
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
 
@@ -65,6 +67,7 @@ class PrAuthorStats constructor(
                 it.stats
             }
 
+        // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
         prStatsList.filter { it.reviewTime.isNotEmpty() }
             .forEach { stats: PrStats ->
@@ -83,9 +86,9 @@ class PrAuthorStats constructor(
                 }
             }
 
-        val authorReviewStats: List<AuthorReviewStats> = userReviews.map { (user, authorStats) ->
-            val totalReviews: Int = authorStats.size
-            val averageReviewTime: Duration = authorStats
+        val authorReviewStats: List<AuthorReviewStats> = userReviews.map { (reviewerUserId, reviewStats) ->
+            val totalReviews: Int = reviewStats.size
+            val averageReviewTime: Duration = reviewStats
                 .map { it.reviewCompletion }
                 .fold(Duration.ZERO, Duration::plus)
                 .div(totalReviews)
@@ -93,10 +96,10 @@ class PrAuthorStats constructor(
             AuthorReviewStats(
                 repoId = repo,
                 prAuthorId = author,
-                reviewerId = user,
+                reviewerId = reviewerUserId,
                 average = averageReviewTime,
                 totalReviews = totalReviews,
-                stats = authorStats
+                stats = reviewStats
             )
         }.sortedByDescending { it.totalReviews }
 
