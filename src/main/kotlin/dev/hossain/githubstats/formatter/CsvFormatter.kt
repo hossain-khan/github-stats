@@ -2,9 +2,9 @@ package dev.hossain.githubstats.formatter
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import dev.hossain.githubstats.AuthorReviewStats
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
+import dev.hossain.githubstats.util.FileUtil
 import java.io.File
 import kotlin.time.DurationUnit
 
@@ -23,12 +23,7 @@ class CsvFormatter : StatsFormatter {
         val prAuthorId = stats.first().prAuthorId
 
         // Create report dir for the author
-        val directory = File("REPORTS-$prAuthorId")
-        if (directory.exists().not() && directory.mkdir()) {
-            if (BuildConfig.DEBUG) {
-                println("The reporting directory ${directory.path} created successfully.")
-            }
-        }
+        val directory: File = FileUtil.createReportDir(prAuthorId)
 
         // Write combine review count by reviewer
         val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId"))
