@@ -127,7 +127,7 @@ class PicnicTableFormatter constructor(
                     paddingTop = 2
                 }
                 row {
-                    val headingText = "Stats for all reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository."
+                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -140,7 +140,7 @@ class PicnicTableFormatter constructor(
 
             if (stats.reviewedForPrStats.isNotEmpty()) {
                 var itemCount = 1
-                stats.reviewedForPrStats.forEach { (userId, prStats) ->
+                stats.reviewedForPrStats.toSortedMap().forEach { (userId, prStats) ->
                     val statMessage = "✔ ${prStats.size} PR(s) reviewed for '$userId'"
                     if (itemCount == 1) {
                         row {
