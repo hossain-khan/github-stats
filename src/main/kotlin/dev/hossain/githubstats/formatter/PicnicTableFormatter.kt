@@ -140,21 +140,27 @@ class PicnicTableFormatter constructor(
 
             if (stats.reviewedForPrStats.isNotEmpty()) {
                 var itemCount = 1
-                stats.reviewedForPrStats.toSortedMap().forEach { (userId, prStats) ->
-                    val statMessage = "✔ ${prStats.size} PR(s) reviewed for '$userId'"
-                    if (itemCount == 1) {
-                        row {
-                            cell("PR Authors Reviewed For") {
-                                rowSpan = stats.reviewedForPrStats.size
+                stats.reviewedForPrStats.entries
+                    .sortedBy { it.value.size }.associate { it.toPair() }
+                    .forEach { (userId, prStats) ->
+                        val count = prStats.size
+                        val statMessage = "✔ $count ${count.prs()} reviewed for '$userId'"
+                        if (itemCount == 1) {
+                            row {
+                                cell("PR Authors Reviewed For") {
+                                    rowSpan = stats.reviewedForPrStats.size
+                                }
+                                cell(statMessage)
                             }
-                            cell(statMessage)
+                        } else {
+                            row(statMessage)
                         }
-                    } else {
-                        row(statMessage)
+                        itemCount++
                     }
-                    itemCount++
-                }
             }
         }.toString()
     }
+
+    /** Internal function to use plurals for PR. */
+    private fun Int.prs(): String = if (this <= 1) "PR" else "PRs"
 }

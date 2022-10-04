@@ -74,17 +74,18 @@ fun main() {
         }
 
         // TESTING - reviewer stats
+        val reviewerUserId = prAuthorUserIds.firstOrNull() ?: "UNKNOWN_USER_ID"
         val issueSearchPager = IssueSearchPager(githubService)
         val pullStats = PullStats(githubService)
         val reviewerStats = PrReviewerStats(issueSearchPager, pullStats)
-        val prAuthorStats = reviewerStats.reviewerStats(
+        val prReviewerReviewStats = reviewerStats.reviewerStats(
             owner = repoOwner,
             repo = repoId,
-            reviewer = "ArielLeslie",
+            reviewer = reviewerUserId,
             zoneId = authorsZoneId
         )
         formatters.forEach {
-            println(it.formatReviewerStats(prAuthorStats))
+            println(it.formatReviewerStats(prReviewerReviewStats))
         }
 
         println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
