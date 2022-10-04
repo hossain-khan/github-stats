@@ -15,7 +15,7 @@ class SearchParams constructor(
     private val reviewer: String? = null,
     /**
      * Lower bound of date to limit older PRs from showing.
-     * TODO - Make this configurable value as well
+     * Format: YYYY-MM-DD
      */
     private val dateAfter: String = "2022-01-01"
 ) {

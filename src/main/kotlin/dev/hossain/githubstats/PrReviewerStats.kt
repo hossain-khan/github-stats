@@ -20,10 +20,11 @@ class PrReviewerStats constructor(
         owner: String,
         repo: String,
         reviewer: String,
-        zoneId: ZoneId
+        zoneId: ZoneId,
+        dateLimit: String
     ): ReviewerReviewStats {
         val reviewedClosedPrs: List<Issue> = issueSearchPager.searchIssues(
-            searchQuery = SearchParams(repoOwner = owner, repoId = repo, reviewer = reviewer).toQuery()
+            searchQuery = SearchParams(repoOwner = owner, repoId = repo, reviewer = reviewer, dateAfter = dateLimit).toQuery()
         )
 
         // For each of the PRs reviewed by the reviewer, get the stats

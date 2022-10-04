@@ -43,6 +43,7 @@ fun main() {
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
+    val dateLimit: String = localProperties.getDateLimit()
     val prAuthorUserIds = localProperties.getAuthors().split(",")
         .filter { it.isNotEmpty() }
         .map { it.trim() }
@@ -60,7 +61,8 @@ fun main() {
                     owner = repoOwner,
                     repo = repoId,
                     author = authorId,
-                    zoneId = authorsZoneId
+                    zoneId = authorsZoneId,
+                    dateLimit = dateLimit
                 )
 
                 formatters.forEach {
@@ -73,21 +75,22 @@ fun main() {
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
 
-        // TESTING - reviewer stats with first user only
-        val reviewerUserId = prAuthorUserIds.firstOrNull() ?: "UNKNOWN_USER_ID"
-        val issueSearchPager = IssueSearchPager(githubService)
-        val pullStats = PullStats(githubService)
-        val reviewerStats = PrReviewerStats(issueSearchPager, pullStats)
-        val prReviewerReviewStats = reviewerStats.reviewerStats(
-            owner = repoOwner,
-            repo = repoId,
-            reviewer = reviewerUserId,
-            zoneId = authorsZoneId
-        )
-        formatters.forEach {
-            println(it.formatReviewerStats(prReviewerReviewStats))
-        }
+        prAuthorUserIds.forEach { usedId ->
+            val issueSearchPager = IssueSearchPager(githubService)
+            val pullStats = PullStats(githubService)
+            val reviewerStats = PrReviewerStats(issueSearchPager, pullStats)
+            val prReviewerReviewStats = reviewerStats.reviewerStats(
+                owner = repoOwner,
+                repo = repoId,
+                reviewer = usedId,
+                zoneId = authorsZoneId,
+                dateLimit = dateLimit
+            )
+            formatters.forEach {
+                println(it.formatReviewerStats(prReviewerReviewStats))
+            }
 
-        println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+            println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+        }
     }
 }
