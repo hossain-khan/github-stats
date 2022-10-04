@@ -1,5 +1,7 @@
+import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStats
+import dev.hossain.githubstats.PrReviewerStats
 import dev.hossain.githubstats.PullStats
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
@@ -41,7 +43,9 @@ fun main() {
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
     val repoId: String = localProperties.getRepoId()
-    val prAuthorUserIds = localProperties.getAuthors().split(",").map { it.trim() }
+    val prAuthorUserIds = localProperties.getAuthors().split(",")
+        .filter { it.isNotEmpty() }
+        .map { it.trim() }
 
     println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $authorsZoneId.")
 
@@ -52,7 +56,7 @@ fun main() {
                 val issueSearchPager = IssueSearchPager(githubService)
                 val pullStats = PullStats(githubService)
                 val authorStats = PrAuthorStats(issueSearchPager, pullStats)
-                val prAuthorStats = authorStats.authorStats(
+                val prAuthorStats: List<AuthorReviewStats> = authorStats.authorStats(
                     owner = repoOwner,
                     repo = repoId,
                     author = authorId,
@@ -68,5 +72,21 @@ fun main() {
             }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
+
+        // TESTING - reviewer stats
+        val issueSearchPager = IssueSearchPager(githubService)
+        val pullStats = PullStats(githubService)
+        val reviewerStats = PrReviewerStats(issueSearchPager, pullStats)
+        val prAuthorStats = reviewerStats.reviewerStats(
+            owner = repoOwner,
+            repo = repoId,
+            reviewer = "ArielLeslie",
+            zoneId = authorsZoneId
+        )
+        formatters.forEach {
+            println(it.formatReviewerStats(prAuthorStats))
+        }
+
+        println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
     }
 }

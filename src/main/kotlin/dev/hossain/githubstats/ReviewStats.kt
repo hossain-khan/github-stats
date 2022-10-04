@@ -56,11 +56,23 @@ data class ReviewStats(
 /**
  * Stats for a author by specific [reviewerId].
  */
-data class AuthorReviewStats(
+class AuthorReviewStats(
     val repoId: String,
     val prAuthorId: UserId,
     val reviewerId: UserId,
     val average: Duration,
     val totalReviews: Int,
     val stats: List<ReviewStats>
+)
+
+/**
+ * Reviewer stats for all the reviews done in specific [repoId].
+ */
+data class ReviewerReviewStats(
+    val repoId: String,
+    val reviewerId: UserId,
+    val average: Duration,
+    val totalReviews: Int,
+    val reviewedPrStats: List<ReviewStats>,
+    val reviewedForPrStats: Map<UserId, List<PrStats>>
 )

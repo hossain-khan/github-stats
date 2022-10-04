@@ -3,6 +3,7 @@ package dev.hossain.githubstats.formatter
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.ReviewerReviewStats
 import java.io.File
 
 /**
@@ -40,6 +41,10 @@ class FileWriterFormatter constructor(
         val combinedReportFileName = directory.path + File.separator + "REPORT_-_$prAuthorId.txt"
         File(combinedReportFileName).writeText(formattedAuthorStats)
 
+        return ""
+    }
+
+    override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         return ""
     }
 

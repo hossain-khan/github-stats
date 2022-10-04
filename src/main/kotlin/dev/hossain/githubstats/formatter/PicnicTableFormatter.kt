@@ -5,6 +5,7 @@ import com.jakewharton.picnic.TextAlignment.TopLeft
 import com.jakewharton.picnic.table
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.ReviewerReviewStats
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -104,6 +105,55 @@ class PicnicTableFormatter constructor(
                     row("${it.reviewCompletion} for PR#${it.pullRequest.number}")
                 }
                 row("Average Time", "${stat.average}")
+            }
+        }.toString()
+    }
+
+    override fun formatReviewerStats(stats: ReviewerReviewStats): String {
+        return table {
+            cellStyle {
+                border = true
+                alignment = TopLeft
+                paddingLeft = 1
+                paddingRight = 1
+            }
+
+            // Provide global info about this stats
+            header {
+                cellStyle {
+                    border = false
+                    alignment = TopCenter
+                    paddingBottom = 1
+                    paddingTop = 2
+                }
+                row {
+                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository."
+                    val headingSeparator = "-".repeat(headingText.length)
+                    cell("$headingSeparator\n$headingText\n$headingSeparator") {
+                        columnSpan = 2
+                    }
+                }
+            }
+
+            row("Total Reviews", "${stats.totalReviews}")
+            row("Average Review Time", "${stats.average}")
+
+            if (stats.reviewedForPrStats.isNotEmpty()) {
+                var itemCount = 1
+                stats.reviewedForPrStats.toSortedMap().forEach { (userId, prStats) ->
+                    val statMessage = "✔ ${prStats.size} PR(s) reviewed for '$userId'"
+                    if (itemCount == 1) {
+                        row {
+                            cell("PR Authors Reviewed For") {
+                                rowSpan = stats.reviewedForPrStats.size
+                            }
+                            cell(statMessage)
+                        }
+                    } else {
+                        row(statMessage)
+                    }
+                    itemCount++
+                }
             }
         }.toString()
     }
