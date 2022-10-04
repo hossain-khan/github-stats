@@ -22,7 +22,11 @@ object FileUtil {
 
     internal fun authorReportFile(prAuthorId: UserId): String {
         val directory: File = createReportDir(prAuthorId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_$prAuthorId.txt"
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-ascii.txt"
+    }
+    internal fun reviewerReportFile(prReviewerId: UserId): String {
+        val directory: File = createReportDir(prReviewerId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-reviewer-$prReviewerId-ascii.txt"
     }
 
     internal fun prReportFile(prStats: PrStats): String {

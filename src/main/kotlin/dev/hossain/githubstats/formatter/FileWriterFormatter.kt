@@ -23,22 +23,30 @@ class FileWriterFormatter constructor(
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No files to write! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No author stats to format. No files to write! ¯\\_(ツ)_/¯"
         }
 
         // Create multiple CSV file per author for better visualization
         // Also create a single CSV with total reviews to visualize responsiveness to author
         val prAuthorId = stats.first().prAuthorId
 
-        val formattedAuthorStats = formatter.formatAuthorStats(stats)
+        val formattedStats = formatter.formatAuthorStats(stats)
 
         val combinedReportFileName = FileUtil.authorReportFile(prAuthorId)
-        File(combinedReportFileName).writeText(formattedAuthorStats)
+        File(combinedReportFileName).writeText(formattedStats)
 
         return ""
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
+        if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
+            return "⚠ ERROR: No reviewer stats to format. No files to write! ¯\\_(ツ)_/¯"
+        }
+        val formattedStats = formatter.formatReviewerStats(stats)
+
+        val combinedReportFileName = FileUtil.reviewerReportFile(stats.reviewerId)
+        File(combinedReportFileName).writeText(formattedStats)
+
         return ""
     }
 }

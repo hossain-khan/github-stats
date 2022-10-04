@@ -34,11 +34,12 @@ class PrAuthorStats constructor(
         owner: String,
         repo: String,
         author: String,
-        zoneId: ZoneId
+        zoneId: ZoneId,
+        dateLimit: String
     ): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
-            searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author).toQuery()
+            searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author, dateAfter = dateLimit).toQuery()
         )
 
         // For each PR by author, get the review stats on the PR

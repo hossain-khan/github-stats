@@ -16,7 +16,8 @@ import java.util.Locale
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
  */
 class PicnicTableFormatter constructor(
-    private val zoneId: ZoneId
+    private val zoneId: ZoneId,
+    private val dateLimit: String
 ) : StatsFormatter {
     private val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
         .withLocale(Locale.US)
@@ -74,7 +75,7 @@ class PicnicTableFormatter constructor(
                     // Export global info for the stats
                     val prAuthorId = stats.first().prAuthorId
                     val repoId = stats.first().repoId
-                    val headingText = "PR reviewer's stats for PR created by '$prAuthorId' on '$repoId' repository."
+                    val headingText = "PR reviewer's stats for PR created by '$prAuthorId' on '$repoId' repository since $dateLimit."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -127,7 +128,7 @@ class PicnicTableFormatter constructor(
                     paddingTop = 2
                 }
                 row {
-                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository."
+                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository since $dateLimit."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
