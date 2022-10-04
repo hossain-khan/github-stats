@@ -36,6 +36,5 @@ class LocalProperties : PropertiesReader("local.properties") {
     fun getRepoOwner(): String = getProperty(KEY_REPO_OWNER)
     fun getRepoId(): String = getProperty(KEY_REPO_ID)
     fun getAuthors(): String = getProperty(KEY_AUTHOR_IDS)
-
     fun getDateLimit(): String = getProperty(KEY_DATE_LIMIT)
 }

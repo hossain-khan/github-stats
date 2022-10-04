@@ -1,3 +1,4 @@
+import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStats
@@ -49,6 +50,7 @@ fun main() {
         FileWriterFormatter(PicnicTableFormatter(authorsZoneId, dateLimit))
     )
 
+    println(Art.coffee())
     println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $authorsZoneId since $dateLimit.")
 
     runBlocking {
