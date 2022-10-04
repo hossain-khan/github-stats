@@ -62,7 +62,40 @@ class CsvFormatter : StatsFormatter {
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
-        return ""
+        // Generate two different CSV
+        //  1. List of all the PRs reviewed
+        //  2. List of author reviewed for
+
+        val reviewedForFile = FileUtil.prReviewedForCombinedFilename(stats.reviewerId)
+        val headerItem: List<String> = listOf("Reviewed For", "Total PRs Reviewed", "PR# List")
+        csvWriter().open(reviewedForFile) {
+            writeRow(headerItem)
+
+            stats.reviewedForPrStats.forEach { (prAuthorId, prReviewStats) ->
+                writeRow(
+                    prAuthorId,
+                    prReviewStats.size,
+                    prReviewStats.map { it.pullRequest.number }.sorted().toString()
+                )
+            }
+        }
+
+        val reviewerPrStatsFile = FileUtil.prReviewerReviewedPrStatsFile(stats.reviewerId)
+        csvWriter().open(reviewerPrStatsFile) {
+            writeRow(listOf("PR#", "Review Time", "PR Ready On", "PR Merged On", "Ready->Merge", "PR Author", "PR URL"))
+            stats.reviewedPrStats.forEach {
+                writeRow(
+                    it.pullRequest.number.toString(),
+                    it.reviewCompletion.toString(),
+                    it.prReadyOn.toString(),
+                    it.prMergedOn.toString(),
+                    (it.prMergedOn - it.prReadyOn).toString(),
+                    it.pullRequest.html_url
+                )
+            }
+        }
+
+        return "Written '$reviewedForFile' and '$reviewerPrStatsFile'."
     }
 
     private fun generateCsvFileName(directory: File, authorStats: AuthorReviewStats): String {

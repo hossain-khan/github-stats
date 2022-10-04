@@ -29,4 +29,14 @@ object FileUtil {
 
         return directory.path + File.separator + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.txt"
     }
+
+    internal fun prReviewedForCombinedFilename(reviewerUserId: UserId): String {
+        val directory: File = createReportDir(reviewerUserId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId.csv"
+    }
+
+    internal fun prReviewerReviewedPrStatsFile(reviewerUserId: UserId): String {
+        val directory: File = createReportDir(reviewerUserId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId.csv"
+    }
 }
