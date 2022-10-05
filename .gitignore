@@ -15,3 +15,7 @@ gradle-app.setting
 local.properties
 .idea/workspace.xml
 .DS_Store
+
+# HTTP Caching
+http-cache/*
+!http-cache/README.md
