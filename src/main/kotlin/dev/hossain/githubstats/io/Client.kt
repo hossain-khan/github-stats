@@ -12,7 +12,9 @@ import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.model.timeline.UnknownEvent
 import dev.hossain.githubstats.service.GithubService
+import dev.hossain.githubstats.util.FileUtil.httpCacheDir
 import dev.hossain.githubstats.util.LocalProperties
+import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
@@ -67,6 +69,14 @@ object Client {
 
             chain.proceed(requestBuilder.build())
         }
+
+        // https://square.github.io/okhttp/features/caching/
+        builder.cache(
+            Cache(
+                directory = httpCacheDir(),
+                maxSize = 200L * 1024L * 1024L // 200 MiB
+            )
+        )
 
         return builder.build()
     }

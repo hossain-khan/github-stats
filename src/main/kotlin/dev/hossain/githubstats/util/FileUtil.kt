@@ -10,11 +10,27 @@ object FileUtil {
     private const val REPORTS_DIR_PREFIX = "REPORTS"
     private const val REPORT_FILE_PREFIX = "REPORT"
 
+    /**
+     * Creates reporting directory path with known prefix.
+     */
     private fun createReportDir(directoryName: String): File {
         val directory = File("$REPORTS_DIR_PREFIX-$directoryName")
         if (directory.exists().not() && directory.mkdir()) {
             if (BuildConfig.DEBUG) {
                 println("The reporting directory ${directory.path} created successfully.")
+            }
+        }
+        return directory
+    }
+
+    /**
+     * Provides HTTP cache directory path.
+     */
+    internal fun httpCacheDir(): File {
+        val directory = File("http-cache")
+        if (directory.exists().not() && directory.mkdir()) {
+            if (BuildConfig.DEBUG) {
+                println("The HTTP cache directory ${directory.path} created successfully.")
             }
         }
         return directory
