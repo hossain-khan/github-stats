@@ -1,8 +1,10 @@
-Cache directory for OkHttp client.
+Cache directory for OkHttp client to reduce being rate-limited.
 https://square.github.io/okhttp/features/caching/
 
 
-### Example
+### Rate Limit Example
+* https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
+* https://docs.github.com/en/rest/overview/resources-in-the-rest-api#secondary-rate-limits
 
 #### Core APIs
 Core APIs seems to have 5000 requests limit per hour.
@@ -16,7 +18,7 @@ x-ratelimit-resource: core
 ```
 
 #### Search APIs
-Search API is bit limited and has 30 requests per minute.
+Search API is [bit limited](https://docs.github.com/en/rest/search#rate-limit) and has 30 requests per minute.
 
 ```
 x-ratelimit-limit: 30
