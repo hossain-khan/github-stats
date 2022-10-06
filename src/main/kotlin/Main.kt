@@ -8,13 +8,8 @@ import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
-import dev.hossain.githubstats.io.Client.githubService
-import dev.hossain.githubstats.repository.PullRequestStatsRepo
-import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
-import dev.hossain.githubstats.service.GithubService
-import dev.hossain.githubstats.service.IssueSearchPager
+import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.LocalProperties
-import dev.hossain.githubstats.util.PropertiesReader
 import dev.hossain.time.Zone
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
@@ -34,17 +29,12 @@ fun main() {
         modules(appModule)
     }
 
-    StatsGeneratorApplication().instances()
+    val statsGeneratorApplication = StatsGeneratorApplication()
 
     val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
 
     val localProperties = LocalProperties()
-    val repoOwner: String = localProperties.getRepoOwner()
-    val repoId: String = localProperties.getRepoId()
     val dateLimit: String = localProperties.getDateLimit()
-    val prAuthorUserIds = localProperties.getAuthors().split(",")
-        .filter { it.isNotEmpty() }
-        .map { it.trim() }
 
     val formatters: List<StatsFormatter> = listOf(
         PicnicTableFormatter(authorsZoneId, dateLimit),
@@ -53,16 +43,30 @@ fun main() {
     )
 
     println(Art.coffee())
-    println("Getting PR stats for $prAuthorUserIds authors from '$repoId' repository for time zone $authorsZoneId since $dateLimit.")
 
     runBlocking {
-        prAuthorUserIds.forEach { authorId ->
+        statsGeneratorApplication
+            .generateAuthorStats(authorsZoneId, formatters)
+
+        statsGeneratorApplication
+            .generateReviewerStats(authorsZoneId, formatters)
+    }
+}
+
+class StatsGeneratorApplication : KoinComponent {
+    private val prReviewerStatsService: PrReviewerStats by inject()
+    private val prAuthorStatsService: PrAuthorStats by inject()
+    private val appConfig: AppConfig by inject()
+
+    suspend fun generateAuthorStats(
+        authorsZoneId: ZoneId,
+        formatters: List<StatsFormatter>
+    ) {
+        val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
+        userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
             val authorReportBuildTime = measureTimeMillis {
-                val issueSearchPager = IssueSearchPager(githubService)
-                val pullRequestStatsRepo = PullRequestStatsRepoImpl(githubService)
-                val authorStats = PrAuthorStats(issueSearchPager, pullRequestStatsRepo)
-                val prAuthorStats: List<AuthorReviewStats> = authorStats.authorStats(
+                val prAuthorStats: List<AuthorReviewStats> = prAuthorStatsService.authorStats(
                     owner = repoOwner,
                     repo = repoId,
                     author = authorId,
@@ -79,14 +83,16 @@ fun main() {
             }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
-
-        prAuthorUserIds.forEach { usedId ->
+    }
+    suspend fun generateReviewerStats(
+        authorsZoneId: ZoneId,
+        formatters: List<StatsFormatter>
+    ) {
+        val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
+        userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {
                 println("■ Building stats for `$usedId` as PR reviewer.\n")
-                val issueSearchPager = IssueSearchPager(githubService)
-                val pullRequestStatsRepo = PullRequestStatsRepoImpl(githubService)
-                val reviewerStats = PrReviewerStats(issueSearchPager, pullRequestStatsRepo)
-                val prReviewerReviewStats = reviewerStats.reviewerStats(
+                val prReviewerReviewStats = prReviewerStatsService.reviewerStats(
                     owner = repoOwner,
                     repo = repoId,
                     reviewer = usedId,
@@ -103,19 +109,5 @@ fun main() {
             }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
-    }
-}
-
-class StatsGeneratorApplication : KoinComponent {
-    private val githubService: GithubService by inject()
-    private val properties: PropertiesReader by inject()
-    private val prStatsRepo: PullRequestStatsRepo by inject()
-    fun instances() {
-        println("$githubService $properties $prStatsRepo")
-    }
-
-    suspend fun generateAuthorStats() {
-    }
-    suspend fun generateReviewerStats() {
     }
 }
