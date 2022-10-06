@@ -3,12 +3,12 @@ import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStats
 import dev.hossain.githubstats.PrReviewerStats
-import dev.hossain.githubstats.PullStats
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client.githubService
+import dev.hossain.githubstats.repository.PullStats
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.coroutines.runBlocking

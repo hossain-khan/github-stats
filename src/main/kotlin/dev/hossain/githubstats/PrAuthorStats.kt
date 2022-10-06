@@ -1,6 +1,8 @@
 package dev.hossain.githubstats
 
 import dev.hossain.githubstats.model.Issue
+import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
+import dev.hossain.githubstats.repository.PullStats
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
@@ -60,10 +62,10 @@ class PrAuthorStats constructor(
                     )
                 } catch (e: Exception) {
                     println("Error getting PR#${it.number}. Got: ${e.message}")
-                    PullStats.StatsResult.Failure(e)
+                    StatsResult.Failure(e)
                 }
             }
-            .filterIsInstance<PullStats.StatsResult.Success>()
+            .filterIsInstance<StatsResult.Success>()
             .map {
                 it.stats
             }

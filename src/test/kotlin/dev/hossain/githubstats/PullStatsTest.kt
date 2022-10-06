@@ -2,6 +2,8 @@ package dev.hossain.githubstats
 
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
+import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
+import dev.hossain.githubstats.repository.PullStats
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -49,7 +51,7 @@ internal class PullStatsTest {
 
         val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
 
     @Test
@@ -60,7 +62,7 @@ internal class PullStatsTest {
 
         val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
     }
 
     @Test
@@ -75,9 +77,9 @@ internal class PullStatsTest {
 
         val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
-        val result = statsResult as PullStats.StatsResult.Success
+        val result = statsResult as StatsResult.Success
         val reviewTime = result.stats.reviewTime["naomi-lgbt"]
         assertThat(reviewTime).isLessThan(Duration.parse("8h"))
     }
@@ -93,9 +95,9 @@ internal class PullStatsTest {
 
         val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
-        val result = statsResult as PullStats.StatsResult.Success
+        val result = statsResult as StatsResult.Success
         val reviewTime = result.stats.reviewTime
         assertThat(reviewTime).hasSize(2)
     }
@@ -108,9 +110,9 @@ internal class PullStatsTest {
 
         val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
-        val result = statsResult as PullStats.StatsResult.Success
+        val result = statsResult as StatsResult.Success
         assertThat(result.stats.reviewTime)
             .doesNotContainKey("JakeWharton")
     }
@@ -123,7 +125,7 @@ internal class PullStatsTest {
 
         val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
 
     @Test
@@ -138,7 +140,7 @@ internal class PullStatsTest {
 
         val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
 
     // region: Test Utility Functions

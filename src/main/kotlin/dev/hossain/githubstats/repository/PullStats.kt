@@ -1,12 +1,13 @@
-package dev.hossain.githubstats
+package dev.hossain.githubstats.repository
 
+import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
-import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubService
 import dev.hossain.time.DateTimeDiffer
