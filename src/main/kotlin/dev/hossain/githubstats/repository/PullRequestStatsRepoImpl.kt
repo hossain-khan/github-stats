@@ -19,7 +19,7 @@ import kotlin.time.Duration
 /**
  * Creates PR stats using combination of data from the PR.
  */
-class PullStats(private val githubService: GithubService) : PullRequestStatsRepo {
+class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullRequestStatsRepo {
 
     /**
      * Calculates Pull Request stats for given [prNumber].
