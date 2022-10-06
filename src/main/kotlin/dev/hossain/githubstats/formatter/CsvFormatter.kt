@@ -60,6 +60,10 @@ class CsvFormatter constructor(
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
+        if (stats.reviewedPrStats.isEmpty()) {
+            return "⚠ ERROR: No stats to format. No CSV files for you! ¯\\_(ツ)_/¯"
+        }
+
         // Generate two different CSV
         //  1. List of all the PRs reviewed
         //  2. List of author reviewed for

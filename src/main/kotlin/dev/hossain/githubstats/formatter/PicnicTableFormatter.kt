@@ -111,6 +111,9 @@ class PicnicTableFormatter constructor(
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
+        if (stats.reviewedPrStats.isEmpty()) {
+            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ¯\\_(ツ)_/¯"
+        }
         return table {
             cellStyle {
                 border = true

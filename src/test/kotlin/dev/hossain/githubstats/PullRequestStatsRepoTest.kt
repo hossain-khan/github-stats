@@ -2,6 +2,8 @@ package dev.hossain.githubstats
 
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
+import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
+import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -13,13 +15,13 @@ import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
- * Tests Pull Request stats calculator [PullStats].
+ * Tests Pull Request stats calculator [PullRequestStatsRepoImpl].
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class PullStatsTest {
+internal class PullRequestStatsRepoTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
-    lateinit var pullStats: PullStats
+    lateinit var pullRequestStatsRepo: PullRequestStatsRepoImpl
     private val zoneId = ZoneId.systemDefault()
 
     private companion object {
@@ -33,7 +35,7 @@ internal class PullStatsTest {
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
 
-        pullStats = PullStats(Client.githubService)
+        pullRequestStatsRepo = PullRequestStatsRepoImpl(Client.githubService)
     }
 
     @AfterEach
@@ -47,9 +49,9 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-jquery-5046.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
 
-        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val calculateStats = pullRequestStatsRepo.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
 
     @Test
@@ -58,9 +60,9 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-opensearch-4515.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
     }
 
     @Test
@@ -73,11 +75,11 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47594.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47594.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
-        val result = statsResult as PullStats.StatsResult.Success
+        val result = statsResult as StatsResult.Success
         val reviewTime = result.stats.reviewTime["naomi-lgbt"]
         assertThat(reviewTime).isLessThan(Duration.parse("8h"))
     }
@@ -91,11 +93,11 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
-        val result = statsResult as PullStats.StatsResult.Success
+        val result = statsResult as StatsResult.Success
         val reviewTime = result.stats.reviewTime
         assertThat(reviewTime).hasSize(2)
     }
@@ -106,11 +108,11 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3267.json")))
 
-        val statsResult = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(statsResult).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
-        val result = statsResult as PullStats.StatsResult.Success
+        val result = statsResult as StatsResult.Success
         assertThat(result.stats.reviewTime)
             .doesNotContainKey("JakeWharton")
     }
@@ -121,9 +123,9 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27.json")))
 
-        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val calculateStats = pullRequestStatsRepo.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
 
     @Test
@@ -136,15 +138,15 @@ internal class PullStatsTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3114.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3114.json")))
 
-        val calculateStats = pullStats.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val calculateStats = pullRequestStatsRepo.calculateStats(REPO_OWNER, REPO_ID, 123, zoneId)
 
-        assertThat(calculateStats).isInstanceOf(PullStats.StatsResult.Success::class.java)
+        assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
 
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
-        return PullStatsTest::class.java.getResource("/$jsonResponseFile")!!.readText()
+        return PullRequestStatsRepoTest::class.java.getResource("/$jsonResponseFile")!!.readText()
     }
     // endregion: Test Utility Functions
 }

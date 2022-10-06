@@ -3,12 +3,12 @@ import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStats
 import dev.hossain.githubstats.PrReviewerStats
-import dev.hossain.githubstats.PullStats
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client.githubService
+import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.coroutines.runBlocking
@@ -58,8 +58,8 @@ fun main() {
             println("■ Building stats for `$authorId`.")
             val reportBuildTime = measureTimeMillis {
                 val issueSearchPager = IssueSearchPager(githubService)
-                val pullStats = PullStats(githubService)
-                val authorStats = PrAuthorStats(issueSearchPager, pullStats)
+                val pullRequestStatsRepo = PullRequestStatsRepoImpl(githubService)
+                val authorStats = PrAuthorStats(issueSearchPager, pullRequestStatsRepo)
                 val prAuthorStats: List<AuthorReviewStats> = authorStats.authorStats(
                     owner = repoOwner,
                     repo = repoId,
@@ -80,8 +80,8 @@ fun main() {
 
         prAuthorUserIds.forEach { usedId ->
             val issueSearchPager = IssueSearchPager(githubService)
-            val pullStats = PullStats(githubService)
-            val reviewerStats = PrReviewerStats(issueSearchPager, pullStats)
+            val pullRequestStatsRepo = PullRequestStatsRepoImpl(githubService)
+            val reviewerStats = PrReviewerStats(issueSearchPager, pullRequestStatsRepo)
             val prReviewerReviewStats = reviewerStats.reviewerStats(
                 owner = repoOwner,
                 repo = repoId,
