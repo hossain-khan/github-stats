@@ -34,7 +34,7 @@ class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullR
         }
 
         if (BuildConfig.DEBUG) {
-            println("\n- Getting PR#$prNumber info. Loaded ${pullTimelineEvents.size} events from the PR.")
+            println("\n- Getting PR#$prNumber info. Analyzing ${pullTimelineEvents.size} events from the PR.")
         }
 
         // Seems like merged event is not a good indicator, see https://github.com/opensearch-project/OpenSearch/pull/4515
