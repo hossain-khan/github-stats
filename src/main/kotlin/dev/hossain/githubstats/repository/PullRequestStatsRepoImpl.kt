@@ -17,26 +17,10 @@ import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
- * Creates PR stats using combination of data from the PR.
+ * Creates PR stats using combination of data from the PR using [githubService].
  */
 class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullRequestStatsRepo {
-
-    /**
-     * Calculates Pull Request stats for given [prNumber].
-     *
-     * Example usage:
-     * ```kotlin
-     * when (val result = pullStats.calculateStats(47550)) {
-     *     is PullStats.StatsResult.Failure -> {
-     *         println("Got error for stats: ${result.error}")
-     *     }
-     *     is PullStats.StatsResult.Success -> {
-     *         println(formatter.formatPrStats(result.stats))
-     *     }
-     * }
-     * ```
-     */
-    override suspend fun calculateStats(
+    override suspend fun stats(
         owner: String,
         repo: String,
         prNumber: Int,

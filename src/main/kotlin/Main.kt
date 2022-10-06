@@ -55,8 +55,8 @@ fun main() {
 
     runBlocking {
         prAuthorUserIds.forEach { authorId ->
-            println("■ Building stats for `$authorId`.")
-            val reportBuildTime = measureTimeMillis {
+            println("■ Building stats for `$authorId` as PR author.\n")
+            val authorReportBuildTime = measureTimeMillis {
                 val issueSearchPager = IssueSearchPager(githubService)
                 val pullRequestStatsRepo = PullRequestStatsRepoImpl(githubService)
                 val authorStats = PrAuthorStats(issueSearchPager, pullRequestStatsRepo)
@@ -73,26 +73,32 @@ fun main() {
                 }
             }
             if (BuildConfig.DEBUG) {
-                println("\nⓘ Stats generation for `$authorId` took ${reportBuildTime.milliseconds}")
+                println("\nⓘ Stats generation for `$authorId` took ${authorReportBuildTime.milliseconds}")
             }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
 
         prAuthorUserIds.forEach { usedId ->
-            val issueSearchPager = IssueSearchPager(githubService)
-            val pullRequestStatsRepo = PullRequestStatsRepoImpl(githubService)
-            val reviewerStats = PrReviewerStats(issueSearchPager, pullRequestStatsRepo)
-            val prReviewerReviewStats = reviewerStats.reviewerStats(
-                owner = repoOwner,
-                repo = repoId,
-                reviewer = usedId,
-                zoneId = authorsZoneId,
-                dateLimit = dateLimit
-            )
-            formatters.forEach {
-                println(it.formatReviewerStats(prReviewerReviewStats))
+            val reviewerReportBuildTime = measureTimeMillis {
+                println("■ Building stats for `$usedId` as PR reviewer.\n")
+                val issueSearchPager = IssueSearchPager(githubService)
+                val pullRequestStatsRepo = PullRequestStatsRepoImpl(githubService)
+                val reviewerStats = PrReviewerStats(issueSearchPager, pullRequestStatsRepo)
+                val prReviewerReviewStats = reviewerStats.reviewerStats(
+                    owner = repoOwner,
+                    repo = repoId,
+                    reviewer = usedId,
+                    zoneId = authorsZoneId,
+                    dateLimit = dateLimit
+                )
+                formatters.forEach {
+                    println(it.formatReviewerStats(prReviewerReviewStats))
+                }
             }
 
+            if (BuildConfig.DEBUG) {
+                println("\nⓘ Stats generation for `$usedId` took ${reviewerReportBuildTime.milliseconds}")
+            }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }

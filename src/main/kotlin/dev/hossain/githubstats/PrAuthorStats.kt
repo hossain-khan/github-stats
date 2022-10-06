@@ -1,8 +1,8 @@
 package dev.hossain.githubstats
 
 import dev.hossain.githubstats.model.Issue
+import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
-import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
@@ -16,7 +16,7 @@ import kotlin.time.Duration
  */
 class PrAuthorStats constructor(
     private val issueSearchPager: IssueSearchPager,
-    private val pullRequestStatsRepo: PullRequestStatsRepoImpl
+    private val pullRequestStatsRepo: PullRequestStatsRepo
 ) {
 
     /**
@@ -54,7 +54,7 @@ class PrAuthorStats constructor(
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
 
                 try {
-                    pullRequestStatsRepo.calculateStats(
+                    pullRequestStatsRepo.stats(
                         owner = owner,
                         repo = repo,
                         prNumber = it.number,
