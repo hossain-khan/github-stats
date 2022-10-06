@@ -4,12 +4,8 @@ import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStats
 import dev.hossain.githubstats.PrReviewerStats
 import dev.hossain.githubstats.di.appModule
-import dev.hossain.githubstats.formatter.CsvFormatter
-import dev.hossain.githubstats.formatter.FileWriterFormatter
-import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.util.AppConfig
-import dev.hossain.githubstats.util.LocalProperties
 import dev.hossain.time.Zone
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
@@ -31,25 +27,14 @@ fun main() {
 
     val statsGeneratorApplication = StatsGeneratorApplication()
 
-    val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
-
-    val localProperties = LocalProperties()
-    val dateLimit: String = localProperties.getDateLimit()
-
-    val formatters: List<StatsFormatter> = listOf(
-        PicnicTableFormatter(authorsZoneId, dateLimit),
-        CsvFormatter(dateLimit),
-        FileWriterFormatter(PicnicTableFormatter(authorsZoneId, dateLimit))
-    )
-
     println(Art.coffee())
 
     runBlocking {
-        statsGeneratorApplication
-            .generateAuthorStats(authorsZoneId, formatters)
+        val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
 
-        statsGeneratorApplication
-            .generateReviewerStats(authorsZoneId, formatters)
+        statsGeneratorApplication.generateAuthorStats(authorsZoneId)
+
+        statsGeneratorApplication.generateReviewerStats(authorsZoneId)
     }
 }
 
@@ -57,11 +42,9 @@ class StatsGeneratorApplication : KoinComponent {
     private val prReviewerStatsService: PrReviewerStats by inject()
     private val prAuthorStatsService: PrAuthorStats by inject()
     private val appConfig: AppConfig by inject()
+    private val formatters: List<StatsFormatter> = getKoin().getAll()
 
-    suspend fun generateAuthorStats(
-        authorsZoneId: ZoneId,
-        formatters: List<StatsFormatter>
-    ) {
+    suspend fun generateAuthorStats(authorsZoneId: ZoneId) {
         val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
         userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
@@ -84,10 +67,8 @@ class StatsGeneratorApplication : KoinComponent {
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }
-    suspend fun generateReviewerStats(
-        authorsZoneId: ZoneId,
-        formatters: List<StatsFormatter>
-    ) {
+
+    suspend fun generateReviewerStats(authorsZoneId: ZoneId) {
         val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
         userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {

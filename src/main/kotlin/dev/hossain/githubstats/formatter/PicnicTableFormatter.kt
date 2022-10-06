@@ -6,7 +6,10 @@ import com.jakewharton.picnic.table
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
+import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.datetime.toJavaInstant
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -15,13 +18,12 @@ import java.util.Locale
 /**
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
  */
-class PicnicTableFormatter constructor(
-    private val zoneId: ZoneId,
-    private val dateLimit: String
-) : StatsFormatter {
+class PicnicTableFormatter : StatsFormatter, KoinComponent {
     private val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
         .withLocale(Locale.US)
-        .withZone(zoneId)
+        .withZone(ZoneId.systemDefault())
+
+    private val props: LocalProperties by inject()
 
     override fun formatPrStats(prStats: PrStats): String {
         return table {
@@ -75,7 +77,7 @@ class PicnicTableFormatter constructor(
                     // Export global info for the stats
                     val prAuthorId = stats.first().prAuthorId
                     val repoId = stats.first().repoId
-                    val headingText = "PR reviewer's stats for PR created by '$prAuthorId' on '$repoId' repository since $dateLimit."
+                    val headingText = "PR reviewer's stats for PR created by '$prAuthorId' on '$repoId' repository since ${props.getDateLimit()}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -131,7 +133,7 @@ class PicnicTableFormatter constructor(
                     paddingTop = 2
                 }
                 row {
-                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository since $dateLimit."
+                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository since ${props.getDateLimit()}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
