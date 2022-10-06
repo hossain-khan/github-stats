@@ -15,7 +15,7 @@ interface PullRequestStatsRepo {
     }
 
     /**
-     * Provides Pull Request stats for given [prNumber].
+     * Provides Pull Request stats [PrStats] for given [prNumber].
      *
      * Example usage:
      * ```kotlin
@@ -24,7 +24,7 @@ interface PullRequestStatsRepo {
      *         println("Got error for stats: ${result.error}")
      *     }
      *     is PullStats.StatsResult.Success -> {
-     *         println(formatter.formatPrStats(result.stats))
+     *         println("Got PR stats: ${result.stats}")
      *     }
      * }
      * ```
