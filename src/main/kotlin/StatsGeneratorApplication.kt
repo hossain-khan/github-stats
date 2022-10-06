@@ -1,7 +1,7 @@
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
-import dev.hossain.githubstats.PrAuthorStats
-import dev.hossain.githubstats.PrReviewerStats
+import dev.hossain.githubstats.PrAuthorStatsService
+import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.util.AppConfig
 import org.koin.core.component.KoinComponent
@@ -11,8 +11,8 @@ import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
 class StatsGeneratorApplication : KoinComponent {
-    private val prReviewerStatsService: PrReviewerStats by inject()
-    private val prAuthorStatsService: PrAuthorStats by inject()
+    private val prReviewerStatsService: PrReviewerStatsService by inject()
+    private val prAuthorStatsService: PrAuthorStatsService by inject()
     private val appConfig: AppConfig by inject()
     private val formatters: List<StatsFormatter> = getKoin().getAll()
 

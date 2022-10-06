@@ -12,9 +12,9 @@ import kotlin.time.Duration
 /**
  * PR review stats for all the PRs reviewed by specific reviewer.
  *
- * @see PrAuthorStats
+ * @see PrAuthorStatsService
  */
-class PrReviewerStats constructor(
+class PrReviewerStatsService constructor(
     private val issueSearchPager: IssueSearchPager,
     private val pullRequestStatsRepo: PullRequestStatsRepo
 ) {
