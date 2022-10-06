@@ -5,11 +5,13 @@ import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.util.FileUtil
+import dev.hossain.githubstats.util.LocalProperties
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import kotlin.time.DurationUnit
 
-class CsvFormatter constructor(
-    private val dateLimit: String
-) : StatsFormatter {
+class CsvFormatter : StatsFormatter, KoinComponent {
+    private val props: LocalProperties by inject()
     override fun formatPrStats(prStats: PrStats): String {
         return "Individual PR stats is not supported for CSV."
     }
@@ -24,7 +26,7 @@ class CsvFormatter constructor(
         val prAuthorId = stats.first().prAuthorId
 
         // Write combine review count by reviewer
-        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId since $dateLimit"))
+        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId since ${props.getDateLimit()}"))
 
         val combinedReportFileName = FileUtil.allReviewersForAuthorFile(prAuthorId)
         csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
@@ -69,7 +71,7 @@ class CsvFormatter constructor(
         //  2. List of author reviewed for
 
         val reviewedForFile = FileUtil.prReviewedForCombinedFilename(stats.reviewerId)
-        val headerItem: List<String> = listOf("Reviewed For", "Total PRs Reviewed since $dateLimit", "PR# List")
+        val headerItem: List<String> = listOf("Reviewed For", "Total PRs Reviewed since ${props.getDateLimit()}", "PR# List")
         csvWriter().open(reviewedForFile) {
             writeRow(headerItem)
 
