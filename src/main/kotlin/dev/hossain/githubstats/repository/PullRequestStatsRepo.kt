@@ -15,7 +15,7 @@ interface PullRequestStatsRepo {
     }
 
     /**
-     * Calculates Pull Request stats for given [prNumber].
+     * Provides Pull Request stats for given [prNumber].
      *
      * Example usage:
      * ```kotlin
@@ -29,10 +29,5 @@ interface PullRequestStatsRepo {
      * }
      * ```
      */
-    suspend fun calculateStats(
-        owner: String,
-        repo: String,
-        prNumber: Int,
-        zoneId: ZoneId
-    ): StatsResult
+    suspend fun stats(owner: String, repo: String, prNumber: Int, zoneId: ZoneId): StatsResult
 }

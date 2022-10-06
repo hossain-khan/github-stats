@@ -54,7 +54,7 @@ class PrAuthorStats constructor(
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
 
                 try {
-                    pullRequestStatsRepo.calculateStats(
+                    pullRequestStatsRepo.stats(
                         owner = owner,
                         repo = repo,
                         prNumber = it.number,
