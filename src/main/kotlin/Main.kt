@@ -3,15 +3,23 @@ import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStats
 import dev.hossain.githubstats.PrReviewerStats
+import dev.hossain.githubstats.di.appModule
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client.githubService
+import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
+import dev.hossain.githubstats.service.GithubService
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.LocalProperties
+import dev.hossain.githubstats.util.PropertiesReader
+import dev.hossain.time.Zone
 import kotlinx.coroutines.runBlocking
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.core.context.GlobalContext.startKoin
 import java.time.ZoneId
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
@@ -22,19 +30,13 @@ import kotlin.time.Duration.Companion.milliseconds
  * Also check out [BuildConfig] for available runtime config for debugging.
  */
 fun main() {
-    /**
-     * Convenient map to get [ZoneId] for some known locations.
-     * REF: https://mkyong.com/java8/java-display-all-zoneid-and-its-utc-offset/
-     */
-    val zoneIds = mapOf(
-        "Atlanta" to ZoneId.of("America/New_York"),
-        "New York" to ZoneId.of("America/New_York"),
-        "San Francisco" to ZoneId.of("America/Los_Angeles"),
-        "Toronto" to ZoneId.of("America/Toronto"),
-        "Vancouver" to ZoneId.of("America/Vancouver")
-    )
+    startKoin {
+        modules(appModule)
+    }
 
-    val authorsZoneId: ZoneId = requireNotNull(zoneIds["Toronto"])
+    StatsGeneratorApplication().instances()
+
+    val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
 
     val localProperties = LocalProperties()
     val repoOwner: String = localProperties.getRepoOwner()
@@ -101,5 +103,19 @@ fun main() {
             }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
+    }
+}
+
+class StatsGeneratorApplication : KoinComponent {
+    private val githubService: GithubService by inject()
+    private val properties: PropertiesReader by inject()
+    private val prStatsRepo: PullRequestStatsRepo by inject()
+    fun instances() {
+        println("$githubService $properties $prStatsRepo")
+    }
+
+    suspend fun generateAuthorStats() {
+    }
+    suspend fun generateReviewerStats() {
     }
 }

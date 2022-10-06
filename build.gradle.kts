@@ -47,6 +47,9 @@ dependencies {
     // https://github.com/doyaaaaaken/kotlin-csv
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.6.0") //for JVM platform
 
+    // Koin Core features - https://insert-koin.io/
+    implementation("io.insert-koin:koin-core:3.2.2")
+
     //
     // =======================
     // Unit Test Dependencies
