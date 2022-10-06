@@ -6,6 +6,8 @@ import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
+import dev.hossain.githubstats.repository.PullRequestStatsRepo
+import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubService
 import dev.hossain.time.DateTimeDiffer
 import kotlinx.datetime.Instant
@@ -16,17 +18,7 @@ import kotlin.time.Duration
 /**
  * Creates PR stats using combination of data from the PR.
  */
-class PullStats(private val githubService: GithubService) {
-
-    sealed class StatsResult {
-        data class Success(
-            val stats: PrStats
-        ) : StatsResult()
-
-        data class Failure(
-            val error: Throwable
-        ) : StatsResult()
-    }
+class PullStats(private val githubService: GithubService) : PullRequestStatsRepo {
 
     /**
      * Calculates Pull Request stats for given [prNumber].
@@ -43,7 +35,7 @@ class PullStats(private val githubService: GithubService) {
      * }
      * ```
      */
-    suspend fun calculateStats(
+    override suspend fun calculateStats(
         owner: String,
         repo: String,
         prNumber: Int,
