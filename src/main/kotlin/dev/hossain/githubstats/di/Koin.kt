@@ -1,7 +1,7 @@
 package dev.hossain.githubstats.di
 
-import dev.hossain.githubstats.PrAuthorStats
-import dev.hossain.githubstats.PrReviewerStats
+import dev.hossain.githubstats.PrAuthorStatsService
+import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
@@ -22,14 +22,17 @@ import org.koin.dsl.module
  * See https://insert-koin.io/docs/reference/koin-core/dsl for more info.
  */
 val appModule = module {
+    // Network and local services for stat generation
     single { Client.githubService }
     single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get()) }
-    single<PropertiesReader> { LocalProperties() }
-    factory { LocalProperties() }
     factory { IssueSearchPager(get()) }
-    factory { PrReviewerStats(get(), get()) }
-    factory { PrAuthorStats(get(), get()) }
+    factory { PrReviewerStatsService(get(), get()) }
+    factory { PrAuthorStatsService(get(), get()) }
+
+    // Config to load local properties
     factory { AppConfig(get()) }
+    factory { LocalProperties() }
+    single<PropertiesReader> { LocalProperties() }
 
     // Stats Formatters
     single { PicnicTableFormatter() } bind StatsFormatter::class
