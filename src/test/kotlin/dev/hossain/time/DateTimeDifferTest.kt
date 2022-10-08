@@ -117,6 +117,56 @@ internal class DateTimeDifferTest {
         assertThat(diffWorkingHours).isEqualTo("8h".duration())
     }
 
+    /**
+     * PR Ready for Review @ 2022-09-13T12:11:30Z
+     *
+     * UNIX Time [ms]
+     * 1663071090000
+     * W3C-DTF Date
+     * 2022-09-13T08:11:30-04:00
+     * ISO8601 Date
+     * 20220913T081130-0400
+     * ISO8601 Date (Extend)
+     * 2022-09-13T08:11:30-04:00
+     * ISO8601 Date (Week)
+     * 2022-W37-2T08:11:30-04:00
+     * ISO8601 Date (Ordinal)
+     * 2022-256T08:11:30-04:00
+     * RFC2822 Date
+     * Tue, 13 Sep 2022 08:11:30 EDT
+     * ctime Date
+     * Tue Sep 13 08:11:30 2022
+     *
+     *
+     * Review Submitted @ 2022-09-13T13:07:11Z
+     *
+     * UNIX Time [ms]
+     * 1663074431000
+     * W3C-DTF Date
+     * 2022-09-13T09:07:11-04:00
+     * ISO8601 Date
+     * 20220913T090711-0400
+     * ISO8601 Date (Extend)
+     * 2022-09-13T09:07:11-04:00
+     * ISO8601 Date (Week)
+     * 2022-W37-2T09:07:11-04:00
+     * ISO8601 Date (Ordinal)
+     * 2022-256T09:07:11-04:00
+     * RFC2822 Date
+     * Tue, 13 Sep 2022 09:07:11 EDT
+     * ctime Date
+     * Tue Sep 13 09:07:11 2022
+     */
+    @Test
+    fun `diff - given start time is before working hour and end time during work hour - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-13T12:11:30Z") // 08:11:30 AM
+        val endTime: Instant = Instant.parse("2022-09-13T13:07:11Z") // 09:07:11 AM
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("7m".duration())
+    }
+
     @Test
     fun `diff - given start time in working hour and end time is next day working hour - provides diff of working hour only`() {
         val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am

@@ -143,6 +143,17 @@ internal class PullRequestStatsRepoTest {
         assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
 
+    @Test
+    fun `calculateStats - given pr reviewed in time - provides correct review time`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47511.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-45711.json")))
+
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val result = statsResult as StatsResult.Success
+        assertThat(result.stats.reviewTime).hasSize(2)
+        // assertThat(result.stats.reviewTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))
+    }
+
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
