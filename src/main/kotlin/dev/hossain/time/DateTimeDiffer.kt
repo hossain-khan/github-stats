@@ -99,9 +99,12 @@ object DateTimeDiffer {
         val startToEndDiff = startDateTime.diffWith(endDateTime)
         when {
             startDateTime.isWithinWorkingHour() && endDateTime.isWithinWorkingHour() -> {
+                // Both start and end time is within working hour
+                // No after hours to subtract - return normal diff
                 return startToEndDiff
             }
 
+            // Alternatively, check if both of the start and end time is outside working hours
             (startDateTime.isWithinWorkingHour() || endDateTime.isWithinWorkingHour()).not() -> {
                 return if ((startDateTime.isBeforeWorkingHour() && endDateTime.isBeforeWorkingHour()) ||
                     startDateTime.isAfterWorkingHour() && endDateTime.isAfterWorkingHour()
@@ -116,7 +119,7 @@ object DateTimeDiffer {
             }
 
             startDateTime.isWithinWorkingHour().not() -> {
-                return startToEndDiff - (startDateTime.diffWith(startDateTime.nextWorkingHourOrSame()))
+                return startToEndDiff - (startDateTime.diffWith(endDateTime.prevWorkingHour()))
             }
 
             endDateTime.isWithinWorkingHour().not() -> {
@@ -137,7 +140,7 @@ object DateTimeDiffer {
     private fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
 
     /** Previous working start hour of the day.*/
-    private fun ZonedDateTime.prevWorkingHour() = this.with(TemporalsExtension.prevWorkingHourOrSame())
+    private fun ZonedDateTime.prevWorkingHour() = this.with(TemporalsExtension.prevWorkingHour())
 
     private fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
         return java.time.Duration.between(this, endDateTime).seconds.toDuration(DurationUnit.SECONDS)

@@ -6,7 +6,8 @@ import kotlin.text.Charsets.UTF_8
 /**
  * Convenience class to search for PRs that are merged.
  *
- * See [Search API](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
+ * See [Search API](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)
+ * and [Search Syntax](https://docs.github.com/en/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax)
  */
 class SearchParams constructor(
     private val repoOwner: String,
@@ -17,11 +18,18 @@ class SearchParams constructor(
      * Lower bound of date to limit older PRs from showing.
      * Format: YYYY-MM-DD
      */
-    private val dateAfter: String = "2022-01-01"
+    private val dateAfter: String = "2022-01-01",
+    /**
+     * Upper bound of date to limit anything beyond [dateBefore].
+     * Format: YYYY-MM-DD
+     */
+    private val dateBefore: String? = null
 ) {
     /**
      * Provides search query for the [GithubService.searchIssues] API.
      * Example search query:
+     * - `is%3Aclosed+is%3Apr+is%3Amerged+repo%3AfreeCodeCamp%2FfreeCodeCamp+created%3A%3E2022-09-11+reviewed-by%3ADanielRosa74`
+     * - `is:closed+is:pr+is:merged+repo:freeCodeCamp/freeCodeCamp+created:>2022-09-11+reviewed-by:DanielRosa74`
      * - `is:pr+repo:owner/repoid+author:userlogin+created:>2021-01-01`
      * - `is%3Apr+is%3Aclosed+author%3ADanielRosa74`
      */
@@ -43,6 +51,12 @@ class SearchParams constructor(
             .append("+")
             // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
             .append(encode("created:>$dateAfter", UTF_8))
+
+        if (dateBefore != null) {
+            query.append("+")
+                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
+                .append(encode("created:<$dateBefore", UTF_8))
+        }
 
         if (author != null) {
             query.append("+")

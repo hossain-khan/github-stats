@@ -1,0 +1,104 @@
+{
+  "X-SEARCH-URL": "https://api.github.com/search/issues?q=is%3Aclosed+is%3Apr+is%3Amerged+repo%3AfreeCodeCamp%2FfreeCodeCamp+created%3A%3E2022-09-11+reviewed-by%3ADanielRosa74&sort=created&order=desc&page=1&per_page=100",
+  "total_count": 1,
+  "incomplete_results": false,
+  "items": [
+    {
+      "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/issues/47511",
+      "repository_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp",
+      "labels_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/issues/47511/labels{/name}",
+      "comments_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/issues/47511/comments",
+      "events_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/issues/47511/events",
+      "html_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/47511",
+      "id": 1371352420,
+      "node_id": "PR_kwDOAbI7X84-3BnS",
+      "number": 47511,
+      "title": "chore(i18n,docs): processed translations",
+      "user": {
+        "login": "camperbot",
+        "id": 13561988,
+        "node_id": "MDQ6VXNlcjEzNTYxOTg4",
+        "avatar_url": "https://avatars.githubusercontent.com/u/13561988?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/camperbot",
+        "html_url": "https://github.com/camperbot",
+        "followers_url": "https://api.github.com/users/camperbot/followers",
+        "following_url": "https://api.github.com/users/camperbot/following{/other_user}",
+        "gists_url": "https://api.github.com/users/camperbot/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/camperbot/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/camperbot/subscriptions",
+        "organizations_url": "https://api.github.com/users/camperbot/orgs",
+        "repos_url": "https://api.github.com/users/camperbot/repos",
+        "events_url": "https://api.github.com/users/camperbot/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/camperbot/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [
+        {
+          "id": 454562832,
+          "node_id": "MDU6TGFiZWw0NTQ1NjI4MzI=",
+          "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/labels/scope:%20docs",
+          "name": "scope: docs",
+          "color": "4969c1",
+          "default": false,
+          "description": "Codebase and other documentation"
+        },
+        {
+          "id": 1088403396,
+          "node_id": "MDU6TGFiZWwxMDg4NDAzMzk2",
+          "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/labels/scope:%20i18n",
+          "name": "scope: i18n",
+          "color": "4969c1",
+          "default": false,
+          "description": "language translation/internationalization. Often combined with language type label"
+        },
+        {
+          "id": 2386470330,
+          "node_id": "MDU6TGFiZWwyMzg2NDcwMzMw",
+          "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/labels/crowdin-sync",
+          "name": "crowdin-sync",
+          "color": "12896D",
+          "default": false,
+          "description": "Only to be used by the bot to label automated PRs from Crowdin"
+        }
+      ],
+      "state": "closed",
+      "locked": false,
+      "assignee": null,
+      "assignees": [],
+      "milestone": null,
+      "comments": 2,
+      "created_at": "2022-09-13T12:11:30Z",
+      "updated_at": "2022-09-13T17:22:00Z",
+      "closed_at": "2022-09-13T17:21:59Z",
+      "author_association": "CONTRIBUTOR",
+      "active_lock_reason": null,
+      "draft": false,
+      "pull_request": {
+        "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/47511",
+        "html_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/47511",
+        "diff_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/47511.diff",
+        "patch_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/47511.patch",
+        "merged_at": "2022-09-13T17:21:59Z"
+      },
+      "body": "This PR was opened auto-magically by Crowdin.",
+      "reactions": {
+        "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/issues/47511/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "timeline_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/issues/47511/timeline",
+      "performed_via_github_app": null,
+      "state_reason": null,
+      "score": 1.0
+    }
+  ]
+}
