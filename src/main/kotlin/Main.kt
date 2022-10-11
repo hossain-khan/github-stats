@@ -16,15 +16,22 @@ fun main() {
         modules(appModule)
     }
 
-    val application = StatsGeneratorApplication()
+    val statsGeneratorApplication = StatsGeneratorApplication()
 
     println(Art.coffee())
 
     runBlocking {
         val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
 
-        application.generateAuthorStats(authorsZoneId)
+        statsGeneratorApplication.generateAuthorStats(authorsZoneId)
 
-        application.generateReviewerStats(authorsZoneId)
+        statsGeneratorApplication.generateReviewerStats(authorsZoneId)
     }
+
+    // Test single PR stats (disabled by default)
+    /*runBlocking {
+        val prStatsApplication = PrStatsApplication()
+        val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
+        prStatsApplication.generatePrStats(34030, authorsZoneId)
+    }*/
 }
