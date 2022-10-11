@@ -33,6 +33,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 paddingRight = 1
             }
             row("Title", prStats.pullRequest.title)
+            row("PR Author", prStats.pullRequest.user.login)
             row("URL", prStats.pullRequest.html_url)
             row("Ready On", dateFormatter.format(prStats.prReadyOn.toJavaInstant()))
             if (prStats.reviewTime.isNotEmpty()) {
