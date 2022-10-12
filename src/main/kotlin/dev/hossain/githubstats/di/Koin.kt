@@ -26,8 +26,8 @@ val appModule = module {
     single { Client.githubService }
     single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get()) }
     factory { IssueSearchPager(get()) }
-    factory { PrReviewerStatsService(get(), get()) }
-    factory { PrAuthorStatsService(get(), get()) }
+    factory { PrReviewerStatsService(get()) }
+    factory { PrAuthorStatsService(get()) }
 
     // Config to load local properties
     factory { AppConfig(get()) }
