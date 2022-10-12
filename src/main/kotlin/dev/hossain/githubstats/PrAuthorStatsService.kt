@@ -6,6 +6,7 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import kotlinx.coroutines.delay
+import org.koin.core.component.KoinComponent
 import java.time.ZoneId
 import kotlin.time.Duration
 
@@ -15,9 +16,8 @@ import kotlin.time.Duration
  * @see PrReviewerStatsService
  */
 class PrAuthorStatsService constructor(
-    private val issueSearchPager: IssueSearchPager,
     private val pullRequestStatsRepo: PullRequestStatsRepo
-) {
+) : KoinComponent {
 
     /**
      * Generates stats for reviews given by different PR reviewers for specified PR [author].
@@ -40,6 +40,7 @@ class PrAuthorStatsService constructor(
         dateLimit: String
     ): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
+        val issueSearchPager: IssueSearchPager = getKoin().get()
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author, dateAfter = dateLimit).toQuery()
         )
