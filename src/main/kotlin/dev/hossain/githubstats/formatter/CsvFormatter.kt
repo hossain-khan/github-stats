@@ -86,11 +86,12 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
         val reviewerPrStatsFile = FileUtil.prReviewerReviewedPrStatsFile(stats.reviewerId)
         csvWriter().open(reviewerPrStatsFile) {
-            writeRow(listOf("PR#", "Review Time", "PR Ready On", "PR Merged On", "Ready->Merge", "PR Author", "PR URL"))
+            writeRow(listOf("PR#", "Review Time", "Review Time (mins)", "PR Ready On", "PR Merged On", "Ready->Merge", "PR Author", "PR URL"))
             stats.reviewedPrStats.forEach {
                 writeRow(
                     it.pullRequest.number.toString(),
                     it.reviewCompletion.toString(),
+                    it.reviewCompletion.toInt(DurationUnit.MINUTES),
                     it.prReadyOn.toString(),
                     it.prMergedOn.toString(),
                     (it.prMergedOn - it.prReadyOn).toString(),
