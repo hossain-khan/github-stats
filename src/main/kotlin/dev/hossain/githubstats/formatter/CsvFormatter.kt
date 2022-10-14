@@ -42,7 +42,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
             // Individual report per reviewer
             val fileName = FileUtil.reviewedForAuthorFileName(stat)
-            val headerItem: List<String> = listOf("Reviewer", "PR Number", "Review time (hours)")
+            val headerItem: List<String> = listOf("Reviewer", "PR Number", "Review time (mins)", "URL")
 
             csvWriter().open(fileName) {
                 writeRow(headerItem)
@@ -51,7 +51,8 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     writeRow(
                         stat.reviewerId,
                         "PR ${it.pullRequest.number}",
-                        "${it.reviewCompletion.toDouble(DurationUnit.HOURS)}"
+                        "${it.reviewCompletion.toInt(DurationUnit.MINUTES)}",
+                        it.pullRequest.html_url
                     )
                 }
             }
