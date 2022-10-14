@@ -4,9 +4,10 @@ import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.UserId
+import org.koin.core.component.KoinComponent
 import java.io.File
 
-object FileUtil {
+object FileUtil : KoinComponent {
     private const val REPORTS_DIR_PREFIX = "REPORTS"
     private const val REPORT_FILE_PREFIX = "REPORT"
 
@@ -14,7 +15,8 @@ object FileUtil {
      * Creates reporting directory path with known prefix.
      */
     private fun createReportDir(directoryName: String): File {
-        val directory = File("$REPORTS_DIR_PREFIX-$directoryName")
+        val repoId = getKoin().get<LocalProperties>().getRepoId()
+        val directory = File("$REPORTS_DIR_PREFIX-$repoId-$directoryName")
         if (directory.exists().not() && directory.mkdir()) {
             if (BuildConfig.DEBUG) {
                 println("The reporting directory ${directory.path} created successfully.")
