@@ -17,6 +17,9 @@ This project exist to explore github API to get some common answer about PR revi
 - ✅ It can show you PR statistics for PRs created by specific author/contributor of a repository
 - ✅ It can generate CSV for the PR stats which can be used in Google Sheets or alike to generate charts
 
+## Setup 🛠
+See [SETUP](SETUP.md) for details on how to setup the project using IntelliJ IDEA.
+
 ## Sample
 Here is some data generated from `freeCodeCamp` repository for `naomi-lgbt` user.
 

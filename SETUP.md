@@ -18,13 +18,14 @@ git clone https://github.com/hossain-khan/github-stats.git
 <img width="250" src="https://user-images.githubusercontent.com/99822/197037727-bb55fa9e-c1d8-4ede-ae53-ae21c5fbe362.png"/>
 
 ### Open in IntelliJ
-Open the checked out directory in IntelliJ
+Open the checked out directory in IntelliJ IDEA 
+
 <img width="700" alt="IntelliJ open" src="https://user-images.githubusercontent.com/99822/197038306-3f3dfd92-54d5-45fa-971b-70203b673273.png">
 <img width="400" alt="Select dir" src="https://user-images.githubusercontent.com/99822/197038309-299f6ab3-b2fd-477c-8c61-542525f7a726.png">
 
 Once project is synced using gradle, you should see the project load like following
 
-<img width="1099" src="https://user-images.githubusercontent.com/99822/197039976-0fa4e15f-e3c1-4dbc-892f-572e15da3a6a.png">
+<img width="800" src="https://user-images.githubusercontent.com/99822/197039976-0fa4e15f-e3c1-4dbc-892f-572e15da3a6a.png">
 
 ### Setup `local.properties`
 Rename the provided `local_sample.properties` to `local.properties`.
@@ -39,3 +40,14 @@ Once configuration is in place, all you need to do is open the `Main.kt` and ▶
 
 <img width="307" src="https://user-images.githubusercontent.com/99822/197039854-641344eb-5e75-472c-a911-331923f6b163.png">
 <img width="360" src="https://user-images.githubusercontent.com/99822/197039857-dda04738-6b24-4389-a87c-95816225e513.png">
+
+
+Troubleshooting
+---------------
+
+If you see following error, it could be your token is not setup, or you have exceeded API rate limit.
+```
+Exception in thread "main" retrofit2.HttpException: HTTP 401 
+```
+
+Open [BuildConfig](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/dev/hossain/githubstats/BuildConfig.kt#L16) and enable `DEBUG_HTTP_REQUESTS` to `true` to see API request header information to confirm error details.
