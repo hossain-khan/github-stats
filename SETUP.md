@@ -28,7 +28,7 @@ Once project is synced using gradle, you should see the project load like follow
 <img width="800" src="https://user-images.githubusercontent.com/99822/197039976-0fa4e15f-e3c1-4dbc-892f-572e15da3a6a.png">
 
 ### Setup `local.properties`
-Rename the provided `local_sample.properties` to `local.properties`.
+Rename the provided [`local_sample.properties`](https://github.com/hossain-khan/github-stats/blob/main/local_sample.properties) to `local.properties`.
 
 <img width="800" src="https://user-images.githubusercontent.com/99822/197039882-33108a1f-64d0-4848-bfbb-de3555f449b0.png">
 <img width="350" src="https://user-images.githubusercontent.com/99822/197039879-e092e9bc-305e-485b-b1de-200e8c5418f3.png">
