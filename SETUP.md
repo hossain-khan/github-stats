@@ -33,14 +33,15 @@ Rename the provided [`local_sample.properties`](https://github.com/hossain-khan/
 <img width="800" src="https://user-images.githubusercontent.com/99822/197039882-33108a1f-64d0-4848-bfbb-de3555f449b0.png">
 <img width="350" src="https://user-images.githubusercontent.com/99822/197039879-e092e9bc-305e-485b-b1de-200e8c5418f3.png">
 
-Update configurations as appropriate
+Generate **[token](https://github.com/settings/tokens)** and update other configurations as appropriate
 
-### Run `Main.kt`
-Once configuration is in place, all you need to do is open the `Main.kt` and ▶️ run it.
+### Generate stats using `Main.kt`
+Once configuration is in place, all you need to do is open the [`Main.kt`](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/Main.kt#L10) and ▶️ run it.
 
 <img width="307" src="https://user-images.githubusercontent.com/99822/197039854-641344eb-5e75-472c-a911-331923f6b163.png">
 <img width="360" src="https://user-images.githubusercontent.com/99822/197039857-dda04738-6b24-4389-a87c-95816225e513.png">
 
+> See troubleshooting section if you encounter issue.
 
 Troubleshooting
 ---------------
