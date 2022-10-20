@@ -4,7 +4,8 @@ Project Setup
 Requirements
 ------------
 * IntelliJ Idea Community Edition ([Download](https://www.jetbrains.com/idea/download/))
-* Java SDK (JDK) _(This is optional as IntelliJ comes bundled with JRE)_
+* Java SDK (JDK)
+   * If JDK is missing, don't worry, IntelliJ will assist you installing JDK from the IDE. See [troubleshooting](#troubleshooting).
 
 Steps
 -------
@@ -52,3 +53,10 @@ Exception in thread "main" retrofit2.HttpException: HTTP 401
 ```
 
 Open [BuildConfig](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/dev/hossain/githubstats/BuildConfig.kt#L16) and enable `DEBUG_HTTP_REQUESTS` to `true` to see API request header information to confirm error details.
+
+--- 
+
+Missing ▶️ run button, or JDK missing - in this case, take a look at top right corner of the IntelliJ IDEA that will suggest you to install a JDK. 
+Click on the install link and wait for it to complete.
+
+Finally, click on the gradle sync button (🐘🔁) and wait for the sync to complete. If everything went well you should see the ▶️ icon beside `main()` in the `Main.kt` file.
