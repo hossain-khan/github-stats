@@ -22,8 +22,8 @@ class PrStatsApplication : KoinComponent {
         val authorReportBuildTime = measureTimeMillis {
             val statsResult: PullRequestStatsRepo.StatsResult = try {
                 pullRequestStatsRepo.stats(
-                    owner = repoOwner,
-                    repo = repoId,
+                    repoOwner = repoOwner,
+                    repoId = repoId,
                     prNumber = prNumber,
                     zoneId = authorsZoneId
                 )

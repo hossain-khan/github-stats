@@ -29,5 +29,5 @@ interface PullRequestStatsRepo {
      * }
      * ```
      */
-    suspend fun stats(owner: String, repo: String, prNumber: Int, zoneId: ZoneId): StatsResult
+    suspend fun stats(repoOwner: String, repoId: String, prNumber: Int, zoneId: ZoneId): StatsResult
 }

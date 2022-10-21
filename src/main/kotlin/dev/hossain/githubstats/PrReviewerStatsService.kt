@@ -41,8 +41,8 @@ class PrReviewerStatsService constructor(
 
                 try {
                     pullRequestStatsRepo.stats(
-                        owner = owner,
-                        repo = repo,
+                        repoOwner = owner,
+                        repoId = repo,
                         prNumber = it.number,
                         zoneId = zoneId
                     )
