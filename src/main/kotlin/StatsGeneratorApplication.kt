@@ -17,7 +17,11 @@ import kotlin.time.Duration.Companion.milliseconds
 class StatsGeneratorApplication : KoinComponent {
     private val prReviewerStatsService: PrReviewerStatsService by inject()
     private val prAuthorStatsService: PrAuthorStatsService by inject()
+
+    // Config loader that provides configs from `local.properties`
     private val appConfig: AppConfig by inject()
+
+    // Get all the available stats formatters - such as ASCII table, CSV writer and so on
     private val formatters: List<StatsFormatter> = getKoin().getAll()
 
     /**
@@ -74,7 +78,7 @@ class StatsGeneratorApplication : KoinComponent {
                 val prReviewerReviewStats = prReviewerStatsService.reviewerStats(
                     owner = repoOwner,
                     repo = repoId,
-                    reviewer = usedId,
+                    reviewerUserId = usedId,
                     zoneId = reviewersZoneId,
                     dateLimit = dateLimit
                 )

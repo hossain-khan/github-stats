@@ -21,13 +21,13 @@ class PrReviewerStatsService constructor(
     suspend fun reviewerStats(
         owner: String,
         repo: String,
-        reviewer: String,
+        reviewerUserId: String,
         zoneId: ZoneId,
         dateLimit: String
     ): ReviewerReviewStats {
         val issueSearchPager: IssueSearchPager = getKoin().get()
         val reviewedClosedPrs: List<Issue> = issueSearchPager.searchIssues(
-            searchQuery = SearchParams(repoOwner = owner, repoId = repo, reviewer = reviewer, dateAfter = dateLimit).toQuery()
+            searchQuery = SearchParams(repoOwner = owner, repoId = repo, reviewer = reviewerUserId, dateAfter = dateLimit).toQuery()
         )
 
         // For each of the PRs reviewed by the reviewer, get the stats
@@ -56,33 +56,48 @@ class PrReviewerStatsService constructor(
                 it.stats
             }
 
-        val reviewerPrStats: List<ReviewStats> = prStatsList.filter { it.reviewTime.containsKey(reviewer) }
+        // Builds `ReviewStats` list for PRs that are reviewed by specified reviewer user-id
+        val reviewerPrStats: List<ReviewStats> = prStatsList
+            .filter {
+                // Ensures that the PR was reviewed by the reviewer requested in the function
+                it.reviewTime.containsKey(reviewerUserId)
+            }
             .map { stats ->
                 ReviewStats(
                     pullRequest = stats.pullRequest,
-                    reviewCompletion = stats.reviewTime[reviewer]!!,
+                    reviewCompletion = stats.reviewTime[reviewerUserId]!!,
                     prReadyOn = stats.prReadyOn,
                     prMergedOn = stats.prMergedOn
                 )
             }
 
+        // Builds a hashmap for [Reviewed for UserID -> List of PR Reviewed and their Stats]
+        // For example:
+        //  * john -> [PR#112 Stats, PR#931 Stats] (Meaning: The reviewer has reviewed 2 PRs created by `john`)
+        //  * kirk -> [PR#341 Stats, PR#611 Stats, PR#839 Stats]  (Meaning: The reviewer has reviewed 3 PRs created by `kirk`)
         val reviewerReviewedFor = mutableMapOf<UserId, List<PrStats>>()
-        prStatsList.filter { it.reviewTime.containsKey(reviewer) }.forEach { prStats ->
-            val prAuthorUserId = prStats.pullRequest.user.login
-            if (reviewerReviewedFor.containsKey(prAuthorUserId)) {
-                reviewerReviewedFor[prAuthorUserId] = reviewerReviewedFor[prAuthorUserId]!!.plus(prStats)
-            } else {
-                reviewerReviewedFor[prAuthorUserId] = listOf(prStats)
+        prStatsList
+            .filter {
+                // Ensures that the PR was reviewed by the reviewer requested in the function
+                it.reviewTime.containsKey(reviewerUserId)
             }
-        }
+            .forEach { prStats ->
+                val prAuthorUserId = prStats.pullRequest.user.login
+                if (reviewerReviewedFor.containsKey(prAuthorUserId)) {
+                    reviewerReviewedFor[prAuthorUserId] = reviewerReviewedFor[prAuthorUserId]!!.plus(prStats)
+                } else {
+                    reviewerReviewedFor[prAuthorUserId] = listOf(prStats)
+                }
+            }
 
         if (BuildConfig.DEBUG) {
-            println("✅ Completed loading ${prStatsList.size} PRs reviewed by '$reviewer'.")
+            println("✅ Completed loading ${prStatsList.size} PRs reviewed by '$reviewerUserId'.")
         }
 
+        // Finally build the data object that combines all related stats
         return ReviewerReviewStats(
             repoId = repo,
-            reviewerId = reviewer,
+            reviewerId = reviewerUserId,
             average = if (reviewerPrStats.isEmpty()) {
                 Duration.ZERO
             } else {
