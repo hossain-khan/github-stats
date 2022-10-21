@@ -23,12 +23,14 @@ fun main() {
     runBlocking {
         val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
 
+        // Generates stats for user as PR author - for all PRs created by the user
         statsGeneratorApplication.generateAuthorStats(authorsZoneId)
 
+        // Generates stats for user as PR reviewer - for all PRs reviewed by the user
         statsGeneratorApplication.generateReviewerStats(authorsZoneId)
     }
 
-    // Test single PR stats (disabled by default)
+    // Test single PR stats (disabled by default - uncomment to test by PR#)
     /*runBlocking {
         val prStatsApplication = PrStatsApplication()
         val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
