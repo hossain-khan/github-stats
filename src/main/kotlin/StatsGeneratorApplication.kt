@@ -10,14 +10,33 @@ import java.time.ZoneId
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
+/**
+ * App for generating PR stats for users that created PRs and reviewed PRs.
+ * See [generateAuthorStats] and [generateReviewerStats] for details.
+ */
 class StatsGeneratorApplication : KoinComponent {
     private val prReviewerStatsService: PrReviewerStatsService by inject()
     private val prAuthorStatsService: PrAuthorStatsService by inject()
+
+    // Config loader that provides configs from `local.properties`
     private val appConfig: AppConfig by inject()
+
+    // Get all the available stats formatters - such as ASCII table, CSV writer and so on
     private val formatters: List<StatsFormatter> = getKoin().getAll()
 
+    /**
+     * Generates stats for user as PR author
+     * for all PRs created by each user defined in `local.properties` config file.
+     *
+     * @param authorsZoneId Time zone id for the PR reviewer.
+     * NOTE: currently, time-zone per user is not supported yet.
+     * See https://github.com/hossain-khan/github-stats/issues/129 for details
+     */
     suspend fun generateAuthorStats(authorsZoneId: ZoneId) {
+        // Loads the configs defined in `local.properties`
         val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
+
+        // For each of the users, generates stats for all the PRs created by the user
         userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
             val authorReportBuildTime = measureTimeMillis {
@@ -40,16 +59,27 @@ class StatsGeneratorApplication : KoinComponent {
         }
     }
 
-    suspend fun generateReviewerStats(authorsZoneId: ZoneId) {
+    /**
+     * Generates stats for user as PR reviewer.
+     * For all PRs reviewed by each user defined in `local.properties` config file.
+     *
+     * @param reviewersZoneId Time zone id for the reviewer.
+     * NOTE: currently, time-zone per user is not supported yet.
+     * See https://github.com/hossain-khan/github-stats/issues/129 for details
+     */
+    suspend fun generateReviewerStats(reviewersZoneId: ZoneId) {
+        // Loads the configs defined in `local.properties`
         val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
+
+        // For each user, generates stats for all the PRs reviewed by the user
         userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {
                 println("■ Building stats for `$usedId` as PR reviewer.\n")
                 val prReviewerReviewStats = prReviewerStatsService.reviewerStats(
                     owner = repoOwner,
                     repo = repoId,
-                    reviewer = usedId,
-                    zoneId = authorsZoneId,
+                    reviewerUserId = usedId,
+                    zoneId = reviewersZoneId,
                     dateLimit = dateLimit
                 )
                 formatters.forEach {

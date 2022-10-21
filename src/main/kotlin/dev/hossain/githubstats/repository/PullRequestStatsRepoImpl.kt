@@ -19,36 +19,37 @@ import kotlin.time.Duration
 /**
  * Creates PR stats using combination of data from the PR using [githubService].
  */
-class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullRequestStatsRepo {
+class PullRequestStatsRepoImpl(
+    private val githubService: GithubService
+) : PullRequestStatsRepo {
+    /**
+     * Provides Pull Request stats [PrStats] for given [prNumber].
+     */
     override suspend fun stats(
-        owner: String,
-        repo: String,
+        repoOwner: String,
+        repoId: String,
         prNumber: Int,
         zoneId: ZoneId
     ): StatsResult {
-        val pullRequest = githubService.pullRequest(owner, repo, prNumber)
-        val pullTimelineEvents = githubService.timelineEvents(owner, repo, prNumber)
+        val pullRequest = githubService.pullRequest(repoOwner, repoId, prNumber)
+        val prTimelineEvents = githubService.timelineEvents(repoOwner, repoId, prNumber)
 
         if (pullRequest.merged == null || pullRequest.merged == false) {
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
         }
 
         if (BuildConfig.DEBUG) {
-            println("\n- Getting PR#$prNumber info. Analyzing ${pullTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
+            println("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
         }
 
-        // Seems like merged event is not a good indicator, see https://github.com/opensearch-project/OpenSearch/pull/4515
-        /*val mergedEvent: MergedEvent = pullTimelineEvents.find { it.eventType == MergedEvent.TYPE } as MergedEvent?
-            ?: return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))*/
-
-        val prCreatedOn = pullRequest.created_at.toInstant()
-        val prAvailableForReview = prAvailableForReviewTime(prCreatedOn, pullTimelineEvents)
-        val prReviewers: Set<User> = prReviewers(pullRequest.user, pullTimelineEvents)
+        val prCreatedOn: Instant = pullRequest.created_at.toInstant()
+        val prAvailableForReviewOn: Instant = prAvailableForReviewTime(prCreatedOn, prTimelineEvents)
+        val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
         val reviewCompletionInfo: Map<String, Duration> = reviewTimeByUser(
             pullRequest = pullRequest,
-            prAvailableForReview = prAvailableForReview,
+            prAvailableForReview = prAvailableForReviewOn,
             prReviewers = prReviewers,
-            pullTimelineEvents = pullTimelineEvents,
+            prTimelineEvents = prTimelineEvents,
             zoneId = zoneId
         )
 
@@ -56,7 +57,7 @@ class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullR
             PrStats(
                 pullRequest = pullRequest,
                 reviewTime = reviewCompletionInfo,
-                prReadyOn = prAvailableForReview,
+                prReadyOn = prAvailableForReviewOn,
                 prMergedOn = pullRequest.merged_at!!.toInstant()
             )
         )
@@ -73,14 +74,14 @@ class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullR
         pullRequest: PullRequest,
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
-        pullTimelineEvents: List<TimelineEvent>,
+        prTimelineEvents: List<TimelineEvent>,
         zoneId: ZoneId
     ): Map<String, Duration> {
         val reviewTimesByUser = mutableMapOf<String, Duration>()
 
         prReviewers.forEach { reviewer ->
             // Find out if user has approved the PR, if not, do not include in stats
-            val hasApprovedPr = pullTimelineEvents.asSequence().filter { it.eventType == ReviewedEvent.TYPE }
+            val hasApprovedPr = prTimelineEvents.asSequence().filter { it.eventType == ReviewedEvent.TYPE }
                 .map { it as ReviewedEvent }
                 .any { it.user == reviewer && it.state == ReviewedEvent.ReviewState.APPROVED }
 
@@ -89,18 +90,18 @@ class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullR
             }
 
             // Find out if user has been requested to review later
-            val requestedLater = pullTimelineEvents.asSequence().filter { it.eventType == ReviewRequestedEvent.TYPE }
+            val requestedLater = prTimelineEvents.asSequence().filter { it.eventType == ReviewRequestedEvent.TYPE }
                 .map { it as ReviewRequestedEvent }.any { it.requested_reviewer == reviewer }
 
             val approvedPrEvent: ReviewedEvent =
-                pullTimelineEvents.find {
+                prTimelineEvents.find {
                     it.eventType == ReviewedEvent.TYPE &&
                         (it as ReviewedEvent).user == reviewer &&
                         it.state == ReviewedEvent.ReviewState.APPROVED
                 } as ReviewedEvent
             if (requestedLater) {
                 val reviewRequestedEvent =
-                    pullTimelineEvents.find { it.eventType == ReviewRequestedEvent.TYPE && (it as ReviewRequestedEvent).requested_reviewer == reviewer } as ReviewRequestedEvent
+                    prTimelineEvents.find { it.eventType == ReviewRequestedEvent.TYPE && (it as ReviewRequestedEvent).requested_reviewer == reviewer } as ReviewRequestedEvent
                 val openToCloseDuration = (
                     pullRequest.merged_at?.toInstant()
                         ?: approvedPrEvent.submitted_at.toInstant()
@@ -148,13 +149,13 @@ class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullR
      */
     private fun prReviewers(
         prAuthor: User,
-        pullTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>
     ): Set<User> {
-        return pullTimelineEvents.asSequence()
+        return prTimelineEvents.asSequence()
             .filter { it.eventType == ReviewRequestedEvent.TYPE }
             .map { it as ReviewRequestedEvent }
             .map { it.actor }.plus(
-                pullTimelineEvents.asSequence()
+                prTimelineEvents.asSequence()
                     .filter { it.eventType == ReviewedEvent.TYPE }
                     .map { it as ReviewedEvent }
                     .map { it.user }
@@ -168,16 +169,16 @@ class PullRequestStatsRepoImpl(private val githubService: GithubService) : PullR
      */
     private fun prAvailableForReviewTime(
         prCreatedOn: Instant,
-        pullTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>
     ): Instant {
-        val wasDraftPr: Boolean = pullTimelineEvents.any { it.eventType == ReadyForReviewEvent.TYPE }
+        val wasDraftPr: Boolean = prTimelineEvents.any { it.eventType == ReadyForReviewEvent.TYPE }
 
         if (wasDraftPr) {
             val readyForReview =
-                pullTimelineEvents.find { it.eventType == ReadyForReviewEvent.TYPE }!! as ReadyForReviewEvent
+                prTimelineEvents.find { it.eventType == ReadyForReviewEvent.TYPE }!! as ReadyForReviewEvent
             return readyForReview.created_at.toInstant()
         }
 
-        return prCreatedOn // FIXME - this needs more testing
+        return prCreatedOn
     }
 }
