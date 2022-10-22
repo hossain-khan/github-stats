@@ -23,14 +23,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
- * GitHub client with Retrofit service.
+ * GitHub API client with Retrofit service to make API requests.
  */
 object Client {
     private val httpClient = okHttpClient()
 
-    // Test backdoor to set base URL using mock server
+    // Test backdoor to allow setting base URL using mock server
+    // By default, it's set to GitHub API base URL.
     internal var baseUrl: HttpUrl = "https://api.github.com/".toHttpUrlOrNull()!!
 
+    // JSON serialization using Moshi
     private val moshi = Moshi.Builder()
         .add(
             // https://github.com/square/moshi/blob/master/moshi-adapters/src/main/java/com/squareup/moshi/adapters/PolymorphicJsonAdapterFactory.kt
@@ -45,6 +47,9 @@ object Client {
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
+    /**
+     * Builds OkHttp client with caching and debugging based on configuration.
+     */
     private fun okHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor {
             // Use JVM console logger using error stream.
@@ -74,7 +79,7 @@ object Client {
         builder.cache(
             Cache(
                 directory = httpCacheDir(),
-                maxSize = 200L * 1024L * 1024L // 200 MiB
+                maxSize = BuildConfig.HTTP_CACHE_SIZE
             )
         )
 
