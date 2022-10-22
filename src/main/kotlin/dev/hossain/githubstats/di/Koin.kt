@@ -11,6 +11,7 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.LocalProperties
 import dev.hossain.githubstats.util.PropertiesReader
 import org.koin.dsl.bind
@@ -25,9 +26,10 @@ val appModule = module {
     // Network and local services for stat generation
     single { Client.githubService }
     single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get()) }
-    factory { IssueSearchPager(get()) }
-    factory { PrReviewerStatsService(get()) }
-    factory { PrAuthorStatsService(get()) }
+    factory { IssueSearchPager(get(), get()) }
+    factory { PrReviewerStatsService(get(), get()) }
+    factory { PrAuthorStatsService(get(), get()) }
+    single { ErrorProcessor() }
 
     // Config to load local properties
     factory { AppConfig(get()) }
