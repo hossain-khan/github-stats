@@ -22,4 +22,10 @@ object BuildConfig {
      * See https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
      */
     const val API_REQUEST_DELAY_MS: Long = 100L
+
+    /**
+     * HTTP requests are cached locally to re-used responses that has not changed.
+     * Configuration for max size on disk to cache response files.
+     */
+    const val HTTP_CACHE_SIZE: Long = 100L * 1024L * 1024L // 100 MB
 }

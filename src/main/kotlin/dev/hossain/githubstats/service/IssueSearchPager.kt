@@ -4,10 +4,8 @@ import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.service.GithubService.Companion.DEFAULT_PAGE_SIZE
+import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
-import okhttp3.ResponseBody
-import retrofit2.HttpException
-import retrofit2.Response
 import kotlin.math.ceil
 
 /**
@@ -15,6 +13,7 @@ import kotlin.math.ceil
  */
 class IssueSearchPager constructor(
     private val githubService: GithubService,
+    private val errorProcessor: ErrorProcessor,
     private val pageSize: Int = DEFAULT_PAGE_SIZE
 ) {
     private val allSearchedIssues = mutableListOf<Issue>()
@@ -32,7 +31,7 @@ class IssueSearchPager constructor(
                     size = pageSize
                 )
             } catch (exception: Exception) {
-                throw IllegalStateException(getErrorMessage(exception), exception)
+                throw errorProcessor.getDetailedError(exception)
             }
 
             val totalItemCount: Int = issueSearchResult.total_count
@@ -50,35 +49,4 @@ class IssueSearchPager constructor(
 
         return allSearchedIssues
     }
-
-    /**
-     * Provides bit more verbose error message to help understand the error.
-     */
-    private fun getErrorMessage(exception: Exception): String {
-        // Tell about HTTP Response Headers has important debug information
-        // which might help user to debug failing request
-        val debugGuide = if (BuildConfig.DEBUG_HTTP_REQUESTS) "" else httpResponseDebugGuide
-
-        if (exception is HttpException) {
-            val response: Response<*>? = exception.response()
-            val error: ResponseBody? = response?.errorBody()
-            val message: String = exception.message ?: "HTTP Error ${exception.code()}"
-
-            if (error != null) {
-                return "$message - ${error.string()}\n$debugGuide"
-            }
-            return "${message}\n$debugGuide"
-        } else {
-            return "${exception.message}\n$debugGuide"
-        }
-    }
-
-    private val httpResponseDebugGuide: String = """
-        ------------------------------------------------------------------------------------------------
-        NOTE: You can turn on HTTP request and response debugging that contains
-              HTTP response header containing important information like API rate limit.
-        
-        You can turn on this feature by opening `BuildConfig` and setting `DEBUG_HTTP_REQUESTS = true`.
-        ------------------------------------------------------------------------------------------------
-    """.trimIndent()
 }

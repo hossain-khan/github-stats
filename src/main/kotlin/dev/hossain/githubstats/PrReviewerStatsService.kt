@@ -5,6 +5,7 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
+import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
 import java.time.ZoneId
@@ -16,7 +17,8 @@ import kotlin.time.Duration
  * @see PrAuthorStatsService
  */
 class PrReviewerStatsService constructor(
-    private val pullRequestStatsRepo: PullRequestStatsRepo
+    private val pullRequestStatsRepo: PullRequestStatsRepo,
+    private val errorProcessor: ErrorProcessor
 ) : KoinComponent {
     suspend fun reviewerStats(
         owner: String,
@@ -48,7 +50,7 @@ class PrReviewerStatsService constructor(
                     )
                 } catch (e: Exception) {
                     println("Error getting PR#${it.number}. Got: ${e.message}")
-                    StatsResult.Failure(e)
+                    StatsResult.Failure(errorProcessor.getDetailedError(e))
                 }
             }
             .filterIsInstance<StatsResult.Success>()
