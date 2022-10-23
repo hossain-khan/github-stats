@@ -1,6 +1,5 @@
 package dev.hossain.time
 
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.time.Zone.city
 import java.time.ZoneId
 
@@ -30,18 +29,7 @@ class UserTimeZone {
     /**
      * Provides user's time zone id, if configured in [userZones], otherwise [defaultZoneId] is used.
      */
-    fun userTimeZone(userId: String): ZoneId {
-        val usersTimeZoneId = userZones[userId]
-        return if (usersTimeZoneId != null) {
-            if (BuildConfig.DEBUG) {
-                println("Using user specific time zone: $usersTimeZoneId for user `$userId`")
-            }
-            usersTimeZoneId
-        } else {
-            if (BuildConfig.DEBUG) {
-                println("Using default time zone: $defaultZoneId for user `$userId`")
-            }
-            defaultZoneId
-        }
+    fun get(userId: String): ZoneId {
+        return userZones[userId] ?: defaultZoneId
     }
 }

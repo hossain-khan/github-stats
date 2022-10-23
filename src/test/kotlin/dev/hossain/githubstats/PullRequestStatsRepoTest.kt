@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
+import dev.hossain.time.UserTimeZone
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -35,7 +36,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
 
-        pullRequestStatsRepo = PullRequestStatsRepoImpl(Client.githubService)
+        pullRequestStatsRepo = PullRequestStatsRepoImpl(Client.githubService, UserTimeZone())
     }
 
     @AfterEach
@@ -49,7 +50,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-jquery-5046.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
 
-        val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
         assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
@@ -60,7 +61,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-opensearch-4515.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
 
-        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
         assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
     }
@@ -75,7 +76,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47594.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47594.json")))
 
-        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
         assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
@@ -93,7 +94,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
 
-        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
         assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
@@ -108,7 +109,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3267.json")))
 
-        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
         assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
@@ -123,7 +124,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27.json")))
 
-        val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
         assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
@@ -138,7 +139,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3114.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3114.json")))
 
-        val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
         assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
     }
@@ -148,7 +149,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47511.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-45711.json")))
 
-        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, zoneId)
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
         val result = statsResult as StatsResult.Success
         assertThat(result.stats.reviewTime).hasSize(2)
         // assertThat(result.stats.reviewTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))

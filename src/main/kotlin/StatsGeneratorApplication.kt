@@ -6,7 +6,6 @@ import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.util.AppConfig
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.time.ZoneId
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -28,11 +27,10 @@ class StatsGeneratorApplication : KoinComponent {
      * Generates stats for user as PR author
      * for all PRs created by each user defined in `local.properties` config file.
      *
-     * @param authorsZoneId Time zone id for the PR reviewer.
      * NOTE: currently, time-zone per user is not supported yet.
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
      */
-    suspend fun generateAuthorStats(authorsZoneId: ZoneId) {
+    suspend fun generateAuthorStats() {
         // Loads the configs defined in `local.properties`
         val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
 
@@ -44,7 +42,6 @@ class StatsGeneratorApplication : KoinComponent {
                     owner = repoOwner,
                     repo = repoId,
                     author = authorId,
-                    zoneId = authorsZoneId,
                     dateLimit = dateLimit
                 )
 
@@ -63,11 +60,10 @@ class StatsGeneratorApplication : KoinComponent {
      * Generates stats for user as PR reviewer.
      * For all PRs reviewed by each user defined in `local.properties` config file.
      *
-     * @param reviewersZoneId Time zone id for the reviewer.
      * NOTE: currently, time-zone per user is not supported yet.
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
      */
-    suspend fun generateReviewerStats(reviewersZoneId: ZoneId) {
+    suspend fun generateReviewerStats() {
         // Loads the configs defined in `local.properties`
         val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
 
@@ -79,7 +75,6 @@ class StatsGeneratorApplication : KoinComponent {
                     owner = repoOwner,
                     repo = repoId,
                     reviewerUserId = usedId,
-                    zoneId = reviewersZoneId,
                     dateLimit = dateLimit
                 )
                 formatters.forEach {
