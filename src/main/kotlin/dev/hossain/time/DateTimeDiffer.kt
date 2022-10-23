@@ -144,13 +144,57 @@ object DateTimeDiffer {
     }
 
     // region: Internal Extension Functions
+    /**
+     * Provides date-time set to 12:00 AM of the same time-time provided.
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Saturday 12 AM (Reset to 12:00 am)
+     *  - Current Date Time: Sunday 11 AM   --> Sunday 12 AM (Reset to 12:00 am)
+     *  - Current Date Time: Monday 2 PM    --> Monday 12 AM (Reset to 12:00 am)
+     */
     private fun ZonedDateTime.startOfDay() = this.with(TemporalsExtension.startOfDay())
+
+    /**
+     * Provides next working day for current date-time.
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Monday 11 AM (nex working day - excluding weekends)
+     *  - Current Date Time: Sunday 11 AM   --> Monday 11 AM (nex working day - excluding weekends)
+     *  - Current Date Time: Monday 11 AM   --> Tuesday 11 AM (nex working day)
+     */
     private fun ZonedDateTime.nextWorkingDay() = this.with(TemporalsExtension.nextWorkingDay())
+
+    /**
+     * Provides next working day for current date-time or same day if current date-time is already working day.
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Monday 11 AM (nex working day - excluding weekends)
+     *  - Current Date Time: Sunday 11 AM   --> Monday 11 AM (nex working day - excluding weekends)
+     *  - Current Date Time: Monday 11 AM   --> Monday 11 AM (Same day - as it monday is working day)
+     */
     private fun ZonedDateTime.nextWorkingDayOrSame() = this.with(TemporalsExtension.nextWorkingDayOrSame())
+
+    /**
+     * Provides immediate start of working hour for working day, or same time if it's on weekend.
+     *
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Saturday 11 AM (Same - because on non-weekday)
+     *  - Current Date Time: Sunday 11 AM   --> Sunday 11 AM (Same - because on non-weekday)
+     *  - Current Date Time: Monday 11 AM   --> Monday 11 AM (Same - because it's already in working hour)
+     *  - Current Date Time: Tuesday 8 PM   --> Wednesday 9 AM (Next day, because it was after hours)
+     *  - Current Date Time: Tuesday 6 AM   --> Tuesday 9 AM (Same day but time changed to start of work)
+     */
     private fun ZonedDateTime.nextWorkingHourOrSame() = this.with(TemporalsExtension.nextWorkingHourOrSame())
+
     private fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
 
-    /** Previous working start hour of the day.*/
+    /**
+     * Previous working start hour of the day irrespective of weekday or weekends.
+     *
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Saturday 9 AM
+     *  - Current Date Time: Sunday 2 PM    --> Sunday 9 AM
+     *  - Current Date Time: Monday 11 AM   --> Monday 9 AM
+     *  - Current Date Time: Tuesday 8 PM   --> Tuesday 5 PM (End of the day for same day)
+     *  - Current Date Time: Tuesday 6 AM   --> Monday 5 PM (End of the day for previous day)
+     */
     private fun ZonedDateTime.prevWorkingHour() = this.with(TemporalsExtension.prevWorkingHour())
 
     private fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
