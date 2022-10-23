@@ -13,10 +13,14 @@ object TemporalsExtension {
     /**
      * Returns an adjuster that returns the next working day, ignoring Saturday and Sunday.
      *
-     *
      * Some territories have weekends that do not consist of Saturday and Sunday.
      * No implementation is supplied to support this, however an adjuster
      * can be easily written to do so.
+     *
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Monday 11 AM (nex working day - excluding weekends)
+     *  - Current Date Time: Sunday 11 AM   --> Monday 11 AM (nex working day - excluding weekends)
+     *  - Current Date Time: Monday 11 AM   --> Tuesday 11 AM (nex working day)
      *
      * @return the next working day adjuster, not null
      */
@@ -47,17 +51,39 @@ object TemporalsExtension {
 
     /**
      * Adjuster to provide next working hour on a working day.
+     *
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Saturday 11 AM (Same - because on non-weekday)
+     *  - Current Date Time: Sunday 11 AM   --> Sunday 11 AM (Same - because on non-weekday)
+     *  - Current Date Time: Monday 11 AM   --> Monday 11 AM (Same - because it's already in working hour)
+     *  - Current Date Time: Tuesday 8 PM   --> Wednesday 9 AM (Next day, because it was after hours)
+     *  - Current Date Time: Tuesday 6 AM   --> Tuesday 9 AM (Same day but time changed to start of work)
      */
     fun nextWorkingHourOrSame(): TemporalAdjuster {
         return Adjuster.NEXT_WORKING_HOUR_OR_SAME
     }
 
+    /**
+     * Previous working start hour of the day irrespective of weekday or weekends.
+     *
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Saturday 9 AM
+     *  - Current Date Time: Sunday 2 PM    --> Sunday 9 AM
+     *  - Current Date Time: Monday 11 AM   --> Monday 9 AM
+     *  - Current Date Time: Tuesday 8 PM   --> Tuesday 5 PM (End of the day for same day)
+     *  - Current Date Time: Tuesday 6 AM   --> Monday 5 PM (End of the day for previous day)
+     */
     fun prevWorkingHour(): TemporalAdjuster {
         return Adjuster.PREV_WORKING_HOUR
     }
 
     /**
      * Provides (approximate) time that indicates start of day at 12:00am of that day.
+     *
+     * Example:
+     *  - Current Date Time: Saturday 11 AM --> Saturday 12 AM (Reset to 12:00 am)
+     *  - Current Date Time: Sunday 11 AM   --> Sunday 12 AM (Reset to 12:00 am)
+     *  - Current Date Time: Monday 2 PM    --> Monday 12 AM (Reset to 12:00 am)
      */
     fun startOfDay(): TemporalAdjuster {
         return Adjuster.START_OF_DAY
