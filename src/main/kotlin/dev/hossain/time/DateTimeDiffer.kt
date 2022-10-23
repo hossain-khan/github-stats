@@ -28,13 +28,24 @@ object DateTimeDiffer {
      *      ↑                           ↑
      *    Week                         Week
      *    Start                        End
+     *
+     * ┌──────┐  ┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌────┐  ┌──────┐
+     * │ 9 AM ├──┤ .. │──┤ .. │──┤ .. │──┤ .. │──┤ .. │──┤ .. │──┤ 5 PM │
+     * └──────┘  └────┘  └────┘  └────┘  └────┘  └────┘  └────┘  └──────┘
+     *    ↑                                                         ↑
+     *  Start                                                      End
+     *  of Day                                                    of Day
      * ```
      *
      * NOTE: The weekends and work hours are currently non-configurable and can be found at [TemporalsExtension].
      */
-    fun diffWorkingHours(startInstant: Instant, endInstant: Instant, zoneId: ZoneId): Duration {
-        val startDateTime: ZonedDateTime = startInstant.toJavaInstant().atZone(zoneId)
-        val endDateTime: ZonedDateTime = endInstant.toJavaInstant().atZone(zoneId)
+    fun diffWorkingHours(
+        startInstant: Instant,
+        endInstant: Instant,
+        timeZoneId: ZoneId
+    ): Duration {
+        val startDateTime: ZonedDateTime = startInstant.toJavaInstant().atZone(timeZoneId)
+        val endDateTime: ZonedDateTime = endInstant.toJavaInstant().atZone(timeZoneId)
 
         if (endDateTime.isBefore(startDateTime)) {
             throw IllegalArgumentException("The end time $endInstant is before $startInstant.")
