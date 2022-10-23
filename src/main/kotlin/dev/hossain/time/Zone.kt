@@ -3,7 +3,8 @@ package dev.hossain.time
 import java.time.ZoneId
 
 /**
- * Time zone related tools.
+ * Time zone related configs and constants.
+ * @see UserTimeZone
  */
 object Zone {
     /**
