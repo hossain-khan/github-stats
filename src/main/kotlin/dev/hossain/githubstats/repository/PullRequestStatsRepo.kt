@@ -1,7 +1,6 @@
 package dev.hossain.githubstats.repository
 
 import dev.hossain.githubstats.PrStats
-import java.time.ZoneId
 
 interface PullRequestStatsRepo {
     sealed class StatsResult {
@@ -29,5 +28,5 @@ interface PullRequestStatsRepo {
      * }
      * ```
      */
-    suspend fun stats(repoOwner: String, repoId: String, prNumber: Int, zoneId: ZoneId): StatsResult
+    suspend fun stats(repoOwner: String, repoId: String, prNumber: Int): StatsResult
 }

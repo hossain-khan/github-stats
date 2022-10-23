@@ -14,6 +14,7 @@ import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.LocalProperties
 import dev.hossain.githubstats.util.PropertiesReader
+import dev.hossain.time.UserTimeZone
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -25,11 +26,12 @@ import org.koin.dsl.module
 val appModule = module {
     // Network and local services for stat generation
     single { Client.githubService }
-    single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get()) }
+    single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get(), get()) }
     factory { IssueSearchPager(get(), get()) }
     factory { PrReviewerStatsService(get(), get()) }
     factory { PrAuthorStatsService(get(), get()) }
     single { ErrorProcessor() }
+    single { UserTimeZone() }
 
     // Config to load local properties
     factory { AppConfig(get()) }

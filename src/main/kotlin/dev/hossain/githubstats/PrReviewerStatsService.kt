@@ -8,7 +8,6 @@ import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
-import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
@@ -24,7 +23,6 @@ class PrReviewerStatsService constructor(
         owner: String,
         repo: String,
         reviewerUserId: String,
-        zoneId: ZoneId,
         dateLimit: String
     ): ReviewerReviewStats {
         val issueSearchPager: IssueSearchPager = getKoin().get()
@@ -45,8 +43,7 @@ class PrReviewerStatsService constructor(
                     pullRequestStatsRepo.stats(
                         repoOwner = owner,
                         repoId = repo,
-                        prNumber = it.number,
-                        zoneId = zoneId
+                        prNumber = it.number
                     )
                 } catch (e: Exception) {
                     println("Error getting PR#${it.number}. Got: ${e.message}")

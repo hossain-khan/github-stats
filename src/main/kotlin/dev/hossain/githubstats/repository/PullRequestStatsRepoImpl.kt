@@ -11,16 +11,17 @@ import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubService
 import dev.hossain.time.DateTimeDiffer
+import dev.hossain.time.UserTimeZone
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
-import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
  * Creates PR stats using combination of data from the PR using [githubService].
  */
 class PullRequestStatsRepoImpl(
-    private val githubService: GithubService
+    private val githubService: GithubService,
+    private val userTimeZone: UserTimeZone
 ) : PullRequestStatsRepo {
     /**
      * Provides Pull Request stats [PrStats] for given [prNumber].
@@ -28,8 +29,7 @@ class PullRequestStatsRepoImpl(
     override suspend fun stats(
         repoOwner: String,
         repoId: String,
-        prNumber: Int,
-        zoneId: ZoneId
+        prNumber: Int
     ): StatsResult {
         val pullRequest = githubService.pullRequest(repoOwner, repoId, prNumber)
         val prTimelineEvents = githubService.timelineEvents(repoOwner, repoId, prNumber)
@@ -49,8 +49,7 @@ class PullRequestStatsRepoImpl(
             pullRequest = pullRequest,
             prAvailableForReview = prAvailableForReviewOn,
             prReviewers = prReviewers,
-            prTimelineEvents = prTimelineEvents,
-            zoneId = zoneId
+            prTimelineEvents = prTimelineEvents
         )
 
         return StatsResult.Success(
@@ -74,8 +73,7 @@ class PullRequestStatsRepoImpl(
         pullRequest: PullRequest,
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
-        prTimelineEvents: List<TimelineEvent>,
-        zoneId: ZoneId
+        prTimelineEvents: List<TimelineEvent>
     ): Map<String, Duration> {
         val reviewTimesByUser = mutableMapOf<String, Duration>()
 
@@ -109,7 +107,7 @@ class PullRequestStatsRepoImpl(
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = reviewRequestedEvent.created_at.toInstant(),
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = zoneId
+                    zoneId = userTimeZone.get(reviewer.login)
                 )
                 if (BuildConfig.DEBUG) {
                     println(
@@ -127,7 +125,7 @@ class PullRequestStatsRepoImpl(
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = prAvailableForReview,
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = zoneId
+                    zoneId = userTimeZone.get(reviewer.login)
                 )
                 if (BuildConfig.DEBUG) {
                     println(

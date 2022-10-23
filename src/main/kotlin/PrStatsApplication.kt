@@ -4,7 +4,6 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.util.AppConfig
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.time.ZoneId
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -16,7 +15,7 @@ class PrStatsApplication : KoinComponent {
     private val appConfig: AppConfig by inject()
     private val formatters: List<StatsFormatter> = getKoin().getAll()
 
-    suspend fun generatePrStats(prNumber: Int, authorsZoneId: ZoneId) {
+    suspend fun generatePrStats(prNumber: Int) {
         val (repoOwner, repoId, _, _) = appConfig.get()
         println("■ Building stats for PR#`$prNumber`.\n")
         val authorReportBuildTime = measureTimeMillis {
@@ -24,8 +23,7 @@ class PrStatsApplication : KoinComponent {
                 pullRequestStatsRepo.stats(
                     repoOwner = repoOwner,
                     repoId = repoId,
-                    prNumber = prNumber,
-                    zoneId = authorsZoneId
+                    prNumber = prNumber
                 )
             } catch (e: Exception) {
                 println("Error getting PR#$prNumber. Got: ${e.message}")

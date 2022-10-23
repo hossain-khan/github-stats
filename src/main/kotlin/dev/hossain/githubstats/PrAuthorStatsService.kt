@@ -8,7 +8,6 @@ import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
-import java.time.ZoneId
 import kotlin.time.Duration
 
 /**
@@ -38,7 +37,6 @@ class PrAuthorStatsService constructor(
         owner: String,
         repo: String,
         author: String,
-        zoneId: ZoneId,
         dateLimit: String
     ): List<AuthorReviewStats> {
         // First get all the recent PRs made by author
@@ -60,8 +58,7 @@ class PrAuthorStatsService constructor(
                     pullRequestStatsRepo.stats(
                         repoOwner = owner,
                         repoId = repo,
-                        prNumber = it.number,
-                        zoneId = zoneId
+                        prNumber = it.number
                     )
                 } catch (e: Exception) {
                     println("Error getting PR#${it.number}. Got: ${e.message}")
