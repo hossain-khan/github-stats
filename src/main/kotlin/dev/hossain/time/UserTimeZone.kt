@@ -3,6 +3,13 @@ package dev.hossain.time
 import dev.hossain.time.Zone.city
 import java.time.ZoneId
 
+/**
+ * Configuration file for user's time zone that is used to calculate the PR review time
+ * based on PR reviewer's local time zone.
+ *
+ * @see Zone
+ * @see DateTimeDiffer
+ */
 class UserTimeZone {
     // Default time zone ID for PR review time calculation
     private val defaultZoneId: ZoneId = city("New York")

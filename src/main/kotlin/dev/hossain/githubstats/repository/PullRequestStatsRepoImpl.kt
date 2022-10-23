@@ -107,7 +107,7 @@ class PullRequestStatsRepoImpl(
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = reviewRequestedEvent.created_at.toInstant(),
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = userTimeZone.get(reviewer.login)
+                    timeZoneId = userTimeZone.get(reviewer.login)
                 )
                 if (BuildConfig.DEBUG) {
                     println(
@@ -125,7 +125,7 @@ class PullRequestStatsRepoImpl(
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = prAvailableForReview,
                     endInstant = approvedPrEvent.submitted_at.toInstant(),
-                    zoneId = userTimeZone.get(reviewer.login)
+                    timeZoneId = userTimeZone.get(reviewer.login)
                 )
                 if (BuildConfig.DEBUG) {
                     println(
