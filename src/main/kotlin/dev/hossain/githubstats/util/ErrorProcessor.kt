@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.util
 
+import dev.hossain.githubstats.AppConstants.BUILD_CONFIG
 import dev.hossain.githubstats.BuildConfig
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -40,7 +41,7 @@ class ErrorProcessor {
         NOTE: You can turn on HTTP request and response debugging that contains
               HTTP response header containing important information like API rate limit.
         
-        You can turn on this feature by opening `BuildConfig` and setting `DEBUG_HTTP_REQUESTS = true`.
+        You can turn on this feature by opening `[$BUILD_CONFIG]` and setting `DEBUG_HTTP_REQUESTS = true`.
         ------------------------------------------------------------------------------------------------
     """.trimIndent()
 }

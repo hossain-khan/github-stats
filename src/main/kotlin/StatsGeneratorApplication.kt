@@ -1,3 +1,4 @@
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStatsService
@@ -25,7 +26,7 @@ class StatsGeneratorApplication : KoinComponent {
 
     /**
      * Generates stats for user as PR author
-     * for all PRs created by each user defined in `local.properties` config file.
+     * for all PRs created by each user defined in `[LOCAL_PROPERTIES_FILE]` config file.
      *
      * NOTE: currently, time-zone per user is not supported yet.
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
@@ -58,7 +59,7 @@ class StatsGeneratorApplication : KoinComponent {
 
     /**
      * Generates stats for user as PR reviewer.
-     * For all PRs reviewed by each user defined in `local.properties` config file.
+     * For all PRs reviewed by each user defined in `[LOCAL_PROPERTIES_FILE]` config file.
      *
      * NOTE: currently, time-zone per user is not supported yet.
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
