@@ -3,6 +3,7 @@ package dev.hossain.githubstats.io
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
@@ -97,7 +98,7 @@ object Client {
     }
 
     /**
-     * Provides access token from `local.properties` config file.
+     * Provides access token from `[LOCAL_PROPERTIES_FILE]` config file.
      */
     private fun getAccessToken(): String {
         val localProperties = LocalProperties()

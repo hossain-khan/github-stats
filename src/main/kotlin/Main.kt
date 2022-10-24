@@ -1,4 +1,5 @@
 import dev.hossain.ascii.Art
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_SAMPLE_FILE
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.di.appModule
 import kotlinx.coroutines.runBlocking
@@ -6,7 +7,7 @@ import org.koin.core.context.GlobalContext.startKoin
 
 /**
  * Runs PR stats on specified repository for specific autor.
- * See **`local_sample.properties`** for more information on configuration available.
+ * See **`[LOCAL_PROPERTIES_SAMPLE_FILE]`** for more information on configuration available.
  * Also check out [BuildConfig] for available runtime config for debugging.
  */
 fun main() {

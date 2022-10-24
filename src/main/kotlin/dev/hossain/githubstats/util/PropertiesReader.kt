@@ -1,5 +1,7 @@
 package dev.hossain.githubstats.util
 
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_SAMPLE_FILE
 import java.io.File
 import java.util.Properties
 
@@ -15,9 +17,9 @@ abstract class PropertiesReader(fileName: String) {
             properties.load(propertiesFile.inputStream())
         } else {
             if (System.getenv("IS_GITHUB_CI") == "true") {
-                properties.load(File("local_sample.properties").inputStream())
+                properties.load(File(LOCAL_PROPERTIES_SAMPLE_FILE).inputStream())
             } else {
-                throw IllegalStateException("Please create `local.properties` with config values. See `local_sample.properties`.")
+                throw IllegalStateException("Please create `$LOCAL_PROPERTIES_FILE` with config values. See `$LOCAL_PROPERTIES_SAMPLE_FILE`.")
             }
         }
     }
@@ -25,7 +27,7 @@ abstract class PropertiesReader(fileName: String) {
     fun getProperty(key: String): String = properties.getProperty(key)
 }
 
-class LocalProperties : PropertiesReader("local.properties") {
+class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
     companion object {
         private const val KEY_REPO_OWNER = "repository_owner"
         private const val KEY_REPO_ID = "repository_id"
