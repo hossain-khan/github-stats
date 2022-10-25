@@ -1,5 +1,6 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.BuildConfig.PROGRESS_UPDATE_SPAN
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
@@ -62,7 +63,7 @@ class PrAuthorStatsService constructor(
         // For each PR by author, get the review stats on the PR
         val prStatsList: List<PrStats> = closedPrs
             .mapIndexed { index, pr ->
-                if (index.rem(10) == 0) {
+                if (index.rem(PROGRESS_UPDATE_SPAN) == 0) {
                     progressBar.stepTo(index + 1L)
                 }
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
