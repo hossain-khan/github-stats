@@ -1,6 +1,5 @@
 package dev.hossain.githubstats
 
-import dev.hossain.githubstats.BuildConfig.PROGRESS_UPDATE_SPAN
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
@@ -36,15 +35,12 @@ class PrReviewerStatsService constructor(
         }
 
         // Provides periodic progress updates based on config
-        val prAnalysisProgress = PrAnalysisProgress(reviewedClosedPrs)
-        val progressBar = prAnalysisProgress.start()
+        val progress = PrAnalysisProgress(reviewedClosedPrs).also { it.start() }
 
         // For each of the PRs reviewed by the reviewer, get the stats
         val prStatsList: List<PrStats> = reviewedClosedPrs
             .mapIndexed { index, pr ->
-                if (index.rem(PROGRESS_UPDATE_SPAN) == 0) {
-                    progressBar.stepTo(index + 1L)
-                }
+                progress.publish(index)
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
 
                 try {
@@ -63,7 +59,7 @@ class PrReviewerStatsService constructor(
                 it.stats
             }
 
-        prAnalysisProgress.end()
+        progress.end()
 
         // Builds `ReviewStats` list for PRs that are reviewed by specified reviewer user-id
         val reviewerPrStats: List<ReviewStats> = prStatsList
