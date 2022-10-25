@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.util
 
+import dev.hossain.githubstats.BuildConfig.PROGRESS_UPDATE_SPAN
 import dev.hossain.githubstats.model.Issue
 import me.tongfei.progressbar.ProgressBar
 import me.tongfei.progressbar.ProgressBarBuilder
@@ -14,12 +15,21 @@ class PrAnalysisProgress(private val prs: List<Issue>) : KoinComponent {
     /**
      * Provides a progress bar for provided [prs].
      */
-    fun start(): ProgressBar {
+    fun start() {
         progressBar = getKoin().get<ProgressBarBuilder>()
             .setInitialMax(prs.size.toLong())
             .build()
+    }
 
-        return progressBar
+    /**
+     * Provides progress update after each [PROGRESS_UPDATE_SPAN] number of PRs.
+     * @param index Current index of PR number that is being analyzed.
+     */
+    fun publish(index: Int) {
+        if (index.rem(PROGRESS_UPDATE_SPAN) == 0) {
+            println("\n")
+            progressBar.stepTo(index + 1L)
+        }
     }
 
     /**
