@@ -1,5 +1,6 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.AppConstants.PROGRESS_LABEL
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
@@ -7,6 +8,9 @@ import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
+import me.tongfei.progressbar.ConsoleProgressBarConsumer
+import me.tongfei.progressbar.ProgressBarBuilder
+import me.tongfei.progressbar.ProgressBarStyle
 import org.koin.core.component.KoinComponent
 import kotlin.time.Duration
 
@@ -43,25 +47,34 @@ class PrAuthorStatsService constructor(
         val issueSearchPager: IssueSearchPager = getKoin().get()
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author, dateAfter = dateLimit).toQuery()
-        )
+        ).filter {
+            // Makes sure it is a PR, not an issue
+            it.pull_request != null
+        }
+
+        // Provides periodic progress updates based on config
+        val progressBar = ProgressBarBuilder()
+            .setTaskName(PROGRESS_LABEL)
+            .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BAR)
+            .setConsumer(ConsoleProgressBarConsumer(System.out))
+            .setInitialMax(closedPrs.size.toLong())
+            .build()
 
         // For each PR by author, get the review stats on the PR
         val prStatsList: List<PrStats> = closedPrs
-            .filter {
-                // Makes sure it is a PR, not an issue
-                it.pull_request != null
-            }
-            .map {
+            .mapIndexed { index, pr ->
+                if (index.rem(10) == 0) {
+                    progressBar.stepTo(index + 1L)
+                }
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
-
                 try {
                     pullRequestStatsRepo.stats(
                         repoOwner = owner,
                         repoId = repo,
-                        prNumber = it.number
+                        prNumber = pr.number
                     )
                 } catch (e: Exception) {
-                    println("Error getting PR#${it.number}. Got: ${e.message}")
+                    println("Error getting PR#${pr.number}. Got: ${e.message}")
                     StatsResult.Failure(errorProcessor.getDetailedError(e))
                 }
             }
@@ -69,6 +82,8 @@ class PrAuthorStatsService constructor(
             .map {
                 it.stats
             }
+
+        progressBar.close()
 
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()

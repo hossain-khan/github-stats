@@ -50,6 +50,9 @@ dependencies {
     // Koin Core features - https://insert-koin.io/
     implementation("io.insert-koin:koin-core:3.2.2")
 
+    // ASCII Progress Bar https://github.com/ctongfei/progressbar
+    implementation("me.tongfei:progressbar:0.9.5")
+
     //
     // =======================
     // Unit Test Dependencies

@@ -28,4 +28,9 @@ object BuildConfig {
      * Configuration for max size on disk to cache response files.
      */
     const val HTTP_CACHE_SIZE: Long = 100L * 1024L * 1024L // 100 MB
+
+    /**
+     * Configuration for providing progress update after each `N` number of PR analysis.
+     */
+    const val PROGRESS_UPDATE_SPAN = 10
 }
