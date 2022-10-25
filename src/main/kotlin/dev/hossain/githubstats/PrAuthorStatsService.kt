@@ -6,9 +6,8 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.ErrorProcessor
+import dev.hossain.githubstats.util.PrAnalysisProgress
 import kotlinx.coroutines.delay
-import me.tongfei.progressbar.ProgressBar
-import me.tongfei.progressbar.ProgressBarBuilder
 import org.koin.core.component.KoinComponent
 import kotlin.time.Duration
 
@@ -56,7 +55,9 @@ class PrAuthorStatsService constructor(
         }
 
         // Provides periodic progress updates based on config
-        val progressBar = buildProgressBar(closedPrs)
+        // Provides periodic progress updates based on config
+        val prAnalysisProgress = PrAnalysisProgress(closedPrs)
+        val progressBar = prAnalysisProgress.start()
 
         // For each PR by author, get the review stats on the PR
         val prStatsList: List<PrStats> = closedPrs
@@ -81,7 +82,7 @@ class PrAuthorStatsService constructor(
                 it.stats
             }
 
-        closeProgressBar(closedPrs, progressBar)
+        prAnalysisProgress.end()
 
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
@@ -124,14 +125,5 @@ class PrAuthorStatsService constructor(
         }
 
         return authorReviewStats
-    }
-
-    private fun buildProgressBar(prs: List<Issue>): ProgressBar {
-        return getKoin().get<ProgressBarBuilder>().setInitialMax(prs.size.toLong()).build()
-    }
-
-    private fun closeProgressBar(prs: List<Issue>, progressBar: ProgressBar) {
-        progressBar.stepTo(prs.size.toLong())
-        progressBar.close()
     }
 }
