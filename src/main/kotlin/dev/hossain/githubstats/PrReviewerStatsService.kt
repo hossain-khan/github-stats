@@ -1,6 +1,5 @@
 package dev.hossain.githubstats
 
-import dev.hossain.githubstats.AppConstants.PROGRESS_LABEL
 import dev.hossain.githubstats.BuildConfig.PROGRESS_UPDATE_SPAN
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
@@ -9,9 +8,8 @@ import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
-import me.tongfei.progressbar.ConsoleProgressBarConsumer
+import me.tongfei.progressbar.ProgressBar
 import me.tongfei.progressbar.ProgressBarBuilder
-import me.tongfei.progressbar.ProgressBarStyle
 import org.koin.core.component.KoinComponent
 import kotlin.time.Duration
 
@@ -39,12 +37,7 @@ class PrReviewerStatsService constructor(
         }
 
         // Provides periodic progress updates based on config
-        val progressBar = ProgressBarBuilder()
-            .setTaskName(PROGRESS_LABEL)
-            .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BAR)
-            .setConsumer(ConsoleProgressBarConsumer(System.out))
-            .setInitialMax(reviewedClosedPrs.size.toLong())
-            .build()
+        val progressBar = buildProgressBar(reviewedClosedPrs)
 
         // For each of the PRs reviewed by the reviewer, get the stats
         val prStatsList: List<PrStats> = reviewedClosedPrs
@@ -70,7 +63,7 @@ class PrReviewerStatsService constructor(
                 it.stats
             }
 
-        progressBar.close()
+        closeProgressBar(reviewedClosedPrs, progressBar)
 
         // Builds `ReviewStats` list for PRs that are reviewed by specified reviewer user-id
         val reviewerPrStats: List<ReviewStats> = prStatsList
@@ -125,5 +118,14 @@ class PrReviewerStatsService constructor(
             reviewedPrStats = reviewerPrStats,
             reviewedForPrStats = reviewerReviewedFor
         )
+    }
+
+    private fun buildProgressBar(prs: List<Issue>): ProgressBar {
+        return getKoin().get<ProgressBarBuilder>().setInitialMax(prs.size.toLong()).build()
+    }
+
+    private fun closeProgressBar(prs: List<Issue>, progressBar: ProgressBar) {
+        progressBar.stepTo(prs.size.toLong())
+        progressBar.close()
     }
 }
