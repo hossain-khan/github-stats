@@ -21,4 +21,9 @@ object AppConstants {
      * See at the root of the project directory.
      */
     const val LOCAL_PROPERTIES_SAMPLE_FILE = "local_sample.properties"
+
+    /**
+     * Label for PR analysis progress bar.
+     */
+    const val PROGRESS_LABEL = "Progress"
 }

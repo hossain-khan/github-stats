@@ -7,6 +7,8 @@ import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
+import me.tongfei.progressbar.ProgressBar
+import me.tongfei.progressbar.ProgressBarBuilder
 import org.koin.core.component.KoinComponent
 import kotlin.time.Duration
 
@@ -42,26 +44,35 @@ class PrAuthorStatsService constructor(
         // First get all the recent PRs made by author
         val issueSearchPager: IssueSearchPager = getKoin().get()
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
-            searchQuery = SearchParams(repoOwner = owner, repoId = repo, author = author, dateAfter = dateLimit).toQuery()
-        )
+            searchQuery = SearchParams(
+                repoOwner = owner,
+                repoId = repo,
+                author = author,
+                dateAfter = dateLimit
+            ).toQuery()
+        ).filter {
+            // Makes sure it is a PR, not an issue
+            it.pull_request != null
+        }
+
+        // Provides periodic progress updates based on config
+        val progressBar = buildProgressBar(closedPrs)
 
         // For each PR by author, get the review stats on the PR
         val prStatsList: List<PrStats> = closedPrs
-            .filter {
-                // Makes sure it is a PR, not an issue
-                it.pull_request != null
-            }
-            .map {
+            .mapIndexed { index, pr ->
+                if (index.rem(10) == 0) {
+                    progressBar.stepTo(index + 1L)
+                }
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
-
                 try {
                     pullRequestStatsRepo.stats(
                         repoOwner = owner,
                         repoId = repo,
-                        prNumber = it.number
+                        prNumber = pr.number
                     )
                 } catch (e: Exception) {
-                    println("Error getting PR#${it.number}. Got: ${e.message}")
+                    println("Error getting PR#${pr.number}. Got: ${e.message}")
                     StatsResult.Failure(errorProcessor.getDetailedError(e))
                 }
             }
@@ -69,6 +80,8 @@ class PrAuthorStatsService constructor(
             .map {
                 it.stats
             }
+
+        closeProgressBar(closedPrs, progressBar)
 
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
@@ -111,5 +124,14 @@ class PrAuthorStatsService constructor(
         }
 
         return authorReviewStats
+    }
+
+    private fun buildProgressBar(prs: List<Issue>): ProgressBar {
+        return getKoin().get<ProgressBarBuilder>().setInitialMax(prs.size.toLong()).build()
+    }
+
+    private fun closeProgressBar(prs: List<Issue>, progressBar: ProgressBar) {
+        progressBar.stepTo(prs.size.toLong())
+        progressBar.close()
     }
 }

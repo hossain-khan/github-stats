@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.di
 
+import dev.hossain.githubstats.AppConstants
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.formatter.CsvFormatter
@@ -15,6 +16,9 @@ import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.LocalProperties
 import dev.hossain.githubstats.util.PropertiesReader
 import dev.hossain.time.UserTimeZone
+import me.tongfei.progressbar.ConsoleProgressBarConsumer
+import me.tongfei.progressbar.ProgressBarBuilder
+import me.tongfei.progressbar.ProgressBarStyle
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -42,4 +46,12 @@ val appModule = module {
     single { PicnicTableFormatter() } bind StatsFormatter::class
     single { CsvFormatter() } bind StatsFormatter::class
     single { FileWriterFormatter(PicnicTableFormatter()) } bind StatsFormatter::class
+
+    // Progress Bar
+    factory {
+        ProgressBarBuilder()
+            .setTaskName(AppConstants.PROGRESS_LABEL)
+            .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BAR)
+            .setConsumer(ConsoleProgressBarConsumer(System.out))
+    }
 }
