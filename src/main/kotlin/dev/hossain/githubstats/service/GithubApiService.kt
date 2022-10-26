@@ -14,7 +14,7 @@ import retrofit2.http.Query
  *
  * See [GitHub API Browser](https://docs.github.com/en/rest)
  */
-interface GithubService {
+interface GithubApiService {
     companion object {
         private const val DEFAULT_PAGE_NUMBER = 1
         const val DEFAULT_PAGE_SIZE = 100

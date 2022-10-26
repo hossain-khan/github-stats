@@ -9,7 +9,7 @@ import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
-import dev.hossain.githubstats.service.GithubService
+import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import kotlinx.datetime.Instant
@@ -17,10 +17,10 @@ import kotlinx.datetime.toInstant
 import kotlin.time.Duration
 
 /**
- * Creates PR stats using combination of data from the PR using [githubService].
+ * Creates PR stats using combination of data from the PR using [githubApiService].
  */
 class PullRequestStatsRepoImpl(
-    private val githubService: GithubService,
+    private val githubApiService: GithubApiService,
     private val userTimeZone: UserTimeZone
 ) : PullRequestStatsRepo {
     /**
@@ -31,8 +31,8 @@ class PullRequestStatsRepoImpl(
         repoId: String,
         prNumber: Int
     ): StatsResult {
-        val pullRequest = githubService.pullRequest(repoOwner, repoId, prNumber)
-        val prTimelineEvents = githubService.timelineEvents(repoOwner, repoId, prNumber)
+        val pullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
+        val prTimelineEvents = githubApiService.timelineEvents(repoOwner, repoId, prNumber)
 
         if (pullRequest.merged == null || pullRequest.merged == false) {
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
