@@ -102,6 +102,8 @@ object Client {
      */
     private fun getAccessToken(): String {
         val localProperties = LocalProperties()
-        return localProperties.getProperty("access_token")
+        return requireNotNull(localProperties.getProperty("access_token")) {
+            "GitHub access token config is required in $LOCAL_PROPERTIES_FILE"
+        }
     }
 }
