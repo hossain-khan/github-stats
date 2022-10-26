@@ -31,10 +31,13 @@ class PullRequestStatsRepoImpl(
         repoId: String,
         prNumber: Int
     ): StatsResult {
+        // API request to get PR information
         val pullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
+        // API request to get all timeline events for the PR
         val prTimelineEvents = githubApiService.timelineEvents(repoOwner, repoId, prNumber)
 
         if (pullRequest.merged == null || pullRequest.merged == false) {
+            // Skips PR stats generation if PR is not merged at all.
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
         }
 
@@ -44,8 +47,12 @@ class PullRequestStatsRepoImpl(
 
         val prCreatedOn: Instant = pullRequest.created_at.toInstant()
         val prAvailableForReviewOn: Instant = prAvailableForReviewTime(prCreatedOn, prTimelineEvents)
+
+        // List of users who has been requested as reviewer or reviewed the PR
         val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
-        val reviewCompletionInfo: Map<String, Duration> = reviewTimeByUser(
+
+        // Builds a map of [Reviewer User -> Review Time during Working Hours]
+        val prReviewCompletionMap: Map<String, Duration> = reviewTimeByUser(
             pullRequest = pullRequest,
             prAvailableForReview = prAvailableForReviewOn,
             prReviewers = prReviewers,
@@ -55,7 +62,7 @@ class PullRequestStatsRepoImpl(
         return StatsResult.Success(
             PrStats(
                 pullRequest = pullRequest,
-                reviewTime = reviewCompletionInfo,
+                reviewTime = prReviewCompletionMap,
                 prReadyOn = prAvailableForReviewOn,
                 prMergedOn = pullRequest.merged_at!!.toInstant()
             )
