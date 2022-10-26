@@ -30,7 +30,6 @@ fun main() {
     // Test single PR stats (disabled by default - uncomment to test by PR#)
     /*runBlocking {
         val prStatsApplication = PrStatsApplication()
-        val authorsZoneId: ZoneId = requireNotNull(Zone.cities["Toronto"])
-        prStatsApplication.generatePrStats(34030, authorsZoneId)
+        prStatsApplication.generatePrStats(34030) // Check single PR stats.
     }*/
 }
