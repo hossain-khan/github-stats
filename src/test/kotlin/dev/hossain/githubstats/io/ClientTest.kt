@@ -7,7 +7,7 @@ import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
-import dev.hossain.githubstats.service.GithubService
+import dev.hossain.githubstats.service.GithubApiService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 /**
- * Tests [GithubService] APIs.
+ * Tests [GithubApiService] APIs.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ClientTest {
@@ -41,7 +41,7 @@ internal class ClientTest {
     fun `given timeline with review_requested event - parses review_requested event successfully`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-review-requested.json")))
 
-        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
         val event = timelineEvents.find { it is ReviewRequestedEvent }
         assertThat(event).isNotNull()
 
@@ -52,7 +52,7 @@ internal class ClientTest {
     fun `given timeline with merged event - parses merged event successfully`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-merged.json")))
 
-        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
 
         val event = timelineEvents.find { it is MergedEvent }
         assertThat(event).isNotNull()
@@ -63,7 +63,7 @@ internal class ClientTest {
     fun `given timeline with reviewed event - parses reviewed event successfully`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-reviewed.json")))
 
-        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
 
         val event = timelineEvents.find { it is ReviewedEvent }
         assertThat(event).isNotNull()
@@ -77,7 +77,7 @@ internal class ClientTest {
     fun `given timeline with closed event - parses closed event successfully`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-closed.json")))
 
-        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
 
         val event = timelineEvents.find { it is ClosedEvent }
         assertThat(event).isNotNull()
@@ -89,7 +89,7 @@ internal class ClientTest {
     fun `given timeline with ready_for_review event - parses ready_for_review event successfully`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-ready-for-review.json")))
 
-        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
 
         val event = timelineEvents.find { it is ReadyForReviewEvent }
         assertThat(event).isNotNull()
@@ -101,7 +101,7 @@ internal class ClientTest {
     fun `given multiple timeline events - provides multiple parsed timeline events`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-response.json")))
 
-        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
         assertThat(timelineEvents).isNotEmpty()
         assertThat(timelineEvents).hasSize(3)
     }
@@ -110,7 +110,7 @@ internal class ClientTest {
     fun `given empty timeline response - provides empty timeline events`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody("[]"))
 
-        val timelineEvents = Client.githubService.timelineEvents("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
         assertEquals(true, timelineEvents.isEmpty())
     }
 
@@ -118,7 +118,7 @@ internal class ClientTest {
     fun `given pull request response - provides parsed PR data`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-number.json")))
 
-        val pullRequest = Client.githubService.pullRequest("X", "Y", 1)
+        val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
 
         assertThat(pullRequest.created_at).isEqualTo("2021-08-18T15:23:51Z")
     }

@@ -2,7 +2,14 @@ package dev.hossain.githubstats.repository
 
 import dev.hossain.githubstats.PrStats
 
+/**
+ * Repository for generating and providing GitHub PR stats.
+ * @see PullRequestStatsRepoImpl
+ */
 interface PullRequestStatsRepo {
+    /**
+     * Stats generation result used for [stats] request.
+     */
     sealed class StatsResult {
         data class Success(
             val stats: PrStats

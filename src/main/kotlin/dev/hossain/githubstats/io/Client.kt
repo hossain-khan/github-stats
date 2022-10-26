@@ -12,7 +12,7 @@ import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.model.timeline.UnknownEvent
-import dev.hossain.githubstats.service.GithubService
+import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.util.FileUtil.httpCacheDir
 import dev.hossain.githubstats.util.LocalProperties
 import okhttp3.Cache
@@ -87,14 +87,14 @@ object Client {
         return builder.build()
     }
 
-    val githubService: GithubService by lazy {
+    val githubApiService: GithubApiService by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
 
-        retrofit.create(GithubService::class.java)
+        retrofit.create(GithubApiService::class.java)
     }
 
     /**

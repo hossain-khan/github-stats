@@ -29,7 +29,7 @@ import org.koin.dsl.module
  */
 val appModule = module {
     // Network and local services for stat generation
-    single { Client.githubService }
+    single { Client.githubApiService }
     single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get(), get()) }
     factory { IssueSearchPager(get(), get()) }
     factory { PrReviewerStatsService(get(), get()) }

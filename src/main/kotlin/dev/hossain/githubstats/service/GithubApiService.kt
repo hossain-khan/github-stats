@@ -3,7 +3,6 @@ package dev.hossain.githubstats.service
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.PullRequestState
-import dev.hossain.githubstats.model.Repository
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,14 +13,18 @@ import retrofit2.http.Query
  *
  * See [GitHub API Browser](https://docs.github.com/en/rest)
  */
-interface GithubService {
+interface GithubApiService {
     companion object {
+        /**
+         * Initial page number for GitHub API requests.
+         */
         private const val DEFAULT_PAGE_NUMBER = 1
+
+        /**
+         * GitHub maximum resource item size for API requests.
+         */
         const val DEFAULT_PAGE_SIZE = 100
     }
-
-    @GET("users/{user}/repos")
-    suspend fun listRepos(@Path("user") user: String): List<Repository>
 
     /**
      * Lists details of a pull request by providing its number.

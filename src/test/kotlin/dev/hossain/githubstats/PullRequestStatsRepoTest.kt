@@ -36,7 +36,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
 
-        pullRequestStatsRepo = PullRequestStatsRepoImpl(Client.githubService, UserTimeZone())
+        pullRequestStatsRepo = PullRequestStatsRepoImpl(Client.githubApiService, UserTimeZone())
     }
 
     @AfterEach

@@ -26,7 +26,7 @@ class SearchParams constructor(
     private val dateBefore: String? = null
 ) {
     /**
-     * Provides search query for the [GithubService.searchIssues] API.
+     * Provides search query for the [GithubApiService.searchIssues] API.
      * Example search query:
      * - `is%3Aclosed+is%3Apr+is%3Amerged+repo%3AfreeCodeCamp%2FfreeCodeCamp+created%3A%3E2022-09-11+reviewed-by%3ADanielRosa74`
      * - `is:closed+is:pr+is:merged+repo:freeCodeCamp/freeCodeCamp+created:>2022-09-11+reviewed-by:DanielRosa74`
