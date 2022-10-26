@@ -24,7 +24,7 @@ abstract class PropertiesReader(fileName: String) {
         }
     }
 
-    fun getProperty(key: String): String = properties.getProperty(key)
+    fun getProperty(key: String): String? = properties.getProperty(key)
 }
 
 class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
@@ -35,8 +35,13 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         private const val KEY_DATE_LIMIT = "date_limit"
     }
 
-    fun getRepoOwner(): String = getProperty(KEY_REPO_OWNER)
-    fun getRepoId(): String = getProperty(KEY_REPO_ID)
-    fun getAuthors(): String = getProperty(KEY_AUTHOR_IDS)
-    fun getDateLimit(): String = getProperty(KEY_DATE_LIMIT)
+    fun getRepoOwner(): String = requireNotNull(getProperty(KEY_REPO_OWNER)) {
+        "Repository owner also known as Org ID config is required in $LOCAL_PROPERTIES_FILE"
+    }
+
+    fun getRepoId(): String = requireNotNull(getProperty(KEY_REPO_ID)) {
+        "Repository ID config is required in $LOCAL_PROPERTIES_FILE"
+    }
+    fun getAuthors(): String? = getProperty(KEY_AUTHOR_IDS)
+    fun getDateLimit(): String? = getProperty(KEY_DATE_LIMIT)
 }
