@@ -50,6 +50,21 @@ internal class ClientTest {
     }
 
     @Test
+    fun `given timeline with review_requested event from team - parses review_requested event successfully`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-review-requested-team.json")))
+
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
+        val event = timelineEvents.find { it is ReviewRequestedEvent }
+        assertThat(event).isNotNull()
+
+        val reviewRequestedEvent = event as ReviewRequestedEvent
+        assertThat(reviewRequestedEvent.created_at).isEqualTo("2022-09-19T20:10:38Z")
+        assertThat(reviewRequestedEvent.requested_team).isNotNull()
+        assertThat(reviewRequestedEvent.requested_team!!.name).isEqualTo("opensearch-core")
+        assertThat(reviewRequestedEvent.requested_team!!.slug).isEqualTo("opensearch-core")
+    }
+
+    @Test
     fun `given timeline with merged event - parses merged event successfully`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-merged.json")))
 
