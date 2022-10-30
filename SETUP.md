@@ -48,7 +48,7 @@ Once configuration is in place, all you need to do is open the [`Main.kt`](https
 Once the generator app finishes running, you will see report in the project root directory that contains both `ASCII` and `CSV` report.  
 Here is sample snapshot of reports from different repositories:
 
-<img width="400" alt="Screen Shot 2022-10-29 at 11 19 57 PM" src="https://user-images.githubusercontent.com/99822/198861052-a4362440-d09c-4e06-aac0-e344b519299c.png">
+<img width="400" alt="Generated files and folders" src="https://user-images.githubusercontent.com/99822/198861052-a4362440-d09c-4e06-aac0-e344b519299c.png">
 
 Troubleshooting
 ---------------
