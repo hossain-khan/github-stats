@@ -6,6 +6,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.model.timeline.ClosedEvent
+import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
@@ -39,6 +40,7 @@ object Client {
             // https://github.com/square/moshi/blob/master/moshi-adapters/src/main/java/com/squareup/moshi/adapters/PolymorphicJsonAdapterFactory.kt
             PolymorphicJsonAdapterFactory.of(TimelineEvent::class.java, "event")
                 .withSubtype(ClosedEvent::class.java, ClosedEvent.TYPE)
+                .withSubtype(CommentedEvent::class.java, CommentedEvent.TYPE)
                 .withSubtype(MergedEvent::class.java, MergedEvent.TYPE)
                 .withSubtype(ReadyForReviewEvent::class.java, ReadyForReviewEvent.TYPE)
                 .withSubtype(ReviewRequestedEvent::class.java, ReviewRequestedEvent.TYPE)

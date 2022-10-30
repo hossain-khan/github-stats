@@ -2,6 +2,7 @@ package dev.hossain.githubstats.io
 
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.model.timeline.ClosedEvent
+import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
@@ -95,6 +96,22 @@ internal class ClientTest {
         assertThat(event).isNotNull()
 
         assertThat((event as ReadyForReviewEvent).created_at).isEqualTo("2022-09-21T14:32:13Z")
+    }
+
+    @Test
+    fun `given timeline with commented event - parses commented event successfully`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-event-commented.json")))
+
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
+
+        val event = timelineEvents.find { it is CommentedEvent }
+        assertThat(event).isNotNull()
+
+        val commentedEvent = event as CommentedEvent
+        assertThat(commentedEvent.created_at).isEqualTo("2022-10-20T11:42:19Z")
+        assertThat(commentedEvent.updated_at).isEqualTo("2022-10-20T12:22:19Z")
+        assertThat(commentedEvent.user.login).isEqualTo("ojeytonwilliams")
+        assertThat(commentedEvent.actor.login).isEqualTo("ojeytonwilliams")
     }
 
     @Test
