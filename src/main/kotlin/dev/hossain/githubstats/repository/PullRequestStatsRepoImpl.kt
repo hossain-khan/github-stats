@@ -7,6 +7,7 @@ import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
+import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubApiService
@@ -86,11 +87,7 @@ class PullRequestStatsRepoImpl(
 
         prReviewers.forEach { reviewer ->
             // Find out if user has approved the PR, if not, do not include in stats
-            val hasApprovedPr = prTimelineEvents.asSequence().filter { it.eventType == ReviewedEvent.TYPE }
-                .map { it as ReviewedEvent }
-                .any { it.user == reviewer && it.state == ReviewedEvent.ReviewState.APPROVED }
-
-            if (hasApprovedPr.not()) {
+            if (!isApprovedByReviewer(reviewer, prTimelineEvents)) {
                 return@forEach
             }
 
@@ -98,22 +95,18 @@ class PullRequestStatsRepoImpl(
             val requestedLater = prTimelineEvents.asSequence().filter { it.eventType == ReviewRequestedEvent.TYPE }
                 .map { it as ReviewRequestedEvent }.any { it.requested_reviewer == reviewer }
 
-            val approvedPrEvent: ReviewedEvent =
-                prTimelineEvents.find {
-                    it.eventType == ReviewedEvent.TYPE &&
-                        (it as ReviewedEvent).user == reviewer &&
-                        it.state == ReviewedEvent.ReviewState.APPROVED
-                } as ReviewedEvent
+            val prApprovedByReviewerEvent: ReviewedEvent = findPrApprovedEventByUser(reviewer, prTimelineEvents)
+
             if (requestedLater) {
                 val reviewRequestedEvent =
                     prTimelineEvents.find { it.eventType == ReviewRequestedEvent.TYPE && (it as ReviewRequestedEvent).requested_reviewer == reviewer } as ReviewRequestedEvent
                 val openToCloseDuration = (
                     pullRequest.merged_at?.toInstant()
-                        ?: approvedPrEvent.submitted_at.toInstant()
+                        ?: prApprovedByReviewerEvent.submitted_at.toInstant()
                     ) - reviewRequestedEvent.created_at.toInstant()
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = reviewRequestedEvent.created_at.toInstant(),
-                    endInstant = approvedPrEvent.submitted_at.toInstant(),
+                    endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
                     timeZoneId = userTimeZone.get(reviewer.login)
                 )
                 if (BuildConfig.DEBUG) {
@@ -127,11 +120,11 @@ class PullRequestStatsRepoImpl(
             } else {
                 val openToCloseDuration = (
                     pullRequest.merged_at?.toInstant()
-                        ?: approvedPrEvent.submitted_at.toInstant()
+                        ?: prApprovedByReviewerEvent.submitted_at.toInstant()
                     ) - prAvailableForReview
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                     startInstant = prAvailableForReview,
-                    endInstant = approvedPrEvent.submitted_at.toInstant(),
+                    endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
                     timeZoneId = userTimeZone.get(reviewer.login)
                 )
                 if (BuildConfig.DEBUG) {
@@ -149,8 +142,45 @@ class PullRequestStatsRepoImpl(
     }
 
     /**
-     * Extracts all the PR reviewers who reviewed (approved or commented)
+     * Checks if the PR was approved by the [reviewer] by analyzing the [prTimelineEvents].
+     *
+     * @param reviewer The user who reviewed the PR.
+     * @param prTimelineEvents All the timeline events for the opened PR.
+     */
+    private fun isApprovedByReviewer(
+        reviewer: User,
+        prTimelineEvents: List<TimelineEvent>
+    ): Boolean {
+        return prTimelineEvents.asSequence()
+            .filter { it.eventType == ReviewedEvent.TYPE }
+            .map { it as ReviewedEvent }
+            .any { it.user == reviewer && it.state == ReviewState.APPROVED }
+    }
+
+    /**
+     * Finds the first reviewed event with [ReviewState.APPROVED] state
+     * for the user to know when user has finished reviewing the PR.
+     *
+     * @param reviewer The user who reviewed the PR.
+     * @param prTimelineEvents All the timeline events for the opened PR.
+     */
+    private fun findPrApprovedEventByUser(
+        reviewer: User,
+        prTimelineEvents: List<TimelineEvent>
+    ): ReviewedEvent {
+        return prTimelineEvents.find {
+            it.eventType == ReviewedEvent.TYPE &&
+                (it as ReviewedEvent).user == reviewer &&
+                it.state == ReviewState.APPROVED
+        } as ReviewedEvent
+    }
+
+    /**
+     * Extracts all the PR reviewers who reviewed (approved or reviewed)
      * or has been requested to review.
+     *
+     * @param prAuthor The user who created the PR
+     * @param prTimelineEvents All the timeline events for the opened PR.
      */
     private fun prReviewers(
         prAuthor: User,
