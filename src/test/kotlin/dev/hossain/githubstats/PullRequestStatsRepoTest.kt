@@ -23,7 +23,6 @@ internal class PullRequestStatsRepoTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
     lateinit var pullRequestStatsRepo: PullRequestStatsRepoImpl
-    private val zoneId = ZoneId.systemDefault()
 
     private companion object {
         const val REPO_OWNER = "owner"
@@ -152,7 +151,7 @@ internal class PullRequestStatsRepoTest {
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
         val result = statsResult as StatsResult.Success
         assertThat(result.stats.reviewTime).hasSize(2)
-        // assertThat(result.stats.reviewTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))
+        assertThat(result.stats.reviewTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))
     }
 
     // region: Test Utility Functions
