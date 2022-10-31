@@ -29,16 +29,18 @@ class PrStatsApplication : KoinComponent {
                 )
             } catch (e: Exception) {
                 val error = errorProcessor.getDetailedError(e)
-                println("Error getting PR#$prNumber. Got: ${error.message}")
                 PullRequestStatsRepo.StatsResult.Failure(error)
             }
 
-            if (statsResult is PullRequestStatsRepo.StatsResult.Success) {
-                formatters.forEach {
-                    println(it.formatPrStats(statsResult.stats))
+            when (statsResult) {
+                is PullRequestStatsRepo.StatsResult.Success -> {
+                    formatters.forEach {
+                        println(it.formatPrStats(statsResult.stats))
+                    }
                 }
-            } else {
-                println("⚠️ Failed to generate PR stats for PR#`$prNumber`")
+                is PullRequestStatsRepo.StatsResult.Failure -> {
+                    println("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.error.message}")
+                }
             }
         }
         if (BuildConfig.DEBUG) {
