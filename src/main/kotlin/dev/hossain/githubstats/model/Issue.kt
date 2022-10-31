@@ -1,9 +1,13 @@
 package dev.hossain.githubstats.model
 
+/**
+ * GitHub issue - that can be regular issue or pull-request.
+ */
 data class Issue(
     val id: Long,
     /**
      * Issue or PR number.
+     * Number uniquely identifying the pull request within its repository.
      */
     val number: Int,
     val state: String,
