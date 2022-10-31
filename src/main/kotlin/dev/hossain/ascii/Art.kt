@@ -1,5 +1,8 @@
 package dev.hossain.ascii
 
+/**
+ * Contains some ASCII art for fun! ^_^
+ */
 object Art {
     fun coffee(): String {
         // Tea/Coffee art by Elissa Potier
