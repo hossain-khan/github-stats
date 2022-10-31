@@ -1,7 +1,8 @@
 package dev.hossain.githubstats.model
 
 /**
- * Pull request info for an issue, when the issue is a PR.
+ * Pull request info for an issue, when the [Issue] is a PR.
+ * @see Issue
  */
 class IssuePullRequest(
     /**
