@@ -39,7 +39,7 @@ class PullRequestStatsRepoImpl(
 
         if (pullRequest.merged == null || pullRequest.merged == false) {
             // Skips PR stats generation if PR is not merged at all.
-            return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to check stats."))
+            return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to analyze PR stats."))
         }
 
         if (BuildConfig.DEBUG) {
