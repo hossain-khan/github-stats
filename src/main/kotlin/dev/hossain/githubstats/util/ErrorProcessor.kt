@@ -17,7 +17,7 @@ class ErrorProcessor {
     /**
      * Provides bit more verbose error message to help understand the error.
      */
-    fun getErrorMessage(exception: Exception): String {
+    private fun getErrorMessage(exception: Exception): String {
         // Tell about HTTP Response Headers has important debug information
         // which might help user to debug failing request
         val debugGuide = if (BuildConfig.DEBUG_HTTP_REQUESTS) "" else httpResponseDebugGuide
@@ -37,11 +37,13 @@ class ErrorProcessor {
     }
 
     private val httpResponseDebugGuide: String = """
+        
         ------------------------------------------------------------------------------------------------
         NOTE: You can turn on HTTP request and response debugging that contains
               HTTP response header containing important information like API rate limit.
         
         You can turn on this feature by opening `[$BUILD_CONFIG]` and setting `DEBUG_HTTP_REQUESTS = true`.
         ------------------------------------------------------------------------------------------------
+        
     """.trimIndent()
 }

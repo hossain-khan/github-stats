@@ -2,6 +2,7 @@ import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.githubstats.util.ErrorProcessor
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.system.measureTimeMillis
@@ -14,6 +15,7 @@ class PrStatsApplication : KoinComponent {
     private val pullRequestStatsRepo: PullRequestStatsRepo by inject()
     private val appConfig: AppConfig by inject()
     private val formatters: List<StatsFormatter> = getKoin().getAll()
+    private val errorProcessor: ErrorProcessor by inject()
 
     suspend fun generatePrStats(prNumber: Int) {
         val (repoOwner, repoId, _, _) = appConfig.get()
@@ -26,8 +28,9 @@ class PrStatsApplication : KoinComponent {
                     prNumber = prNumber
                 )
             } catch (e: Exception) {
-                println("Error getting PR#$prNumber. Got: ${e.message}")
-                PullRequestStatsRepo.StatsResult.Failure(e)
+                val error = errorProcessor.getDetailedError(e)
+                println("Error getting PR#$prNumber. Got: ${error.message}")
+                PullRequestStatsRepo.StatsResult.Failure(error)
             }
 
             if (statsResult is PullRequestStatsRepo.StatsResult.Success) {
