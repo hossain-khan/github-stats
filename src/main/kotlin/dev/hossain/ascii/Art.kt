@@ -21,4 +21,9 @@ Enjoy a cup of ☕️ while stats are being generated.
 
         """.trimIndent()
     }
+
+    /**
+     * Meh! just 🤷
+     */
+    const val shrug = "¯\\_(ツ)_/¯"
 }

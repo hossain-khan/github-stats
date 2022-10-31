@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.formatter
 
+import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
@@ -23,7 +24,7 @@ class FileWriterFormatter constructor(
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
-            return "⚠ ERROR: No author stats to format. No files to write! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No author stats to format. No files to write! ${Art.shrug}"
         }
 
         // Create multiple CSV file per author for better visualization
@@ -40,7 +41,7 @@ class FileWriterFormatter constructor(
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
-            return "⚠ ERROR: No reviewer stats to format. No files to write! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No reviewer stats to format. No files to write! ${Art.shrug}"
         }
         val formattedStats = formatter.formatReviewerStats(stats)
 
