@@ -69,8 +69,9 @@ class PrAuthorStatsService constructor(
                         prNumber = pr.number
                     )
                 } catch (e: Exception) {
-                    println("Error getting PR#${pr.number}. Got: ${e.message}")
-                    StatsResult.Failure(errorProcessor.getDetailedError(e))
+                    val error = errorProcessor.getDetailedError(e)
+                    println("Error getting PR#${pr.number}. Got: ${error.message}")
+                    StatsResult.Failure(error)
                 }
             }
             .filterIsInstance<StatsResult.Success>()
