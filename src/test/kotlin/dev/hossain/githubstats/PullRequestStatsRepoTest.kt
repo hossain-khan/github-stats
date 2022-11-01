@@ -153,6 +153,21 @@ internal class PullRequestStatsRepoTest {
         assertThat(result.stats.reviewTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))
     }
 
+    @Test
+    fun `calculateStats - given pr has multiple comments - provides comment count for each user`() = runTest {
+        // Lots of comments by different users
+        // Uses data from https://github.com/square/okhttp/pull/3873
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-3873.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
+
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+        val stats = (statsResult as StatsResult.Success).stats
+        assertThat(stats.comments).hasSize(5)
+        assertThat(stats.comments.keys)
+            .containsExactlyElementsIn(setOf("swankjesse", "jjshanks", "yschimke", "mjpitz", "JakeWharton"))
+        assertThat(stats.comments["swankjesse"]).isEqualTo(3)
+    }
+
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {

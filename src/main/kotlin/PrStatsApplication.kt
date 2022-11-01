@@ -35,7 +35,7 @@ class PrStatsApplication : KoinComponent {
             when (statsResult) {
                 is PullRequestStatsRepo.StatsResult.Success -> {
                     formatters.forEach {
-                        println(it.formatPrStats(statsResult.stats))
+                        println(it.formatSinglePrStats(statsResult.stats))
                     }
                 }
                 is PullRequestStatsRepo.StatsResult.Failure -> {

@@ -13,7 +13,7 @@ import kotlin.time.DurationUnit
 
 class CsvFormatter : StatsFormatter, KoinComponent {
     private val props: LocalProperties by inject()
-    override fun formatPrStats(prStats: PrStats): String {
+    override fun formatSinglePrStats(prStats: PrStats): String {
         return "Individual PR stats is not supported for CSV export."
     }
 

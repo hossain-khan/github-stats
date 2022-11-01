@@ -26,7 +26,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
 
     private val props: LocalProperties by inject()
 
-    override fun formatPrStats(prStats: PrStats): String {
+    override fun formatSinglePrStats(prStats: PrStats): String {
         return table {
             cellStyle {
                 border = true
@@ -46,6 +46,18 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
                 prStats.reviewTime.entries.drop(1).forEach {
+                    row("$it")
+                }
+            }
+            if (prStats.comments.isNotEmpty()) {
+                row {
+                    cell("PR Comments") {
+                        rowSpan = prStats.comments.size
+                    }
+                    cell("${prStats.comments.entries.first()}")
+                }
+                // This row has only one cell because earlier data will carry over and push it to the right.
+                prStats.comments.entries.drop(1).forEach {
                     row("$it")
                 }
             }

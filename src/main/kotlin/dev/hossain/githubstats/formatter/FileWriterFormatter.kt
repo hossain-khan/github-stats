@@ -13,8 +13,8 @@ import java.io.File
 class FileWriterFormatter constructor(
     private val formatter: StatsFormatter
 ) : StatsFormatter {
-    override fun formatPrStats(prStats: PrStats): String {
-        val formattedPrStats = formatter.formatPrStats(prStats)
+    override fun formatSinglePrStats(prStats: PrStats): String {
+        val formattedPrStats = formatter.formatSinglePrStats(prStats)
 
         val prStatsFileName = FileUtil.prReportFile(prStats)
         File(prStatsFileName).writeText(formattedPrStats)
