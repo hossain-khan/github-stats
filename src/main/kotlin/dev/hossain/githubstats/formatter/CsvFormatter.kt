@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.formatter
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
+import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
@@ -13,12 +14,12 @@ import kotlin.time.DurationUnit
 class CsvFormatter : StatsFormatter, KoinComponent {
     private val props: LocalProperties by inject()
     override fun formatPrStats(prStats: PrStats): String {
-        return "Individual PR stats is not supported for CSV."
+        return "Individual PR stats is not supported for CSV export."
     }
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No CSV files for you! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.shrug}"
         }
 
         // Create multiple CSV file per author for better visualization
@@ -64,7 +65,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No CSV files for you! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.shrug}"
         }
 
         // Generate two different CSV

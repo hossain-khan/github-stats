@@ -32,9 +32,14 @@ package dev.hossain.githubstats.model
 data class Team(
     val id: Long,
     /**
-     * Name of the team
+     * Name of the team (used for display).
+     * For example: `"Justice League"`
      */
     val name: String,
+    /**
+     * Team slug is the team used in URL, and could be used as unique ID.
+     * For example: `"justice-league"`
+     */
     val slug: String,
     /**
      * Description of the team

@@ -1,5 +1,8 @@
 package dev.hossain.ascii
 
+/**
+ * Contains some ASCII art for fun! ^_^
+ */
 object Art {
     fun coffee(): String {
         // Tea/Coffee art by Elissa Potier
@@ -21,4 +24,9 @@ Enjoy a cup of ☕️ while stats are being generated.
 
         """.trimIndent()
     }
+
+    /**
+     * Meh! just 🤷
+     */
+    const val shrug = "¯\\_(ツ)_/¯"
 }

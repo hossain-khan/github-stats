@@ -3,6 +3,7 @@ package dev.hossain.githubstats.formatter
 import com.jakewharton.picnic.TextAlignment.TopCenter
 import com.jakewharton.picnic.TextAlignment.TopLeft
 import com.jakewharton.picnic.table
+import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
@@ -55,7 +56,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
 
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
         }
 
         return table {
@@ -115,7 +116,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ¯\\_(ツ)_/¯"
+            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
         }
         return table {
             cellStyle {
