@@ -2,8 +2,10 @@ package dev.hossain.githubstats.repository
 
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
+import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
 import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
@@ -60,14 +62,44 @@ class PullRequestStatsRepoImpl(
             prTimelineEvents = prTimelineEvents
         )
 
+        val commentsByUser: Map<UserId, Int> = commentsByUser(prTimelineEvents)
+
         return StatsResult.Success(
             PrStats(
                 pullRequest = pullRequest,
                 reviewTime = prReviewCompletionMap,
+                comments = commentsByUser,
                 prReadyOn = prAvailableForReviewOn,
                 prMergedOn = pullRequest.merged_at!!.toInstant()
             )
         )
+    }
+
+    /**
+     * Provides stats for users and total number of comments made in the PR by analyzing all timeline events.
+     *
+     * Example snapshot of a map.
+     * ```
+     * {swankjesse=3, jjshanks=1, yschimke=9, mjpitz=10, JakeWharton=1}
+     * ```
+     *
+     * @return Map of `user-id -> total comments made`
+     */
+    private fun commentsByUser(prTimelineEvents: List<TimelineEvent>): Map<UserId, Int> {
+        val commentsByUser = mutableMapOf<UserId, Int>()
+
+        prTimelineEvents
+            .filter { it.eventType == CommentedEvent.TYPE }
+            .map { it as CommentedEvent }
+            .forEach { commentedEvent ->
+                if (commentsByUser.containsKey(commentedEvent.user.login)) {
+                    commentsByUser[commentedEvent.user.login] = commentsByUser[commentedEvent.user.login]!! + 1
+                } else {
+                    commentsByUser[commentedEvent.user.login] = 1
+                }
+            }
+
+        return commentsByUser
     }
 
     /**
@@ -82,8 +114,8 @@ class PullRequestStatsRepoImpl(
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
         prTimelineEvents: List<TimelineEvent>
-    ): Map<String, Duration> {
-        val reviewTimesByUser = mutableMapOf<String, Duration>()
+    ): Map<UserId, Duration> {
+        val reviewTimesByUser = mutableMapOf<UserId, Duration>()
 
         prReviewers.forEach { reviewer ->
             // Find out if user has approved the PR, if not, do not include in stats

@@ -1,0 +1,4172 @@
+[
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367194216",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367194216",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367194216,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2NzE5NDIxNg==",
+    "user": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-21T02:34:36Z",
+    "updated_at": "2018-02-21T02:34:36Z",
+    "author_association": "MEMBER",
+    "body": "I’m reluctant to implement support for H2C because it’s a cleartext protocol and cleartext is dead to me.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367194216/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367197121",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367197121",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367197121,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2NzE5NzEyMQ==",
+    "user": {
+      "login": "jjshanks",
+      "id": 62661,
+      "node_id": "MDQ6VXNlcjYyNjYx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62661?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jjshanks",
+      "html_url": "https://github.com/jjshanks",
+      "followers_url": "https://api.github.com/users/jjshanks/followers",
+      "following_url": "https://api.github.com/users/jjshanks/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jjshanks/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jjshanks/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jjshanks/subscriptions",
+      "organizations_url": "https://api.github.com/users/jjshanks/orgs",
+      "repos_url": "https://api.github.com/users/jjshanks/repos",
+      "events_url": "https://api.github.com/users/jjshanks/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jjshanks/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-21T02:52:49Z",
+    "updated_at": "2018-02-21T02:52:49Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "@swankjesse While understandable we have a pretty reasonable use case. [Transparent TLS via a service mesh](https://buoyant.io/2016/03/24/transparent-tls-with-linkerd/). We have clients that use Retrofit and Feign but can't use h2c to talk to localhost without this kind of change.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367197121/reactions",
+      "total_count": 1,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 1,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "jjshanks",
+      "id": 62661,
+      "node_id": "MDQ6VXNlcjYyNjYx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62661?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jjshanks",
+      "html_url": "https://github.com/jjshanks",
+      "followers_url": "https://api.github.com/users/jjshanks/followers",
+      "following_url": "https://api.github.com/users/jjshanks/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jjshanks/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jjshanks/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jjshanks/subscriptions",
+      "organizations_url": "https://api.github.com/users/jjshanks/orgs",
+      "repos_url": "https://api.github.com/users/jjshanks/repos",
+      "events_url": "https://api.github.com/users/jjshanks/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jjshanks/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1483817774,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ4MzgxNzc3NA==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1483817774",
+    "actor": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-21T02:52:49Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1483817776,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0ODM4MTc3NzY=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1483817776",
+    "actor": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-21T02:52:49Z",
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367201075",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367201075",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367201075,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2NzIwMTA3NQ==",
+    "user": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-21T03:18:01Z",
+    "updated_at": "2018-02-21T03:18:01Z",
+    "author_association": "MEMBER",
+    "body": "Gotcha. So cleartext doesn’t leave the host. That’s not so bad.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367201075/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 98087486,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTgwODc0ODY=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "d062f78e5570219a5dec8d90fca92fdc5073231b",
+    "submitted_at": "2018-02-21T06:42:14Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98087486",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98087486"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367229377",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367229377",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367229377,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2NzIyOTM3Nw==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-21T06:44:59Z",
+    "updated_at": "2018-02-21T06:44:59Z",
+    "author_association": "COLLABORATOR",
+    "body": "I'm a big fan of this, have hit this a couple of times before during development and ended up using Netty. ",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367229377/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367235241",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367235241",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367235241,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2NzIzNTI0MQ==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-21T07:20:59Z",
+    "updated_at": "2018-02-21T07:20:59Z",
+    "author_association": "COLLABORATOR",
+    "body": "To be clear, my main concern is this makes a client that is single purpose.  So we should probably only allow H2C as the single supported protocol for a client.  Otherwise this client instance will be *mostly* usable for https but broken for most external plaintext traffic.\r\n\r\nIt seems better to be really explicit that the client is single purpose.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367235241/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 98671669,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTg2NzE2Njk=",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "c915f314f3d88d2379c2ea5b8b212a408fe3fdf6",
+    "submitted_at": "2018-02-22T18:09:50Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98671669",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "CONTRIBUTOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98671669"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 98671804,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTg2NzE4MDQ=",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "c915f314f3d88d2379c2ea5b8b212a408fe3fdf6",
+    "submitted_at": "2018-02-22T18:10:17Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98671804",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "CONTRIBUTOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98671804"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 1487751870,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ4Nzc1MTg3MA==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1487751870",
+    "actor": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-22T19:55:17Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1487751872,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0ODc3NTE4NzI=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1487751872",
+    "actor": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-22T19:55:17Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 98706056,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTg3MDYwNTY=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "c915f314f3d88d2379c2ea5b8b212a408fe3fdf6",
+    "submitted_at": "2018-02-22T19:55:17Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98706056",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98706056"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 98707209,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTg3MDcyMDk=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "c915f314f3d88d2379c2ea5b8b212a408fe3fdf6",
+    "submitted_at": "2018-02-22T19:58:44Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98707209",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-98707209"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "sha": "486edfd56b5c68dc24f12aa2acdb7e9af9cc4b27",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo0ODZlZGZkNTZiNWM2OGRjMjRmMTJhYTJhY2RiN2U5YWY5Y2M0YjI3",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/486edfd56b5c68dc24f12aa2acdb7e9af9cc4b27",
+    "html_url": "https://github.com/square/okhttp/commit/486edfd56b5c68dc24f12aa2acdb7e9af9cc4b27",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-20T22:49:05Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T02:03:00Z"
+    },
+    "tree": {
+      "sha": "21418af15b3ebd33dacdd2e76941a3acd8d77597",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/21418af15b3ebd33dacdd2e76941a3acd8d77597"
+    },
+    "message": "gh-1019: quick stab at a prior knowledge approach to cleartext HTTP2",
+    "parents": [
+      {
+        "sha": "af6198a1e992b55ff4d16dcaeeacbb4e90e29c8a",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/af6198a1e992b55ff4d16dcaeeacbb4e90e29c8a",
+        "html_url": "https://github.com/square/okhttp/commit/af6198a1e992b55ff4d16dcaeeacbb4e90e29c8a"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "e5a4940c7bf0a73baf7953c3586d1e01ba5f9c14",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTplNWE0OTQwYzdiZjBhNzNiYWY3OTUzYzM1ODZkMWUwMWJhNWY5YzE0",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/e5a4940c7bf0a73baf7953c3586d1e01ba5f9c14",
+    "html_url": "https://github.com/square/okhttp/commit/e5a4940c7bf0a73baf7953c3586d1e01ba5f9c14",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-22T16:20:12Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T02:03:19Z"
+    },
+    "tree": {
+      "sha": "fb0c5041f8d53f37ccb057f6fdb5004e312a8494",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/fb0c5041f8d53f37ccb057f6fdb5004e312a8494"
+    },
+    "message": "gh-1019: added strict requirement on h2c being the only protocol when using prior knowledge",
+    "parents": [
+      {
+        "sha": "486edfd56b5c68dc24f12aa2acdb7e9af9cc4b27",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/486edfd56b5c68dc24f12aa2acdb7e9af9cc4b27",
+        "html_url": "https://github.com/square/okhttp/commit/486edfd56b5c68dc24f12aa2acdb7e9af9cc4b27"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "63b6bc0a7323abd2b292cdde4b6df18e7ad4c990",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo2M2I2YmMwYTczMjNhYmQyYjI5MmNkZGU0YjZkZjE4ZTdhZDRjOTkw",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/63b6bc0a7323abd2b292cdde4b6df18e7ad4c990",
+    "html_url": "https://github.com/square/okhttp/commit/63b6bc0a7323abd2b292cdde4b6df18e7ad4c990",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T01:54:56Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T02:03:19Z"
+    },
+    "tree": {
+      "sha": "f34535038d1be37374ab2c7f490d829973bdc6e1",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/f34535038d1be37374ab2c7f490d829973bdc6e1"
+    },
+    "message": "gh-1019: added unit test to test some of the simpler code paths. updated javadoc to represent handling of h2c.",
+    "parents": [
+      {
+        "sha": "e5a4940c7bf0a73baf7953c3586d1e01ba5f9c14",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/e5a4940c7bf0a73baf7953c3586d1e01ba5f9c14",
+        "html_url": "https://github.com/square/okhttp/commit/e5a4940c7bf0a73baf7953c3586d1e01ba5f9c14"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "f2cb5971c902a3a56058f19dd2d2e4c0c98b56eb",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTpmMmNiNTk3MWM5MDJhM2E1NjA1OGYxOWRkMmQyZTRjMGM5OGI1NmVi",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/f2cb5971c902a3a56058f19dd2d2e4c0c98b56eb",
+    "html_url": "https://github.com/square/okhttp/commit/f2cb5971c902a3a56058f19dd2d2e4c0c98b56eb",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T02:09:44Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T02:09:44Z"
+    },
+    "tree": {
+      "sha": "d974b3043bb7c8f2dc480029a499e74b44bb9f79",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/d974b3043bb7c8f2dc480029a499e74b44bb9f79"
+    },
+    "message": "gh-1019: removed a merge that got committed",
+    "parents": [
+      {
+        "sha": "63b6bc0a7323abd2b292cdde4b6df18e7ad4c990",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/63b6bc0a7323abd2b292cdde4b6df18e7ad4c990",
+        "html_url": "https://github.com/square/okhttp/commit/63b6bc0a7323abd2b292cdde4b6df18e7ad4c990"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367887791",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367887791",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367887791,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2Nzg4Nzc5MQ==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-23T02:10:06Z",
+    "updated_at": "2018-02-23T02:10:06Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "Do y'all prefer rebase or merge when conflicts arise? I didn't see a CONTRIBUTING guide anywhere.\r\n\r\nI tend to do merges, but don't have a preference for either way.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367887791/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367889821",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367889821",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367889821,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2Nzg4OTgyMQ==",
+    "user": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-23T02:22:48Z",
+    "updated_at": "2018-02-23T02:22:48Z",
+    "author_association": "MEMBER",
+    "body": "We'll squash when merging a multi-commit PR so it's up to you.\n\nOn Thu, Feb 22, 2018, 9:10 PM Jaye Pitzeruse <notifications@github.com>\nwrote:\n\n> Do y'all prefer rebase or merge when conflicts arise? I didn't see a\n> CONTRIBUTING guide anywhere.\n>\n> I tend to do merges, but don't have a preference for either way.\n>\n> —\n> You are receiving this because you are subscribed to this thread.\n> Reply to this email directly, view it on GitHub\n> <https://github.com/square/okhttp/pull/3873#issuecomment-367887791>, or mute\n> the thread\n> <https://github.com/notifications/unsubscribe-auth/AAEEEf7jKRnaXKWbHhlVxRfr2cyBB9ogks5tXh4AgaJpZM4SMzgI>\n> .\n>\n",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367889821/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "sha": "35eb59549b566cc1e8be2d5ebaf7c368105aafbf",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTozNWViNTk1NDliNTY2Y2MxZThiZTJkNWViYWY3YzM2ODEwNWFhZmJm",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/35eb59549b566cc1e8be2d5ebaf7c368105aafbf",
+    "html_url": "https://github.com/square/okhttp/commit/35eb59549b566cc1e8be2d5ebaf7c368105aafbf",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T02:59:03Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T02:59:03Z"
+    },
+    "tree": {
+      "sha": "40d71c34ef41b9ef17787ad3439e7992d43555a6",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/40d71c34ef41b9ef17787ad3439e7992d43555a6"
+    },
+    "message": "gh-1019: added reference to prior knowledge on the protocol enumeration and added a concrete check on the protocols list.",
+    "parents": [
+      {
+        "sha": "f2cb5971c902a3a56058f19dd2d2e4c0c98b56eb",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/f2cb5971c902a3a56058f19dd2d2e4c0c98b56eb",
+        "html_url": "https://github.com/square/okhttp/commit/f2cb5971c902a3a56058f19dd2d2e4c0c98b56eb"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "5981b301792ad4f24387090b12c9fac79706b4d1",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo1OTgxYjMwMTc5MmFkNGYyNDM4NzA5MGIxMmM5ZmFjNzk3MDZiNGQx",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/5981b301792ad4f24387090b12c9fac79706b4d1",
+    "html_url": "https://github.com/square/okhttp/commit/5981b301792ad4f24387090b12c9fac79706b4d1",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-23T04:01:59Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-23T04:01:59Z"
+    },
+    "tree": {
+      "sha": "6042f608b3d93b69d33c85b8843430ac8915cc4b",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/6042f608b3d93b69d33c85b8843430ac8915cc4b"
+    },
+    "message": "gh-1019: fixed reporting of protocol used in the response object",
+    "parents": [
+      {
+        "sha": "35eb59549b566cc1e8be2d5ebaf7c368105aafbf",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/35eb59549b566cc1e8be2d5ebaf7c368105aafbf",
+        "html_url": "https://github.com/square/okhttp/commit/35eb59549b566cc1e8be2d5ebaf7c368105aafbf"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/367909334",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-367909334",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 367909334,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2NzkwOTMzNA==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-23T04:52:50Z",
+    "updated_at": "2018-02-23T04:53:18Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "Working checkpoint. I tested this against a service I have that supports H2C out of box. Started to make modifications to the MockWebServer, but that might be a bit too ambitious. I tried putting in a shortcut, but that didn't seem to work. I'll try a few more things over the next couple of days",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/367909334/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368090499",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368090499",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368090499,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODA5MDQ5OQ==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-23T18:04:55Z",
+    "updated_at": "2018-02-23T18:12:40Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "Alright, I managed to get the MockWebServer working and pulled the test cases from HttpOverHttp2Test up to an Http2TestBase that can be shared by both the cleartext and TLS flavors.\r\n\r\nAdded to this review because creating another one would effectively re-diff this entire set.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368090499/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-23T20:46:55Z",
+    "updated_at": "2018-02-23T20:46:55Z",
+    "source": {
+      "type": "issue",
+      "issue": {
+        "url": "https://api.github.com/repos/square/okhttp/issues/1019",
+        "repository_url": "https://api.github.com/repos/square/okhttp",
+        "labels_url": "https://api.github.com/repos/square/okhttp/issues/1019/labels{/name}",
+        "comments_url": "https://api.github.com/repos/square/okhttp/issues/1019/comments",
+        "events_url": "https://api.github.com/repos/square/okhttp/issues/1019/events",
+        "html_url": "https://github.com/square/okhttp/issues/1019",
+        "id": 39828814,
+        "node_id": "MDU6SXNzdWUzOTgyODgxNA==",
+        "number": 1019,
+        "title": "Support “HTTP” URIs (HTTP Upgrade mechanism) ",
+        "user": {
+          "login": "JanAndersson",
+          "id": 8395671,
+          "node_id": "MDQ6VXNlcjgzOTU2NzE=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/8395671?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/JanAndersson",
+          "html_url": "https://github.com/JanAndersson",
+          "followers_url": "https://api.github.com/users/JanAndersson/followers",
+          "following_url": "https://api.github.com/users/JanAndersson/following{/other_user}",
+          "gists_url": "https://api.github.com/users/JanAndersson/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/JanAndersson/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/JanAndersson/subscriptions",
+          "organizations_url": "https://api.github.com/users/JanAndersson/orgs",
+          "repos_url": "https://api.github.com/users/JanAndersson/repos",
+          "events_url": "https://api.github.com/users/JanAndersson/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/JanAndersson/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "labels": [
+          {
+            "id": 9998867,
+            "node_id": "MDU6TGFiZWw5OTk4ODY3",
+            "url": "https://api.github.com/repos/square/okhttp/labels/enhancement",
+            "name": "enhancement",
+            "color": "84b6eb",
+            "default": true,
+            "description": "Feature not a bug"
+          }
+        ],
+        "state": "closed",
+        "locked": false,
+        "assignee": null,
+        "assignees": [
+        ],
+        "milestone": {
+          "url": "https://api.github.com/repos/square/okhttp/milestones/27",
+          "html_url": "https://github.com/square/okhttp/milestone/27",
+          "labels_url": "https://api.github.com/repos/square/okhttp/milestones/27/labels",
+          "id": 3474316,
+          "node_id": "MDk6TWlsZXN0b25lMzQ3NDMxNg==",
+          "number": 27,
+          "title": "3.11",
+          "description": "",
+          "creator": {
+            "login": "swankjesse",
+            "id": 133019,
+            "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+            "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/swankjesse",
+            "html_url": "https://github.com/swankjesse",
+            "followers_url": "https://api.github.com/users/swankjesse/followers",
+            "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+            "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+            "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+            "repos_url": "https://api.github.com/users/swankjesse/repos",
+            "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "open_issues": 0,
+          "closed_issues": 20,
+          "state": "closed",
+          "created_at": "2018-07-05T01:47:16Z",
+          "updated_at": "2018-11-04T05:08:37Z",
+          "due_on": "2018-07-11T07:00:00Z",
+          "closed_at": "2018-07-13T03:38:38Z"
+        },
+        "comments": 13,
+        "created_at": "2014-08-08T14:35:05Z",
+        "updated_at": "2018-11-04T04:39:31Z",
+        "closed_at": "2018-11-04T04:39:23Z",
+        "author_association": "NONE",
+        "active_lock_reason": null,
+        "repository": {
+          "id": 5152285,
+          "node_id": "MDEwOlJlcG9zaXRvcnk1MTUyMjg1",
+          "name": "okhttp",
+          "full_name": "square/okhttp",
+          "private": false,
+          "owner": {
+            "login": "square",
+            "id": 82592,
+            "node_id": "MDEyOk9yZ2FuaXphdGlvbjgyNTky",
+            "avatar_url": "https://avatars.githubusercontent.com/u/82592?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/square",
+            "html_url": "https://github.com/square",
+            "followers_url": "https://api.github.com/users/square/followers",
+            "following_url": "https://api.github.com/users/square/following{/other_user}",
+            "gists_url": "https://api.github.com/users/square/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/square/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/square/subscriptions",
+            "organizations_url": "https://api.github.com/users/square/orgs",
+            "repos_url": "https://api.github.com/users/square/repos",
+            "events_url": "https://api.github.com/users/square/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/square/received_events",
+            "type": "Organization",
+            "site_admin": false
+          },
+          "html_url": "https://github.com/square/okhttp",
+          "description": "Square’s meticulous HTTP client for the JVM, Android, and GraalVM.",
+          "fork": false,
+          "url": "https://api.github.com/repos/square/okhttp",
+          "forks_url": "https://api.github.com/repos/square/okhttp/forks",
+          "keys_url": "https://api.github.com/repos/square/okhttp/keys{/key_id}",
+          "collaborators_url": "https://api.github.com/repos/square/okhttp/collaborators{/collaborator}",
+          "teams_url": "https://api.github.com/repos/square/okhttp/teams",
+          "hooks_url": "https://api.github.com/repos/square/okhttp/hooks",
+          "issue_events_url": "https://api.github.com/repos/square/okhttp/issues/events{/number}",
+          "events_url": "https://api.github.com/repos/square/okhttp/events",
+          "assignees_url": "https://api.github.com/repos/square/okhttp/assignees{/user}",
+          "branches_url": "https://api.github.com/repos/square/okhttp/branches{/branch}",
+          "tags_url": "https://api.github.com/repos/square/okhttp/tags",
+          "blobs_url": "https://api.github.com/repos/square/okhttp/git/blobs{/sha}",
+          "git_tags_url": "https://api.github.com/repos/square/okhttp/git/tags{/sha}",
+          "git_refs_url": "https://api.github.com/repos/square/okhttp/git/refs{/sha}",
+          "trees_url": "https://api.github.com/repos/square/okhttp/git/trees{/sha}",
+          "statuses_url": "https://api.github.com/repos/square/okhttp/statuses/{sha}",
+          "languages_url": "https://api.github.com/repos/square/okhttp/languages",
+          "stargazers_url": "https://api.github.com/repos/square/okhttp/stargazers",
+          "contributors_url": "https://api.github.com/repos/square/okhttp/contributors",
+          "subscribers_url": "https://api.github.com/repos/square/okhttp/subscribers",
+          "subscription_url": "https://api.github.com/repos/square/okhttp/subscription",
+          "commits_url": "https://api.github.com/repos/square/okhttp/commits{/sha}",
+          "git_commits_url": "https://api.github.com/repos/square/okhttp/git/commits{/sha}",
+          "comments_url": "https://api.github.com/repos/square/okhttp/comments{/number}",
+          "issue_comment_url": "https://api.github.com/repos/square/okhttp/issues/comments{/number}",
+          "contents_url": "https://api.github.com/repos/square/okhttp/contents/{+path}",
+          "compare_url": "https://api.github.com/repos/square/okhttp/compare/{base}...{head}",
+          "merges_url": "https://api.github.com/repos/square/okhttp/merges",
+          "archive_url": "https://api.github.com/repos/square/okhttp/{archive_format}{/ref}",
+          "downloads_url": "https://api.github.com/repos/square/okhttp/downloads",
+          "issues_url": "https://api.github.com/repos/square/okhttp/issues{/number}",
+          "pulls_url": "https://api.github.com/repos/square/okhttp/pulls{/number}",
+          "milestones_url": "https://api.github.com/repos/square/okhttp/milestones{/number}",
+          "notifications_url": "https://api.github.com/repos/square/okhttp/notifications{?since,all,participating}",
+          "labels_url": "https://api.github.com/repos/square/okhttp/labels{/name}",
+          "releases_url": "https://api.github.com/repos/square/okhttp/releases{/id}",
+          "deployments_url": "https://api.github.com/repos/square/okhttp/deployments",
+          "created_at": "2012-07-23T13:42:55Z",
+          "updated_at": "2022-11-01T14:24:40Z",
+          "pushed_at": "2022-11-01T16:06:07Z",
+          "git_url": "git://github.com/square/okhttp.git",
+          "ssh_url": "git@github.com:square/okhttp.git",
+          "clone_url": "https://github.com/square/okhttp.git",
+          "svn_url": "https://github.com/square/okhttp",
+          "homepage": "https://square.github.io/okhttp/",
+          "size": 47677,
+          "stargazers_count": 43090,
+          "watchers_count": 43090,
+          "language": "Kotlin",
+          "has_issues": true,
+          "has_projects": false,
+          "has_downloads": true,
+          "has_wiki": false,
+          "has_pages": true,
+          "forks_count": 8958,
+          "mirror_url": null,
+          "archived": false,
+          "disabled": false,
+          "open_issues_count": 146,
+          "license": {
+            "key": "apache-2.0",
+            "name": "Apache License 2.0",
+            "spdx_id": "Apache-2.0",
+            "url": "https://api.github.com/licenses/apache-2.0",
+            "node_id": "MDc6TGljZW5zZTI="
+          },
+          "allow_forking": true,
+          "is_template": false,
+          "web_commit_signoff_required": false,
+          "topics": [
+            "android",
+            "graalvm",
+            "java",
+            "kotlin"
+          ],
+          "visibility": "public",
+          "forks": 8958,
+          "open_issues": 146,
+          "watchers": 43090,
+          "default_branch": "master"
+        },
+        "body": "As far as I understand this isn't supported in OkHttp. As it is part of the HTTP/2.0 standard I beleive this would be of great value to OkHttp...\n",
+        "reactions": {
+          "url": "https://api.github.com/repos/square/okhttp/issues/1019/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "timeline_url": "https://api.github.com/repos/square/okhttp/issues/1019/timeline",
+        "performed_via_github_app": null,
+        "state_reason": "completed"
+      }
+    },
+    "event": "cross-referenced"
+  },
+  {
+    "id": 99057540,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkwNTc1NDA=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "",
+    "commit_id": "e2292c9b1d465794aeb0202da13a63f468ce8e79",
+    "submitted_at": "2018-02-23T21:45:06Z",
+    "state": "changes_requested",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99057540",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99057540"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 99063448,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkwNjM0NDg=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "e2292c9b1d465794aeb0202da13a63f468ce8e79",
+    "submitted_at": "2018-02-23T21:49:56Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99063448",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99063448"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 1490011764,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MDAxMTc2NA==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490011764",
+    "actor": {
+      "login": "parameterized",
+      "id": 6867046,
+      "node_id": "MDQ6VXNlcjY4NjcwNDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6867046?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/parameterized",
+      "html_url": "https://github.com/parameterized",
+      "followers_url": "https://api.github.com/users/parameterized/followers",
+      "following_url": "https://api.github.com/users/parameterized/following{/other_user}",
+      "gists_url": "https://api.github.com/users/parameterized/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/parameterized/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/parameterized/subscriptions",
+      "organizations_url": "https://api.github.com/users/parameterized/orgs",
+      "repos_url": "https://api.github.com/users/parameterized/repos",
+      "events_url": "https://api.github.com/users/parameterized/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/parameterized/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-23T21:54:27Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1490011765,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTAwMTE3NjU=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490011765",
+    "actor": {
+      "login": "parameterized",
+      "id": 6867046,
+      "node_id": "MDQ6VXNlcjY4NjcwNDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6867046?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/parameterized",
+      "html_url": "https://github.com/parameterized",
+      "followers_url": "https://api.github.com/users/parameterized/followers",
+      "following_url": "https://api.github.com/users/parameterized/following{/other_user}",
+      "gists_url": "https://api.github.com/users/parameterized/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/parameterized/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/parameterized/subscriptions",
+      "organizations_url": "https://api.github.com/users/parameterized/orgs",
+      "repos_url": "https://api.github.com/users/parameterized/repos",
+      "events_url": "https://api.github.com/users/parameterized/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/parameterized/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-23T21:54:27Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 99064550,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkwNjQ1NTA=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "e2292c9b1d465794aeb0202da13a63f468ce8e79",
+    "submitted_at": "2018-02-23T21:54:27Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99064550",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99064550"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "sha": "6d35a8b9851f4655516d9d964cf208516531ed37",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo2ZDM1YThiOTg1MWY0NjU1NTE2ZDlkOTY0Y2YyMDg1MTY1MzFlZDM3",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/6d35a8b9851f4655516d9d964cf208516531ed37",
+    "html_url": "https://github.com/square/okhttp/commit/6d35a8b9851f4655516d9d964cf208516531ed37",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T23:52:04Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T23:52:04Z"
+    },
+    "tree": {
+      "sha": "922d60743e2d00decd1cd076ee8232fb67552088",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/922d60743e2d00decd1cd076ee8232fb67552088"
+    },
+    "message": "gh-1019: switched over to using a parameterized unit test and moved remaining test methods into appropriate classes",
+    "parents": [
+      {
+        "sha": "5981b301792ad4f24387090b12c9fac79706b4d1",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/5981b301792ad4f24387090b12c9fac79706b4d1",
+        "html_url": "https://github.com/square/okhttp/commit/5981b301792ad4f24387090b12c9fac79706b4d1"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "b5f36eb8e31dce07cfa46b758f8983ec16cb07ef",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTpiNWYzNmViOGUzMWRjZTA3Y2ZhNDZiNzU4Zjg5ODNlYzE2Y2IwN2Vm",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/b5f36eb8e31dce07cfa46b758f8983ec16cb07ef",
+    "html_url": "https://github.com/square/okhttp/commit/b5f36eb8e31dce07cfa46b758f8983ec16cb07ef",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T23:59:33Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-23T23:59:33Z"
+    },
+    "tree": {
+      "sha": "6acd74ad6ed2d8a2b43ecea3bf2cf679aeac9d0c",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/6acd74ad6ed2d8a2b43ecea3bf2cf679aeac9d0c"
+    },
+    "message": "gh-1019: updated javadoc on OkHttpClient and moved the H2C upgrade into the ssl check",
+    "parents": [
+      {
+        "sha": "6d35a8b9851f4655516d9d964cf208516531ed37",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/6d35a8b9851f4655516d9d964cf208516531ed37",
+        "html_url": "https://github.com/square/okhttp/commit/6d35a8b9851f4655516d9d964cf208516531ed37"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "f90cec6e844be500f8b2cd60532825b17049e83e",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTpmOTBjZWM2ZTg0NGJlNTAwZjhiMmNkNjA1MzI4MjViMTcwNDllODNl",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/f90cec6e844be500f8b2cd60532825b17049e83e",
+    "html_url": "https://github.com/square/okhttp/commit/f90cec6e844be500f8b2cd60532825b17049e83e",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T00:03:18Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T00:03:18Z"
+    },
+    "tree": {
+      "sha": "23a7f66496dd7179a3def79993f1ccbeb2cf0b19",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/23a7f66496dd7179a3def79993f1ccbeb2cf0b19"
+    },
+    "message": "Merge branch 'master' into jpitz/gh-1019",
+    "parents": [
+      {
+        "sha": "b5f36eb8e31dce07cfa46b758f8983ec16cb07ef",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/b5f36eb8e31dce07cfa46b758f8983ec16cb07ef",
+        "html_url": "https://github.com/square/okhttp/commit/b5f36eb8e31dce07cfa46b758f8983ec16cb07ef"
+      },
+      {
+        "sha": "cce5ca8aede3514ac4405e5f908f9f324053cccc",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/cce5ca8aede3514ac4405e5f908f9f324053cccc",
+        "html_url": "https://github.com/square/okhttp/commit/cce5ca8aede3514ac4405e5f908f9f324053cccc"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368174644",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368174644",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368174644,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODE3NDY0NA==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T00:04:41Z",
+    "updated_at": "2018-02-24T00:04:41Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "@yschimke : master doesn't appear to have a ProtocolTest yet. Where is it?",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368174644/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1490162741,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MDE2Mjc0MQ==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490162741",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T00:04:41Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1490162743,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTAxNjI3NDM=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490162743",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T00:04:42Z",
+    "performed_via_github_app": null
+  },
+  {
+    "sha": "4e1d04952b17a9e4bcea02ead806eb25c71d459f",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo0ZTFkMDQ5NTJiMTdhOWU0YmNlYTAyZWFkODA2ZWIyNWM3MWQ0NTlm",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/4e1d04952b17a9e4bcea02ead806eb25c71d459f",
+    "html_url": "https://github.com/square/okhttp/commit/4e1d04952b17a9e4bcea02ead806eb25c71d459f",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T00:07:32Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T00:07:32Z"
+    },
+    "tree": {
+      "sha": "30bbbc62c595d947ab79a9ecced703fe1c5f1819",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/30bbbc62c595d947ab79a9ecced703fe1c5f1819"
+    },
+    "message": "gh-1019: moved cache initialization into setUp call",
+    "parents": [
+      {
+        "sha": "f90cec6e844be500f8b2cd60532825b17049e83e",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/f90cec6e844be500f8b2cd60532825b17049e83e",
+        "html_url": "https://github.com/square/okhttp/commit/f90cec6e844be500f8b2cd60532825b17049e83e"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "5a26ae2490f7fa3f6c4d8433a466b9ab067e683e",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo1YTI2YWUyNDkwZjdmYTNmNmM0ZDg0MzNhNDY2YjlhYjA2N2U2ODNl",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/5a26ae2490f7fa3f6c4d8433a466b9ab067e683e",
+    "html_url": "https://github.com/square/okhttp/commit/5a26ae2490f7fa3f6c4d8433a466b9ab067e683e",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T00:17:23Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T00:17:23Z"
+    },
+    "tree": {
+      "sha": "fac16d11118b7603a25f046f321155cc33957b46",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/fac16d11118b7603a25f046f321155cc33957b46"
+    },
+    "message": "gh-1019: fixed broken unit test and started cacheing protocol on the codec",
+    "parents": [
+      {
+        "sha": "4e1d04952b17a9e4bcea02ead806eb25c71d459f",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/4e1d04952b17a9e4bcea02ead806eb25c71d459f",
+        "html_url": "https://github.com/square/okhttp/commit/4e1d04952b17a9e4bcea02ead806eb25c71d459f"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "id": 99105790,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMDU3OTA=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "5a26ae2490f7fa3f6c4d8433a466b9ab067e683e",
+    "submitted_at": "2018-02-24T07:33:37Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99105790",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99105790"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 99105910,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMDU5MTA=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "5a26ae2490f7fa3f6c4d8433a466b9ab067e683e",
+    "submitted_at": "2018-02-24T07:38:38Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99105910",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99105910"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368208378",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368208378",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368208378,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODIwODM3OA==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T07:40:32Z",
+    "updated_at": "2018-02-24T07:40:32Z",
+    "author_association": "COLLABORATOR",
+    "body": "@jpitz You would be adding a ProtocolTest in this PR.  Seems like something that is just missing but is valid to test.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368208378/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1490340076,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MDM0MDA3Ng==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490340076",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T07:40:32Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1490340077,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTAzNDAwNzc=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490340077",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T07:40:32Z",
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368208645",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368208645",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368208645,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODIwODY0NQ==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T07:45:57Z",
+    "updated_at": "2018-02-24T07:45:57Z",
+    "author_association": "COLLABORATOR",
+    "body": "I'm keen to use this, thanks @jpitz for driving this through.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368208645/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1490341512,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MDM0MTUxMg==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490341512",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T07:45:57Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1490341513,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTAzNDE1MTM=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490341513",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T07:45:57Z",
+    "performed_via_github_app": null
+  },
+  {
+    "sha": "b09fdbdf47f84dc3c784fd0d11303b55d62417c9",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTpiMDlmZGJkZjQ3Zjg0ZGMzYzc4NGZkMGQxMTMwM2I1NWQ2MjQxN2M5",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/b09fdbdf47f84dc3c784fd0d11303b55d62417c9",
+    "html_url": "https://github.com/square/okhttp/commit/b09fdbdf47f84dc3c784fd0d11303b55d62417c9",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T14:12:53Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T14:13:37Z"
+    },
+    "tree": {
+      "sha": "0bf7c5f7b782cc2c5ccdd1950b4888b0cf657791",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/0bf7c5f7b782cc2c5ccdd1950b4888b0cf657791"
+    },
+    "message": "gh-1019: created new ProtocolTest and moved the assignment of the protocol into the readHeadersListBlock",
+    "parents": [
+      {
+        "sha": "5a26ae2490f7fa3f6c4d8433a466b9ab067e683e",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/5a26ae2490f7fa3f6c4d8433a466b9ab067e683e",
+        "html_url": "https://github.com/square/okhttp/commit/5a26ae2490f7fa3f6c4d8433a466b9ab067e683e"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368231235",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368231235",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368231235,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODIzMTIzNQ==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T14:16:44Z",
+    "updated_at": "2018-02-24T14:16:44Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "@yschimke : ah me adding the unit test wasn't clear from that message. I've gone through and added it. I've moved the protocol assignment into the readHeadersList function, but it changed the method signature. While I understand it to be library private and it's unlikely that anyone is using the method, it does pose some risk in the change should any external users be calling that method. I _could_ create a fallback method where the protocol is assumed to be HTTP_2.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368231235/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1490445536,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MDQ0NTUzNg==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490445536",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T14:16:44Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1490445537,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTA0NDU1Mzc=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490445537",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T14:16:44Z",
+    "performed_via_github_app": null
+  },
+  {
+    "sha": "714463cf1f7d2f4c56a647545a270fd11c01b504",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo3MTQ0NjNjZjFmN2QyZjRjNTZhNjQ3NTQ1YTI3MGZkMTFjMDFiNTA0",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/714463cf1f7d2f4c56a647545a270fd11c01b504",
+    "html_url": "https://github.com/square/okhttp/commit/714463cf1f7d2f4c56a647545a270fd11c01b504",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T14:22:05Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T14:22:05Z"
+    },
+    "tree": {
+      "sha": "ca60a4ac004be7b260f1e264817f9a5ec8e32560",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/ca60a4ac004be7b260f1e264817f9a5ec8e32560"
+    },
+    "message": "gh-1019: fixed line that was too long",
+    "parents": [
+      {
+        "sha": "b09fdbdf47f84dc3c784fd0d11303b55d62417c9",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/b09fdbdf47f84dc3c784fd0d11303b55d62417c9",
+        "html_url": "https://github.com/square/okhttp/commit/b09fdbdf47f84dc3c784fd0d11303b55d62417c9"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368233304",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368233304",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368233304,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODIzMzMwNA==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T14:48:53Z",
+    "updated_at": "2018-02-24T14:48:53Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "Interesting, seems like adding assume causes the unit test to fail. I wonder if this is due to the fact that the testis now being run with the parameterized running vs the standard junit runner. My assumption would be that all Junit provided runners would behave the same, but that may not be true since they call out to it in their Javadoc: https://junit.org/junit4/javadoc/4.12/org/junit/Assume.html\r\n\r\n\"The default JUnit runner skips tests with failing assumptions. Custom runners may behave differently.\"\r\n\r\n@yschimke : I'm going to go back to the simple if check and return.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368233304/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1490454959,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MDQ1NDk1OQ==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490454959",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T14:48:53Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1490454960,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTA0NTQ5NjA=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490454960",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T14:48:53Z",
+    "performed_via_github_app": null
+  },
+  {
+    "sha": "11f464648b1a364ecd8be7dcfc26500f8ecdca60",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NToxMWY0NjQ2NDhiMWEzNjRlY2Q4YmU3ZGNmYzI2NTAwZjhlY2RjYTYw",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/11f464648b1a364ecd8be7dcfc26500f8ecdca60",
+    "html_url": "https://github.com/square/okhttp/commit/11f464648b1a364ecd8be7dcfc26500f8ecdca60",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T14:53:06Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T14:53:06Z"
+    },
+    "tree": {
+      "sha": "32d2a075ba5e4b774ffe47294dc5a7bbe91fd703",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/32d2a075ba5e4b774ffe47294dc5a7bbe91fd703"
+    },
+    "message": "gh-1019: went back to using the if statement",
+    "parents": [
+      {
+        "sha": "714463cf1f7d2f4c56a647545a270fd11c01b504",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/714463cf1f7d2f4c56a647545a270fd11c01b504",
+        "html_url": "https://github.com/square/okhttp/commit/714463cf1f7d2f4c56a647545a270fd11c01b504"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368234379",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368234379",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368234379,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODIzNDM3OQ==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T15:05:08Z",
+    "updated_at": "2018-02-24T15:05:08Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "Thats odd. Test ran fine locally. Will need to look into this later.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368234379/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 99118667,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMTg2Njc=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "b09fdbdf47f84dc3c784fd0d11303b55d62417c9",
+    "submitted_at": "2018-02-24T17:52:22Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99118667",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99118667"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 99118859,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMTg4NTk=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "11f464648b1a364ecd8be7dcfc26500f8ecdca60",
+    "submitted_at": "2018-02-24T17:58:52Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99118859",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99118859"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 99118876,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMTg4NzY=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "11f464648b1a364ecd8be7dcfc26500f8ecdca60",
+    "submitted_at": "2018-02-24T17:59:25Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99118876",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99118876"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368246937",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368246937",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368246937,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODI0NjkzNw==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T18:00:56Z",
+    "updated_at": "2018-02-24T18:00:56Z",
+    "author_association": "COLLABORATOR",
+    "body": "Looking good to me, only nits and formatting.  ",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368246937/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "sha": "a9e5456084cc8db2078ba5fc7ce6cc94ca30d3c2",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTphOWU1NDU2MDg0Y2M4ZGIyMDc4YmE1ZmM3Y2U2Y2M5NGNhMzBkM2My",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/a9e5456084cc8db2078ba5fc7ce6cc94ca30d3c2",
+    "html_url": "https://github.com/square/okhttp/commit/a9e5456084cc8db2078ba5fc7ce6cc94ca30d3c2",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T19:37:01Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T19:37:01Z"
+    },
+    "tree": {
+      "sha": "700dbaf4c977b5d1807b852f7c247cb24ad3151c",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/700dbaf4c977b5d1807b852f7c247cb24ad3151c"
+    },
+    "message": "gh-1019: fixed formatting and changed style of unit test",
+    "parents": [
+      {
+        "sha": "11f464648b1a364ecd8be7dcfc26500f8ecdca60",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/11f464648b1a364ecd8be7dcfc26500f8ecdca60",
+        "html_url": "https://github.com/square/okhttp/commit/11f464648b1a364ecd8be7dcfc26500f8ecdca60"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "id": 99121454,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMjE0NTQ=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "a9e5456084cc8db2078ba5fc7ce6cc94ca30d3c2",
+    "submitted_at": "2018-02-24T19:45:41Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99121454",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99121454"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "sha": "5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo1YjQ3YzlkNzY5NjdiMzhmMjFjM2U2ZmMxNzYxNjQ3ODhhMTVmN2Vj",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+    "html_url": "https://github.com/square/okhttp/commit/5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T20:01:37Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-24T20:01:37Z"
+    },
+    "tree": {
+      "sha": "9101f4f575f9828d56f733fdc5e6f4e5ec84250b",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/9101f4f575f9828d56f733fdc5e6f4e5ec84250b"
+    },
+    "message": "gh-1019: fixed remaining tests in mockwebservertest",
+    "parents": [
+      {
+        "sha": "a9e5456084cc8db2078ba5fc7ce6cc94ca30d3c2",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/a9e5456084cc8db2078ba5fc7ce6cc94ca30d3c2",
+        "html_url": "https://github.com/square/okhttp/commit/a9e5456084cc8db2078ba5fc7ce6cc94ca30d3c2"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "id": 99122112,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMjIxMTI=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "Care to update the description, remove \"quick stab\", before we merge ?",
+    "commit_id": "5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+    "submitted_at": "2018-02-24T20:10:49Z",
+    "state": "approved",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99122112",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99122112"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 1490565583,
+    "node_id": "MDE3OlJlbmFtZWRUaXRsZUV2ZW50MTQ5MDU2NTU4Mw==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490565583",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "renamed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T20:19:42Z",
+    "rename": {
+      "from": "gh-1019: quick stab at a prior knowledge approach to h2c",
+      "to": "gh-1019: Implemented prior knowledge approach to h2c"
+    },
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368257006",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368257006",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368257006,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODI1NzAwNg==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-24T20:20:23Z",
+    "updated_at": "2018-02-24T20:20:23Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "@yschimke : done. any idea what's going on with the travis test? I'd prefer to have a green build before pushing forward",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368257006/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1490565872,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MDU2NTg3Mg==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490565872",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T20:20:23Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1490565873,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTA1NjU4NzM=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1490565873",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-24T20:20:23Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 99129558,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMjk1NTg=",
+    "user": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "This is great.",
+    "commit_id": "5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+    "submitted_at": "2018-02-25T02:13:13Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99129558",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "MEMBER",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99129558"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "id": 99134092,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxMzQwOTI=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": null,
+    "commit_id": "5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+    "submitted_at": "2018-02-25T07:17:37Z",
+    "state": "commented",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99134092",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99134092"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368289378",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368289378",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368289378,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODI4OTM3OA==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-25T07:25:14Z",
+    "updated_at": "2018-02-25T07:25:14Z",
+    "author_association": "COLLABORATOR",
+    "body": "Running fine locally in both IDE and \"mvn test\", so the JVM died during HttpOverHttp2 is baffling\r\n\r\n`$ mvn test -Dtest=HttpOverHttp2Test -DfailIfNoTests=false`\r\n\r\nI'll dig into why it's failing, particularly as I pushed you towards the parameterised test, which is a likely suspect.\r\n\r\n",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368289378/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368291823",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368291823",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368291823,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODI5MTgyMw==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-25T08:22:30Z",
+    "updated_at": "2018-02-25T08:22:30Z",
+    "author_association": "COLLABORATOR",
+    "body": "Failing with\r\n\r\n```\r\nUncaught exception in OkHttp thread \"Thread-12\"\r\njava.util.concurrent.RejectedExecutionException: Task okhttp3.internal.http2.Http2Connection$6@57e4c31e rejected from java.util.concurrent.ThreadPoolExecutor@12e64786[Shutting down, pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 1]\r\n\tat java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2063)\r\n\tat java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:830)\r\n\tat java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1379)\r\n\tat okhttp3.internal.http2.Http2Connection.pushResetLater(Http2Connection.java:907)\r\n\tat okhttp3.internal.http2.Http2Connection$ReaderRunnable.rstStream(Http2Connection.java:691)\r\n\tat okhttp3.internal.http2.Http2Reader.readRstStream(Http2Reader.java:242)\r\n\tat okhttp3.internal.http2.Http2Reader.nextFrame(Http2Reader.java:137)\r\n\tat okhttp3.internal.http2.Http2Connection$ReaderRunnable.execute(Http2Connection.java:608)\r\n\tat okhttp3.internal.NamedRunnable.run(NamedRunnable.java:32)\r\n\tat java.lang.Thread.run(Thread.java:748)\r\nLast test to start was: serverSendsPushPromise_GET[h2c](okhttp3.internal.http2.HttpOverHttp2Test)\r\nThe command \"mvn test -e -X -Dtest=HttpOverHttp2Test -DfailIfNoTests=false; cat okhttp-tests/target/surefire-reports/*\" exited with 0.\r\n```",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368291823/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368299552",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368299552",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368299552,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODI5OTU1Mg==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-25T10:48:24Z",
+    "updated_at": "2018-02-25T10:51:29Z",
+    "author_association": "COLLABORATOR",
+    "body": "It's something wacky with reuse of clients and mockwebserver instances and/or Http2Connections (these are used separately in both client and MockWebServer).  Anyway, the shutdown of pushExecutor causes uncaught exceptions which we barf on.\r\n\r\nI suspect a convergence of\r\n\r\n1) This PR now has multiple tests using push promises\r\n2) The tests run slightly differently in travis CI and locally and Intellij\r\n3) An existing timing bug with RejectedExecutionException thrown after shutdown of a connection\r\n4) An existing test bug with MockWebserver or more likely client usage e.g. we are actually sharing connections across tests?\r\n5) InstallUncaughtExceptionHandlerListener should ideally not System.exit() the test runner\r\n6) I changed logging recently to hide the output of InstallUncaughtExceptionHandlerListener by default",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368299552/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "sha": "7817792e3f4aa01f640c36918e6589760f042a11",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo3ODE3NzkyZTNmNGFhMDFmNjQwYzM2OTE4ZTY1ODk3NjBmMDQyYTEx",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/7817792e3f4aa01f640c36918e6589760f042a11",
+    "html_url": "https://github.com/square/okhttp/commit/7817792e3f4aa01f640c36918e6589760f042a11",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T12:22:19Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T12:22:19Z"
+    },
+    "tree": {
+      "sha": "ba33568bd1554b01e518745c97d19df9f848b7d9",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/ba33568bd1554b01e518745c97d19df9f848b7d9"
+    },
+    "message": "gh-1019: adjusted indentation, removed extraneous comments, and moved back to using assumeTrue",
+    "parents": [
+      {
+        "sha": "5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/5b47c9d76967b38f21c3e6fc176164788a15f7ec",
+        "html_url": "https://github.com/square/okhttp/commit/5b47c9d76967b38f21c3e6fc176164788a15f7ec"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "id": 99142175,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxNDIxNzU=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "I think we will need to resolve the problems before landing this\r\n\r\ne.g. https://github.com/square/okhttp/pull/3888/files",
+    "commit_id": "7817792e3f4aa01f640c36918e6589760f042a11",
+    "submitted_at": "2018-02-25T13:00:33Z",
+    "state": "changes_requested",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99142175",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99142175"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "sha": "2de4bc52afba165005a900791d988d6820f2a22a",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NToyZGU0YmM1MmFmYmExNjUwMDVhOTAwNzkxZDk4OGQ2ODIwZjJhMjJh",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/2de4bc52afba165005a900791d988d6820f2a22a",
+    "html_url": "https://github.com/square/okhttp/commit/2de4bc52afba165005a900791d988d6820f2a22a",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:19:30Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:19:30Z"
+    },
+    "tree": {
+      "sha": "b72435dea30d3c5cb7c2c3004c63c38ed8ad643a",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/b72435dea30d3c5cb7c2c3004c63c38ed8ad643a"
+    },
+    "message": "gh-1019: simplified the constructor to the unit test and evicting all connections from the pool in teardown",
+    "parents": [
+      {
+        "sha": "7817792e3f4aa01f640c36918e6589760f042a11",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/7817792e3f4aa01f640c36918e6589760f042a11",
+        "html_url": "https://github.com/square/okhttp/commit/7817792e3f4aa01f640c36918e6589760f042a11"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "d0ad551cc5753c0841d237be86afabee556ca889",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTpkMGFkNTUxY2M1NzUzYzA4NDFkMjM3YmU4NmFmYWJlZTU1NmNhODg5",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/d0ad551cc5753c0841d237be86afabee556ca889",
+    "html_url": "https://github.com/square/okhttp/commit/d0ad551cc5753c0841d237be86afabee556ca889",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:20:07Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:20:07Z"
+    },
+    "tree": {
+      "sha": "6603c7c54932213323c5b51d6cf92bf58bc6efcf",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/6603c7c54932213323c5b51d6cf92bf58bc6efcf"
+    },
+    "message": "whitespace",
+    "parents": [
+      {
+        "sha": "2de4bc52afba165005a900791d988d6820f2a22a",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/2de4bc52afba165005a900791d988d6820f2a22a",
+        "html_url": "https://github.com/square/okhttp/commit/2de4bc52afba165005a900791d988d6820f2a22a"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "92e2bda3dc18e6054710d470b0ca95c6bc4847de",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo5MmUyYmRhM2RjMThlNjA1NDcxMGQ0NzBiMGNhOTVjNmJjNDg0N2Rl",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/92e2bda3dc18e6054710d470b0ca95c6bc4847de",
+    "html_url": "https://github.com/square/okhttp/commit/92e2bda3dc18e6054710d470b0ca95c6bc4847de",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:20:37Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:20:37Z"
+    },
+    "tree": {
+      "sha": "a49820e0201da07bb3bf3980a9ced8199d406e9b",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/a49820e0201da07bb3bf3980a9ced8199d406e9b"
+    },
+    "message": "more whitespace",
+    "parents": [
+      {
+        "sha": "d0ad551cc5753c0841d237be86afabee556ca889",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/d0ad551cc5753c0841d237be86afabee556ca889",
+        "html_url": "https://github.com/square/okhttp/commit/d0ad551cc5753c0841d237be86afabee556ca889"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "id": 99143098,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxNDMwOTg=",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "",
+    "commit_id": "92e2bda3dc18e6054710d470b0ca95c6bc4847de",
+    "submitted_at": "2018-02-25T13:32:34Z",
+    "state": "approved",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99143098",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99143098"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "sha": "af1ac8969a7b1fcf5a645457fc9864d5e3f42bfa",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTphZjFhYzg5NjlhN2IxZmNmNWE2NDU0NTdmYzk4NjRkNWUzZjQyYmZh",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/af1ac8969a7b1fcf5a645457fc9864d5e3f42bfa",
+    "html_url": "https://github.com/square/okhttp/commit/af1ac8969a7b1fcf5a645457fc9864d5e3f42bfa",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:35:16Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "jpitzeruse@gmail.com",
+      "date": "2018-02-25T13:35:16Z"
+    },
+    "tree": {
+      "sha": "c785976c0f28fb17aeaadbef91417d1275d8618a",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/c785976c0f28fb17aeaadbef91417d1275d8618a"
+    },
+    "message": "gh-1019: simplified data for the test",
+    "parents": [
+      {
+        "sha": "92e2bda3dc18e6054710d470b0ca95c6bc4847de",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/92e2bda3dc18e6054710d470b0ca95c6bc4847de",
+        "html_url": "https://github.com/square/okhttp/commit/92e2bda3dc18e6054710d470b0ca95c6bc4847de"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "id": 99149665,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3OTkxNDk2NjU=",
+    "user": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "",
+    "commit_id": "af1ac8969a7b1fcf5a645457fc9864d5e3f42bfa",
+    "submitted_at": "2018-02-25T17:31:04Z",
+    "state": "approved",
+    "html_url": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99149665",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/3873",
+    "author_association": "MEMBER",
+    "_links": {
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/3873#pullrequestreview-99149665"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/3873"
+      }
+    },
+    "event": "reviewed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368402876",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368402876",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368402876,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODQwMjg3Ng==",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-26T06:27:04Z",
+    "updated_at": "2018-02-26T06:27:04Z",
+    "author_association": "COLLABORATOR",
+    "body": "This push failure happened on master https://api.travis-ci.org/v3/job/346125271/log.txt\r\n\r\nSo I suspect it is an existing problem, unrelated to this test now.  The reused static clients you had in an earlier version would have made it a lot more noticeable.",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368402876/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "sha": "d32e9f06e2c3c69120752249e103a737b8e86a91",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTpkMzJlOWYwNmUyYzNjNjkxMjA3NTIyNDllMTAzYTczN2I4ZTg2YTkx",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/d32e9f06e2c3c69120752249e103a737b8e86a91",
+    "html_url": "https://github.com/square/okhttp/commit/d32e9f06e2c3c69120752249e103a737b8e86a91",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-26T15:32:18Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-26T15:32:18Z"
+    },
+    "tree": {
+      "sha": "8797aa0112bc0a78c18223fc9475413be35f4932",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/8797aa0112bc0a78c18223fc9475413be35f4932"
+    },
+    "message": "gh-1019: removed finals and renamed exception variables to expected",
+    "parents": [
+      {
+        "sha": "af1ac8969a7b1fcf5a645457fc9864d5e3f42bfa",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/af1ac8969a7b1fcf5a645457fc9864d5e3f42bfa",
+        "html_url": "https://github.com/square/okhttp/commit/af1ac8969a7b1fcf5a645457fc9864d5e3f42bfa"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "sha": "76ba28b96d4c1a363f13276ad86d03d9f32ee3b4",
+    "node_id": "MDY6Q29tbWl0NTE1MjI4NTo3NmJhMjhiOTZkNGMxYTM2M2YxMzI3NmFkODZkMDNkOWYzMmVlM2I0",
+    "url": "https://api.github.com/repos/square/okhttp/git/commits/76ba28b96d4c1a363f13276ad86d03d9f32ee3b4",
+    "html_url": "https://github.com/square/okhttp/commit/76ba28b96d4c1a363f13276ad86d03d9f32ee3b4",
+    "author": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-26T20:50:18Z"
+    },
+    "committer": {
+      "name": "Jaye Pitzeruse",
+      "email": "pitz@indeed.com",
+      "date": "2018-02-26T20:50:18Z"
+    },
+    "tree": {
+      "sha": "7781bfd232d1115ba2c27f551f897456ad2db9eb",
+      "url": "https://api.github.com/repos/square/okhttp/git/trees/7781bfd232d1115ba2c27f551f897456ad2db9eb"
+    },
+    "message": "gh-1019: removed unneeded call to unmodifiable list",
+    "parents": [
+      {
+        "sha": "d32e9f06e2c3c69120752249e103a737b8e86a91",
+        "url": "https://api.github.com/repos/square/okhttp/git/commits/d32e9f06e2c3c69120752249e103a737b8e86a91",
+        "html_url": "https://github.com/square/okhttp/commit/d32e9f06e2c3c69120752249e103a737b8e86a91"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    },
+    "event": "committed"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368645723",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368645723",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368645723,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODY0NTcyMw==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-26T20:51:14Z",
+    "updated_at": "2018-02-26T20:51:14Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "Alright, I believe all feedback has been address at this point. Let me know if theres anything else y'all need from me 😄 ",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368645723/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1493265640,
+    "node_id": "MDExOk1lcmdlZEV2ZW50MTQ5MzI2NTY0MA==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1493265640",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "merged",
+    "commit_id": "9a6f88dc34cb68d341ec1a7e4c79546fa1c18c96",
+    "commit_url": "https://api.github.com/repos/square/okhttp/commits/9a6f88dc34cb68d341ec1a7e4c79546fa1c18c96",
+    "created_at": "2018-02-26T23:55:11Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1493265645,
+    "node_id": "MDExOkNsb3NlZEV2ZW50MTQ5MzI2NTY0NQ==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1493265645",
+    "actor": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "closed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-26T23:55:11Z",
+    "state_reason": null,
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/368740536",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-368740536",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 368740536,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2ODc0MDUzNg==",
+    "user": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-27T04:05:03Z",
+    "updated_at": "2018-02-27T04:05:03Z",
+    "author_association": "MEMBER",
+    "body": "Thanks @jpitz. Very nice first PR!",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/368740536/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "swankjesse",
+      "id": 133019,
+      "node_id": "MDQ6VXNlcjEzMzAxOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/133019?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/swankjesse",
+      "html_url": "https://github.com/swankjesse",
+      "followers_url": "https://api.github.com/users/swankjesse/followers",
+      "following_url": "https://api.github.com/users/swankjesse/following{/other_user}",
+      "gists_url": "https://api.github.com/users/swankjesse/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/swankjesse/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/swankjesse/subscriptions",
+      "organizations_url": "https://api.github.com/users/swankjesse/orgs",
+      "repos_url": "https://api.github.com/users/swankjesse/repos",
+      "events_url": "https://api.github.com/users/swankjesse/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/swankjesse/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1493527556,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5MzUyNzU1Ng==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1493527556",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-27T04:05:03Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1493527557,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTM1Mjc1NTc=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1493527557",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-27T04:05:03Z",
+    "performed_via_github_app": null
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/issues/comments/369071488",
+    "html_url": "https://github.com/square/okhttp/pull/3873#issuecomment-369071488",
+    "issue_url": "https://api.github.com/repos/square/okhttp/issues/3873",
+    "id": 369071488,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM2OTA3MTQ4OA==",
+    "user": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "created_at": "2018-02-28T00:01:19Z",
+    "updated_at": "2018-02-28T00:01:19Z",
+    "author_association": "CONTRIBUTOR",
+    "body": "No problem. Happy to help! Let me know if any issues arise and would like me to assist.\n\n> On Feb 26, 2018, at 10:05 PM, Jesse Wilson <notifications@github.com> wrote:\n> \n> Thanks @jpitz. Very nice first PR!\n> \n> —\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub, or mute the thread.\n> \n",
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/issues/comments/369071488/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "event": "commented",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    }
+  },
+  {
+    "id": 1495646799,
+    "node_id": "MDE0Ok1lbnRpb25lZEV2ZW50MTQ5NTY0Njc5OQ==",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1495646799",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "mentioned",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-28T00:01:19Z",
+    "performed_via_github_app": null
+  },
+  {
+    "id": 1495646801,
+    "node_id": "MDE1OlN1YnNjcmliZWRFdmVudDE0OTU2NDY4MDE=",
+    "url": "https://api.github.com/repos/square/okhttp/issues/events/1495646801",
+    "actor": {
+      "login": "mjpitz",
+      "id": 690578,
+      "node_id": "MDQ6VXNlcjY5MDU3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690578?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mjpitz",
+      "html_url": "https://github.com/mjpitz",
+      "followers_url": "https://api.github.com/users/mjpitz/followers",
+      "following_url": "https://api.github.com/users/mjpitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mjpitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mjpitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mjpitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/mjpitz/orgs",
+      "repos_url": "https://api.github.com/users/mjpitz/repos",
+      "events_url": "https://api.github.com/users/mjpitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mjpitz/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "event": "subscribed",
+    "commit_id": null,
+    "commit_url": null,
+    "created_at": "2018-02-28T00:01:19Z",
+    "performed_via_github_app": null
+  }
+]

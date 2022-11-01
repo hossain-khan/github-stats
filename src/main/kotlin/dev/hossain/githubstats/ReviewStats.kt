@@ -17,14 +17,22 @@ data class PrStats(
      * The PR information including PR number and URL.
      */
     val pullRequest: PullRequest,
+
     /**
      * A map containing `reviewer-id -> PR review time` in working hours (excludes weekends and after hours)
      */
-    val reviewTime: Map<String, Duration>,
+    val reviewTime: Map<UserId, Duration>,
+
+    /**
+     * Map of `user-id -> total comments made` for the [pullRequest].
+     */
+    val comments: Map<UserId, Int>,
+
     /**
      * Date and time when the PR was ready for review for the specific author.
      */
     val prReadyOn: Instant,
+
     /**
      * Date and time when the PR was merged successfully.
      */
