@@ -1,8 +1,7 @@
 package dev.hossain.githubstats.model
 
 /**
- * Pull Request Review Comment.
- * Pull Request Review Comments are comments on a portion of the Pull Request's diff.
+ * Pull Request Review Comment that are comments on a portion of the Pull Request's diff.
  *
  * Sample JSON (simplified):
  * ```json
@@ -11,7 +10,7 @@ package dev.hossain.githubstats.model
  *    "pull_request_review_id": 1072931277,
  *    "id": 945941183,
  *    "node_id": "PRRC_kwDOAE6eHc44Yeq_",
- *    "diff_hunk": "@@ -0,0 +1,36 @@\n+/*\n+ * Copyright (C) 2022 Square, Inc.\n+ *\n+ * Licensed under the Apache License, Version 2.0 (the \"License\");\n+ * you may not use this file except in compliance with the License.\n+ * You may obtain a copy of the License at\n+ *\n+ *      http://www.apache.org/licenses/LICENSE-2.0\n+ *\n+ * Unless required by applicable law or agreed to in writing, software\n+ * distributed under the License is distributed on an \"AS IS\" BASIS,\n+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+ * See the License for the specific language governing permissions and\n+ * limitations under the License.\n+ */\n+package okhttp3\n+\n+import java.io.IOException\n+import org.junit.jupiter.api.Test\n+\n+class DispatcherCleanupTest {\n+  @Test\n+  fun testFinish() {\n+    val okhttp = OkHttpClient()\n+    val callback = object : Callback {\n+      override fun onFailure(call: Call, e: IOException) {}\n+      override fun onResponse(call: Call, response: Response) {\n+        response.close()\n+      }\n+    }\n+    repeat(10_000) {\n+      okhttp.newCall(Request.Builder().url(\"https://example.com\").build()).enqueue(callback)",
+ *    "diff_hunk": "okhttp.newCall(Request.Builder().url(\"https://example.com\").build()).enqueue(callback)",
  *    "path": "okhttp/src/jvmTest/java/okhttp3/DispatcherCleanupTest.kt",
  *    "position": null,
  *    "original_position": 32,
@@ -37,15 +36,15 @@ package dev.hossain.githubstats.model
  * ```
  */
 data class ReviewComment(
+    val user: User,
+    val body: String,
     val id: Long,
+    val pull_request_url: String,
+    val html_url: String,
     val pull_request_review_id: String,
     val commit_id: String,
     val original_commit_id: String,
-    val user: User,
-    val body: String,
     val created_at: String,
     val updated_at: String,
-    val html_url: String,
-    val pull_request_url: String,
     val author_association: String
 )
