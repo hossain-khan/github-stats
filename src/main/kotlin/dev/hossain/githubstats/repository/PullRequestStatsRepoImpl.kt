@@ -78,6 +78,10 @@ class PullRequestStatsRepoImpl(
     /**
      * Provides stats for users and total number of comments made in the PR by analyzing all timeline events.
      *
+     * > NOTE: These are the PR issue comments, not PR review comments on specific commits or change-set.
+     * > Pull request review comments are comments on a portion of the unified diff made during a pull request review.
+     * > Commit comments and issue comments are different from pull request review comments.
+     *
      * Example snapshot of a map.
      * ```
      * {swankjesse=3, jjshanks=1, yschimke=9, mjpitz=10, JakeWharton=1}
