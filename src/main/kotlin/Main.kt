@@ -20,16 +20,24 @@ fun main() {
     runBlocking {
         val statsGeneratorApplication = StatsGeneratorApplication()
 
-        // 💡Generates stats for user as PR author - for all PRs created by the user
+        // 💡 Generates stats for user as PR author - for all PRs created by the user
         statsGeneratorApplication.generateAuthorStats()
 
-        // 💡Generates stats for user as PR reviewer - for all PRs reviewed by the user
+        // 💡 Generates stats for user as PR reviewer - for all PRs reviewed by the user
         statsGeneratorApplication.generateReviewerStats()
     }
 
-    // ℹ️Example code block to test single PR stats (uncomment to test by PR#)
+    // ℹ️ Example code block to test single PR stats (uncomment to test by PR#)
 //    runBlocking {
 //        val prStatsApplication = PrStatsApplication()
 //        prStatsApplication.generatePrStats(prNumber = 1) // Check single PR stats
+//    }
+
+    // ℹ️ Example code block to test single GitHub API from GithubApiService.
+//    runBlocking {
+//        // Sample parameter to get PR review comments from https://github.com/square/okhttp/pull/7415
+//        val prReviewComments = dev.hossain.githubstats.io.Client.githubApiService
+//            .prReviewComments(owner = "square", repo = "okhttp", prNumber = 7415)
+//        println("The PR has ${prReviewComments.size} review comments")
 //    }
 }
