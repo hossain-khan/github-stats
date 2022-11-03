@@ -3,6 +3,7 @@ package dev.hossain.githubstats.service
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.PullRequestState
+import dev.hossain.githubstats.model.ReviewComment
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -72,6 +73,21 @@ interface GithubApiService {
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
         @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
     ): List<TimelineEvent>
+
+    /**
+     * Lists all review comments for a pull request.
+     * By default, review comments are in ascending order by ID.
+     *
+     * https://docs.github.com/en/rest/pulls/comments#list-review-comments-on-a-pull-request
+     */
+    @GET("/repos/{owner}/{repo}/pulls/{pull_number}/comments")
+    suspend fun prReviewComments(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("pull_number") prNumber: Int,
+        @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
+        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
+    ): List<ReviewComment>
 
     /**
      * Search issues and pull requests

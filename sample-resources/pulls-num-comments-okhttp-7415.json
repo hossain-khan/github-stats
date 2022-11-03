@@ -1,0 +1,271 @@
+[
+  {
+    "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945940273",
+    "pull_request_review_id": 1072931277,
+    "id": 945940273,
+    "node_id": "PRRC_kwDOAE6eHc44Yecx",
+    "diff_hunk": "@@ -15,9 +15,7 @@\n  */\n package okhttp3\n \n-import java.util.ArrayDeque\n-import java.util.Collections\n-import java.util.Deque\n+import java.util.*",
+    "path": "okhttp/src/jvmMain/kotlin/okhttp3/Dispatcher.kt",
+    "position": null,
+    "original_position": 7,
+    "commit_id": "c7f1e8e730c04d750d2ad66c93a3eddf3a39b91c",
+    "original_commit_id": "8b4db8381c057e26cb48d176f17ad2cb1f709775",
+    "user": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "Revert star import. Seems like we need kotlinter/ktlint setup in here!",
+    "created_at": "2022-08-15T16:47:51Z",
+    "updated_at": "2022-08-15T16:49:17Z",
+    "html_url": "https://github.com/square/okhttp/pull/7415#discussion_r945940273",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/7415",
+    "author_association": "MEMBER",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/comments/945940273"
+      },
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/7415#discussion_r945940273"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/7415"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945940273/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 18,
+    "side": "RIGHT"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945940330",
+    "pull_request_review_id": 1072931277,
+    "id": 945940330,
+    "node_id": "PRRC_kwDOAE6eHc44Yedq",
+    "diff_hunk": "@@ -27,16 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean\n import java.util.concurrent.atomic.AtomicInteger\n import javax.net.ssl.HostnameVerifier\n import javax.net.ssl.SSLSocketFactory\n-import okhttp3.Address\n-import okhttp3.Call\n-import okhttp3.Callback\n-import okhttp3.CertificatePinner\n-import okhttp3.EventListener\n-import okhttp3.HttpUrl\n-import okhttp3.Interceptor\n-import okhttp3.OkHttpClient\n-import okhttp3.Request\n-import okhttp3.Response\n+import okhttp3.*",
+    "path": "okhttp/src/jvmMain/kotlin/okhttp3/internal/connection/RealCall.kt",
+    "position": null,
+    "original_position": 14,
+    "commit_id": "c7f1e8e730c04d750d2ad66c93a3eddf3a39b91c",
+    "original_commit_id": "8b4db8381c057e26cb48d176f17ad2cb1f709775",
+    "user": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "Revert",
+    "created_at": "2022-08-15T16:47:56Z",
+    "updated_at": "2022-08-15T16:49:17Z",
+    "html_url": "https://github.com/square/okhttp/pull/7415#discussion_r945940330",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/7415",
+    "author_association": "MEMBER",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/comments/945940330"
+      },
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/7415#discussion_r945940330"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/7415"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945940330/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 30,
+    "side": "RIGHT"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945941183",
+    "pull_request_review_id": 1072931277,
+    "id": 945941183,
+    "node_id": "PRRC_kwDOAE6eHc44Yeq_",
+    "diff_hunk": "@@ -0,0 +1,36 @@\n+/*\n+ * Copyright (C) 2022 Square, Inc.\n+ *\n+ * Licensed under the Apache License, Version 2.0 (the \"License\");\n+ * you may not use this file except in compliance with the License.\n+ * You may obtain a copy of the License at\n+ *\n+ *      http://www.apache.org/licenses/LICENSE-2.0\n+ *\n+ * Unless required by applicable law or agreed to in writing, software\n+ * distributed under the License is distributed on an \"AS IS\" BASIS,\n+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+ * See the License for the specific language governing permissions and\n+ * limitations under the License.\n+ */\n+package okhttp3\n+\n+import java.io.IOException\n+import org.junit.jupiter.api.Test\n+\n+class DispatcherCleanupTest {\n+  @Test\n+  fun testFinish() {\n+    val okhttp = OkHttpClient()\n+    val callback = object : Callback {\n+      override fun onFailure(call: Call, e: IOException) {}\n+      override fun onResponse(call: Call, response: Response) {\n+        response.close()\n+      }\n+    }\n+    repeat(10_000) {\n+      okhttp.newCall(Request.Builder().url(\"https://example.com\").build()).enqueue(callback)",
+    "path": "okhttp/src/jvmTest/java/okhttp3/DispatcherCleanupTest.kt",
+    "position": null,
+    "original_position": 32,
+    "commit_id": "c7f1e8e730c04d750d2ad66c93a3eddf3a39b91c",
+    "original_commit_id": "8b4db8381c057e26cb48d176f17ad2cb1f709775",
+    "user": {
+      "login": "JakeWharton",
+      "id": 66577,
+      "node_id": "MDQ6VXNlcjY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/JakeWharton",
+      "html_url": "https://github.com/JakeWharton",
+      "followers_url": "https://api.github.com/users/JakeWharton/followers",
+      "following_url": "https://api.github.com/users/JakeWharton/following{/other_user}",
+      "gists_url": "https://api.github.com/users/JakeWharton/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/JakeWharton/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/JakeWharton/subscriptions",
+      "organizations_url": "https://api.github.com/users/JakeWharton/orgs",
+      "repos_url": "https://api.github.com/users/JakeWharton/repos",
+      "events_url": "https://api.github.com/users/JakeWharton/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/JakeWharton/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "Probably needs MockWebServer so as not to be dependent on the internet.",
+    "created_at": "2022-08-15T16:48:57Z",
+    "updated_at": "2022-08-15T16:49:17Z",
+    "html_url": "https://github.com/square/okhttp/pull/7415#discussion_r945941183",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/7415",
+    "author_association": "MEMBER",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/comments/945941183"
+      },
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/7415#discussion_r945941183"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/7415"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945941183/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 32,
+    "side": "RIGHT"
+  },
+  {
+    "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945945845",
+    "pull_request_review_id": 1072939141,
+    "id": 945945845,
+    "node_id": "PRRC_kwDOAE6eHc44Yfz1",
+    "diff_hunk": "@@ -15,9 +15,7 @@\n  */\n package okhttp3\n \n-import java.util.ArrayDeque\n-import java.util.Collections\n-import java.util.Deque\n+import java.util.*",
+    "path": "okhttp/src/jvmMain/kotlin/okhttp3/Dispatcher.kt",
+    "position": null,
+    "original_position": 7,
+    "commit_id": "c7f1e8e730c04d750d2ad66c93a3eddf3a39b91c",
+    "original_commit_id": "8b4db8381c057e26cb48d176f17ad2cb1f709775",
+    "user": {
+      "login": "yschimke",
+      "id": 231923,
+      "node_id": "MDQ6VXNlcjIzMTkyMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/231923?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yschimke",
+      "html_url": "https://github.com/yschimke",
+      "followers_url": "https://api.github.com/users/yschimke/followers",
+      "following_url": "https://api.github.com/users/yschimke/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yschimke/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yschimke/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yschimke/subscriptions",
+      "organizations_url": "https://api.github.com/users/yschimke/orgs",
+      "repos_url": "https://api.github.com/users/yschimke/repos",
+      "events_url": "https://api.github.com/users/yschimke/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yschimke/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "Sorry, new laptop.",
+    "created_at": "2022-08-15T16:55:19Z",
+    "updated_at": "2022-08-15T16:55:19Z",
+    "html_url": "https://github.com/square/okhttp/pull/7415#discussion_r945945845",
+    "pull_request_url": "https://api.github.com/repos/square/okhttp/pulls/7415",
+    "author_association": "COLLABORATOR",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/comments/945945845"
+      },
+      "html": {
+        "href": "https://github.com/square/okhttp/pull/7415#discussion_r945945845"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/square/okhttp/pulls/7415"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/square/okhttp/pulls/comments/945945845/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 18,
+    "side": "RIGHT",
+    "in_reply_to_id": 945940273
+  }
+]

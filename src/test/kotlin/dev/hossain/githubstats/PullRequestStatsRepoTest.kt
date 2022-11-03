@@ -47,6 +47,7 @@ internal class PullRequestStatsRepoTest {
         // Uses data from https://github.com/jquery/jquery/pull/5046
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-jquery-5046.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
@@ -58,6 +59,7 @@ internal class PullRequestStatsRepoTest {
         // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-opensearch-4515.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
@@ -73,6 +75,7 @@ internal class PullRequestStatsRepoTest {
         // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47594.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47594.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
@@ -91,6 +94,7 @@ internal class PullRequestStatsRepoTest {
         // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
@@ -106,6 +110,7 @@ internal class PullRequestStatsRepoTest {
         // Uses data from https://github.com/square/retrofit/pull/3267
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3267.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
@@ -121,6 +126,7 @@ internal class PullRequestStatsRepoTest {
         // Uses data from https://github.com/hossain-khan/github-stats/pull/27
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
@@ -136,6 +142,7 @@ internal class PullRequestStatsRepoTest {
         // Uses data from https://github.com/square/retrofit/pull/3114
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3114.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3114.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
@@ -146,6 +153,7 @@ internal class PullRequestStatsRepoTest {
     fun `calculateStats - given pr reviewed in time - provides correct review time`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47511.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-45711.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
         val result = statsResult as StatsResult.Success
@@ -154,18 +162,41 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given pr has multiple comments - provides comment count for each user`() = runTest {
+    fun `calculateStats - given pr has multiple issue comments - provides comment count for each user`() = runTest {
         // Lots of comments by different users
         // Uses data from https://github.com/square/okhttp/pull/3873
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-3873.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
         val stats = (statsResult as StatsResult.Success).stats
         assertThat(stats.comments).hasSize(5)
         assertThat(stats.comments.keys)
             .containsExactlyElementsIn(setOf("swankjesse", "jjshanks", "yschimke", "mjpitz", "JakeWharton"))
-        assertThat(stats.comments["swankjesse"]).isEqualTo(3)
+        assertThat(stats.comments["swankjesse"]!!.issueComment).isEqualTo(3)
+    }
+
+    @Test
+    fun `calculateStats - given pr has multiple issue and review comments - provides all comment count for each user`() = runTest {
+        // Lots of comments by different users
+        // Uses data from https://github.com/square/okhttp/pull/3873
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-3873.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-num-comments-okhttp-3873.json")))
+
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+        val stats = (statsResult as StatsResult.Success).stats
+        assertThat(stats.comments).hasSize(5)
+        assertThat(stats.comments.keys)
+            .containsExactlyElementsIn(setOf("swankjesse", "jjshanks", "yschimke", "mjpitz", "JakeWharton"))
+
+        val userPrComment: UserPrComment = stats.comments["yschimke"]!!
+
+        // yschimke made 9 PR comment and 21 review comment. Total: 30 comments.
+        assertThat(userPrComment.issueComment).isEqualTo(9)
+        assertThat(userPrComment.reviewComment).isEqualTo(21)
+        assertThat(userPrComment.allComments).isEqualTo(30)
     }
 
     // region: Test Utility Functions

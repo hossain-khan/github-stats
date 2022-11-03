@@ -29,10 +29,15 @@ package dev.hossain.githubstats.model
  * ```
  */
 data class User(
+    val login: String,
+    val type: String?,
+    val url: String?,
+    val html_url: String?,
     val avatar_url: String?,
     val id: Long,
-    val login: String,
-    val repos_url: String?,
-    val type: String?,
-    val url: String?
-)
+    val repos_url: String?
+) {
+    override fun toString(): String {
+        return "User: $login"
+    }
+}

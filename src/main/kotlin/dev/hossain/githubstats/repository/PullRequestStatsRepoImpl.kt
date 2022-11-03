@@ -3,7 +3,9 @@ package dev.hossain.githubstats.repository
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.UserId
+import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.model.PullRequest
+import dev.hossain.githubstats.model.ReviewComment
 import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
@@ -36,13 +38,16 @@ class PullRequestStatsRepoImpl(
     ): StatsResult {
         // API request to get PR information
         val pullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
-        // API request to get all timeline events for the PR
-        val prTimelineEvents = githubApiService.timelineEvents(repoOwner, repoId, prNumber)
 
         if (pullRequest.merged == null || pullRequest.merged == false) {
             // Skips PR stats generation if PR is not merged at all.
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to analyze PR stats."))
         }
+
+        // API request to get all timeline events for the PR
+        val prTimelineEvents = githubApiService.timelineEvents(repoOwner, repoId, prNumber)
+        // API request to get all PR review comments associated with diffs
+        val prReviewComments = githubApiService.prReviewComments(repoOwner, repoId, prNumber)
 
         if (BuildConfig.DEBUG) {
             println("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
@@ -62,7 +67,7 @@ class PullRequestStatsRepoImpl(
             prTimelineEvents = prTimelineEvents
         )
 
-        val commentsByUser: Map<UserId, Int> = commentsByUser(prTimelineEvents)
+        val commentsByUser: Map<UserId, UserPrComment> = commentsByUser(prTimelineEvents, prReviewComments)
 
         return StatsResult.Success(
             PrStats(
@@ -76,34 +81,61 @@ class PullRequestStatsRepoImpl(
     }
 
     /**
-     * Provides stats for users and total number of comments made in the PR by analyzing all timeline events.
+     * Provides stats for users and total number of comments made in the PR
+     * by analyzing all timeline events and PR review comments.
      *
-     * > NOTE: These are the PR issue comments, not PR review comments on specific commits or change-set.
+     * > NOTE:
      * > Pull request review comments are comments on a portion of the unified diff made during a pull request review.
      * > Commit comments and issue comments are different from pull request review comments.
      *
      * Example snapshot of a map.
      * ```
-     * {swankjesse=3, jjshanks=1, yschimke=9, mjpitz=10, JakeWharton=1}
+     * swankjesse -> (issueComment=3, reviewComment=16)
+     * jjshanks -> (issueComment=1, reviewComment=0)
+     * yschimke -> (issueComment=9, reviewComment=21)
+     * mjpitz -> (issueComment=10, reviewComment=16)
      * ```
      *
      * @return Map of `user-id -> total comments made`
      */
-    private fun commentsByUser(prTimelineEvents: List<TimelineEvent>): Map<UserId, Int> {
-        val commentsByUser = mutableMapOf<UserId, Int>()
+    private fun commentsByUser(
+        prTimelineEvents: List<TimelineEvent>,
+        prReviewComments: List<ReviewComment>
+    ): Map<UserId, UserPrComment> {
+        val issueCommentsByUser = mutableMapOf<UserId, Int>()
+        val reviewCommentsByUser = mutableMapOf<UserId, Int>()
 
         prTimelineEvents
             .filter { it.eventType == CommentedEvent.TYPE }
             .map { it as CommentedEvent }
             .forEach { commentedEvent ->
-                if (commentsByUser.containsKey(commentedEvent.user.login)) {
-                    commentsByUser[commentedEvent.user.login] = commentsByUser[commentedEvent.user.login]!! + 1
+                val commentsCount: Int? = issueCommentsByUser[commentedEvent.user.login]
+                if (commentsCount != null) {
+                    issueCommentsByUser[commentedEvent.user.login] = commentsCount + 1
                 } else {
-                    commentsByUser[commentedEvent.user.login] = 1
+                    issueCommentsByUser[commentedEvent.user.login] = 1
                 }
             }
 
-        return commentsByUser
+        prReviewComments.forEach { reviewComment ->
+            val commentsCount: Int? = reviewCommentsByUser[reviewComment.user.login]
+            if (commentsCount != null) {
+                reviewCommentsByUser[reviewComment.user.login] = commentsCount + 1
+            } else {
+                reviewCommentsByUser[reviewComment.user.login] = 1
+            }
+        }
+
+        val prUserCommentsMap = (issueCommentsByUser.keys + reviewCommentsByUser.keys)
+            .associateWith { userId ->
+                UserPrComment(
+                    user = userId,
+                    issueComment = issueCommentsByUser[userId] ?: 0,
+                    reviewComment = reviewCommentsByUser[userId] ?: 0
+                )
+            }
+
+        return prUserCommentsMap
     }
 
     /**
