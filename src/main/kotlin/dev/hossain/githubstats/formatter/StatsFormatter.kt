@@ -14,7 +14,7 @@ interface StatsFormatter {
     fun formatSinglePrStats(prStats: PrStats): String
 
     /**
-     * Formats PR review stats for list of authors.
+     * Formats PR review stats for list of users that reviewed specific user's PRs.
      */
     fun formatAuthorStats(stats: List<AuthorReviewStats>): String
 
