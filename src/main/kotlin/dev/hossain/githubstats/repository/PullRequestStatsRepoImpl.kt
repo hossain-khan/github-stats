@@ -104,6 +104,7 @@ class PullRequestStatsRepoImpl(
     ): Map<UserId, UserPrComment> {
         val issueCommentsByUser = mutableMapOf<UserId, Int>()
         val reviewCommentsByUser = mutableMapOf<UserId, Int>()
+        val reviewedEventByUser = mutableMapOf<UserId, Int>()
 
         prTimelineEvents
             .filter { it.eventType == CommentedEvent.TYPE }
@@ -117,6 +118,20 @@ class PullRequestStatsRepoImpl(
                 }
             }
 
+        // Collect all the reviewed comments that are comments or changes requested
+        prTimelineEvents
+            .filter { it.eventType == ReviewedEvent.TYPE }
+            .map { it as ReviewedEvent }
+            .filter { it.state == ReviewState.COMMENTED || it.state == ReviewState.CHANGE_REQUESTED }
+            .forEach { reviewedEvent ->
+                val reviewedCount: Int? = reviewedEventByUser[reviewedEvent.user.login]
+                if (reviewedCount != null) {
+                    reviewedEventByUser[reviewedEvent.user.login] = reviewedCount + 1
+                } else {
+                    reviewedEventByUser[reviewedEvent.user.login] = 1
+                }
+            }
+
         prReviewComments.forEach { reviewComment ->
             val commentsCount: Int? = reviewCommentsByUser[reviewComment.user.login]
             if (commentsCount != null) {
@@ -126,12 +141,13 @@ class PullRequestStatsRepoImpl(
             }
         }
 
-        val prUserCommentsMap = (issueCommentsByUser.keys + reviewCommentsByUser.keys)
+        val prUserCommentsMap = (issueCommentsByUser.keys + reviewCommentsByUser.keys + reviewedEventByUser.keys)
             .associateWith { userId ->
                 UserPrComment(
                     user = userId,
                     issueComment = issueCommentsByUser[userId] ?: 0,
-                    reviewComment = reviewCommentsByUser[userId] ?: 0
+                    codeReviewComment = reviewCommentsByUser[userId] ?: 0,
+                    prReviewComment = reviewedEventByUser[userId] ?: 0
                 )
             }
 

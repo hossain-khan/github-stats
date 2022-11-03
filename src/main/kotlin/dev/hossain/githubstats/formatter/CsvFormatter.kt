@@ -52,6 +52,8 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                 "Review time (mins)",
                 "Code Review Comments",
                 "PR Issue Comments",
+                "PR Review Comments",
+                "Total Comments",
                 "PR URL"
             )
 
@@ -63,8 +65,10 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                         stat.reviewerId, /* "Reviewer" */
                         "PR ${reviewStats.pullRequest.number}", /* "PR Number" */
                         "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}", /* "Review time (mins)" */
-                        "${reviewStats.prComments.reviewComment}", /* "Code Review Comments" */
+                        "${reviewStats.prComments.codeReviewComment}", /* "Code Review Comments" */
                         "${reviewStats.prComments.issueComment}", /* "PR Issue Comments" */
+                        "${reviewStats.prComments.prReviewComment}", /* "PR Review Comments" */
+                        "${reviewStats.prComments.allComments}", /* "Total Comments" */
                         reviewStats.pullRequest.html_url /* "PR URL" */
                     )
                 }
@@ -93,18 +97,24 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimit()}",
             "Total Code Review Comments",
             "Total PR Issue Comments",
+            "Total PR Review Comments",
+            "Total All Comments Made",
             "PR# List"
         )
         csvWriter().open(reviewedForFile) {
             writeRow(headerItem)
 
             stats.reviewedForPrStats.forEach { (prAuthorId, prReviewStats) ->
-                val userComments = prReviewStats.map { it.comments.values }.flatten().filter { it.user == prAuthorId }
+                // Get all the comments made by the reviewer for the PR author
+                val userComments = prReviewStats.map { it.comments.values }.flatten()
+                    .filter { it.user == stats.reviewerId }
                 writeRow(
                     prAuthorId,
                     prReviewStats.size,
-                    userComments.sumOf { it.reviewComment },
+                    userComments.sumOf { it.codeReviewComment },
                     userComments.sumOf { it.issueComment },
+                    userComments.sumOf { it.prReviewComment },
+                    userComments.sumOf { it.allComments },
                     prReviewStats.map { it.pullRequest.number }.sorted().toString()
                 )
             }
@@ -119,6 +129,8 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     "Review Time (mins)",
                     "Code Review Comments",
                     "PR Issue Comments",
+                    "PR Review Comments",
+                    "Total Comments",
                     "PR Ready On",
                     "PR Merged On",
                     "Ready->Merge",
@@ -128,14 +140,16 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             )
             stats.reviewedPrStats.forEach { reviewStats ->
                 writeRow(
-                    reviewStats.pullRequest.number.toString(),
-                    reviewStats.reviewCompletion.toString(),
+                    reviewStats.pullRequest.number,
+                    reviewStats.reviewCompletion,
                     reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES),
-                    reviewStats.prComments.reviewComment.toString(),
-                    reviewStats.prComments.issueComment.toString(),
-                    reviewStats.prReadyOn.toString(),
-                    reviewStats.prMergedOn.toString(),
-                    (reviewStats.prMergedOn - reviewStats.prReadyOn).toString(),
+                    reviewStats.prComments.codeReviewComment,
+                    reviewStats.prComments.issueComment,
+                    reviewStats.prComments.prReviewComment,
+                    reviewStats.prComments.allComments,
+                    reviewStats.prReadyOn,
+                    reviewStats.prMergedOn,
+                    (reviewStats.prMergedOn - reviewStats.prReadyOn),
                     reviewStats.pullRequest.user.login,
                     reviewStats.pullRequest.html_url
                 )
