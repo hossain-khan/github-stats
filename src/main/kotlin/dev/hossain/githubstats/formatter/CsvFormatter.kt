@@ -53,6 +53,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                 "Code Review Comments",
                 "PR Issue Comments",
                 "PR Review Comments",
+                "Total Comments",
                 "PR URL"
             )
 
@@ -67,6 +68,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                         "${reviewStats.prComments.codeReviewComment}", /* "Code Review Comments" */
                         "${reviewStats.prComments.issueComment}", /* "PR Issue Comments" */
                         "${reviewStats.prComments.prReviewComment}", /* "PR Review Comments" */
+                        "${reviewStats.prComments.allComments}", /* "Total Comments" */
                         reviewStats.pullRequest.html_url /* "PR URL" */
                     )
                 }
@@ -96,6 +98,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             "Total Code Review Comments",
             "Total PR Issue Comments",
             "Total PR Review Comments",
+            "Total All Comments Made",
             "PR# List"
         )
         csvWriter().open(reviewedForFile) {
@@ -109,6 +112,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     userComments.sumOf { it.codeReviewComment },
                     userComments.sumOf { it.issueComment },
                     userComments.sumOf { it.prReviewComment },
+                    userComments.sumOf { it.allComments },
                     prReviewStats.map { it.pullRequest.number }.sorted().toString()
                 )
             }
@@ -124,6 +128,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     "Code Review Comments",
                     "PR Issue Comments",
                     "PR Review Comments",
+                    "Total Comments",
                     "PR Ready On",
                     "PR Merged On",
                     "Ready->Merge",
@@ -139,6 +144,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     reviewStats.prComments.codeReviewComment.toString(),
                     reviewStats.prComments.issueComment.toString(),
                     reviewStats.prComments.prReviewComment.toString(),
+                    reviewStats.prComments.allComments.toString(),
                     reviewStats.prReadyOn.toString(),
                     reviewStats.prMergedOn.toString(),
                     (reviewStats.prMergedOn - reviewStats.prReadyOn).toString(),
