@@ -27,6 +27,36 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
 
     private val props: LocalProperties by inject()
 
+    /**
+     * Formats PR review stats for a specific single PR.
+     *
+     * Example output:
+     * ```
+     * ┌──────────────┬──────────────────────────────────────────────────────┐
+     * │ Title        │ gh-1019: Implemented prior knowledge approach to h2c │
+     * ├──────────────┼──────────────────────────────────────────────────────┤
+     * │ PR Author    │ mjpitz                                               │
+     * ├──────────────┼──────────────────────────────────────────────────────┤
+     * │ URL          │ https://github.com/square/okhttp/pull/3873           │
+     * ├──────────────┼──────────────────────────────────────────────────────┤
+     * │ Ready On     │ Feb 20, 2018, 5:55:35 PM                             │
+     * ├──────────────┼──────────────────────────────────────────────────────┤
+     * │ Review Time  │ yschimke=1d 2h 45m                                   │
+     * │              ├──────────────────────────────────────────────────────┤
+     * │              │ swankjesse=1d 2h 45m                                 │
+     * ├──────────────┼──────────────────────────────────────────────────────┤
+     * │ PR Comments  │ swankjesse made total 19 comments.                   │
+     * │              │ Code Review Comments = 16, Issue Comments = 3        │
+     * │              ├──────────────────────────────────────────────────────┤
+     * │              │ yschimke made total 30 comments.                     │
+     * │              │ Code Review Comments = 21, Issue Comments = 9        │
+     * ├──────────────┼──────────────────────────────────────────────────────┤
+     * │ Merged On    │ Feb 26, 2018, 6:55:11 PM                             │
+     * ├──────────────┼──────────────────────────────────────────────────────┤
+     * │ Open → Merge │ 6d 0h 59m 36s                                        │
+     * └──────────────┴──────────────────────────────────────────────────────┘
+     * ```
+     */
     override fun formatSinglePrStats(prStats: PrStats): String {
         fun formatUserPrComments(userPrComment: UserPrComment) =
             "${userPrComment.user} made total ${userPrComment.allComments} comments.\n" +
