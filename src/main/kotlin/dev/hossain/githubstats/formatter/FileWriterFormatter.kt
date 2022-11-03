@@ -9,6 +9,7 @@ import java.io.File
 
 /**
  * Writes report from given [formatter] into file.
+ * The main purpose is to use the [PicnicTableFormatter] and write the output to file for later reference.
  */
 class FileWriterFormatter constructor(
     private val formatter: StatsFormatter
