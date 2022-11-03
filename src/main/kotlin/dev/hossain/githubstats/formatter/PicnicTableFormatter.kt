@@ -6,6 +6,7 @@ import com.jakewharton.picnic.table
 import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.util.LocalProperties
@@ -129,7 +130,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      * │                                               ├────────────────────────────┤
      * │                                               │ 3h for PR#47807            │
      * ├───────────────────────────────────────────────┼────────────────────────────┤
-     * │ Average Time                                  │ 44m 18.66s          │
+     * │ Average Time                                  │ 44m 18.66s                 │
      * ├───────────────────────────────────────────────┴────────────────────────────┤
      * │                                                                            │
      * │ ● PR reviewer stats for "Sboonny"                                          │
@@ -149,6 +150,19 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
+        }
+
+        /**
+         * Internal function to format PR review time and review comments count.
+         */
+        fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String {
+            return "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
+                if (reviewStats.prComments.empty().not()) {
+                    "\nmade ${reviewStats.prComments.reviewComment} code review ${reviewStats.prComments.reviewComment.comments()} " +
+                        "and ${reviewStats.prComments.issueComment} issue ${reviewStats.prComments.issueComment.comments()}."
+                } else {
+                    "" // When no comment metrics is available, don't show it.
+                }
         }
 
         return table {
@@ -195,11 +209,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     cell("Review Durations") {
                         rowSpan = stat.stats.size
                     }
-                    cell("${stat.stats.first().reviewCompletion} for PR#${stat.stats.first().pullRequest.number}")
+                    cell(formatPrReviewTimeAndComments(stat.stats.first()))
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
                 stat.stats.drop(1).forEach {
-                    row("${it.reviewCompletion} for PR#${it.pullRequest.number}")
+                    row(formatPrReviewTimeAndComments(it))
                 }
                 row("Average Time", "${stat.average}")
             }
@@ -218,7 +232,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      * ┌──────────────────────────────┬─────────────────────────────────────────────┐
      * │ Total Reviews                │ 33                                          │
      * ├──────────────────────────────┼─────────────────────────────────────────────┤
-     * │ Average Review Time          │ 7h 20m 58.68s                        │
+     * │ Average Review Time          │ 7h 20m 58.68s                               │
      * ├──────────────────────────────┼─────────────────────────────────────────────┤
      * │ PR Authors Reviewed For      │ ✔ 1 PR reviewed for 'miyaliu666'            │
      * │                              ├─────────────────────────────────────────────┤

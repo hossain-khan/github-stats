@@ -47,14 +47,22 @@ data class ReviewStats(
      * The PR information including PR number and URL.
      */
     val pullRequest: PullRequest,
+
     /**
      * PR review completion time in working hours (excludes weekends and after hours)
      */
     val reviewCompletion: Duration,
+
+    /**
+     * Contains PR issue comment and review comment count by a specific user.
+     */
+    val prComments: UserPrComment,
+
     /**
      * Date and time when the PR was ready for review for the specific author.
      */
     val prReadyOn: Instant,
+
     /**
      * Date and time when the PR was merged successfully.
      */
@@ -103,7 +111,19 @@ data class UserPrComment(
      */
     val reviewComment: Int
 ) {
+    companion object {
+        /**
+         * Provides empty comments stats for specific [userId]/
+         */
+        fun empty(userId: UserId) = UserPrComment(userId, 0, 0)
+    }
+
     val allComments: Int = issueComment + reviewComment
+
+    /**
+     * Checks if stats is empty, then it's likely not worth showing.
+     */
+    fun empty(): Boolean = issueComment == 0 && reviewComment == 0
 
     override fun toString(): String {
         return "$user made $issueComment PR comment and $reviewComment review comment. Total: $allComments comments."

@@ -1,5 +1,6 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.UserPrComment.Companion.empty
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
@@ -72,6 +73,7 @@ class PrReviewerStatsService constructor(
                 ReviewStats(
                     pullRequest = stats.pullRequest,
                     reviewCompletion = stats.reviewTime[reviewerUserId]!!,
+                    prComments = stats.comments[reviewerUserId] ?: empty(reviewerUserId),
                     prReadyOn = stats.prReadyOn,
                     prMergedOn = stats.prMergedOn
                 )
