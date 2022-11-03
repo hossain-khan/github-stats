@@ -105,7 +105,9 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             writeRow(headerItem)
 
             stats.reviewedForPrStats.forEach { (prAuthorId, prReviewStats) ->
-                val userComments = prReviewStats.map { it.comments.values }.flatten().filter { it.user == prAuthorId }
+                // Get all the comments made by the reviewer for the PR author
+                val userComments = prReviewStats.map { it.comments.values }.flatten()
+                    .filter { it.user == stats.reviewerId }
                 writeRow(
                     prAuthorId,
                     prReviewStats.size,
@@ -138,16 +140,16 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             )
             stats.reviewedPrStats.forEach { reviewStats ->
                 writeRow(
-                    reviewStats.pullRequest.number.toString(),
-                    reviewStats.reviewCompletion.toString(),
+                    reviewStats.pullRequest.number,
+                    reviewStats.reviewCompletion,
                     reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES),
-                    reviewStats.prComments.codeReviewComment.toString(),
-                    reviewStats.prComments.issueComment.toString(),
-                    reviewStats.prComments.prReviewComment.toString(),
-                    reviewStats.prComments.allComments.toString(),
-                    reviewStats.prReadyOn.toString(),
-                    reviewStats.prMergedOn.toString(),
-                    (reviewStats.prMergedOn - reviewStats.prReadyOn).toString(),
+                    reviewStats.prComments.codeReviewComment,
+                    reviewStats.prComments.issueComment,
+                    reviewStats.prComments.prReviewComment,
+                    reviewStats.prComments.allComments,
+                    reviewStats.prReadyOn,
+                    reviewStats.prMergedOn,
+                    (reviewStats.prMergedOn - reviewStats.prReadyOn),
                     reviewStats.pullRequest.user.login,
                     reviewStats.pullRequest.html_url
                 )
