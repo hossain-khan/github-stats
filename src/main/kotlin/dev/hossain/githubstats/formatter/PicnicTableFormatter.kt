@@ -46,8 +46,9 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      * │              ├──────────────────────────────────────────────────────┤
      * │              │ swankjesse=1d 2h 45m                                 │
      * ├──────────────┼──────────────────────────────────────────────────────┤
-     * │ PR Comments  │ swankjesse made total 19 comments.                   │
+     * │ PR Comments  │ swankjesse made total 22 comments.                   │
      * │              │ Code Review Comments = 16, Issue Comments = 3        │
+     * │              │ Has reviewed PR 3 times.                             │
      * │              ├──────────────────────────────────────────────────────┤
      * │              │ yschimke made total 30 comments.                     │
      * │              │ Code Review Comments = 21, Issue Comments = 9        │
@@ -61,8 +62,9 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
     override fun formatSinglePrStats(prStats: PrStats): String {
         fun formatUserPrComments(userPrComment: UserPrComment) =
             "${userPrComment.user} made total ${userPrComment.allComments} ${userPrComment.allComments.comments()}.\n" +
-                "Code Review Comments = ${userPrComment.reviewComment}, " +
-                "Issue Comments = ${userPrComment.issueComment}"
+                "Code Review Comments = ${userPrComment.codeReviewComment}, " +
+                "Issue Comments = ${userPrComment.issueComment}" +
+                if (userPrComment.prReviewComment > 0) "\nHas reviewed PR ${userPrComment.prReviewComment} ${userPrComment.prReviewComment.times()}." else ""
 
         return table {
             cellStyle {
@@ -159,11 +161,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
         fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String {
             return "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
                 if (reviewStats.prComments.empty().not()) {
-                    "\nmade ${reviewStats.prComments.reviewComment} code review ${reviewStats.prComments.reviewComment.comments()} " +
+                    "\nmade ${reviewStats.prComments.codeReviewComment} code review ${reviewStats.prComments.codeReviewComment.comments()} " +
                         "and ${reviewStats.prComments.issueComment} issue ${reviewStats.prComments.issueComment.comments()}."
                 } else {
                     "" // When no comment metrics is available, don't show it.
-                }
+                } + if (reviewStats.prComments.prReviewComment > 0) "\nalso has reviewed PR ${reviewStats.prComments.prReviewComment} ${reviewStats.prComments.prReviewComment.times()}." else ""
         }
 
         return table {
@@ -311,4 +313,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
 
     /** Internal function to use plurals for comments. */
     private fun Int.comments(): String = if (this <= 1) "comment" else "comments"
+
+    /** Internal function to use plurals for `times`. */
+    private fun Int.times(): String = if (this <= 1) "time" else "times"
 }

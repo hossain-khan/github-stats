@@ -1,6 +1,7 @@
 package dev.hossain.githubstats
 
 import dev.hossain.githubstats.model.PullRequest
+import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 
@@ -105,27 +106,34 @@ data class UserPrComment(
      * PR issue comments count that are directly commented on the PR.
      */
     val issueComment: Int,
+
     /**
      * Total PR review comments count.
      * Pull request review comments are comments on a portion of the unified diff made during a pull request review.
      */
-    val reviewComment: Int
+    val codeReviewComment: Int,
+
+    /**
+     * Total PR review comment that either is [ReviewState.COMMENTED] or [ReviewState.CHANGE_REQUESTED].
+     */
+    val prReviewComment: Int
 ) {
     companion object {
         /**
          * Provides empty comments stats for specific [userId]/
          */
-        fun empty(userId: UserId) = UserPrComment(userId, 0, 0)
+        fun empty(userId: UserId) = UserPrComment(userId, 0, 0, 0)
     }
 
-    val allComments: Int = issueComment + reviewComment
+    val allComments: Int = issueComment + codeReviewComment + prReviewComment
 
     /**
      * Checks if stats is empty, then it's likely not worth showing.
      */
-    fun empty(): Boolean = issueComment == 0 && reviewComment == 0
+    fun empty(): Boolean = issueComment == 0 && codeReviewComment == 0 && prReviewComment == 0
 
     override fun toString(): String {
-        return "$user made $issueComment PR comment and $reviewComment review comment. Total: $allComments comments."
+        return "$user made $issueComment PR comment and $codeReviewComment review comment " +
+            "and has reviewed PR $prReviewComment times. Total: $allComments comments."
     }
 }
