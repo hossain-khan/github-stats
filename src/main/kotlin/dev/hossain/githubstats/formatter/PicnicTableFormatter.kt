@@ -6,6 +6,7 @@ import com.jakewharton.picnic.table
 import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.util.LocalProperties
@@ -111,44 +112,58 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      *   PR reviewer's stats for PR created by 'naomi-lgbt' on 'freeCodeCamp' repository since 2022-10-01.
      *   -------------------------------------------------------------------------------------------------
      *
-     * ┌────────────────────────────────────────────────────────────────────────────┐
-     * │                                                                            │
-     * │ ● PR reviewer stats for "raisedadead"                                      │
-     * ├───────────────────────────────────────────────┬────────────────────────────┤
-     * │ Total Reviews                                 │ 6                          │
-     * ├───────────────────────────────────────────────┼────────────────────────────┤
-     * │ Review Durations                              │ 1h for PR#48046            │
-     * │                                               ├────────────────────────────┤
-     * │                                               │ 25m 52s for PR#48045       │
-     * │                                               ├────────────────────────────┤
-     * │                                               │ 0s for PR#47955            │
-     * │                                               ├────────────────────────────┤
-     * │                                               │ 0s for PR#47940            │
-     * │                                               ├────────────────────────────┤
-     * │                                               │ 0s for PR#47885            │
-     * │                                               ├────────────────────────────┤
-     * │                                               │ 3h for PR#47807            │
-     * ├───────────────────────────────────────────────┼────────────────────────────┤
-     * │ Average Time                                  │ 44m 18.66s          │
-     * ├───────────────────────────────────────────────┴────────────────────────────┤
-     * │                                                                            │
-     * │ ● PR reviewer stats for "Sboonny"                                          │
-     * ├───────────────────────────────────────────────┬────────────────────────────┤
-     * │ Total Reviews                                 │ 3                          │
-     * ├───────────────────────────────────────────────┼────────────────────────────┤
-     * │ Review Durations                              │ 3h for PR#48297            │
-     * │                                               ├────────────────────────────┤
-     * │                                               │ 0s for PR#48271            │
-     * │                                               ├────────────────────────────┤
-     * │                                               │ 0s for PR#47940            │
-     * ├───────────────────────────────────────────────┼────────────────────────────┤
-     * │ Average Time                                  │ 1h                         │
-     * └───────────────────────────────────────────────┴────────────────────────────┘
+     * ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+     * │                                                                                                            │
+     * │ ● PR reviewer stats for "raisedadead"                                                                      │
+     * ├───────────────────────────────────────────────┬────────────────────────────────────────────────────────────┤
+     * │ Total Reviews                                 │ 6                                                          │
+     * ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+     * │ Review Durations                              │ 1h for PR#48046                                            │
+     * │                                               ├────────────────────────────────────────────────────────────┤
+     * │                                               │ 25m 52s for PR#48045                                       │
+     * │                                               │ made 18 code review comments and 2 issue comments.         │
+     * │                                               ├────────────────────────────────────────────────────────────┤
+     * │                                               │ 7h 3m for PR#47685                                         │
+     * │                                               │ made 11 code review comments and 2 issue comments.         │
+     * │                                               ├────────────────────────────────────────────────────────────┤
+     * │                                               │ 0s for PR#47885                                            │
+     * │                                               ├────────────────────────────────────────────────────────────┤
+     * │                                               │ 3h for PR#47807                                            │
+     * ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+     * │ Average Time                                  │ 44m 18.66s                                                 │
+     * ├───────────────────────────────────────────────┴────────────────────────────────────────────────────────────┤
+     * │                                                                                                            │
+     * │ ● PR reviewer stats for "Sboonny"                                                                          │
+     * ├───────────────────────────────────────────────┬────────────────────────────────────────────────────────────┤
+     * │ Total Reviews                                 │ 3                                                          │
+     * ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+     * │ Review Durations                              │ 3h for PR#48297                                            │
+     * │                                               │ made 6 code review comments and 2 issue comments.          │
+     * │                                               ├────────────────────────────────────────────────────────────┤
+     * │                                               │ 0s for PR#48271                                            │
+     * │                                               ├────────────────────────────────────────────────────────────┤
+     * │                                               │ 0s for PR#47940                                            │
+     * ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+     * │ Average Time                                  │ 1h                                                         │
+     * └───────────────────────────────────────────────┴────────────────────────────────────────────────────────────┘
      * ```
      */
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
+        }
+
+        /**
+         * Internal function to format PR review time and review comments count.
+         */
+        fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String {
+            return "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
+                if (reviewStats.prComments.empty().not()) {
+                    "\nmade ${reviewStats.prComments.reviewComment} code review ${reviewStats.prComments.reviewComment.comments()} " +
+                        "and ${reviewStats.prComments.issueComment} issue ${reviewStats.prComments.issueComment.comments()}."
+                } else {
+                    "" // When no comment metrics is available, don't show it.
+                }
         }
 
         return table {
@@ -195,11 +210,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     cell("Review Durations") {
                         rowSpan = stat.stats.size
                     }
-                    cell("${stat.stats.first().reviewCompletion} for PR#${stat.stats.first().pullRequest.number}")
+                    cell(formatPrReviewTimeAndComments(stat.stats.first()))
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
                 stat.stats.drop(1).forEach {
-                    row("${it.reviewCompletion} for PR#${it.pullRequest.number}")
+                    row(formatPrReviewTimeAndComments(it))
                 }
                 row("Average Time", "${stat.average}")
             }
@@ -218,7 +233,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      * ┌──────────────────────────────┬─────────────────────────────────────────────┐
      * │ Total Reviews                │ 33                                          │
      * ├──────────────────────────────┼─────────────────────────────────────────────┤
-     * │ Average Review Time          │ 7h 20m 58.68s                        │
+     * │ Average Review Time          │ 7h 20m 58.68s                               │
      * ├──────────────────────────────┼─────────────────────────────────────────────┤
      * │ PR Authors Reviewed For      │ ✔ 1 PR reviewed for 'miyaliu666'            │
      * │                              ├─────────────────────────────────────────────┤
