@@ -26,7 +26,7 @@ data class PrStats(
     /**
      * Map of `user-id -> total comments made` for the [pullRequest].
      */
-    val comments: Map<UserId, Int>,
+    val comments: Map<UserId, UserPrComment>,
 
     /**
      * Date and time when the PR was ready for review for the specific author.
@@ -84,3 +84,28 @@ data class ReviewerReviewStats(
     val reviewedPrStats: List<ReviewStats>,
     val reviewedForPrStats: Map<UserId, List<PrStats>>
 )
+
+/**
+ * Contains PR issue comment and review comment count by a specific user.
+ *
+ * > Pull request review comments are comments on a portion of the unified diff made during a pull request review.
+ * > Commit comments and issue comments are different from pull request review comments.
+ */
+data class UserPrComment(
+    val user: UserId,
+    /**
+     * PR issue comments count that are directly commented on the PR.
+     */
+    val issueComment: Int,
+    /**
+     * Total PR review comments count.
+     * Pull request review comments are comments on a portion of the unified diff made during a pull request review.
+     */
+    val reviewComment: Int
+) {
+    val allComments: Int = issueComment + reviewComment
+
+    override fun toString(): String {
+        return "$user made $issueComment PR comment and $reviewComment review comment. Total: $allComments comments."
+    }
+}

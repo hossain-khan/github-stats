@@ -36,4 +36,8 @@ data class User(
     val avatar_url: String?,
     val id: Long,
     val repos_url: String?
-)
+) {
+    override fun toString(): String {
+        return "User: $login"
+    }
+}
