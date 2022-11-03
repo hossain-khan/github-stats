@@ -7,6 +7,7 @@ import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
+import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.util.LocalProperties
 import kotlinx.datetime.toJavaInstant
 import org.koin.core.component.KoinComponent
@@ -27,6 +28,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
     private val props: LocalProperties by inject()
 
     override fun formatSinglePrStats(prStats: PrStats): String {
+        fun formatUserPrComments(userPrComment: UserPrComment) =
+            "${userPrComment.user} made total ${userPrComment.allComments} comments.\n" +
+                "Code Review Comments = ${userPrComment.reviewComment}, " +
+                "Issue Comments = ${userPrComment.issueComment}"
+
         return table {
             cellStyle {
                 border = true
@@ -54,11 +60,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     cell("PR Comments") {
                         rowSpan = prStats.comments.size
                     }
-                    cell("${prStats.comments.entries.first()}")
+                    cell(formatUserPrComments(prStats.comments.entries.first().value))
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
                 prStats.comments.entries.drop(1).forEach {
-                    row("$it")
+                    row(formatUserPrComments(it.value))
                 }
             }
             row("Merged On", dateFormatter.format(prStats.prMergedOn.toJavaInstant()))
