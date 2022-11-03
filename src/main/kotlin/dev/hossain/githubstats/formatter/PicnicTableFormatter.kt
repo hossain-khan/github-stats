@@ -59,7 +59,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatSinglePrStats(prStats: PrStats): String {
         fun formatUserPrComments(userPrComment: UserPrComment) =
-            "${userPrComment.user} made total ${userPrComment.allComments} comments.\n" +
+            "${userPrComment.user} made total ${userPrComment.allComments} ${userPrComment.allComments.comments()}.\n" +
                 "Code Review Comments = ${userPrComment.reviewComment}, " +
                 "Issue Comments = ${userPrComment.issueComment}"
 
@@ -102,6 +102,50 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
         }.toString()
     }
 
+    /**
+     * Formats PR review stats for list of users that reviewed specific user's PRs.
+     *
+     * Sample output:
+     * ```
+     *   -------------------------------------------------------------------------------------------------
+     *   PR reviewer's stats for PR created by 'naomi-lgbt' on 'freeCodeCamp' repository since 2022-10-01.
+     *   -------------------------------------------------------------------------------------------------
+     *
+     * ┌────────────────────────────────────────────────────────────────────────────┐
+     * │                                                                            │
+     * │ ● PR reviewer stats for "raisedadead"                                      │
+     * ├───────────────────────────────────────────────┬────────────────────────────┤
+     * │ Total Reviews                                 │ 6                          │
+     * ├───────────────────────────────────────────────┼────────────────────────────┤
+     * │ Review Durations                              │ 1h for PR#48046            │
+     * │                                               ├────────────────────────────┤
+     * │                                               │ 25m 52s for PR#48045       │
+     * │                                               ├────────────────────────────┤
+     * │                                               │ 0s for PR#47955            │
+     * │                                               ├────────────────────────────┤
+     * │                                               │ 0s for PR#47940            │
+     * │                                               ├────────────────────────────┤
+     * │                                               │ 0s for PR#47885            │
+     * │                                               ├────────────────────────────┤
+     * │                                               │ 3h for PR#47807            │
+     * ├───────────────────────────────────────────────┼────────────────────────────┤
+     * │ Average Time                                  │ 44m 18.66s          │
+     * ├───────────────────────────────────────────────┴────────────────────────────┤
+     * │                                                                            │
+     * │ ● PR reviewer stats for "Sboonny"                                          │
+     * ├───────────────────────────────────────────────┬────────────────────────────┤
+     * │ Total Reviews                                 │ 3                          │
+     * ├───────────────────────────────────────────────┼────────────────────────────┤
+     * │ Review Durations                              │ 3h for PR#48297            │
+     * │                                               ├────────────────────────────┤
+     * │                                               │ 0s for PR#48271            │
+     * │                                               ├────────────────────────────┤
+     * │                                               │ 0s for PR#47940            │
+     * ├───────────────────────────────────────────────┼────────────────────────────┤
+     * │ Average Time                                  │ 1h                         │
+     * └───────────────────────────────────────────────┴────────────────────────────┘
+     * ```
+     */
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
@@ -162,6 +206,36 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
         }.toString()
     }
 
+    /**
+     * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
+     *
+     * Sample output:
+     * ```
+     *   ---------------------------------------------------------------------------------------------
+     *   Stats for all PR reviews given by 'naomi-lgbt' on 'freeCodeCamp' repository since 2022-10-01.
+     *   ---------------------------------------------------------------------------------------------
+     *
+     * ┌──────────────────────────────┬─────────────────────────────────────────────┐
+     * │ Total Reviews                │ 33                                          │
+     * ├──────────────────────────────┼─────────────────────────────────────────────┤
+     * │ Average Review Time          │ 7h 20m 58.68s                        │
+     * ├──────────────────────────────┼─────────────────────────────────────────────┤
+     * │ PR Authors Reviewed For      │ ✔ 1 PR reviewed for 'miyaliu666'            │
+     * │                              ├─────────────────────────────────────────────┤
+     * │                              │ ✔ 2 PRs reviewed for 'DerrykBoyd'           │
+     * │                              ├─────────────────────────────────────────────┤
+     * │                              │ ✔ 3 PRs reviewed for 'nayabatir1'           │
+     * │                              ├─────────────────────────────────────────────┤
+     * │                              │ ✔ 3 PRs reviewed for 'ojeytonwilliams'      │
+     * │                              ├─────────────────────────────────────────────┤
+     * │                              │ ✔ 4 PRs reviewed for 'raisedadead'          │
+     * │                              ├─────────────────────────────────────────────┤
+     * │                              │ ✔ 5 PRs reviewed for 'Sboonny'              │
+     * │                              ├─────────────────────────────────────────────┤
+     * │                              │ ✔ 15 PRs reviewed for 'camperbot'           │
+     * └──────────────────────────────┴─────────────────────────────────────────────┘
+     * ```
+     */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
@@ -219,4 +293,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
 
     /** Internal function to use plurals for PR. */
     private fun Int.prs(): String = if (this <= 1) "PR" else "PRs"
+
+    /** Internal function to use plurals for comments. */
+    private fun Int.comments(): String = if (this <= 1) "comment" else "comments"
 }
