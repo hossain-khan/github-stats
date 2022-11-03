@@ -59,7 +59,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatSinglePrStats(prStats: PrStats): String {
         fun formatUserPrComments(userPrComment: UserPrComment) =
-            "${userPrComment.user} made total ${userPrComment.allComments} comments.\n" +
+            "${userPrComment.user} made total ${userPrComment.allComments} ${userPrComment.allComments.comments()}.\n" +
                 "Code Review Comments = ${userPrComment.reviewComment}, " +
                 "Issue Comments = ${userPrComment.issueComment}"
 
@@ -219,4 +219,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
 
     /** Internal function to use plurals for PR. */
     private fun Int.prs(): String = if (this <= 1) "PR" else "PRs"
+
+    /** Internal function to use plurals for comments. */
+    private fun Int.comments(): String = if (this <= 1) "comment" else "comments"
 }
