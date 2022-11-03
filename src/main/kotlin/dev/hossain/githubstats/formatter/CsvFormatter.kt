@@ -17,6 +17,9 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         return "Individual PR stats is not supported for CSV export."
     }
 
+    /**
+     * Formats PR review stats for list of users that reviewed specific user's PRs.
+     */
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.shrug}"
@@ -43,17 +46,26 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
             // Individual report per reviewer
             val fileName = FileUtil.reviewedForAuthorFileName(stat)
-            val headerItem: List<String> = listOf("Reviewer", "PR Number", "Review time (mins)", "URL")
+            val headerItem: List<String> = listOf(
+                "Reviewer",
+                "PR Number",
+                "Review time (mins)",
+                "Code Review Comments",
+                "PR Issue Comments",
+                "PR URL"
+            )
 
             csvWriter().open(fileName) {
                 writeRow(headerItem)
 
-                stat.stats.forEach {
+                stat.stats.forEach { reviewStats ->
                     writeRow(
-                        stat.reviewerId,
-                        "PR ${it.pullRequest.number}",
-                        "${it.reviewCompletion.toInt(DurationUnit.MINUTES)}",
-                        it.pullRequest.html_url
+                        stat.reviewerId, /* "Reviewer" */
+                        "PR ${reviewStats.pullRequest.number}", /* "PR Number" */
+                        "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}", /* "Review time (mins)" */
+                        "${reviewStats.prComments.reviewComment}", /* "Code Review Comments" */
+                        "${reviewStats.prComments.issueComment}", /* "PR Issue Comments" */
+                        reviewStats.pullRequest.html_url /* "PR URL" */
                     )
                 }
             }
@@ -63,6 +75,9 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         return "Generated following files: \n${filesCreated.joinToString()} and $combinedReportFileName"
     }
 
+    /**
+     * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
+     */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.shrug}"
@@ -73,14 +88,23 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         //  2. List of author reviewed for
 
         val reviewedForFile = FileUtil.prReviewedForCombinedFilename(stats.reviewerId)
-        val headerItem: List<String> = listOf("Reviewed For different PR Authors", "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimit()}", "PR# List")
+        val headerItem: List<String> = listOf(
+            "Reviewed For different PR Authors",
+            "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimit()}",
+            "Total Code Review Comments",
+            "Total PR Issue Comments",
+            "PR# List"
+        )
         csvWriter().open(reviewedForFile) {
             writeRow(headerItem)
 
             stats.reviewedForPrStats.forEach { (prAuthorId, prReviewStats) ->
+                val userComments = prReviewStats.map { it.comments.values }.flatten().filter { it.user == prAuthorId }
                 writeRow(
                     prAuthorId,
                     prReviewStats.size,
+                    userComments.sumOf { it.reviewComment },
+                    userComments.sumOf { it.issueComment },
                     prReviewStats.map { it.pullRequest.number }.sorted().toString()
                 )
             }
@@ -88,17 +112,32 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
         val reviewerPrStatsFile = FileUtil.prReviewerReviewedPrStatsFile(stats.reviewerId)
         csvWriter().open(reviewerPrStatsFile) {
-            writeRow(listOf("PR#", "Review Time", "Review Time (mins)", "PR Ready On", "PR Merged On", "Ready->Merge", "PR Author", "PR URL"))
-            stats.reviewedPrStats.forEach {
+            writeRow(
+                listOf(
+                    "PR#",
+                    "Review Time",
+                    "Review Time (mins)",
+                    "Code Review Comments",
+                    "PR Issue Comments",
+                    "PR Ready On",
+                    "PR Merged On",
+                    "Ready->Merge",
+                    "PR Author",
+                    "PR URL"
+                )
+            )
+            stats.reviewedPrStats.forEach { reviewStats ->
                 writeRow(
-                    it.pullRequest.number.toString(),
-                    it.reviewCompletion.toString(),
-                    it.reviewCompletion.toInt(DurationUnit.MINUTES),
-                    it.prReadyOn.toString(),
-                    it.prMergedOn.toString(),
-                    (it.prMergedOn - it.prReadyOn).toString(),
-                    it.pullRequest.user.login,
-                    it.pullRequest.html_url
+                    reviewStats.pullRequest.number.toString(),
+                    reviewStats.reviewCompletion.toString(),
+                    reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES),
+                    reviewStats.prComments.reviewComment.toString(),
+                    reviewStats.prComments.issueComment.toString(),
+                    reviewStats.prReadyOn.toString(),
+                    reviewStats.prMergedOn.toString(),
+                    (reviewStats.prMergedOn - reviewStats.prReadyOn).toString(),
+                    reviewStats.pullRequest.user.login,
+                    reviewStats.pullRequest.html_url
                 )
             }
         }
