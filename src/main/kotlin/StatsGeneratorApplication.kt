@@ -18,10 +18,15 @@ class StatsGeneratorApplication : KoinComponent {
     private val prReviewerStatsService: PrReviewerStatsService by inject()
     private val prAuthorStatsService: PrAuthorStatsService by inject()
 
-    // Config loader that provides configs from `local.properties`
+    /**
+     * Config loader that provides configs from `[LOCAL_PROPERTIES_FILE]`
+     */
     private val appConfig: AppConfig by inject()
 
-    // Get all the available stats formatters - such as ASCII table, CSV writer and so on
+    /**
+     * Get all the available stats formatters - such as ASCII table, CSV writer and so on.
+     * @see StatsFormatter
+     */
     private val formatters: List<StatsFormatter> = getKoin().getAll()
 
     /**
