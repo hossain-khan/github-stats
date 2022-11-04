@@ -43,7 +43,7 @@ class StatsGeneratorApplication : KoinComponent {
         appConfig.get().userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
             val authorReportBuildTime = measureTimeMillis {
-                val prAuthorStats: List<AuthorReviewStats> = prAuthorStatsService.authorStats(author = authorId)
+                val prAuthorStats: List<AuthorReviewStats> = prAuthorStatsService.authorStats(prAuthorUsedId = authorId)
 
                 formatters.forEach {
                     println(it.formatAuthorStats(prAuthorStats))
@@ -69,7 +69,7 @@ class StatsGeneratorApplication : KoinComponent {
         appConfig.get().userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {
                 println("■ Building stats for `$usedId` as PR reviewer.\n")
-                val prReviewerReviewStats = prReviewerStatsService.reviewerStats(reviewerUserId = usedId)
+                val prReviewerReviewStats = prReviewerStatsService.reviewerStats(prReviewerUserId = usedId)
                 formatters.forEach {
                     println(it.formatReviewerStats(prReviewerReviewStats))
                 }

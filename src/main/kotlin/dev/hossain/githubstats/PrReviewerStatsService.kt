@@ -24,7 +24,7 @@ class PrReviewerStatsService constructor(
     private val errorProcessor: ErrorProcessor
 ) : KoinComponent {
     suspend fun reviewerStats(
-        reviewerUserId: String
+        prReviewerUserId: String
     ): ReviewerReviewStats {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
@@ -33,7 +33,7 @@ class PrReviewerStatsService constructor(
             searchQuery = SearchParams(
                 repoOwner = repoOwner,
                 repoId = repoId,
-                reviewer = reviewerUserId,
+                reviewer = prReviewerUserId,
                 dateAfter = dateLimitAfter,
                 dateBefore = dateLimitBefore
             ).toQuery()
@@ -74,13 +74,13 @@ class PrReviewerStatsService constructor(
         val reviewerPrStats: List<ReviewStats> = prStatsList
             .filter {
                 // Ensures that the PR was reviewed by the reviewer requested in the function
-                it.reviewTime.containsKey(reviewerUserId)
+                it.reviewTime.containsKey(prReviewerUserId)
             }
             .map { stats ->
                 ReviewStats(
                     pullRequest = stats.pullRequest,
-                    reviewCompletion = stats.reviewTime[reviewerUserId]!!,
-                    prComments = stats.comments[reviewerUserId] ?: empty(reviewerUserId),
+                    reviewCompletion = stats.reviewTime[prReviewerUserId]!!,
+                    prComments = stats.comments[prReviewerUserId] ?: empty(prReviewerUserId),
                     prReadyOn = stats.prReadyOn,
                     prMergedOn = stats.prMergedOn
                 )
@@ -94,7 +94,7 @@ class PrReviewerStatsService constructor(
         prStatsList
             .filter {
                 // Ensures that the PR was reviewed by the reviewer requested in the function
-                it.reviewTime.containsKey(reviewerUserId)
+                it.reviewTime.containsKey(prReviewerUserId)
             }
             .forEach { prStats ->
                 val prAuthorUserId = prStats.pullRequest.user.login
@@ -106,13 +106,13 @@ class PrReviewerStatsService constructor(
             }
 
         if (BuildConfig.DEBUG) {
-            println("✅ Completed loading ${prStatsList.size} PRs reviewed by '$reviewerUserId'.")
+            println("✅ Completed loading ${prStatsList.size} PRs reviewed by '$prReviewerUserId'.")
         }
 
         // Finally build the data object that combines all related stats
         return ReviewerReviewStats(
             repoId = repoId,
-            reviewerId = reviewerUserId,
+            reviewerId = prReviewerUserId,
             average = if (reviewerPrStats.isEmpty()) {
                 Duration.ZERO
             } else {

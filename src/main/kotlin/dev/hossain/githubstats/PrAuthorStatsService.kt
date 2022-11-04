@@ -25,7 +25,7 @@ class PrAuthorStatsService constructor(
 ) : KoinComponent {
 
     /**
-     * Generates stats for reviews given by different PR reviewers for specified PR [author].
+     * Generates stats for reviews given by different PR reviewers for specified PR [prAuthorUsedId].
      *
      * For example, assume 'Bob' is a contributor on a specific repo called 'Awesome Json Library'.
      * This will be generated PR reviews for all the PRs 'Bob' has created and will be grouped by
@@ -38,7 +38,7 @@ class PrAuthorStatsService constructor(
      * ```
      */
     suspend fun authorStats(
-        author: String
+        prAuthorUsedId: String
     ): List<AuthorReviewStats> {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
@@ -48,7 +48,7 @@ class PrAuthorStatsService constructor(
             searchQuery = SearchParams(
                 repoOwner = repoOwner,
                 repoId = repoId,
-                author = author,
+                author = prAuthorUsedId,
                 dateAfter = dateLimitAfter,
                 dateBefore = dateLimitBefore
             ).toQuery()
@@ -113,7 +113,7 @@ class PrAuthorStatsService constructor(
 
             AuthorReviewStats(
                 repoId = repoId,
-                prAuthorId = author,
+                prAuthorId = prAuthorUsedId,
                 reviewerId = reviewerUserId,
                 average = averageReviewTime,
                 totalReviews = totalReviews,
