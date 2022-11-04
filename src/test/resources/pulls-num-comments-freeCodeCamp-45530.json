@@ -1,0 +1,272 @@
+[
+  {
+    "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/859969522",
+    "pull_request_review_id": 955146940,
+    "id": 859969522,
+    "node_id": "PRRC_kwDOAbI7X84zQhfy",
+    "diff_hunk": "@@ -227,6 +232,14 @@ function updateMySound(...args) {\n   createUpdateUserProperties(buildUpdate, validate)(...args);\n }\n \n+function updateMyKeyboardShortcuts(...args) {\n+  console.log('=========> updateMyKeyboardShortcuts');",
+    "path": "api-server/src/server/boot/settings.js",
+    "position": null,
+    "original_position": 17,
+    "commit_id": "6338734f091ed9c363d0efb158bd615d1ac8ad18",
+    "original_commit_id": "0adbe4cdecf10bbc860d5b8850e6d7aac1df97ba",
+    "user": {
+      "login": "naomi-lgbt",
+      "id": 63889819,
+      "node_id": "MDQ6VXNlcjYzODg5ODE5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63889819?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/naomi-lgbt",
+      "html_url": "https://github.com/naomi-lgbt",
+      "followers_url": "https://api.github.com/users/naomi-lgbt/followers",
+      "following_url": "https://api.github.com/users/naomi-lgbt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/naomi-lgbt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/naomi-lgbt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/naomi-lgbt/subscriptions",
+      "organizations_url": "https://api.github.com/users/naomi-lgbt/orgs",
+      "repos_url": "https://api.github.com/users/naomi-lgbt/repos",
+      "events_url": "https://api.github.com/users/naomi-lgbt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/naomi-lgbt/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "Assume this was for debugging and should not be here?",
+    "created_at": "2022-04-27T15:54:34Z",
+    "updated_at": "2022-04-27T15:54:34Z",
+    "html_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r859969522",
+    "pull_request_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530",
+    "author_association": "MEMBER",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/859969522"
+      },
+      "html": {
+        "href": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r859969522"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/859969522/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 236,
+    "side": "RIGHT"
+  },
+  {
+    "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/859979347",
+    "pull_request_review_id": 955161996,
+    "id": 859979347,
+    "node_id": "PRRC_kwDOAbI7X84zQj5T",
+    "diff_hunk": "@@ -227,6 +232,14 @@ function updateMySound(...args) {\n   createUpdateUserProperties(buildUpdate, validate)(...args);\n }\n \n+function updateMyKeyboardShortcuts(...args) {\n+  console.log('=========> updateMyKeyboardShortcuts');",
+    "path": "api-server/src/server/boot/settings.js",
+    "position": null,
+    "original_position": 17,
+    "commit_id": "6338734f091ed9c363d0efb158bd615d1ac8ad18",
+    "original_commit_id": "0adbe4cdecf10bbc860d5b8850e6d7aac1df97ba",
+    "user": {
+      "login": "raditotev",
+      "id": 5617443,
+      "node_id": "MDQ6VXNlcjU2MTc0NDM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5617443?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/raditotev",
+      "html_url": "https://github.com/raditotev",
+      "followers_url": "https://api.github.com/users/raditotev/followers",
+      "following_url": "https://api.github.com/users/raditotev/following{/other_user}",
+      "gists_url": "https://api.github.com/users/raditotev/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/raditotev/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/raditotev/subscriptions",
+      "organizations_url": "https://api.github.com/users/raditotev/orgs",
+      "repos_url": "https://api.github.com/users/raditotev/repos",
+      "events_url": "https://api.github.com/users/raditotev/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/raditotev/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "Yes",
+    "created_at": "2022-04-27T16:04:05Z",
+    "updated_at": "2022-04-27T16:04:05Z",
+    "html_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r859979347",
+    "pull_request_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530",
+    "author_association": "CONTRIBUTOR",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/859979347"
+      },
+      "html": {
+        "href": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r859979347"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/859979347/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 236,
+    "side": "RIGHT",
+    "in_reply_to_id": 859969522
+  },
+  {
+    "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/861168982",
+    "pull_request_review_id": 956839723,
+    "id": 861168982,
+    "node_id": "PRRC_kwDOAbI7X84zVGVW",
+    "diff_hunk": "@@ -68,6 +69,8 @@ const mapDispatchToProps = {\n   submitNewAbout,\n   toggleNightMode: (theme: Themes) => updateUserFlag({ theme }),\n   toggleSoundMode: (sound: boolean) => updateUserFlag({ sound }),\n+  toggleKeyboardShortcuts: (keyboardShortcuts: boolean) =>\n+    updateUserFlag({ keyboardShortcuts }),",
+    "path": "client/src/client-only-routes/show-settings.tsx",
+    "position": 13,
+    "original_position": 13,
+    "commit_id": "6338734f091ed9c363d0efb158bd615d1ac8ad18",
+    "original_commit_id": "b51dd2d118efc25396ee71c8a384abde638fab60",
+    "user": {
+      "login": "naomi-lgbt",
+      "id": 63889819,
+      "node_id": "MDQ6VXNlcjYzODg5ODE5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63889819?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/naomi-lgbt",
+      "html_url": "https://github.com/naomi-lgbt",
+      "followers_url": "https://api.github.com/users/naomi-lgbt/followers",
+      "following_url": "https://api.github.com/users/naomi-lgbt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/naomi-lgbt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/naomi-lgbt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/naomi-lgbt/subscriptions",
+      "organizations_url": "https://api.github.com/users/naomi-lgbt/orgs",
+      "repos_url": "https://api.github.com/users/naomi-lgbt/repos",
+      "events_url": "https://api.github.com/users/naomi-lgbt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/naomi-lgbt/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "This should use the new `setKeyboardShortcuts` saga I think.",
+    "created_at": "2022-04-28T17:49:33Z",
+    "updated_at": "2022-04-28T17:49:33Z",
+    "html_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r861168982",
+    "pull_request_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530",
+    "author_association": "MEMBER",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/861168982"
+      },
+      "html": {
+        "href": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r861168982"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/861168982/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 81,
+    "original_start_line": 72,
+    "start_side": "RIGHT",
+    "line": 82,
+    "original_line": 73,
+    "side": "RIGHT"
+  },
+  {
+    "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/861834510",
+    "pull_request_review_id": 957784383,
+    "id": 861834510,
+    "node_id": "PRRC_kwDOAbI7X84zXo0O",
+    "diff_hunk": "@@ -68,6 +69,8 @@ const mapDispatchToProps = {\n   submitNewAbout,\n   toggleNightMode: (theme: Themes) => updateUserFlag({ theme }),\n   toggleSoundMode: (sound: boolean) => updateUserFlag({ sound }),\n+  toggleKeyboardShortcuts: (keyboardShortcuts: boolean) =>\n+    updateUserFlag({ keyboardShortcuts }),",
+    "path": "client/src/client-only-routes/show-settings.tsx",
+    "position": 13,
+    "original_position": 13,
+    "commit_id": "6338734f091ed9c363d0efb158bd615d1ac8ad18",
+    "original_commit_id": "b51dd2d118efc25396ee71c8a384abde638fab60",
+    "user": {
+      "login": "raditotev",
+      "id": 5617443,
+      "node_id": "MDQ6VXNlcjU2MTc0NDM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5617443?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/raditotev",
+      "html_url": "https://github.com/raditotev",
+      "followers_url": "https://api.github.com/users/raditotev/followers",
+      "following_url": "https://api.github.com/users/raditotev/following{/other_user}",
+      "gists_url": "https://api.github.com/users/raditotev/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/raditotev/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/raditotev/subscriptions",
+      "organizations_url": "https://api.github.com/users/raditotev/orgs",
+      "repos_url": "https://api.github.com/users/raditotev/repos",
+      "events_url": "https://api.github.com/users/raditotev/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/raditotev/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "body": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#issuecomment-1113028805",
+    "created_at": "2022-04-29T14:00:40Z",
+    "updated_at": "2022-04-29T14:00:40Z",
+    "html_url": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r861834510",
+    "pull_request_url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530",
+    "author_association": "CONTRIBUTOR",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/861834510"
+      },
+      "html": {
+        "href": "https://github.com/freeCodeCamp/freeCodeCamp/pull/45530#discussion_r861834510"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/45530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/freeCodeCamp/freeCodeCamp/pulls/comments/861834510/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 81,
+    "original_start_line": 72,
+    "start_side": "RIGHT",
+    "line": 82,
+    "original_line": 73,
+    "side": "RIGHT",
+    "in_reply_to_id": 861168982
+  }
+]
