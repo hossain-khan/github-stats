@@ -13,13 +13,14 @@ import java.util.Locale
 class AppConfig constructor(localProperties: LocalProperties) {
     private val repoOwner: String = localProperties.getRepoOwner()
     private val repoId: String = localProperties.getRepoId()
-    private val dateLimit: String = requireValidDate(localProperties.getDateLimit())
+    private val dateLimitAfter: String = requireValidDate(localProperties.getDateLimitAfter())
+    private val dateLimitBefore: String = requiredValidDateOrDefault(localProperties.getDateLimitBefore())
     private val prAuthorUserIds: List<String> = requireUser(localProperties.getAuthors())
 
     /**
      * Provides all available config values from [LOCAL_PROPERTIES_FILE].
      */
-    fun get(): Config = Config(repoOwner, repoId, dateLimit, prAuthorUserIds)
+    fun get(): Config = Config(repoOwner, repoId, prAuthorUserIds, dateLimitAfter, dateLimitBefore)
 
     /**
      * Validates at least one user is provided in [LOCAL_PROPERTIES_FILE]  for the stats generations.
@@ -44,27 +45,49 @@ class AppConfig constructor(localProperties: LocalProperties) {
     }
 
     /**
-     * Validates date provided in the [LOCAL_PROPERTIES_FILE] config.
+     * Validates optional date provided in the [LOCAL_PROPERTIES_FILE] config,
+     * or defaults to today's date.
      */
-    private fun requireValidDate(dateStr: String?): String {
-        requireNotNull(dateStr) {
-            "Date limit config is required in $LOCAL_PROPERTIES_FILE"
-        }
-
+    private fun requiredValidDateOrDefault(dateText: String?): String {
         val dateFormatter: DateTimeFormatter = DateTimeFormatter
             .ofPattern("uuuu-MM-dd", Locale.US)
             .withResolverStyle(ResolverStyle.STRICT)
+
+        if (dateText.isNullOrBlank()) {
+            val todayDate = dateFormatter.format(LocalDate.now())
+            validateDate(todayDate)
+            return todayDate
+        }
+        validateDate(dateText)
+        return dateText
+    }
+
+    /**
+     * Validates required date provided in the [LOCAL_PROPERTIES_FILE] config.
+     */
+    private fun requireValidDate(dateText: String?): String {
+        requireNotNull(dateText) {
+            "Date limit config is required in $LOCAL_PROPERTIES_FILE"
+        }
+        validateDate(dateText)
+        return dateText
+    }
+
+    private fun validateDate(dateText: String) {
+        val dateFormatter: DateTimeFormatter = DateTimeFormatter
+            .ofPattern("uuuu-MM-dd", Locale.US)
+            .withResolverStyle(ResolverStyle.STRICT)
+
         try {
-            dateFormatter.parse(dateStr)
+            dateFormatter.parse(dateText)
         } catch (e: DateTimeParseException) {
             throw IllegalArgumentException(
-                "The date '$dateStr' should be formatted like `YYYY-MM-DD`. Today is `${
+                "The date '$dateText' should be formatted like `YYYY-MM-DD`. Today is `${
                 dateFormatter.format(
                     LocalDate.now()
                 )
                 }`."
             )
         }
-        return dateStr
     }
 }

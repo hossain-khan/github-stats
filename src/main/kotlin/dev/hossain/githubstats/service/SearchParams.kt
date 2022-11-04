@@ -18,12 +18,12 @@ class SearchParams constructor(
      * Lower bound of date to limit older PRs from showing.
      * Format: YYYY-MM-DD
      */
-    private val dateAfter: String = "2022-01-01",
+    private val dateAfter: String,
     /**
      * Upper bound of date to limit anything beyond [dateBefore].
      * Format: YYYY-MM-DD
      */
-    private val dateBefore: String? = null
+    private val dateBefore: String
 ) {
     /**
      * Provides search query for the [GithubApiService.searchIssues] API.
@@ -32,6 +32,7 @@ class SearchParams constructor(
      * - `is:closed+is:pr+is:merged+repo:freeCodeCamp/freeCodeCamp+created:>2022-09-11+reviewed-by:DanielRosa74`
      * - `is:pr+repo:owner/repoid+author:userlogin+created:>2021-01-01`
      * - `is%3Apr+is%3Aclosed+author%3ADanielRosa74`
+     * - `is:pr+is:closed+is:merged+author:swankjesse+created:2022-01-01..2022-03-01`
      */
     fun toQuery(): String {
         val query = StringBuilder()
@@ -49,14 +50,10 @@ class SearchParams constructor(
             // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-within-a-users-or-organizations-repositories
             .append(encode("repo:$repoOwner/$repoId", UTF_8))
             .append("+")
+            // Searches issue between dates
             // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
-            .append(encode("created:>$dateAfter", UTF_8))
-
-        if (dateBefore != null) {
-            query.append("+")
-                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
-                .append(encode("created:<$dateBefore", UTF_8))
-        }
+            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
+            .append(encode("created:$dateAfter..$dateBefore", UTF_8))
 
         if (author != null) {
             query.append("+")

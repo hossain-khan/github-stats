@@ -32,8 +32,8 @@ val appModule = module {
     single { Client.githubApiService }
     single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get(), get()) }
     factory { IssueSearchPager(get(), get()) }
-    factory { PrReviewerStatsService(get(), get()) }
-    factory { PrAuthorStatsService(get(), get()) }
+    factory { PrReviewerStatsService(get(), get(), get()) }
+    factory { PrAuthorStatsService(get(), get(), get()) }
     single { ErrorProcessor() }
     single { UserTimeZone() }
 

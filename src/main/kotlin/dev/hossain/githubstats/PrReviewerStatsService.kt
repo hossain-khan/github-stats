@@ -6,6 +6,7 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
+import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.PrAnalysisProgress
 import kotlinx.coroutines.delay
@@ -19,17 +20,23 @@ import kotlin.time.Duration
  */
 class PrReviewerStatsService constructor(
     private val pullRequestStatsRepo: PullRequestStatsRepo,
+    private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor
 ) : KoinComponent {
     suspend fun reviewerStats(
-        owner: String,
-        repo: String,
-        reviewerUserId: String,
-        dateLimit: String
+        reviewerUserId: String
     ): ReviewerReviewStats {
+        val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
+
         val issueSearchPager: IssueSearchPager = getKoin().get()
         val reviewedClosedPrs: List<Issue> = issueSearchPager.searchIssues(
-            searchQuery = SearchParams(repoOwner = owner, repoId = repo, reviewer = reviewerUserId, dateAfter = dateLimit).toQuery()
+            searchQuery = SearchParams(
+                repoOwner = repoOwner,
+                repoId = repoId,
+                reviewer = reviewerUserId,
+                dateAfter = dateLimitAfter,
+                dateBefore = dateLimitBefore
+            ).toQuery()
         ).filter {
             // Makes sure it is a PR, not an issue
             it.pull_request != null
@@ -46,8 +53,8 @@ class PrReviewerStatsService constructor(
 
                 try {
                     pullRequestStatsRepo.stats(
-                        repoOwner = owner,
-                        repoId = repo,
+                        repoOwner = repoOwner,
+                        repoId = repoId,
                         prNumber = pr.number
                     )
                 } catch (e: Exception) {
@@ -104,7 +111,7 @@ class PrReviewerStatsService constructor(
 
         // Finally build the data object that combines all related stats
         return ReviewerReviewStats(
-            repoId = repo,
+            repoId = repoId,
             reviewerId = reviewerUserId,
             average = if (reviewerPrStats.isEmpty()) {
                 Duration.ZERO

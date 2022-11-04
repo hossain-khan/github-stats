@@ -32,19 +32,11 @@ class StatsGeneratorApplication : KoinComponent {
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
      */
     suspend fun generateAuthorStats() {
-        // Loads the configs defined in `local.properties`
-        val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
-
         // For each of the users, generates stats for all the PRs created by the user
-        userIds.forEach { authorId ->
+        appConfig.get().userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
             val authorReportBuildTime = measureTimeMillis {
-                val prAuthorStats: List<AuthorReviewStats> = prAuthorStatsService.authorStats(
-                    owner = repoOwner,
-                    repo = repoId,
-                    author = authorId,
-                    dateLimit = dateLimit
-                )
+                val prAuthorStats: List<AuthorReviewStats> = prAuthorStatsService.authorStats(author = authorId)
 
                 formatters.forEach {
                     println(it.formatAuthorStats(prAuthorStats))
@@ -65,19 +57,11 @@ class StatsGeneratorApplication : KoinComponent {
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
      */
     suspend fun generateReviewerStats() {
-        // Loads the configs defined in `local.properties`
-        val (repoOwner, repoId, dateLimit, userIds) = appConfig.get()
-
         // For each user, generates stats for all the PRs reviewed by the user
-        userIds.forEach { usedId ->
+        appConfig.get().userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {
                 println("■ Building stats for `$usedId` as PR reviewer.\n")
-                val prReviewerReviewStats = prReviewerStatsService.reviewerStats(
-                    owner = repoOwner,
-                    repo = repoId,
-                    reviewerUserId = usedId,
-                    dateLimit = dateLimit
-                )
+                val prReviewerReviewStats = prReviewerStatsService.reviewerStats(reviewerUserId = usedId)
                 formatters.forEach {
                     println(it.formatReviewerStats(prReviewerReviewStats))
                 }
