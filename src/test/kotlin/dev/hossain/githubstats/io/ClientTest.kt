@@ -155,6 +155,15 @@ internal class ClientTest {
         assertThat(pullRequest.created_at).isEqualTo("2021-08-18T15:23:51Z")
     }
 
+    @Test
+    fun `given pull request comments - provides parsed PR comments`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-num-comments-freeCodeCamp-45530.json")))
+
+        val comments = Client.githubApiService.prReviewComments("X", "Y", 1)
+
+        assertThat(comments.size).isEqualTo(4)
+    }
+
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
