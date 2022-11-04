@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.koin.core.context.GlobalContext.startKoin
 
 /**
- * Runs PR stats on specified repository for specific autor.
+ * Runs PR stats on specified repository for each GitHub users defined in the config.
  * See **`[LOCAL_PROPERTIES_SAMPLE_FILE]`** for more information on configuration available.
  * Also check out [BuildConfig] for available runtime config for debugging.
  */
@@ -20,10 +20,10 @@ fun main() {
     runBlocking {
         val statsGeneratorApplication = StatsGeneratorApplication()
 
-        // 💡 Generates stats for user as PR author - for all PRs created by the user
+        // 💡 Generates stats for each user as PR author - for all PRs created by the user
         statsGeneratorApplication.generateAuthorStats()
 
-        // 💡 Generates stats for user as PR reviewer - for all PRs reviewed by the user
+        // 💡 Generates stats for each user as PR reviewer - for all PRs reviewed by the user
         statsGeneratorApplication.generateReviewerStats()
     }
 
