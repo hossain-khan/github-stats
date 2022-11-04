@@ -188,7 +188,8 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     // Export global info for the stats
                     val prAuthorId = stats.first().prAuthorId
                     val repoId = stats.first().repoId
-                    val headingText = "PR reviewer's stats for PR created by '$prAuthorId' on '$repoId' repository since ${appConfig.get().dateLimitAfter}."
+                    val headingText = "PR reviewer's stats for PRs created by '$prAuthorId' on '$repoId' repository " +
+                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -274,7 +275,8 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     paddingTop = 2
                 }
                 row {
-                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository since ${appConfig.get().dateLimitAfter}."
+                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository " +
+                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2

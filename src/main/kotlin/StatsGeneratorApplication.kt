@@ -32,6 +32,8 @@ class StatsGeneratorApplication : KoinComponent {
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
      */
     suspend fun generateAuthorStats() {
+        printCurrentAppConfigs()
+
         // For each of the users, generates stats for all the PRs created by the user
         appConfig.get().userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
@@ -57,6 +59,7 @@ class StatsGeneratorApplication : KoinComponent {
      * See https://github.com/hossain-khan/github-stats/issues/129 for details
      */
     suspend fun generateReviewerStats() {
+        printCurrentAppConfigs()
         // For each user, generates stats for all the PRs reviewed by the user
         appConfig.get().userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {
@@ -71,6 +74,18 @@ class StatsGeneratorApplication : KoinComponent {
                 println("\nⓘ Stats generation for `$usedId` took ${reviewerReportBuildTime.milliseconds}")
             }
             println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+        }
+    }
+
+    /**
+     * Prints current app configs for visibility when running stats.
+     */
+    private fun printCurrentAppConfigs() {
+        if (BuildConfig.DEBUG) {
+            println(
+                "\nⓘ Loaded current app configs from $LOCAL_PROPERTIES_FILE: " +
+                    "\n${appConfig.get()}\n"
+            )
         }
     }
 }
