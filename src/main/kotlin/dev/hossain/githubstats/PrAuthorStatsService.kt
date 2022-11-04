@@ -6,6 +6,7 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.IssueSearchPager
 import dev.hossain.githubstats.service.SearchParams
+import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.PrAnalysisProgress
 import kotlinx.coroutines.delay
@@ -19,11 +20,12 @@ import kotlin.time.Duration
  */
 class PrAuthorStatsService constructor(
     private val pullRequestStatsRepo: PullRequestStatsRepo,
+    private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor
 ) : KoinComponent {
 
     /**
-     * Generates stats for reviews given by different PR reviewers for specified PR [author].
+     * Generates stats for reviews given by different PR reviewers for specified PR [prAuthorUsedId].
      *
      * For example, assume 'Bob' is a contributor on a specific repo called 'Awesome Json Library'.
      * This will be generated PR reviews for all the PRs 'Bob' has created and will be grouped by
@@ -36,19 +38,19 @@ class PrAuthorStatsService constructor(
      * ```
      */
     suspend fun authorStats(
-        owner: String,
-        repo: String,
-        author: String,
-        dateLimit: String
+        prAuthorUsedId: String
     ): List<AuthorReviewStats> {
+        val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
+
         // First get all the recent PRs made by author
         val issueSearchPager: IssueSearchPager = getKoin().get()
         val closedPrs: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(
-                repoOwner = owner,
-                repoId = repo,
-                author = author,
-                dateAfter = dateLimit
+                repoOwner = repoOwner,
+                repoId = repoId,
+                author = prAuthorUsedId,
+                dateAfter = dateLimitAfter,
+                dateBefore = dateLimitBefore
             ).toQuery()
         ).filter {
             // Makes sure it is a PR, not an issue
@@ -65,8 +67,8 @@ class PrAuthorStatsService constructor(
                 delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
                 try {
                     pullRequestStatsRepo.stats(
-                        repoOwner = owner,
-                        repoId = repo,
+                        repoOwner = repoOwner,
+                        repoId = repoId,
                         prNumber = pr.number
                     )
                 } catch (e: Exception) {
@@ -110,8 +112,8 @@ class PrAuthorStatsService constructor(
                 .div(totalReviews)
 
             AuthorReviewStats(
-                repoId = repo,
-                prAuthorId = author,
+                repoId = repoId,
+                prAuthorId = prAuthorUsedId,
                 reviewerId = reviewerUserId,
                 average = averageReviewTime,
                 totalReviews = totalReviews,

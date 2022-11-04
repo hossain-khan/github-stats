@@ -30,7 +30,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         val prAuthorId = stats.first().prAuthorId
 
         // Write combine review count by reviewer
-        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId since ${props.getDateLimit()}"))
+        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId since ${props.getDateLimitAfter()}"))
 
         val combinedReportFileName = FileUtil.allReviewersForAuthorFile(prAuthorId)
         csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
@@ -94,7 +94,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         val reviewedForFile = FileUtil.prReviewedForCombinedFilename(stats.reviewerId)
         val headerItem: List<String> = listOf(
             "Reviewed For different PR Authors",
-            "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimit()}",
+            "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimitAfter()}",
             "Total Code Review Comments",
             "Total PR Issue Comments",
             "Total PR Review Comments",
