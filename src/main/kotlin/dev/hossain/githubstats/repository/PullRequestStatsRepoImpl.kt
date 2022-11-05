@@ -13,6 +13,7 @@ import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import dev.hossain.githubstats.model.timeline.TimelineEvent
+import dev.hossain.githubstats.model.timeline.filterTo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.time.DateTimeDiffer
@@ -106,9 +107,7 @@ class PullRequestStatsRepoImpl(
         val reviewCommentsByUser = mutableMapOf<UserId, Int>()
         val reviewedEventByUser = mutableMapOf<UserId, Int>()
 
-        prTimelineEvents
-            .filter { it.eventType == CommentedEvent.TYPE }
-            .map { it as CommentedEvent }
+        prTimelineEvents.filterTo(CommentedEvent::class)
             .forEach { commentedEvent ->
                 val commentsCount: Int? = issueCommentsByUser[commentedEvent.user.login]
                 if (commentsCount != null) {
@@ -119,9 +118,7 @@ class PullRequestStatsRepoImpl(
             }
 
         // Collect all the reviewed comments that are comments or changes requested
-        prTimelineEvents
-            .filter { it.eventType == ReviewedEvent.TYPE }
-            .map { it as ReviewedEvent }
+        prTimelineEvents.filterTo(ReviewedEvent::class)
             .filter { it.state == ReviewState.COMMENTED || it.state == ReviewState.CHANGE_REQUESTED }
             .forEach { reviewedEvent ->
                 val reviewedCount: Int? = reviewedEventByUser[reviewedEvent.user.login]
@@ -176,15 +173,13 @@ class PullRequestStatsRepoImpl(
             }
 
             // Find out if user has been requested to review later
-            val requestedLater = prTimelineEvents.asSequence().filter { it.eventType == ReviewRequestedEvent.TYPE }
-                .map { it as ReviewRequestedEvent }.any { it.requested_reviewer == reviewer }
+            val requestedLater = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
+                .any { it.requested_reviewer == reviewer }
 
             val prApprovedByReviewerEvent: ReviewedEvent = findPrApprovedEventByUser(reviewer, prTimelineEvents)
 
             if (requestedLater) {
-                val reviewRequestedEvent = prTimelineEvents
-                    .filter { it.eventType == ReviewRequestedEvent.TYPE }
-                    .map { it as ReviewRequestedEvent }
+                val reviewRequestedEvent = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
                     .find { it.requested_reviewer == reviewer }!!
                 val openToCloseDuration = (
                     pullRequest.merged_at?.toInstant()
@@ -237,9 +232,7 @@ class PullRequestStatsRepoImpl(
         reviewer: User,
         prTimelineEvents: List<TimelineEvent>
     ): Boolean {
-        return prTimelineEvents.asSequence()
-            .filter { it.eventType == ReviewedEvent.TYPE }
-            .map { it as ReviewedEvent }
+        return prTimelineEvents.filterTo(ReviewedEvent::class)
             .any { it.user == reviewer && it.state == ReviewState.APPROVED }
     }
 
@@ -254,11 +247,8 @@ class PullRequestStatsRepoImpl(
         reviewer: User,
         prTimelineEvents: List<TimelineEvent>
     ): ReviewedEvent {
-        return prTimelineEvents.find {
-            it.eventType == ReviewedEvent.TYPE &&
-                (it as ReviewedEvent).user == reviewer &&
-                it.state == ReviewState.APPROVED
-        } as ReviewedEvent
+        return prTimelineEvents.filterTo(ReviewedEvent::class)
+            .find { it.user == reviewer && it.state == ReviewState.APPROVED }!!
     }
 
     /**
@@ -272,14 +262,11 @@ class PullRequestStatsRepoImpl(
         prAuthor: User,
         prTimelineEvents: List<TimelineEvent>
     ): Set<User> {
-        return prTimelineEvents.asSequence()
-            .filter { it.eventType == ReviewRequestedEvent.TYPE }
-            .map { it as ReviewRequestedEvent }
-            .map { it.actor }.plus(
-                prTimelineEvents.asSequence()
-                    .filter { it.eventType == ReviewedEvent.TYPE }
-                    .map { it as ReviewedEvent }
-                    .map { it.user }
+        return prTimelineEvents
+            .filterTo(ReviewRequestedEvent::class)
+            .map { it.actor }
+            .plus(
+                prTimelineEvents.filterTo(ReviewedEvent::class).map { it.user }
             ).toSet()
             .minus(prAuthor)
     }
