@@ -35,7 +35,7 @@ package dev.hossain.githubstats.model
  * }
  * ```
  */
-data class ReviewComment(
+data class CodeReviewComment(
     val user: User,
     val body: String,
     val id: Long,
