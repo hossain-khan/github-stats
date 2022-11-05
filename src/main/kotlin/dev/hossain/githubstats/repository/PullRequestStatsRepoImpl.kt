@@ -4,8 +4,8 @@ import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
+import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.PullRequest
-import dev.hossain.githubstats.model.ReviewComment
 import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
@@ -100,7 +100,7 @@ class PullRequestStatsRepoImpl(
      */
     private fun commentsByUser(
         prTimelineEvents: List<TimelineEvent>,
-        prReviewComments: List<ReviewComment>
+        prCodeReviewComments: List<CodeReviewComment>
     ): Map<UserId, UserPrComment> {
         val issueCommentsByUser = mutableMapOf<UserId, Int>()
         val reviewCommentsByUser = mutableMapOf<UserId, Int>()
@@ -132,12 +132,12 @@ class PullRequestStatsRepoImpl(
                 }
             }
 
-        prReviewComments.forEach { reviewComment ->
-            val commentsCount: Int? = reviewCommentsByUser[reviewComment.user.login]
+        prCodeReviewComments.forEach { codeReviewComment ->
+            val commentsCount: Int? = reviewCommentsByUser[codeReviewComment.user.login]
             if (commentsCount != null) {
-                reviewCommentsByUser[reviewComment.user.login] = commentsCount + 1
+                reviewCommentsByUser[codeReviewComment.user.login] = commentsCount + 1
             } else {
-                reviewCommentsByUser[reviewComment.user.login] = 1
+                reviewCommentsByUser[codeReviewComment.user.login] = 1
             }
         }
 
@@ -182,8 +182,10 @@ class PullRequestStatsRepoImpl(
             val prApprovedByReviewerEvent: ReviewedEvent = findPrApprovedEventByUser(reviewer, prTimelineEvents)
 
             if (requestedLater) {
-                val reviewRequestedEvent =
-                    prTimelineEvents.find { it.eventType == ReviewRequestedEvent.TYPE && (it as ReviewRequestedEvent).requested_reviewer == reviewer } as ReviewRequestedEvent
+                val reviewRequestedEvent = prTimelineEvents
+                    .filter { it.eventType == ReviewRequestedEvent.TYPE }
+                    .map { it as ReviewRequestedEvent }
+                    .find { it.requested_reviewer == reviewer }!!
                 val openToCloseDuration = (
                     pullRequest.merged_at?.toInstant()
                         ?: prApprovedByReviewerEvent.submitted_at.toInstant()

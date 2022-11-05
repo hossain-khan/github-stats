@@ -1,9 +1,9 @@
 package dev.hossain.githubstats.service
 
+import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.PullRequestState
-import dev.hossain.githubstats.model.ReviewComment
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -87,7 +87,7 @@ interface GithubApiService {
         @Path("pull_number") prNumber: Int,
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
         @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
-    ): List<ReviewComment>
+    ): List<CodeReviewComment>
 
     /**
      * Search issues and pull requests
