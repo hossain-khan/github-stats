@@ -4,7 +4,7 @@ import dev.hossain.githubstats.UserPrComment.Companion.empty
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
-import dev.hossain.githubstats.service.IssueSearchPager
+import dev.hossain.githubstats.service.IssueSearchPagerService
 import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
@@ -28,7 +28,7 @@ class PrReviewerStatsService constructor(
     ): ReviewerReviewStats {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
-        val issueSearchPager: IssueSearchPager = getKoin().get()
+        val issueSearchPager: IssueSearchPagerService = getKoin().get()
         val reviewedClosedPrs: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(
                 repoOwner = repoOwner,

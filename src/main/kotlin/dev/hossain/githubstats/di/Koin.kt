@@ -10,7 +10,8 @@ import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
-import dev.hossain.githubstats.service.IssueSearchPager
+import dev.hossain.githubstats.service.IssueSearchPagerService
+import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.LocalProperties
@@ -30,8 +31,9 @@ import org.koin.dsl.module
 val appModule = module {
     // Network and local services for stat generation
     single { Client.githubApiService }
-    single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get(), get()) }
-    factory { IssueSearchPager(get(), get()) }
+    single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get(), get(), get()) }
+    factory { IssueSearchPagerService(get(), get()) }
+    factory { TimelineEventsPagerService(get(), get()) }
     factory { PrReviewerStatsService(get(), get(), get()) }
     factory { PrAuthorStatsService(get(), get(), get()) }
     single { ErrorProcessor() }

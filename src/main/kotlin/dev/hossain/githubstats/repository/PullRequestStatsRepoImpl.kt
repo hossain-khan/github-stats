@@ -16,6 +16,7 @@ import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.model.timeline.filterTo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubApiService
+import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import kotlinx.datetime.Instant
@@ -27,6 +28,7 @@ import kotlin.time.Duration
  */
 class PullRequestStatsRepoImpl(
     private val githubApiService: GithubApiService,
+    private val timelinesPager: TimelineEventsPagerService,
     private val userTimeZone: UserTimeZone
 ) : PullRequestStatsRepo {
     /**
@@ -46,7 +48,7 @@ class PullRequestStatsRepoImpl(
         }
 
         // API request to get all timeline events for the PR
-        val prTimelineEvents = githubApiService.timelineEvents(repoOwner, repoId, prNumber)
+        val prTimelineEvents = timelinesPager.getAllTimelineEvents(repoOwner, repoId, prNumber)
         // API request to get all PR review comments associated with diffs
         val prReviewComments = githubApiService.prReviewComments(repoOwner, repoId, prNumber)
 
