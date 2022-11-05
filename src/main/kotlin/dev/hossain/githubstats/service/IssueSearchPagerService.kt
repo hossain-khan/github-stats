@@ -11,7 +11,7 @@ import kotlin.math.ceil
 /**
  * GitHub issue search with paging support.
  */
-class IssueSearchPager constructor(
+class IssueSearchPagerService constructor(
     private val githubApiService: GithubApiService,
     private val errorProcessor: ErrorProcessor,
     private val pageSize: Int = DEFAULT_PAGE_SIZE

@@ -4,6 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
+import dev.hossain.githubstats.service.TimelineEventsPagerService
+import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.time.UserTimeZone
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -34,7 +36,14 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
 
-        pullRequestStatsRepo = PullRequestStatsRepoImpl(Client.githubApiService, UserTimeZone())
+        pullRequestStatsRepo = PullRequestStatsRepoImpl(
+            githubApiService = Client.githubApiService,
+            timelinesPager = TimelineEventsPagerService(
+                githubApiService = Client.githubApiService,
+                errorProcessor = ErrorProcessor()
+            ),
+            userTimeZone = UserTimeZone()
+        )
     }
 
     @AfterEach

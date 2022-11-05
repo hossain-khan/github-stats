@@ -63,6 +63,7 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.7.10")
 }
 
 tasks.test {
