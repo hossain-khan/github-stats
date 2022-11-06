@@ -14,15 +14,17 @@ class TimelineEventsPagerService constructor(
     private val errorProcessor: ErrorProcessor,
     private val pageSize: Int = GithubApiService.DEFAULT_PAGE_SIZE
 ) {
-    private val allTimelineEvents = mutableListOf<TimelineEvent>()
-
-    private var pageNumber = 1
-
+    /**
+     * Provides all timeline events for [prNumber] by requesting multiple API requests if necessary.
+     */
     suspend fun getAllTimelineEvents(
         repoOwner: String,
         repoId: String,
         prNumber: Int
     ): List<TimelineEvent> {
+        val allTimelineEvents = mutableListOf<TimelineEvent>()
+        var pageNumber = 1
+
         do {
             val timelineEvents = try {
                 githubApiService.timelineEvents(

@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     // For build.gradle.kts (Kotlin DSL)
+    // https://kotlinlang.org/docs/releases.html#release-details
     kotlin("jvm") version "1.7.10"
     id("org.jmailen.kotlinter") version "3.12.0"
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
