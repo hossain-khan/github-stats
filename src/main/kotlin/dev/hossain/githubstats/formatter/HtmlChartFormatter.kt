@@ -69,7 +69,8 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
 
         val formattedBarChart = Template.barChart(
             title = chartTitle,
-            chartData = barStatsJsData
+            chartData = barStatsJsData,
+            dataSize = stats.size * 2 // Multiplied by data columns
         )
         val barChartFileName = FileUtil.authorBarChartFile(prAuthorId)
         val barChartFile = File(barChartFileName)
@@ -90,11 +91,11 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
 
         val headerItem: List<String> = listOf(
             "[" +
-                "'Reviewed For different PR Authors'" +
-                "'Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}'" +
-                "'Total Code Review Comments'" +
-                "'Total PR Issue Comments'" +
-                "'Total PR Review Comments'" +
+                "'Reviewed For different PR Authors', " +
+                "'Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}', " +
+                "'Total Code Review Comments', " +
+                "'Total PR Issue Comments', " +
+                "'Total PR Review Comments', " +
                 "'Total All Comments Made'" +
                 "]"
         )
@@ -122,7 +123,8 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
 
         val formattedBarChart = Template.barChart(
             title = "PRs Reviewed by ${stats.reviewerId}",
-            chartData = barStatsJsData
+            chartData = barStatsJsData,
+            dataSize = stats.reviewedForPrStats.size * 6 // Multiplied by data columns
         )
         val reviewedForBarChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
         val reviewedForBarChartFile = File(reviewedForBarChartFileName)
@@ -134,23 +136,22 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "" +
                 "[" +
                 "'PR#', " +
-                "'Review Time (mins)', " +
-                "'Total Comments'" +
+                "'Review Time (mins)'" +
                 "]"
         ).plus(
             stats.reviewedPrStats.map { reviewStats ->
                 "" +
                     "[" +
                     "'PR# ${reviewStats.pullRequest.number}', " +
-                    "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}, " +
-                    "${reviewStats.prComments.allComments}" +
+                    "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
                     "]"
             }
         ).joinToString()
 
         val appPrBarChart = Template.barChart(
             title = "PRs Reviewed by ${stats.reviewerId}",
-            chartData = userAllPrChartData
+            chartData = userAllPrChartData,
+            dataSize = stats.reviewedPrStats.size
         )
 
         val allPrChartFileName = FileUtil.prReviewerReviewedPrStatsBarChartFile(stats.reviewerId)

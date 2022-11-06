@@ -75,14 +75,16 @@ $chartJsScript
     /**
      * Provides HTML content to display bar chart with [chartData]
      */
-    fun barChart(title: String, chartData: String): String {
-        return barChartHtml(barChartJsScript(title, chartData))
+    fun barChart(title: String, chartData: String, dataSize: Int): String {
+        return barChartHtml(barChartJsScript(title, chartData), dataSize)
     }
 
     /**
      * https://developers.google.com/chart/interactive/docs/gallery/barchart
      */
-    private fun barChartHtml(chartJsScript: String): String {
+    private fun barChartHtml(chartJsScript: String, dataSize: Int): String {
+        val barChartHeightPercent: Int = if (dataSize > 30) (((dataSize.div(30)) + 1) * 100) else 100
+
         //language=html
         return """
 <html>
@@ -93,7 +95,7 @@ $chartJsScript
     </script>
   </head>
   <body>
-    <div id="barchart_material" style="width: 100%; height: 100%;"></div>
+    <div id="barchart_material" style="width: 100%; height: $barChartHeightPercent%;"></div>
   </body>
 </html>
         """.trimIndent()
