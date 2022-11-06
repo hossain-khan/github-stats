@@ -1,9 +1,9 @@
 package dev.hossain.githubstats.util
 
 import dev.hossain.githubstats.AuthorReviewStats
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.UserId
+import dev.hossain.githubstats.logging.Log
 import org.koin.core.component.KoinComponent
 import java.io.File
 
@@ -18,9 +18,7 @@ object FileUtil : KoinComponent {
         val repoId = getKoin().get<LocalProperties>().getRepoId()
         val directory = File("$REPORTS_DIR_PREFIX-$repoId-$directoryName")
         if (directory.exists().not() && directory.mkdir()) {
-            if (BuildConfig.DEBUG) {
-                println("The reporting directory ${directory.path} created successfully.")
-            }
+            Log.v("The reporting directory ${directory.path} created successfully.")
         }
         return directory
     }
@@ -31,9 +29,7 @@ object FileUtil : KoinComponent {
     internal fun httpCacheDir(): File {
         val directory = File("http-cache")
         if (directory.exists().not() && directory.mkdir()) {
-            if (BuildConfig.DEBUG) {
-                println("The HTTP cache directory ${directory.path} created successfully.")
-            }
+            Log.v("The HTTP cache directory ${directory.path} created successfully.")
         }
         return directory
     }

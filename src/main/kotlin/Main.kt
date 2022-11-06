@@ -2,6 +2,7 @@ import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_SAMPLE_FILE
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.di.appModule
+import dev.hossain.githubstats.logging.Log
 import kotlinx.coroutines.runBlocking
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -15,7 +16,7 @@ fun main() {
         modules(appModule) // Initializes dependency injection for the app
     }
 
-    println(Art.coffee())
+    Log.i(Art.coffee())
 
     runBlocking {
         val statsGeneratorApplication = StatsGeneratorApplication()

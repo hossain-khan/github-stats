@@ -1,14 +1,21 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.logging.Log
+
 /**
  * Internal build config.
  * NOTE: Take a look at https://github.com/gmazzo/gradle-buildconfig-plugin
  */
 object BuildConfig {
     /**
-     * Shows debug information about stat collection.
+     * Set logging level to see different logs as the stat is being generated.
+     * @see Log.VERBOSE
+     * @see Log.DEBUG
+     * @see Log.INFO
+     * @see Log.WARNING
+     * @see Log.NONE
      */
-    const val DEBUG = true
+    const val LOG_LEVEL = Log.DEBUG
 
     /**
      * Shows HTTP requests and response on the console.

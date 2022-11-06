@@ -1,5 +1,6 @@
-import dev.hossain.githubstats.BuildConfig
+
 import dev.hossain.githubstats.formatter.StatsFormatter
+import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
@@ -19,7 +20,7 @@ class PrStatsApplication : KoinComponent {
 
     suspend fun generatePrStats(prNumber: Int) {
         val (repoOwner, repoId, _, _) = appConfig.get()
-        println("■ Building stats for PR#`$prNumber`.\n")
+        Log.i("■ Building stats for PR#`$prNumber`.\n")
         val authorReportBuildTime = measureTimeMillis {
             val statsResult: PullRequestStatsRepo.StatsResult = try {
                 pullRequestStatsRepo.stats(
@@ -39,13 +40,13 @@ class PrStatsApplication : KoinComponent {
                     }
                 }
                 is PullRequestStatsRepo.StatsResult.Failure -> {
-                    println("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.error.message}")
+                    Log.w("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.error.message}")
                 }
             }
         }
-        if (BuildConfig.DEBUG) {
-            println("\nⓘ Stats generation for PR#`$prNumber` took ${authorReportBuildTime.milliseconds}")
-        }
-        println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+
+        Log.d("\nⓘ Stats generation for PR#`$prNumber` took ${authorReportBuildTime.milliseconds}")
+
+        Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
     }
 }
