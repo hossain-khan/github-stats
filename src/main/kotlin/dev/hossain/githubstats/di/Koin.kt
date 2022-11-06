@@ -5,6 +5,7 @@ import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
+import dev.hossain.githubstats.formatter.HtmlChartFormatter
 import dev.hossain.githubstats.formatter.PicnicTableFormatter
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client
@@ -48,6 +49,7 @@ val appModule = module {
     single { PicnicTableFormatter() } bind StatsFormatter::class
     single { CsvFormatter() } bind StatsFormatter::class
     single { FileWriterFormatter(PicnicTableFormatter()) } bind StatsFormatter::class
+    single { HtmlChartFormatter() } bind StatsFormatter::class
 
     // Progress Bar
     factory {

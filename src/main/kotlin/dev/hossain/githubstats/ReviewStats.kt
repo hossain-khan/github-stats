@@ -71,7 +71,10 @@ data class ReviewStats(
 )
 
 /**
- * Stats for a author by specific [reviewerId].
+ * Stats of list PRs that are reviewed by [reviewerId] user, which are authored by the [prAuthorId] user.
+ * In other words, stats for reviewer [reviewerId], who has reviewed PRs for the [prAuthorId] user.
+ *
+ * The [stats] items contains PR review stats.
  */
 class AuthorReviewStats(
     val repoId: String,
@@ -79,6 +82,7 @@ class AuthorReviewStats(
     val reviewerId: UserId,
     val average: Duration,
     val totalReviews: Int,
+    val totalComments: Int,
     val stats: List<ReviewStats>
 )
 

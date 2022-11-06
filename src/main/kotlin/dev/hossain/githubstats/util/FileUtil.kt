@@ -34,10 +34,32 @@ object FileUtil : KoinComponent {
         return directory
     }
 
+    /**
+     * @see authorPieChartFile
+     */
     internal fun authorReportFile(prAuthorId: UserId): String {
         val directory: File = createReportDir(prAuthorId)
         return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-ascii.txt"
     }
+
+    /**
+     * HTML Chart file for author stats.
+     * @see authorReportFile
+     */
+    internal fun authorPieChartFile(prAuthorId: UserId): String {
+        val directory: File = createReportDir(prAuthorId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-pie-chart.html"
+    }
+
+    /**
+     * HTML Chart file for author stats.
+     * @see authorReportFile
+     */
+    internal fun authorBarChartFile(prAuthorId: UserId): String {
+        val directory: File = createReportDir(prAuthorId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-bar-chart.html"
+    }
+
     internal fun reviewerReportFile(prReviewerId: UserId): String {
         val directory: File = createReportDir(prReviewerId)
         return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-reviewer-$prReviewerId-ascii.txt"
@@ -47,6 +69,15 @@ object FileUtil : KoinComponent {
         val directory: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
 
         return directory.path + File.separator + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.txt"
+    }
+
+    /**
+     * @see prReportFile
+     */
+    internal fun prReportChart(prStats: PrStats): String {
+        val directory: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
+
+        return directory.path + File.separator + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.html"
     }
 
     internal fun prReviewedForCombinedFilename(reviewerUserId: UserId): String {
