@@ -34,8 +34,8 @@ val appModule = module {
     single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get(), get(), get()) }
     factory { IssueSearchPagerService(get(), get()) }
     factory { TimelineEventsPagerService(get(), get()) }
-    factory { PrReviewerStatsService(get(), get(), get()) }
-    factory { PrAuthorStatsService(get(), get(), get()) }
+    factory { PrReviewerStatsService(get(), get(), get(), get()) }
+    factory { PrAuthorStatsService(get(), get(), get(), get()) }
     single { ErrorProcessor() }
     single { UserTimeZone() }
 
