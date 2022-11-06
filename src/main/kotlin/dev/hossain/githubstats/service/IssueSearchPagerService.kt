@@ -17,13 +17,13 @@ class IssueSearchPagerService constructor(
     private val errorProcessor: ErrorProcessor,
     private val pageSize: Int = DEFAULT_PAGE_SIZE
 ) {
-    private val allSearchedIssues = mutableListOf<Issue>()
-    private var pageNumber = 1
-
     /**
      * Does the search API call using [GithubApiService.searchIssues] and pages to collect all results.
      */
     suspend fun searchIssues(searchQuery: String): List<Issue> {
+        val allSearchedIssues = mutableListOf<Issue>()
+        var pageNumber = 1
+
         do {
             val issueSearchResult: IssueSearchResult = try {
                 githubApiService.searchIssues(
