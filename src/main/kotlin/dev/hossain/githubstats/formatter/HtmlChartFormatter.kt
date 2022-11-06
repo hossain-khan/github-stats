@@ -75,7 +75,6 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val barChartFile = File(barChartFileName)
         barChartFile.writeText(formattedBarChart)
 
-        // file:///Users/hossainkhan/development/repos/tools/github-stats/build/reports/tests/test/index.html
         return "📊 Written following charts for user: $prAuthorId. (Copy & paste file path URL in browser to preview)" +
             "\n - file://${pieChartFile.absolutePath}" +
             "\n - file://${barChartFile.absolutePath}"
@@ -125,25 +124,25 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             title = "PRs Reviewed by ${stats.reviewerId}",
             chartData = barStatsJsData
         )
-        val barChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
-        val barChartFile = File(barChartFileName)
-        barChartFile.writeText(formattedBarChart)
+        val reviewedForBarChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
+        val reviewedForBarChartFile = File(reviewedForBarChartFileName)
+        reviewedForBarChartFile.writeText(formattedBarChart)
 
         // Prepares data for bar chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
         val userAllPrChartData: String = listOf(
             "" +
                 "[" +
-                "'PR#'," +
-                "'Review Time (mins)'," +
+                "'PR#', " +
+                "'Review Time (mins)', " +
                 "'Total Comments'" +
                 "]"
         ).plus(
             stats.reviewedPrStats.map { reviewStats ->
                 "" +
                     "[" +
-                    "'PR# ${reviewStats.pullRequest.number}'" +
-                    "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
+                    "'PR# ${reviewStats.pullRequest.number}', " +
+                    "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}, " +
                     "${reviewStats.prComments.allComments}" +
                     "]"
             }
@@ -158,6 +157,8 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val allPrChartFile = File(allPrChartFileName)
         allPrChartFile.writeText(appPrBarChart)
 
-        return ""
+        return "📊 Written following charts for user: ${stats.reviewerId}. (Copy & paste file path URL in browser to preview)" +
+            "\n - file://${reviewedForBarChartFile.absolutePath}" +
+            "\n - file://${allPrChartFile.absolutePath}"
     }
 }
