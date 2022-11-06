@@ -98,6 +98,14 @@ object FileUtil : KoinComponent {
         return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId.csv"
     }
 
+    /**
+     * @see prReviewerReviewedPrStatsFile
+     */
+    internal fun prReviewerReviewedPrStatsBarChartFile(reviewerUserId: UserId): String {
+        val directory: File = createReportDir(reviewerUserId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId-bar-chart.html"
+    }
+
     internal fun reviewedForAuthorFileName(authorStats: AuthorReviewStats): String {
         val directory: File = createReportDir(authorStats.prAuthorId)
         return directory.path + File.separator + "REPORT-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"

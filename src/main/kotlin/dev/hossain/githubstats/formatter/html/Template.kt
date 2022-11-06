@@ -93,7 +93,7 @@ $chartJsScript
     </script>
   </head>
   <body>
-    <div id="barchart_material" style="width: 900px; height: 500px;"></div>
+    <div id="barchart_material" style="width: 100%; height: 100%;"></div>
   </body>
 </html>
         """.trimIndent()

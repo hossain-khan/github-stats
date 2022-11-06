@@ -10,6 +10,7 @@ import dev.hossain.githubstats.util.FileUtil
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.io.File
+import kotlin.time.DurationUnit
 
 /**
  * Generates HTML based charts for the available data.
@@ -89,12 +90,14 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         }
 
         val headerItem: List<String> = listOf(
-            "Reviewed For different PR Authors",
-            "Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}",
-            "Total Code Review Comments",
-            "Total PR Issue Comments",
-            "Total PR Review Comments",
-            "Total All Comments Made"
+            "[" +
+                "'Reviewed For different PR Authors'" +
+                "'Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}'" +
+                "'Total Code Review Comments'" +
+                "'Total PR Issue Comments'" +
+                "'Total PR Review Comments'" +
+                "'Total All Comments Made'" +
+                "]"
         )
 
         // Prepares data for bar chart generation
@@ -125,43 +128,35 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val barChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
         val barChartFile = File(barChartFileName)
         barChartFile.writeText(formattedBarChart)
-//
-//
-//        val reviewerPrStatsFile = FileUtil.prReviewerReviewedPrStatsFile(stats.reviewerId)
-//        csvWriter().open(reviewerPrStatsFile) {
-//            writeRow(
-//                listOf(
-//                    "PR#",
-//                    "Review Time",
-//                    "Review Time (mins)",
-//                    "Code Review Comments",
-//                    "PR Issue Comments",
-//                    "PR Review Comments",
-//                    "Total Comments",
-//                    "PR Ready On",
-//                    "PR Merged On",
-//                    "Ready->Merge",
-//                    "PR Author",
-//                    "PR URL"
-//                )
-//            )
-//            stats.reviewedPrStats.forEach { reviewStats ->
-//                writeRow(
-//                    reviewStats.pullRequest.number,
-//                    reviewStats.reviewCompletion,
-//                    reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES),
-//                    reviewStats.prComments.codeReviewComment,
-//                    reviewStats.prComments.issueComment,
-//                    reviewStats.prComments.prReviewComment,
-//                    reviewStats.prComments.allComments,
-//                    reviewStats.prReadyOn,
-//                    reviewStats.prMergedOn,
-//                    (reviewStats.prMergedOn - reviewStats.prReadyOn),
-//                    reviewStats.pullRequest.user.login,
-//                    reviewStats.pullRequest.html_url
-//                )
-//            }
-//        }
+
+        // Prepares data for bar chart generation
+        // https://developers.google.com/chart/interactive/docs/gallery/barchart
+        val userAllPrChartData: String = listOf(
+            "" +
+                "[" +
+                "'PR#'," +
+                "'Review Time (mins)'," +
+                "'Total Comments'" +
+                "]"
+        ).plus(
+            stats.reviewedPrStats.map { reviewStats ->
+                "" +
+                    "[" +
+                    "'PR# ${reviewStats.pullRequest.number}'" +
+                    "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
+                    "${reviewStats.prComments.allComments}" +
+                    "]"
+            }
+        ).joinToString()
+
+        val appPrBarChart = Template.barChart(
+            title = "PRs Reviewed by ${stats.reviewerId}",
+            chartData = userAllPrChartData
+        )
+
+        val allPrChartFileName = FileUtil.prReviewerReviewedPrStatsBarChartFile(stats.reviewerId)
+        val allPrChartFile = File(allPrChartFileName)
+        allPrChartFile.writeText(appPrBarChart)
 
         return ""
     }
