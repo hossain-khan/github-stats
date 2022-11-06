@@ -18,6 +18,9 @@ import java.io.File
 class HtmlChartFormatter : StatsFormatter, KoinComponent {
     private val appConfig: AppConfig by inject()
 
+    /**
+     * Formats PR review stats for a specific single PR.
+     */
     override fun formatSinglePrStats(prStats: PrStats): String {
         val formattedChart = ""
 
@@ -27,6 +30,9 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         return ""
     }
 
+    /**
+     * Formats PR review stats for list of users that reviewed specific user's PRs.
+     */
     override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
         if (stats.isEmpty()) {
             return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.shrug}"
@@ -74,14 +80,88 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "\n - file://${barChartFile.absolutePath}"
     }
 
+    /**
+     * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
+     */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
             return "⚠ ERROR: No reviewer stats to format. No charts to generate! ${Art.shrug}"
         }
-        val formattedChart = ""
 
-        val combinedReportFileName = FileUtil.reviewerReportFile(stats.reviewerId)
-        File(combinedReportFileName).writeText(formattedChart)
+        val headerItem: List<String> = listOf(
+            "Reviewed For different PR Authors",
+            "Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}",
+            "Total Code Review Comments",
+            "Total PR Issue Comments",
+            "Total PR Review Comments",
+            "Total All Comments Made"
+        )
+
+        // Prepares data for bar chart generation
+        // https://developers.google.com/chart/interactive/docs/gallery/barchart
+        val barStatsJsData: String = headerItem
+            .plus(
+                stats.reviewedForPrStats.map { (prAuthorId, prReviewStats) ->
+                    // Get all the comments made by the reviewer for the PR author
+                    val userComments = prReviewStats.map { it.comments.values }.flatten()
+                        .filter { it.user == stats.reviewerId }
+
+                    "" +
+                        "[" +
+                        "'$prAuthorId', " +
+                        "${prReviewStats.size}, " +
+                        "${userComments.sumOf { it.codeReviewComment }}," +
+                        "${userComments.sumOf { it.issueComment }}," +
+                        "${userComments.sumOf { it.prReviewComment }}," +
+                        "${userComments.sumOf { it.allComments }}" +
+                        "]"
+                }
+            ).joinToString()
+
+        val formattedBarChart = Template.barChart(
+            title = "PRs Reviewed by ${stats.reviewerId}",
+            chartData = barStatsJsData
+        )
+        val barChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
+        val barChartFile = File(barChartFileName)
+        barChartFile.writeText(formattedBarChart)
+//
+//
+//        val reviewerPrStatsFile = FileUtil.prReviewerReviewedPrStatsFile(stats.reviewerId)
+//        csvWriter().open(reviewerPrStatsFile) {
+//            writeRow(
+//                listOf(
+//                    "PR#",
+//                    "Review Time",
+//                    "Review Time (mins)",
+//                    "Code Review Comments",
+//                    "PR Issue Comments",
+//                    "PR Review Comments",
+//                    "Total Comments",
+//                    "PR Ready On",
+//                    "PR Merged On",
+//                    "Ready->Merge",
+//                    "PR Author",
+//                    "PR URL"
+//                )
+//            )
+//            stats.reviewedPrStats.forEach { reviewStats ->
+//                writeRow(
+//                    reviewStats.pullRequest.number,
+//                    reviewStats.reviewCompletion,
+//                    reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES),
+//                    reviewStats.prComments.codeReviewComment,
+//                    reviewStats.prComments.issueComment,
+//                    reviewStats.prComments.prReviewComment,
+//                    reviewStats.prComments.allComments,
+//                    reviewStats.prReadyOn,
+//                    reviewStats.prMergedOn,
+//                    (reviewStats.prMergedOn - reviewStats.prReadyOn),
+//                    reviewStats.pullRequest.user.login,
+//                    reviewStats.pullRequest.html_url
+//                )
+//            }
+//        }
 
         return ""
     }
