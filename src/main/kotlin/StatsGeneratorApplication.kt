@@ -1,9 +1,9 @@
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.AuthorReviewStats
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.formatter.StatsFormatter
+import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.util.AppConfig
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -49,10 +49,9 @@ class StatsGeneratorApplication : KoinComponent {
                     println(it.formatAuthorStats(prAuthorStats))
                 }
             }
-            if (BuildConfig.DEBUG) {
-                println("\nⓘ Stats generation for `$authorId` took ${authorReportBuildTime.milliseconds}")
-            }
-            println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+
+            Log.d("\nⓘ Stats generation for `$authorId` took ${authorReportBuildTime.milliseconds}")
+            Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }
 
@@ -75,10 +74,8 @@ class StatsGeneratorApplication : KoinComponent {
                 }
             }
 
-            if (BuildConfig.DEBUG) {
-                println("\nⓘ Stats generation for `$usedId` took ${reviewerReportBuildTime.milliseconds}")
-            }
-            println("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+            Log.d("\nⓘ Stats generation for `$usedId` took ${reviewerReportBuildTime.milliseconds}")
+            Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }
 
@@ -86,11 +83,9 @@ class StatsGeneratorApplication : KoinComponent {
      * Prints current app configs for visibility when running stats.
      */
     private fun printCurrentAppConfigs() {
-        if (BuildConfig.DEBUG) {
-            println(
-                "\nⓘ Loaded current app configs from $LOCAL_PROPERTIES_FILE: " +
-                    "\n${appConfig.get()}\n"
-            )
-        }
+        Log.i(
+            "\nⓘ Loaded current app configs from $LOCAL_PROPERTIES_FILE: " +
+                "\n${appConfig.get()}\n"
+        )
     }
 }

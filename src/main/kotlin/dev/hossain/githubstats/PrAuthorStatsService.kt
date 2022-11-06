@@ -1,6 +1,7 @@
 package dev.hossain.githubstats
 
 import dev.hossain.githubstats.UserPrComment.Companion.empty
+import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
@@ -121,9 +122,7 @@ class PrAuthorStatsService constructor(
             )
         }.sortedByDescending { it.totalReviews }
 
-        if (BuildConfig.DEBUG) {
-            println("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
-        }
+        Log.i("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
 
         return authorReviewStats
     }

@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.service
 
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
@@ -39,8 +40,8 @@ class TimelineEventsPagerService constructor(
             // Checks if we need to make next page request, because max per page was reached
             val nextPageRequestNeeded: Boolean = timelineEvents.size >= pageSize
 
-            if (BuildConfig.DEBUG && pageNumber > 1) {
-                println("Loaded ${timelineEvents.size} additional timeline events from page#$pageNumber.")
+            if (pageNumber > 1) {
+                Log.d("Loaded ${timelineEvents.size} additional timeline events from page#$pageNumber.")
             }
 
             pageNumber++

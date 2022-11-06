@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.service
 
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.service.GithubApiService.Companion.DEFAULT_PAGE_SIZE
@@ -39,9 +40,7 @@ class IssueSearchPagerService constructor(
 
             allSearchedIssues.addAll(issueSearchResult.items)
 
-            if (BuildConfig.DEBUG) {
-                println("Loaded ${issueSearchResult.items.size} of total $totalItemCount merged PRs (Page#$pageNumber)")
-            }
+            Log.d("Loaded ${issueSearchResult.items.size} of total $totalItemCount merged PRs (Page#$pageNumber)")
 
             pageNumber++
             delay(BuildConfig.API_REQUEST_DELAY_MS)

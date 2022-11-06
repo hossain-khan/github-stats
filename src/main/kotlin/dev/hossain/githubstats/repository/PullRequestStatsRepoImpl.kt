@@ -1,9 +1,9 @@
 package dev.hossain.githubstats.repository
 
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
+import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
@@ -52,9 +52,7 @@ class PullRequestStatsRepoImpl(
         // API request to get all PR review comments associated with diffs
         val prReviewComments = githubApiService.prReviewComments(repoOwner, repoId, prNumber)
 
-        if (BuildConfig.DEBUG) {
-            println("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
-        }
+        Log.i("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
 
         val prCreatedOn: Instant = pullRequest.created_at.toInstant()
         val prAvailableForReviewOn: Instant = prAvailableForReviewTime(prCreatedOn, prTimelineEvents)
@@ -192,12 +190,10 @@ class PullRequestStatsRepoImpl(
                     endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
                     timeZoneId = userTimeZone.get(reviewer.login)
                 )
-                if (BuildConfig.DEBUG) {
-                    println(
-                        "  -- Reviewed in `$reviewTimeInWorkingHours` by `${reviewer.login}`. " +
-                            "PR open->merged: $openToCloseDuration"
-                    )
-                }
+                Log.d(
+                    "  -- Reviewed in `$reviewTimeInWorkingHours` by `${reviewer.login}`. " +
+                        "PR open->merged: $openToCloseDuration"
+                )
 
                 reviewTimesByUser[reviewer.login] = reviewTimeInWorkingHours
             } else {
@@ -210,12 +206,10 @@ class PullRequestStatsRepoImpl(
                     endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
                     timeZoneId = userTimeZone.get(reviewer.login)
                 )
-                if (BuildConfig.DEBUG) {
-                    println(
-                        "  -- Reviewed in `$reviewTimeInWorkingHours` by `${reviewer.login}`. " +
-                            "PR open->merged: $openToCloseDuration"
-                    )
-                }
+                Log.i(
+                    "  -- Reviewed in `$reviewTimeInWorkingHours` by `${reviewer.login}`. " +
+                        "PR open->merged: $openToCloseDuration"
+                )
 
                 reviewTimesByUser[reviewer.login] = reviewTimeInWorkingHours
             }

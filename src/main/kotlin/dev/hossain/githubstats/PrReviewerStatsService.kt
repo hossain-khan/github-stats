@@ -1,6 +1,7 @@
 package dev.hossain.githubstats
 
 import dev.hossain.githubstats.UserPrComment.Companion.empty
+import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
@@ -105,9 +106,7 @@ class PrReviewerStatsService constructor(
                 }
             }
 
-        if (BuildConfig.DEBUG) {
-            println("✅ Completed loading ${prStatsList.size} PRs reviewed by '$prReviewerUserId'.")
-        }
+        Log.i("✅ Completed loading ${prStatsList.size} PRs reviewed by '$prReviewerUserId'.")
 
         // Finally build the data object that combines all related stats
         return ReviewerReviewStats(
