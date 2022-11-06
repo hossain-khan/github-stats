@@ -1,13 +1,20 @@
 package dev.hossain.githubstats.formatter.html
 
+/**
+ * Contains templating function to generate HTML with chart data.
+ */
 object Template {
+
     /**
-     * https://developers.google.com/chart/interactive/docs/gallery/piechart
+     * Provides HTML content to display pie chart with [statsJsData]
      */
     fun pieChart(title: String, statsJsData: String): String {
         return getPieChartHtml(pieChartScript(title, statsJsData))
     }
 
+    /**
+     * https://developers.google.com/chart/interactive/docs/gallery/piechart
+     */
     private fun getPieChartHtml(chartJsScript: String): String {
         //language=html
         return """
@@ -28,6 +35,9 @@ $chartJsScript
         """.trimIndent()
     }
 
+    /**
+     * https://developers.google.com/chart/interactive/docs/gallery/piechart
+     */
     private fun pieChartScript(title: String, chartRowData: String): String {
         //language=js
         return """
@@ -62,11 +72,17 @@ $chartJsScript
         """.trimIndent()
     }
 
+    /**
+     * Provides HTML content to display bar chart with [chartData]
+     */
     fun barChart(title: String, chartData: String): String {
-        return funBarChartHtml(barChartJsScript(title, chartData))
+        return barChartHtml(barChartJsScript(title, chartData))
     }
 
-    private fun funBarChartHtml(chartJsScript: String): String {
+    /**
+     * https://developers.google.com/chart/interactive/docs/gallery/barchart
+     */
+    private fun barChartHtml(chartJsScript: String): String {
         //language=html
         return """
 <html>
@@ -83,6 +99,9 @@ $chartJsScript
         """.trimIndent()
     }
 
+    /**
+     * https://developers.google.com/chart/interactive/docs/gallery/barchart
+     */
     private fun barChartJsScript(title: String, chartData: String): String {
         //language=js
         return """
