@@ -110,6 +110,7 @@ class PrAuthorStatsService constructor(
                 .map { it.reviewCompletion }
                 .fold(Duration.ZERO, Duration::plus)
                 .div(totalReviews)
+            val totalReviewComments = reviewStats.sumOf { it.prComments.allComments }
 
             AuthorReviewStats(
                 repoId = repoId,
@@ -117,6 +118,7 @@ class PrAuthorStatsService constructor(
                 reviewerId = reviewerUserId,
                 average = averageReviewTime,
                 totalReviews = totalReviews,
+                totalComments = totalReviewComments,
                 stats = reviewStats
             )
         }.sortedByDescending { it.totalReviews }

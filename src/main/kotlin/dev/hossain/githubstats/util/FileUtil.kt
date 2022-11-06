@@ -51,7 +51,6 @@ object FileUtil : KoinComponent {
         return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-pie-chart.html"
     }
 
-
     /**
      * HTML Chart file for author stats.
      * @see authorReportFile

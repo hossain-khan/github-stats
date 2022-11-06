@@ -34,41 +34,44 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
 
         val prAuthorId = stats.first().prAuthorId
 
-        // Prepares data for chart generation
+        // Prepares data for pie chart generation
+        // https://developers.google.com/chart/interactive/docs/gallery/piechart
         val statsJsData = stats.map {
             "['${it.reviewerId} [${it.stats.size}]', ${it.stats.size}]"
         }.joinToString()
 
+        val chartTitle = "PR reviewer`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
+            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
         val formattedPieChart = Template.pieChart(
-            title = "PR reviewer`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
-                "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
+            title = chartTitle,
             statsJsData = statsJsData
         )
 
         val pieChartFileName = FileUtil.authorPieChartFile(prAuthorId)
-        File(pieChartFileName).writeText(formattedPieChart)
+        val pieChartFile = File(pieChartFileName)
+        pieChartFile.writeText(formattedPieChart)
 
-
-        /*
-          ['Reviewer', 'Sales', 'Expenses', 'Profit'],
-          ['2014', 1000, 400, 200],
-          ['2015', 1170, 460, 250],
-          ['2016', 660, 1120, 300],
-          ['2017', 1030, 540, 350]
-         */
+        // Prepares data for bar chart generation
+        // https://developers.google.com/chart/interactive/docs/gallery/barchart
         val barStatsJsData: String = listOf("['Reviewer', 'Total Reviewed', 'Total Commented']")
-            .plus(stats.map {
-                "['${it.reviewerId}', ${it.totalReviews}, ${it.stats.map { it.prComments }.sumOf { it.allComments }}]"
-            }).joinToString()
+            .plus(
+                stats.map {
+                    "['${it.reviewerId}', ${it.totalReviews}, ${it.totalComments}]"
+                }
+            ).joinToString()
 
         val formattedBarChart = Template.barChart(
-            title = "Title",
+            title = chartTitle,
             chartData = barStatsJsData
         )
         val barChartFileName = FileUtil.authorBarChartFile(prAuthorId)
-        File(barChartFileName).writeText(formattedBarChart)
+        val barChartFile = File(barChartFileName)
+        barChartFile.writeText(formattedBarChart)
 
-        return ""
+        // file:///Users/hossainkhan/development/repos/tools/github-stats/build/reports/tests/test/index.html
+        return "📊 Written following charts for user: $prAuthorId. (Copy & paste file path URL in browser to preview)" +
+            "\n - file://${pieChartFile.absolutePath}" +
+            "\n - file://${barChartFile.absolutePath}"
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
