@@ -38,8 +38,8 @@ object FileUtil : KoinComponent {
      * @see authorPieChartFile
      */
     internal fun authorReportFile(prAuthorId: UserId): String {
-        val directory: File = createReportDir(prAuthorId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-ascii.txt"
+        val dir: File = createReportDir(prAuthorId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-ascii.txt"
     }
 
     /**
@@ -47,8 +47,8 @@ object FileUtil : KoinComponent {
      * @see authorReportFile
      */
     internal fun authorPieChartFile(prAuthorId: UserId): String {
-        val directory: File = createReportDir(prAuthorId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-pie-chart.html"
+        val dir: File = createReportDir(prAuthorId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-pie-chart.html"
     }
 
     /**
@@ -56,63 +56,68 @@ object FileUtil : KoinComponent {
      * @see authorReportFile
      */
     internal fun authorBarChartFile(prAuthorId: UserId): String {
-        val directory: File = createReportDir(prAuthorId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-bar-chart.html"
+        val dir: File = createReportDir(prAuthorId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-bar-chart.html"
     }
 
     internal fun reviewerReportFile(prReviewerId: UserId): String {
-        val directory: File = createReportDir(prReviewerId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_pr-reviewer-$prReviewerId-ascii.txt"
+        val dir: File = createReportDir(prReviewerId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-reviewer-$prReviewerId-ascii.txt"
     }
 
     internal fun prReportFile(prStats: PrStats): String {
-        val directory: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
+        val dir: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
 
-        return directory.path + File.separator + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.txt"
+        return dir.path() + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.txt"
     }
 
     /**
      * @see prReportFile
      */
     internal fun prReportChart(prStats: PrStats): String {
-        val directory: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
+        val dir: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
 
-        return directory.path + File.separator + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.html"
+        return dir.path() + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.html"
     }
 
     /**
      * @see prReviewedForCombinedFilename
      */
     internal fun prReviewedForCombinedBarChartFilename(reviewerUserId: UserId): String {
-        val directory: File = createReportDir(reviewerUserId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId-bar-chart.html"
+        val dir: File = createReportDir(reviewerUserId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId-bar-chart.html"
     }
 
     internal fun prReviewedForCombinedFilename(reviewerUserId: UserId): String {
-        val directory: File = createReportDir(reviewerUserId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId.csv"
+        val dir: File = createReportDir(reviewerUserId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId.csv"
     }
 
     internal fun prReviewerReviewedPrStatsFile(reviewerUserId: UserId): String {
-        val directory: File = createReportDir(reviewerUserId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId.csv"
+        val dir: File = createReportDir(reviewerUserId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId.csv"
     }
 
     /**
      * @see prReviewerReviewedPrStatsFile
      */
     internal fun prReviewerReviewedPrStatsBarChartFile(reviewerUserId: UserId): String {
-        val directory: File = createReportDir(reviewerUserId)
-        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId-bar-chart.html"
+        val dir: File = createReportDir(reviewerUserId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId-bar-chart.html"
     }
 
     internal fun reviewedForAuthorFileName(authorStats: AuthorReviewStats): String {
-        val directory: File = createReportDir(authorStats.prAuthorId)
-        return directory.path + File.separator + "REPORT-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"
+        val dir: File = createReportDir(authorStats.prAuthorId)
+        return dir.path() + "REPORT-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"
     }
 
     internal fun allReviewersForAuthorFile(prAuthorId: UserId): String {
-        val directory: File = createReportDir(prAuthorId)
-        return directory.path + File.separator + "REPORT_-_$prAuthorId-all-reviewers.csv"
+        val dir: File = createReportDir(prAuthorId)
+        return dir.path() + "REPORT_-_$prAuthorId-all-reviewers.csv"
     }
+
+    /**
+     * Internal extension function to provide file path followed by the path separator
+     */
+    private fun File.path(): String = this.path + File.separator
 }
