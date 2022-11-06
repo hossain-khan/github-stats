@@ -80,6 +80,14 @@ object FileUtil : KoinComponent {
         return directory.path + File.separator + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.html"
     }
 
+    /**
+     * @see prReviewedForCombinedFilename
+     */
+    internal fun prReviewedForCombinedBarChartFilename(reviewerUserId: UserId): String {
+        val directory: File = createReportDir(reviewerUserId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId-bar-chart.html"
+    }
+
     internal fun prReviewedForCombinedFilename(reviewerUserId: UserId): String {
         val directory: File = createReportDir(reviewerUserId)
         return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId.csv"
@@ -88,6 +96,14 @@ object FileUtil : KoinComponent {
     internal fun prReviewerReviewedPrStatsFile(reviewerUserId: UserId): String {
         val directory: File = createReportDir(reviewerUserId)
         return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId.csv"
+    }
+
+    /**
+     * @see prReviewerReviewedPrStatsFile
+     */
+    internal fun prReviewerReviewedPrStatsBarChartFile(reviewerUserId: UserId): String {
+        val directory: File = createReportDir(reviewerUserId)
+        return directory.path + File.separator + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId-bar-chart.html"
     }
 
     internal fun reviewedForAuthorFileName(authorStats: AuthorReviewStats): String {
