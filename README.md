@@ -9,16 +9,27 @@ This project exist to explore github API to get some common answer about PR revi
 #### What it is NOT
 - ❌ It is not a comprehensive GitHub statistics generator tool
 - ❌ It is not a modular tool that can be re-used to query GitHub APIs.
-- ❌ It does not contain CLI or easy way to run the stats-generator except via IntelliJ IDE.
+- ❌ It does not contain CLI or easy way to run the stats-generator except via **IntelliJ IDE**.
 - ❌ Existing supported stats are not localized for different work hour or weekends.
 - ❌ It does not follow all industry standards, and does not strive to be performant
+
 
 #### What it is ✔️
 - ✅ It can show you PR statistics for PRs created by specific author/contributor of a repository
 - ✅ It can generate CSV for the PR stats which can be used in Google Sheets or alike to generate charts
+##### Limitation
+- 🏋️ It does not collect stats in parallel to avoid GitHub API reate limit and adds delay between API calls
+- 🏋️ It is **NOT** able to accurately compute PR review time due to many complexities. The review time is provided for informational purpose only.
 
 ## Setup 🛠
 See [SETUP](SETUP.md) for details on how to setup the project using IntelliJ IDEA.
+
+## How
+The program collects all the related data to user's via different GitHub APIs and compiles releavant data into stats. Those stats are then run through [StatsFormatter](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/dev/hossain/githubstats/formatter/StatsFormatter.kt) to generate files.  
+
+Here is an quick overview of how stats generation works.  
+<img width="600" src="https://user-images.githubusercontent.com/99822/200206579-bba022ea-ebe4-4d5c-9a81-b2c4b6ed6090.jpg"/>
+
 
 ## Sample
 Here is some data generated from `freeCodeCamp` repository for `naomi-lgbt` user.
