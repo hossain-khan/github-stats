@@ -202,7 +202,7 @@ internal class PullRequestStatsRepoTest {
 
         val userPrComment: UserPrComment = stats.comments["yschimke"]!!
 
-        // yschimke made 9 PR comment and 21 review comment. Total: 30 comments.
+        // yschimke made 9 PR comment, 14 pr review and 21 code review comment. Total: 44 comments.
         assertThat(userPrComment.issueComment).isEqualTo(9)
         assertThat(userPrComment.codeReviewComment).isEqualTo(21)
         assertThat(userPrComment.prReviewComment).isEqualTo(14)
