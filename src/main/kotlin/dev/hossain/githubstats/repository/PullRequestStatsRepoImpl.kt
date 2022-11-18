@@ -91,22 +91,23 @@ class PullRequestStatsRepoImpl(
      *
      * Example snapshot of a map.
      * ```
-     * swankjesse -> (issueComment=3, reviewComment=16)
-     * jjshanks -> (issueComment=1, reviewComment=0)
-     * yschimke -> (issueComment=9, reviewComment=21)
-     * mjpitz -> (issueComment=10, reviewComment=16)
+     * swankjesse -> (issueComment=3, codeReviewComment=3, prReviewComment=7)
+     * jjshanks -> (issueComment=1, codeReviewComment=0, prReviewComment=0)
+     * yschimke -> (issueComment=9, codeReviewComment=21, prReviewComment=2)
+     * mjpitz -> (issueComment=10, codeReviewComment=7, prReviewComment=1)
      * ```
      *
-     * @return Map of `user-id -> total comments made`
+     * @return Map of `user-id -> count of various type of comments made`. See [UserPrComment].
      */
     private fun commentsByUser(
         prTimelineEvents: List<TimelineEvent>,
         prCodeReviewComments: List<CodeReviewComment>
     ): Map<UserId, UserPrComment> {
         val issueCommentsByUser = mutableMapOf<UserId, Int>()
-        val reviewCommentsByUser = mutableMapOf<UserId, Int>()
+        val codeReviewCommentsByUser = mutableMapOf<UserId, Int>()
         val reviewedEventByUser = mutableMapOf<UserId, Int>()
 
+        // Collect all comments made on the PR issue itself, without referencing any line-of-code.
         prTimelineEvents.filterTo(CommentedEvent::class)
             .forEach { commentedEvent ->
                 val commentsCount: Int? = issueCommentsByUser[commentedEvent.user.login]
@@ -129,21 +130,22 @@ class PullRequestStatsRepoImpl(
                 }
             }
 
+        // Collect all code review comment made on line-of-code from diff
         prCodeReviewComments.forEach { codeReviewComment ->
-            val commentsCount: Int? = reviewCommentsByUser[codeReviewComment.user.login]
+            val commentsCount: Int? = codeReviewCommentsByUser[codeReviewComment.user.login]
             if (commentsCount != null) {
-                reviewCommentsByUser[codeReviewComment.user.login] = commentsCount + 1
+                codeReviewCommentsByUser[codeReviewComment.user.login] = commentsCount + 1
             } else {
-                reviewCommentsByUser[codeReviewComment.user.login] = 1
+                codeReviewCommentsByUser[codeReviewComment.user.login] = 1
             }
         }
 
-        val prUserCommentsMap = (issueCommentsByUser.keys + reviewCommentsByUser.keys + reviewedEventByUser.keys)
+        val prUserCommentsMap = (issueCommentsByUser.keys + codeReviewCommentsByUser.keys + reviewedEventByUser.keys)
             .associateWith { userId ->
                 UserPrComment(
                     user = userId,
                     issueComment = issueCommentsByUser[userId] ?: 0,
-                    codeReviewComment = reviewCommentsByUser[userId] ?: 0,
+                    codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
                     prReviewComment = reviewedEventByUser[userId] ?: 0
                 )
             }

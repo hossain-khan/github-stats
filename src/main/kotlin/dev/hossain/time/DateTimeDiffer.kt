@@ -67,7 +67,7 @@ object DateTimeDiffer {
                 return Duration.ZERO
             }
 
-            // Loop though all dates and sums up only the working hours on working day.
+            // Loop through all dates and sums up only the working hours on working day.
             else -> {
                 var workingHours = Duration.ZERO
                 var previousWorkingDay =
@@ -201,6 +201,9 @@ object DateTimeDiffer {
         return java.time.Duration.between(this, endDateTime).seconds.toDuration(DurationUnit.SECONDS)
     }
 
+    /**
+     * Checks if two [ZonedDateTime] are in same day (ignores time zone).
+     */
     private fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean {
         return this.year == other.year && this.month == other.month && this.dayOfMonth == other.dayOfMonth
     }
@@ -236,6 +239,9 @@ object DateTimeDiffer {
         return nextWorkingHourOrSame.isSameDay(this).not()
     }
 
+    /**
+     * Formats the [ZonedDateTime] with formatter to more human-readable time.
+     */
     private fun ZonedDateTime.format(): String {
         val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
             .withLocale(Locale.US)
