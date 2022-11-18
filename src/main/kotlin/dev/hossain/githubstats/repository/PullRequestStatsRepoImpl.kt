@@ -104,7 +104,7 @@ class PullRequestStatsRepoImpl(
         prCodeReviewComments: List<CodeReviewComment>
     ): Map<UserId, UserPrComment> {
         val issueCommentsByUser = mutableMapOf<UserId, Int>()
-        val reviewCommentsByUser = mutableMapOf<UserId, Int>()
+        val codeReviewCommentsByUser = mutableMapOf<UserId, Int>()
         val reviewedEventByUser = mutableMapOf<UserId, Int>()
 
         prTimelineEvents.filterTo(CommentedEvent::class)
@@ -130,20 +130,20 @@ class PullRequestStatsRepoImpl(
             }
 
         prCodeReviewComments.forEach { codeReviewComment ->
-            val commentsCount: Int? = reviewCommentsByUser[codeReviewComment.user.login]
+            val commentsCount: Int? = codeReviewCommentsByUser[codeReviewComment.user.login]
             if (commentsCount != null) {
-                reviewCommentsByUser[codeReviewComment.user.login] = commentsCount + 1
+                codeReviewCommentsByUser[codeReviewComment.user.login] = commentsCount + 1
             } else {
-                reviewCommentsByUser[codeReviewComment.user.login] = 1
+                codeReviewCommentsByUser[codeReviewComment.user.login] = 1
             }
         }
 
-        val prUserCommentsMap = (issueCommentsByUser.keys + reviewCommentsByUser.keys + reviewedEventByUser.keys)
+        val prUserCommentsMap = (issueCommentsByUser.keys + codeReviewCommentsByUser.keys + reviewedEventByUser.keys)
             .associateWith { userId ->
                 UserPrComment(
                     user = userId,
                     issueComment = issueCommentsByUser[userId] ?: 0,
-                    codeReviewComment = reviewCommentsByUser[userId] ?: 0,
+                    codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
                     prReviewComment = reviewedEventByUser[userId] ?: 0
                 )
             }
