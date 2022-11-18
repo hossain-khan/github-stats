@@ -1,6 +1,6 @@
 package dev.hossain.githubstats
 
-import dev.hossain.githubstats.UserPrComment.Companion.empty
+import dev.hossain.githubstats.UserPrComment.Companion.noComments
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
@@ -92,7 +92,7 @@ class PrAuthorStatsService constructor(
                     val reviewStats = ReviewStats(
                         pullRequest = stats.pullRequest,
                         reviewCompletion = time,
-                        prComments = stats.comments[user] ?: empty(user),
+                        prComments = stats.comments[user] ?: noComments(user),
                         prReadyOn = stats.prReadyOn,
                         prMergedOn = stats.prMergedOn
                     )

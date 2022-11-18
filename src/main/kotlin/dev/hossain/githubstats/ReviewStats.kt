@@ -126,7 +126,12 @@ data class UserPrComment(
         /**
          * Provides empty comments stats for specific [userId]/
          */
-        fun empty(userId: UserId) = UserPrComment(userId, 0, 0, 0)
+        fun noComments(userId: UserId) = UserPrComment(
+            user = userId,
+            issueComment = 0,
+            codeReviewComment = 0,
+            prReviewComment = 0
+        )
     }
 
     val allComments: Int = issueComment + codeReviewComment + prReviewComment
@@ -134,7 +139,7 @@ data class UserPrComment(
     /**
      * Checks if stats is empty, then it's likely not worth showing.
      */
-    fun empty(): Boolean = issueComment == 0 && codeReviewComment == 0 && prReviewComment == 0
+    fun isEmpty(): Boolean = issueComment == 0 && codeReviewComment == 0 && prReviewComment == 0
 
     override fun toString(): String {
         return "$user made $issueComment PR comment and $codeReviewComment review comment " +
