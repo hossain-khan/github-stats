@@ -1,5 +1,7 @@
 package dev.hossain.time
 
+import dev.hossain.time.DateTimeDiffer.isOnWorkingDay
+import dev.hossain.time.DateTimeDiffer.isSameDay
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
@@ -203,16 +205,54 @@ object DateTimeDiffer {
 
     /**
      * Checks if two [ZonedDateTime] are in same day (ignores time zone).
+     *
+     * Example:
+     * - Monday, May 23, 2022 at 5:02:33 PM EDT <-> and
+     *   Monday, June 27, 2022 at 12:28:16 PM EDT isSameDay = false
+     * - Thursday, September 22, 2022 at 5:10:46 PM EDT <-> and
+     *   Friday, September 23, 2022 at 9:14:25 AM EDT isSameDay = false
+     * - Wednesday, September 21, 2022 at 2:39:31 PM EDT <-> and
+     *   Thursday, September 22, 2022 at 5:54:25 PM EDT isSameDay = false
+     * - Monday, May 23, 2022 at 12:02:33 PM EDT <-> and
+     *   Monday, May 23, 2022 at 5:02:33 PM EDT isSameDay = true
+     * - Tuesday, May 24, 2022 at 9:00:33 AM EDT <-> and
+     *   Tuesday, May 24, 2022 at 5:02:33 PM EDT isSameDay = true
+     * - Friday, June 24, 2022 at 9:00:33 AM EDT <-> and
+     *   Friday, June 24, 2022 at 5:02:33 PM EDT isSameDay = true
      */
     private fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean {
         return this.year == other.year && this.month == other.month && this.dayOfMonth == other.dayOfMonth
     }
 
+    /**
+     * Checks if given date time is on working day.
+     *
+     * Example:
+     * - Sunday, February 25, 2018 at 12:31:04 PM = false
+     * - Saturday, February 24, 2018 at 3:10:49 PM = false
+     * - Sunday, February 25, 2018 at 12:31:04 PM = false
+     * - Friday, February 23, 2018 at 9:00:35 AM = true
+     * - Friday, September 23, 2022 at 8:33:21 AM = true
+     * - Thursday, September 22, 2022 at 12:10:46 PM = true
+     */
     private fun ZonedDateTime.isOnWorkingDay(): Boolean {
         val nextWorkingDayOrSame = this.nextWorkingDayOrSame()
         return this == nextWorkingDayOrSame
     }
 
+    /**
+     * Checks if given date time is in working hour.
+     *
+     * Example:
+     * - Monday, June 27, 2022 at 12:28:16 AM EDT = false
+     * - Friday, September 23, 2022 at 8:33:21 AM EDT = false
+     * - Tuesday, September 13, 2022 at 8:11:30 AM EDT = false
+     * - Monday, December 16, 2019 at 8:49:13 PM EST = false
+     * - Tuesday, September 13, 2022 at 1:21:51 PM EDT = true
+     * - Wednesday, September 21, 2022 at 11:52:30 AM EDT = true
+     * - Thursday, September 22, 2022 at 5:54:25 PM EDT = true [TODO: This should be `false`]
+     * - Wednesday, February 21, 2018 at 5:55:35 PM EST = true [TODO: This should be `false`]
+     */
     private fun ZonedDateTime.isWithinWorkingHour(): Boolean {
         val nonWorkingHour = this.nextWorkingHourOrSame()
         return this == nonWorkingHour

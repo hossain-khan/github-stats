@@ -160,7 +160,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
          */
         fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String {
             return "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
-                if (reviewStats.prComments.empty().not()) {
+                if (reviewStats.prComments.isEmpty().not()) {
                     "\nmade ${reviewStats.prComments.codeReviewComment} code review ${reviewStats.prComments.codeReviewComment.comments()} " +
                         "and ${reviewStats.prComments.issueComment} issue ${reviewStats.prComments.issueComment.comments()}."
                 } else {
