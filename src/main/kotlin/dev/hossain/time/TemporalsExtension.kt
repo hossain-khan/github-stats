@@ -148,11 +148,10 @@ object TemporalsExtension {
             override fun adjustInto(temporal: Temporal): Temporal {
                 return when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
                     in 0..8 -> temporal.plus((9 - hour).toLong(), ChronoUnit.HOURS)
-                    in 18..23 -> {
+                    in 17..23 -> {
                         // Set the temporal to next day @ 9:00am
                         temporal.plus((24 - hour + 9).toLong(), ChronoUnit.HOURS)
                     }
-
                     else -> temporal
                 }
             }
