@@ -121,6 +121,9 @@ internal fun ZonedDateTime.isWithinWorkingHour(): Boolean {
     return this == nonWorkingHour
 }
 
+/**
+ * TODO - doc and example please.
+ */
 internal fun ZonedDateTime.isBeforeWorkingHour(): Boolean {
     val nextWorkingHourOrSame = this.nextWorkingHourOrSame()
     val prevWorkingHour = this.prevWorkingHour()
