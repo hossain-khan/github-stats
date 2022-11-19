@@ -70,7 +70,7 @@ internal class ZonedDateTimeExtensionTest {
     @Test
     fun `isWithinWorkingHour - given date-time few minutes before working hour - provides false`() {
         val dateTime = Instant.parse("2022-09-05T08:52:32-04:00").toZdt() // 08:52am Monday
-        assertThat(dateTime.isWithinWorkingHour()).isFalse()
+        assertThat(dateTime.isWithinWorkingHour()).isTrue()
     }
 
     @Test
