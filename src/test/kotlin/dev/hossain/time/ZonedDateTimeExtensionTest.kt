@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import org.junit.jupiter.api.Test
-import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal class ZonedDateTimeExtensionTest {
