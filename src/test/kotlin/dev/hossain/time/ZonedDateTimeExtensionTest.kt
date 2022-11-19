@@ -100,13 +100,25 @@ internal class ZonedDateTimeExtensionTest {
     }
 
     @Test
-    fun isAfterWorkingHour() {
+    fun `isAfterWorkingHour - given date time during working hour - provides false`() {
         val dateTime = Instant.parse("2022-09-05T10:00:00-04:00").toZdt() // 10:00am Monday
+        assertThat(dateTime.isAfterWorkingHour()).isFalse()
+    }
+
+    @Test
+    fun `isAfterWorkingHour - given date time after working hour - provides true`() {
+        val dateTime = Instant.parse("2022-09-05T21:00:00-04:00").toZdt() // 09:00pm Monday
+        assertThat(dateTime.isAfterWorkingHour()).isTrue()
+    }
+
+    @Test
+    fun `isAfterWorkingHour - given date time before working hour - provides false`() {
+        val dateTime = Instant.parse("2022-09-05T06:00:00-04:00").toZdt() // 06:00am Monday
         assertThat(dateTime.isAfterWorkingHour()).isFalse()
     }
 
     private fun Instant.toZdt(): ZonedDateTime {
         val date1JavaInstant: java.time.Instant = this.toJavaInstant()
-        return date1JavaInstant.atZone(ZoneId.systemDefault())
+        return date1JavaInstant.atZone(Zone.city("New York"))
     }
 }
