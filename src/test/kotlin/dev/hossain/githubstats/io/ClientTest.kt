@@ -159,7 +159,7 @@ internal class ClientTest {
     fun `given pull request comments - provides parsed PR comments`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-num-comments-freeCodeCamp-45530.json")))
 
-        val comments = Client.githubApiService.prReviewComments("X", "Y", 1)
+        val comments = Client.githubApiService.prSourceCodeReviewComments("X", "Y", 1)
 
         assertThat(comments.size).isEqualTo(4)
     }

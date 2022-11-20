@@ -81,7 +81,7 @@ interface GithubApiService {
      * https://docs.github.com/en/rest/pulls/comments#list-review-comments-on-a-pull-request
      */
     @GET("/repos/{owner}/{repo}/pulls/{pull_number}/comments")
-    suspend fun prReviewComments(
+    suspend fun prSourceCodeReviewComments(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
         @Path("pull_number") prNumber: Int,

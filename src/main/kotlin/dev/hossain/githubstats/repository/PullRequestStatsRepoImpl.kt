@@ -49,8 +49,8 @@ class PullRequestStatsRepoImpl(
 
         // API request to get all timeline events for the PR
         val prTimelineEvents = timelinesPager.getAllTimelineEvents(repoOwner, repoId, prNumber)
-        // API request to get all PR review comments associated with diffs
-        val prReviewComments = githubApiService.prReviewComments(repoOwner, repoId, prNumber)
+        // API request to get all PR source code review comments associated with diffs
+        val prCodeReviewComments = githubApiService.prSourceCodeReviewComments(repoOwner, repoId, prNumber)
 
         Log.i("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
 
@@ -67,7 +67,10 @@ class PullRequestStatsRepoImpl(
             prTimelineEvents = prTimelineEvents
         )
 
-        val commentsByUser: Map<UserId, UserPrComment> = commentsByUser(prTimelineEvents, prReviewComments)
+        val commentsByUser: Map<UserId, UserPrComment> = commentsByUser(
+            prTimelineEvents = prTimelineEvents,
+            prCodeReviewComments = prCodeReviewComments
+        )
 
         return StatsResult.Success(
             PrStats(
