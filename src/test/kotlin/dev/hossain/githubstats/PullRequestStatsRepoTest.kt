@@ -54,7 +54,7 @@ internal class PullRequestStatsRepoTest {
     @Test
     fun `stats - given pull request not merged - provides failure status`() = runTest {
         // Uses data from https://github.com/jquery/jquery/pull/5046
-        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-48543.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-48543-not-merged.json")))
 
         val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
 
