@@ -245,9 +245,25 @@ internal class PullRequestStatsRepoTest {
 
         val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
 
-        assertThat(prReviewers).hasSize(2)
         assertThat(prReviewers).doesNotContain(pullRequest.user)
+        assertThat(prReviewers).hasSize(2)
         assertThat(prReviewers.map { it.login }).containsExactly("yschimke", "swankjesse")
+    }
+
+    @Test
+    fun `prReviewers - given single reviewer approved PR - provides reviewers user-id`() = runTest {
+        // Uses data from https://github.com/square/okhttp/pull/7458
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-7458.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-7458.json")))
+
+        val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
+
+        val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
+
+        assertThat(prReviewers).doesNotContain(pullRequest.user)
+        assertThat(prReviewers).hasSize(1)
+        assertThat(prReviewers.map { it.login }).containsExactly("swankjesse")
     }
 
     // region: Test Utility Functions
