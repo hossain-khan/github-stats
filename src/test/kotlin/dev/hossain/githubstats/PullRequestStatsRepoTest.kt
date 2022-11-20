@@ -52,7 +52,17 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given pr review - calculates time taken to provide review`() = runTest {
+    fun `stats - given pull request not merged - provides failure status`() = runTest {
+        // Uses data from https://github.com/jquery/jquery/pull/5046
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-48543.json")))
+
+        val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+
+        assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
+    }
+
+    @Test
+    fun `stats - given pr review - calculates time taken to provide review`() = runTest {
         // Uses data from https://github.com/jquery/jquery/pull/5046
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-jquery-5046.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
@@ -64,7 +74,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given many pr comments and review - calculates only the approval time`() = runTest {
+    fun `stats - given many pr comments and review - calculates only the approval time`() = runTest {
         // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-opensearch-4515.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
@@ -76,7 +86,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given reviewer was added later - provides time after reviewer was added`() = runTest {
+    fun `stats - given reviewer was added later - provides time after reviewer was added`() = runTest {
         // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47594
         // User `naomi-lgbt` was added later in the PR.
         // This is also interesting PR because changes was requested (See issue #51)
@@ -96,7 +106,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given multiple reviews and dismissed reviews - provides stats accordingly`() = runTest {
+    fun `stats - given multiple reviews and dismissed reviews - provides stats accordingly`() = runTest {
         // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
         // A lot of review comments, 2 people approved after dismissal
 
@@ -115,7 +125,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - pr creator commented on PR - does not contain review metrics for pr creator`() = runTest {
+    fun `stats - pr creator commented on PR - does not contain review metrics for pr creator`() = runTest {
         // Uses data from https://github.com/square/retrofit/pull/3267
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3267.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3267.json")))
@@ -131,7 +141,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given merged with no reviewer - provides no related metrics`() = runTest {
+    fun `stats - given merged with no reviewer - provides no related metrics`() = runTest {
         // Uses data from https://github.com/hossain-khan/github-stats/pull/27
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27.json")))
@@ -143,11 +153,11 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given pr was draft - provides time taken after pr was ready for review`() = runTest {
+    fun `stats - given pr was draft - provides time taken after pr was ready for review`() = runTest {
     }
 
     @Test
-    fun `calculateStats - given no assigned reviewer added - provides metrics based on approval event`() = runTest {
+    fun `stats - given no assigned reviewer added - provides metrics based on approval event`() = runTest {
         // Uses data from https://github.com/square/retrofit/pull/3114
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-retrofit-3114.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3114.json")))
@@ -159,7 +169,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given pr reviewed in time - provides correct review time`() = runTest {
+    fun `stats - given pr reviewed in time - provides correct review time`() = runTest {
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47511.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-45711.json")))
         mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
@@ -171,7 +181,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given pr has multiple issue comments - provides comment count for each user`() = runTest {
+    fun `stats - given pr has multiple issue comments - provides comment count for each user`() = runTest {
         // Lots of comments by different users
         // Uses data from https://github.com/square/okhttp/pull/3873
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-3873.json")))
@@ -187,7 +197,7 @@ internal class PullRequestStatsRepoTest {
     }
 
     @Test
-    fun `calculateStats - given pr has multiple issue and review comments - provides all comment count for each user`() = runTest {
+    fun `stats - given pr has multiple issue and review comments - provides all comment count for each user`() = runTest {
         // Lots of comments by different users
         // Uses data from https://github.com/square/okhttp/pull/3873
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-3873.json")))
