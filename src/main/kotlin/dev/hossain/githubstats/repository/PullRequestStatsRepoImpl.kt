@@ -60,14 +60,14 @@ class PullRequestStatsRepoImpl(
         val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
 
         // Builds a map of [Reviewer User -> Review Time during Working Hours]
-        val prReviewCompletionMap: Map<String, Duration> = reviewTimeByUser(
+        val prReviewCompletionMap: Map<String, Duration> = prReviewTimeByUser(
             pullRequest = pullRequest,
             prAvailableForReview = prAvailableForReviewOn,
             prReviewers = prReviewers,
             prTimelineEvents = prTimelineEvents
         )
 
-        val commentsByUser: Map<UserId, UserPrComment> = commentsByUser(
+        val commentsByUser: Map<UserId, UserPrComment> = prCommentsCountByUser(
             prTimelineEvents = prTimelineEvents,
             prCodeReviewComments = prCodeReviewComments
         )
@@ -101,7 +101,7 @@ class PullRequestStatsRepoImpl(
      *
      * @return Map of `user-id -> count of various type of comments made`. See [UserPrComment].
      */
-    private fun commentsByUser(
+    private fun prCommentsCountByUser(
         prTimelineEvents: List<TimelineEvent>,
         prCodeReviewComments: List<CodeReviewComment>
     ): Map<UserId, UserPrComment> {
@@ -162,7 +162,7 @@ class PullRequestStatsRepoImpl(
      * - Time to first review
      * - Turn around time to approve
      */
-    private fun reviewTimeByUser(
+    private fun prReviewTimeByUser(
         pullRequest: PullRequest,
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
