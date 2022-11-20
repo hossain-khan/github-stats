@@ -21,6 +21,7 @@ import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
+import org.jetbrains.annotations.TestOnly
 import kotlin.time.Duration
 
 /**
@@ -49,8 +50,8 @@ class PullRequestStatsRepoImpl(
 
         // API request to get all timeline events for the PR
         val prTimelineEvents = timelinesPager.getAllTimelineEvents(repoOwner, repoId, prNumber)
-        // API request to get all PR review comments associated with diffs
-        val prReviewComments = githubApiService.prReviewComments(repoOwner, repoId, prNumber)
+        // API request to get all PR source code review comments associated with diffs
+        val prCodeReviewComments = githubApiService.prSourceCodeReviewComments(repoOwner, repoId, prNumber)
 
         Log.i("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
 
@@ -60,14 +61,17 @@ class PullRequestStatsRepoImpl(
         val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
 
         // Builds a map of [Reviewer User -> Review Time during Working Hours]
-        val prReviewCompletionMap: Map<String, Duration> = reviewTimeByUser(
+        val prReviewCompletionMap: Map<String, Duration> = prReviewTimeByUser(
             pullRequest = pullRequest,
             prAvailableForReview = prAvailableForReviewOn,
             prReviewers = prReviewers,
             prTimelineEvents = prTimelineEvents
         )
 
-        val commentsByUser: Map<UserId, UserPrComment> = commentsByUser(prTimelineEvents, prReviewComments)
+        val commentsByUser: Map<UserId, UserPrComment> = prCommentsCountByUser(
+            prTimelineEvents = prTimelineEvents,
+            prCodeReviewComments = prCodeReviewComments
+        )
 
         return StatsResult.Success(
             PrStats(
@@ -98,7 +102,7 @@ class PullRequestStatsRepoImpl(
      *
      * @return Map of `user-id -> count of various type of comments made`. See [UserPrComment].
      */
-    private fun commentsByUser(
+    private fun prCommentsCountByUser(
         prTimelineEvents: List<TimelineEvent>,
         prCodeReviewComments: List<CodeReviewComment>
     ): Map<UserId, UserPrComment> {
@@ -159,7 +163,7 @@ class PullRequestStatsRepoImpl(
      * - Time to first review
      * - Turn around time to approve
      */
-    private fun reviewTimeByUser(
+    private fun prReviewTimeByUser(
         pullRequest: PullRequest,
         prAvailableForReview: Instant,
         prReviewers: Set<User>,
@@ -255,7 +259,8 @@ class PullRequestStatsRepoImpl(
      * @param prAuthor The user who created the PR
      * @param prTimelineEvents All the timeline events for the opened PR.
      */
-    private fun prReviewers(
+    @TestOnly
+    internal fun prReviewers(
         prAuthor: User,
         prTimelineEvents: List<TimelineEvent>
     ): Set<User> {
