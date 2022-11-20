@@ -40,9 +40,9 @@ class PullRequestStatsRepoImpl(
         prNumber: Int
     ): StatsResult {
         // API request to get PR information
-        val pullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
+        val pullRequest: PullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
 
-        if (pullRequest.merged == null || pullRequest.merged == false) {
+        if (!pullRequest.isMerged) {
             // Skips PR stats generation if PR is not merged at all.
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to analyze PR stats."))
         }
@@ -54,8 +54,7 @@ class PullRequestStatsRepoImpl(
 
         Log.i("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
 
-        val prCreatedOn: Instant = pullRequest.created_at.toInstant()
-        val prAvailableForReviewOn: Instant = prAvailableForReviewTime(prCreatedOn, prTimelineEvents)
+        val prAvailableForReviewOn: Instant = prAvailableForReviewTime(pullRequest.prCreatedOn, prTimelineEvents)
 
         // List of users who has been requested as reviewer or reviewed the PR
         val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
@@ -76,7 +75,7 @@ class PullRequestStatsRepoImpl(
                 reviewTime = prReviewCompletionMap,
                 comments = commentsByUser,
                 prReadyOn = prAvailableForReviewOn,
-                prMergedOn = pullRequest.merged_at!!.toInstant()
+                prMergedOn = pullRequest.prMergedOn!!
             )
         )
     }
@@ -184,7 +183,7 @@ class PullRequestStatsRepoImpl(
                 val reviewRequestedEvent = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
                     .find { it.requested_reviewer == reviewer }!!
                 val openToCloseDuration = (
-                    pullRequest.merged_at?.toInstant()
+                    pullRequest.prMergedOn
                         ?: prApprovedByReviewerEvent.submitted_at.toInstant()
                     ) - reviewRequestedEvent.created_at.toInstant()
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
@@ -200,7 +199,7 @@ class PullRequestStatsRepoImpl(
                 reviewTimesByUser[reviewer.login] = reviewTimeInWorkingHours
             } else {
                 val openToCloseDuration = (
-                    pullRequest.merged_at?.toInstant()
+                    pullRequest.prMergedOn
                         ?: prApprovedByReviewerEvent.submitted_at.toInstant()
                     ) - prAvailableForReview
                 val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(

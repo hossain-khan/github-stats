@@ -1,5 +1,8 @@
 package dev.hossain.githubstats.model
 
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toInstant
+
 /**
  * A GitHub PR (Pull Request).
  * Pull requests let you tell others about changes you've pushed to a repository on GitHub.
@@ -106,4 +109,8 @@ data class PullRequest(
     val updated_at: String?,
     val closed_at: String?,
     val merged_at: String?
-)
+) {
+    val isMerged: Boolean = merged != null && merged == true
+    val prCreatedOn: Instant = created_at.toInstant()
+    val prMergedOn: Instant? = merged_at?.toInstant()
+}
