@@ -21,6 +21,7 @@ import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
+import org.jetbrains.annotations.TestOnly
 import kotlin.time.Duration
 
 /**
@@ -258,7 +259,8 @@ class PullRequestStatsRepoImpl(
      * @param prAuthor The user who created the PR
      * @param prTimelineEvents All the timeline events for the opened PR.
      */
-    private fun prReviewers(
+    @TestOnly
+    internal fun prReviewers(
         prAuthor: User,
         prTimelineEvents: List<TimelineEvent>
     ): Set<User> {

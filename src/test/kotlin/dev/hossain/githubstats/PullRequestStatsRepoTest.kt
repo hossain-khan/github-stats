@@ -219,6 +219,21 @@ internal class PullRequestStatsRepoTest {
         assertThat(userPrComment.allComments).isEqualTo(44)
     }
 
+    @Test
+    fun `prReviewers - given pr has multiple reviewers - calculates all reviewer user-ids`() = runTest {
+        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
+
+        val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
+        val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
+
+        val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
+
+        assertThat(prReviewers).hasSize(5)
+        assertThat(prReviewers).doesNotContain(pullRequest.user.login)
+    }
+
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
