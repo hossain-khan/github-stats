@@ -1,6 +1,12 @@
 Project Setup
 =============
 
+Setup Walkthrough
+------------------
+
+[![](https://user-images.githubusercontent.com/99822/203117567-4742aafc-d0ae-4586-bef7-0d539c714fad.jpg)](https://www.youtube.com/watch?v=CftaVHzsX3A)
+
+
 Requirements
 ------------
 * IntelliJ Idea Community Edition ([Download](https://www.jetbrains.com/idea/download/))
