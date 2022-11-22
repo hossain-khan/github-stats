@@ -7,6 +7,8 @@ object Template {
 
     /**
      * Provides HTML content to display pie chart with [statsJsData]
+     * @see getPieChartHtml
+     * @see pieChartScript
      */
     fun pieChart(title: String, statsJsData: String): String {
         return getPieChartHtml(pieChartScript(title, statsJsData))
@@ -14,6 +16,7 @@ object Template {
 
     /**
      * https://developers.google.com/chart/interactive/docs/gallery/piechart
+     * @see pieChart
      */
     private fun getPieChartHtml(chartJsScript: String): String {
         //language=html
@@ -37,6 +40,7 @@ $chartJsScript
 
     /**
      * https://developers.google.com/chart/interactive/docs/gallery/piechart
+     * @see pieChart
      */
     private fun pieChartScript(title: String, chartRowData: String): String {
         //language=js
@@ -74,6 +78,8 @@ $chartJsScript
 
     /**
      * Provides HTML content to display bar chart with [chartData]
+     * @see barChartHtml
+     * @see barChartJsScript
      */
     fun barChart(title: String, chartData: String, dataSize: Int): String {
         return barChartHtml(barChartJsScript(title, chartData), dataSize)
@@ -81,6 +87,7 @@ $chartJsScript
 
     /**
      * https://developers.google.com/chart/interactive/docs/gallery/barchart
+     * @see barChart
      */
     private fun barChartHtml(chartJsScript: String, dataSize: Int): String {
         val barChartHeightPercent: Int = if (dataSize > 30) (((dataSize.div(30)) + 1) * 100) else 100
@@ -103,6 +110,7 @@ $chartJsScript
 
     /**
      * https://developers.google.com/chart/interactive/docs/gallery/barchart
+     * @see barChart
      */
     private fun barChartJsScript(title: String, chartData: String): String {
         //language=js
