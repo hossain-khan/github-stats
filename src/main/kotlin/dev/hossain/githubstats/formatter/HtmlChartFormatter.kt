@@ -136,7 +136,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "" +
                 "[" +
                 "'PR#', " +
-                "'Initial Response Time (mins)'" +
+                "'Initial Response Time (mins)'," +
                 "'Review Time (mins)'" +
                 "]"
         ).plus(
@@ -144,7 +144,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                 "" +
                     "[" +
                     "'PR# ${reviewStats.pullRequest.number}', " +
-                    "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}" +
+                    "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}," +
                     "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
                     "]"
             }
