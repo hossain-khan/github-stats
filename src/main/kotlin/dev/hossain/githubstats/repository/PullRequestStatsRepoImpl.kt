@@ -60,6 +60,13 @@ class PullRequestStatsRepoImpl(
         // List of users who has been requested as reviewer or reviewed the PR
         val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
 
+        // Builds a map of [Reviewer User -> Initial response time by either commenting, reviewing or approving PR]
+        val prInitialResponseTimeMap: Map<UserId, Duration> = prInitialResponseTimeByUser(
+            prAvailableForReviewOn = prAvailableForReviewOn,
+            prReviewers = prReviewers,
+            prTimelineEvents = prTimelineEvents
+        )
+
         // Builds a map of [Reviewer User -> Review Time during Working Hours]
         val prReviewCompletionMap: Map<String, Duration> = prReviewTimeByUser(
             pullRequest = pullRequest,
@@ -77,6 +84,7 @@ class PullRequestStatsRepoImpl(
             PrStats(
                 pullRequest = pullRequest,
                 reviewTime = prReviewCompletionMap,
+                initialResponseTime = prInitialResponseTimeMap,
                 comments = commentsByUser,
                 prReadyOn = prAvailableForReviewOn,
                 prMergedOn = pullRequest.prMergedOn!!
@@ -157,6 +165,46 @@ class PullRequestStatsRepoImpl(
     }
 
     /**
+     * Provides initial response time by user for the pull request.
+     * The initial response time indicates the time it took for reviewer to first respond to PR
+     * by either commenting on the changes, reviewing and asking for change or approving the PR.
+     */
+    private fun prInitialResponseTimeByUser(
+        prAvailableForReviewOn: Instant,
+        prReviewers: Set<User>,
+        prTimelineEvents: List<TimelineEvent>
+    ): Map<UserId, Duration> {
+        val initialResponseTime = mutableMapOf<UserId, Duration>()
+
+        prReviewers.forEach { reviewer ->
+            val firstReviewedEvent: ReviewedEvent = prTimelineEvents.filterTo(ReviewedEvent::class)
+                // Finds first event (TODO: Check if the result is sorted, if not sort it)
+                .find { reviewedEvent ->
+                    reviewedEvent.user == reviewer &&
+                        listOf(
+                            ReviewState.APPROVED,
+                            ReviewState.CHANGE_REQUESTED,
+                            ReviewState.COMMENTED
+                        ).any { it == reviewedEvent.state }
+                } ?: return@forEach
+
+            val prReviewerUserId = reviewer.login
+
+            // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
+            val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
+                startInstant = prAvailableForReviewOn,
+                endInstant = firstReviewedEvent.submitted_at.toInstant(),
+                timeZoneId = userTimeZone.get(prReviewerUserId)
+            )
+            Log.i("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
+
+            initialResponseTime[prReviewerUserId] = reviewTimeInWorkingHours
+        }
+
+        return initialResponseTime
+    }
+
+    /**
      * Provides the time required to approve the PR.
      *
      * NOTE: Future improvement, should provide both metrics:
@@ -179,17 +227,12 @@ class PullRequestStatsRepoImpl(
             }
 
             val prReviewerUserId = reviewer.login
-
-            // Find out if user has been requested to review later
-            val reviewRequestedEvent: ReviewRequestedEvent? = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
-                .find { it.requested_reviewer == reviewer }
-            // Determines PR readiness time for reviewer if review was requested later for the user
-            val prReadyForReviewOn = reviewRequestedEvent?.created_at?.toInstant() ?: prAvailableForReviewOn
+            val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
 
             val prApprovedByReviewerEvent: ReviewedEvent = findPrApprovedEventByUser(reviewer, prTimelineEvents)
 
             // Calculates PR open to merge duration (without considering any working hours)
-            val openToCloseDuration = pullRequest.prMergedOn!! - prReadyForReviewOn
+            val openToCloseDuration = pullRequest.prMergedOn!! - prAvailableForReviewOn
 
             // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
             val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
@@ -198,7 +241,7 @@ class PullRequestStatsRepoImpl(
                 timeZoneId = userTimeZone.get(prReviewerUserId)
             )
             Log.i(
-                "  -- Reviewed in `$reviewTimeInWorkingHours` by `$prReviewerUserId`. " +
+                "  -- Reviewed and ✔approved in `$reviewTimeInWorkingHours` by `$prReviewerUserId`. " +
                     "PR open->merged: $openToCloseDuration"
             )
 
@@ -206,6 +249,22 @@ class PullRequestStatsRepoImpl(
         }
 
         return reviewTimesByUser
+    }
+
+    /**
+     * Evaluates actual time when PR was available for use to review by considering
+     * if review was requested later from the specified [reviewer]
+     */
+    private fun evaluatePrReadyForReviewByUser(
+        reviewer: User,
+        prAvailableForReviewOn: Instant,
+        prTimelineEvents: List<TimelineEvent>
+    ): Instant {
+        // Find out if user has been requested to review later
+        val reviewRequestedEvent: ReviewRequestedEvent? = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
+            .find { it.requested_reviewer == reviewer }
+        // Determines PR readiness time for reviewer if review was requested later for the user
+        return reviewRequestedEvent?.created_at?.toInstant() ?: prAvailableForReviewOn
     }
 
     /**
