@@ -198,7 +198,7 @@ class PullRequestStatsRepoImpl(
                 endInstant = firstReviewedEvent.submitted_at.toInstant(),
                 timeZoneId = userTimeZone.get(prReviewerUserId)
             )
-            Log.i("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
+            Log.d("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
             Log.v(
                 "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()} " +
                     "and event on ${firstReviewedEvent.submitted_at.toInstant().format()}"
