@@ -25,6 +25,13 @@ data class PrStats(
     val reviewTime: Map<UserId, Duration>,
 
     /**
+     * A map containing `reviewer-id -> PR initial response time` in working hours (excludes weekends and after hours)
+     * The initial response time indicates the time it took for reviewer to first respond to PR
+     * by either commenting, reviewing or approving the PR.
+     */
+    val initialResponseTime: Map<UserId, Duration>,
+
+    /**
      * Map of `user-id -> total comments made` for the [pullRequest].
      */
     val comments: Map<UserId, UserPrComment>,
