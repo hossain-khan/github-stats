@@ -109,8 +109,6 @@ internal class PullRequestStatsRepoTest {
     fun `stats - given multiple reviews and dismissed reviews - provides stats accordingly`() = runTest {
         // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
         // A lot of review comments, 2 people approved after dismissal
-
-        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
         mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
@@ -217,6 +215,29 @@ internal class PullRequestStatsRepoTest {
         assertThat(userPrComment.codeReviewComment).isEqualTo(21)
         assertThat(userPrComment.prReviewComment).isEqualTo(14)
         assertThat(userPrComment.allComments).isEqualTo(44)
+    }
+
+    @Test
+    fun `stats - given multiple reviewers - provides stats for initial response time accordingly`() = runTest {
+        // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
+        // A lot of review comments by 5 people, and 2 people approved after dismissal
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
+
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
+
+        val result = statsResult as StatsResult.Success
+        val initialResponseTime = result.stats.initialResponseTime
+        assertThat(initialResponseTime).hasSize(5)
+
+        assertThat(initialResponseTime["ShaunSHamilton"]).isEqualTo(Duration.parse("0s")) // Before work-hour
+        assertThat(initialResponseTime["SaintPeter"]).isEqualTo(Duration.parse("2h 24m"))
+        assertThat(initialResponseTime["jeremylt"]).isEqualTo(Duration.parse("2h 49m"))
+        assertThat(initialResponseTime["naomi-lgbt"]).isEqualTo(Duration.parse("8h"))
+        assertThat(initialResponseTime["Sboonny"]).isEqualTo(Duration.parse("1d"))
     }
 
     @Test
