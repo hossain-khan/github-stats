@@ -8,8 +8,10 @@ import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
+import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.time.toWorkingHour
 import kotlinx.datetime.toJavaInstant
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -17,6 +19,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
+import kotlin.time.Duration
 
 /**
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
@@ -66,6 +69,10 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 "Issue Comments = ${userPrComment.issueComment}" +
                 if (userPrComment.prReviewComment > 0) "\nHas reviewed PR ${userPrComment.prReviewComment} ${userPrComment.prReviewComment.times()}." else ""
 
+        fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String {
+            return "$userDuration | ${userDuration.value.toWorkingHour()}"
+        }
+
         return table {
             cellStyle {
                 border = true
@@ -81,11 +88,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     cell("PR Initial Response Time") {
                         rowSpan = prStats.initialResponseTime.size
                     }
-                    cell("${prStats.initialResponseTime.entries.first()}")
+                    cell(formatUserDuration(prStats.initialResponseTime.entries.first()))
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
                 prStats.initialResponseTime.entries.drop(1).forEach {
-                    row("$it")
+                    row(formatUserDuration(it))
                 }
             }
             if (prStats.reviewTime.isNotEmpty()) {
@@ -93,11 +100,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     cell("PR Approval Review Time") {
                         rowSpan = prStats.reviewTime.size
                     }
-                    cell("${prStats.reviewTime.entries.first()}")
+                    cell(formatUserDuration(prStats.reviewTime.entries.first()))
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
                 prStats.reviewTime.entries.drop(1).forEach {
-                    row("$it")
+                    row(formatUserDuration(it))
                 }
             }
             if (prStats.comments.isNotEmpty()) {
