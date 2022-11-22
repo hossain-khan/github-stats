@@ -15,6 +15,6 @@ fun Instant.toZdt(): ZonedDateTime {
 /**
  * Extension function to pretty print [Instant] for fixed time zone.
  */
-fun Instant.print(): String {
+fun Instant.format(): String {
     return this.toZdt().format()
 }

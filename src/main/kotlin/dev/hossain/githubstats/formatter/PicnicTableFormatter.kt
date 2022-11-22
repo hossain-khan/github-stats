@@ -76,9 +76,21 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
             row("PR Author", prStats.pullRequest.user.login)
             row("URL", prStats.pullRequest.html_url)
             row("Ready On", dateFormatter.format(prStats.prReadyOn.toJavaInstant()))
+            if (prStats.initialResponseTime.isNotEmpty()) {
+                row {
+                    cell("PR Initial Response Time") {
+                        rowSpan = prStats.initialResponseTime.size
+                    }
+                    cell("${prStats.initialResponseTime.entries.first()}")
+                }
+                // This row has only one cell because earlier data will carry over and push it to the right.
+                prStats.initialResponseTime.entries.drop(1).forEach {
+                    row("$it")
+                }
+            }
             if (prStats.reviewTime.isNotEmpty()) {
                 row {
-                    cell("Review Time") {
+                    cell("PR Approval Review Time") {
                         rowSpan = prStats.reviewTime.size
                     }
                     cell("${prStats.reviewTime.entries.first()}")
