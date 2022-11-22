@@ -2,6 +2,7 @@ package dev.hossain.time
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
+import kotlinx.datetime.toInstant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -275,6 +276,17 @@ internal class DateTimeDifferTest {
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
         assertThat(diffWorkingHours).isEqualTo("80h".duration())
+    }
+
+    @Test
+    fun `diff - given start time is during weekend and ends in the middle of week after hours - provides diff of working hour only`() {
+        val startTime: Instant = "2022-09-17T22:28:41Z".toInstant() // Saturday, September 17, 2022 at 6:28:41 PM Eastern Daylight
+        val endTime: Instant = "2022-09-22T11:51:40Z".toInstant() // Thursday, September 22, 2022 at 7:51:40 AM Eastern Daylight Time
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("24h".duration()) // Indicates 8h x 3 = 24 hours for 3 working days
+        assertThat(diffWorkingHours).isEqualTo("1d".duration()) // This is same as 24 hours, which is 3 working days
     }
 
     private fun String.duration(): Duration = Duration.parse(this)

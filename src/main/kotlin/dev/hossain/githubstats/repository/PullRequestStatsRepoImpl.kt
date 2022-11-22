@@ -19,6 +19,7 @@ import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
+import dev.hossain.time.print
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import org.jetbrains.annotations.TestOnly
@@ -45,6 +46,7 @@ class PullRequestStatsRepoImpl(
 
         if (!pullRequest.isMerged) {
             // Skips PR stats generation if PR is not merged at all.
+            Log.v("The PR#${pullRequest.number} is not merged. Skipping PR stat analysis.")
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to analyze PR stats."))
         }
 
@@ -197,6 +199,10 @@ class PullRequestStatsRepoImpl(
                 timeZoneId = userTimeZone.get(prReviewerUserId)
             )
             Log.i("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
+            Log.v(
+                "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.print()} " +
+                    "and event on ${firstReviewedEvent.submitted_at.toInstant().print()}"
+            )
 
             initialResponseTime[prReviewerUserId] = reviewTimeInWorkingHours
         }

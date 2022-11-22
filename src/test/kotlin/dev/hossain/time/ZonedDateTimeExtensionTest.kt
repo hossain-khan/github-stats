@@ -2,7 +2,6 @@ package dev.hossain.time
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toJavaInstant
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
 
@@ -120,10 +119,5 @@ internal class ZonedDateTimeExtensionTest {
     fun `isAfterWorkingHour - given date time before working hour - provides false`() {
         val dateTime = Instant.parse("2022-09-05T06:00:00-04:00").toZdt() // 06:00am Monday
         assertThat(dateTime.isAfterWorkingHour()).isFalse()
-    }
-
-    private fun Instant.toZdt(): ZonedDateTime {
-        val date1JavaInstant: java.time.Instant = this.toJavaInstant()
-        return date1JavaInstant.atZone(Zone.city("New York"))
     }
 }
