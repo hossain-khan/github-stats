@@ -86,9 +86,9 @@ class PrAuthorStatsService constructor(
 
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
-        prStatsList.filter { it.reviewTime.isNotEmpty() }
+        prStatsList.filter { it.prApprovalTime.isNotEmpty() }
             .forEach { stats: PrStats ->
-                stats.reviewTime.forEach { (user, time) ->
+                stats.prApprovalTime.forEach { (user, time) ->
                     val reviewStats = ReviewStats(
                         pullRequest = stats.pullRequest,
                         reviewCompletion = time,

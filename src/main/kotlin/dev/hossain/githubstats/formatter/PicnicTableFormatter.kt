@@ -95,15 +95,15 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     row(formatUserDuration(it))
                 }
             }
-            if (prStats.reviewTime.isNotEmpty()) {
+            if (prStats.prApprovalTime.isNotEmpty()) {
                 row {
                     cell("PR Approval Review Time") {
-                        rowSpan = prStats.reviewTime.size
+                        rowSpan = prStats.prApprovalTime.size
                     }
-                    cell(formatUserDuration(prStats.reviewTime.entries.first()))
+                    cell(formatUserDuration(prStats.prApprovalTime.entries.first()))
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
-                prStats.reviewTime.entries.drop(1).forEach {
+                prStats.prApprovalTime.entries.drop(1).forEach {
                     row(formatUserDuration(it))
                 }
             }

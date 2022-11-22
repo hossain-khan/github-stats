@@ -85,7 +85,7 @@ class PullRequestStatsRepoImpl(
         return StatsResult.Success(
             PrStats(
                 pullRequest = pullRequest,
-                reviewTime = prReviewCompletionMap,
+                prApprovalTime = prReviewCompletionMap,
                 initialResponseTime = prInitialResponseTimeMap,
                 comments = commentsByUser,
                 prReadyOn = prAvailableForReviewOn,

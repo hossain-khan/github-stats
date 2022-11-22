@@ -101,7 +101,7 @@ internal class PullRequestStatsRepoTest {
         assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
         val result = statsResult as StatsResult.Success
-        val reviewTime = result.stats.reviewTime["naomi-lgbt"]
+        val reviewTime = result.stats.prApprovalTime["naomi-lgbt"]
         assertThat(reviewTime).isLessThan(Duration.parse("8h"))
     }
 
@@ -118,7 +118,7 @@ internal class PullRequestStatsRepoTest {
         assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
         val result = statsResult as StatsResult.Success
-        val reviewTime = result.stats.reviewTime
+        val reviewTime = result.stats.prApprovalTime
         assertThat(reviewTime).hasSize(2)
     }
 
@@ -134,7 +134,7 @@ internal class PullRequestStatsRepoTest {
         assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
         val result = statsResult as StatsResult.Success
-        assertThat(result.stats.reviewTime)
+        assertThat(result.stats.prApprovalTime)
             .doesNotContainKey("JakeWharton")
     }
 
@@ -174,8 +174,8 @@ internal class PullRequestStatsRepoTest {
 
         val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
         val result = statsResult as StatsResult.Success
-        assertThat(result.stats.reviewTime).hasSize(2)
-        assertThat(result.stats.reviewTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))
+        assertThat(result.stats.prApprovalTime).hasSize(2)
+        assertThat(result.stats.prApprovalTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))
     }
 
     @Test

@@ -75,12 +75,12 @@ class PrReviewerStatsService constructor(
         val reviewerPrStats: List<ReviewStats> = prStatsList
             .filter {
                 // Ensures that the PR was reviewed by the reviewer requested in the function
-                it.reviewTime.containsKey(prReviewerUserId)
+                it.prApprovalTime.containsKey(prReviewerUserId)
             }
             .map { stats ->
                 ReviewStats(
                     pullRequest = stats.pullRequest,
-                    reviewCompletion = stats.reviewTime[prReviewerUserId]!!,
+                    reviewCompletion = stats.prApprovalTime[prReviewerUserId]!!,
                     prComments = stats.comments[prReviewerUserId] ?: noComments(prReviewerUserId),
                     prReadyOn = stats.prReadyOn,
                     prMergedOn = stats.prMergedOn
@@ -95,7 +95,7 @@ class PrReviewerStatsService constructor(
         prStatsList
             .filter {
                 // Ensures that the PR was reviewed by the reviewer requested in the function
-                it.reviewTime.containsKey(prReviewerUserId)
+                it.prApprovalTime.containsKey(prReviewerUserId)
             }
             .forEach { prStats ->
                 val prAuthorUserId = prStats.pullRequest.user.login
