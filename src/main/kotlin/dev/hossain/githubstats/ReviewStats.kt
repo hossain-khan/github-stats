@@ -22,7 +22,7 @@ data class PrStats(
     /**
      * A map containing `reviewer-id -> PR review time` in working hours (excludes weekends and after hours)
      */
-    val reviewTime: Map<UserId, Duration>,
+    val prApprovalTime: Map<UserId, Duration>,
 
     /**
      * A map containing `reviewer-id -> PR initial response time` in working hours (excludes weekends and after hours)

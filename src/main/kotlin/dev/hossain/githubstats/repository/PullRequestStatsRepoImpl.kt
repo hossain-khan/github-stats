@@ -19,7 +19,7 @@ import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
-import dev.hossain.time.print
+import dev.hossain.time.format
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import org.jetbrains.annotations.TestOnly
@@ -85,7 +85,7 @@ class PullRequestStatsRepoImpl(
         return StatsResult.Success(
             PrStats(
                 pullRequest = pullRequest,
-                reviewTime = prReviewCompletionMap,
+                prApprovalTime = prReviewCompletionMap,
                 initialResponseTime = prInitialResponseTimeMap,
                 comments = commentsByUser,
                 prReadyOn = prAvailableForReviewOn,
@@ -200,8 +200,8 @@ class PullRequestStatsRepoImpl(
             )
             Log.i("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
             Log.v(
-                "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.print()} " +
-                    "and event on ${firstReviewedEvent.submitted_at.toInstant().print()}"
+                "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()} " +
+                    "and event on ${firstReviewedEvent.submitted_at.toInstant().format()}"
             )
 
             initialResponseTime[prReviewerUserId] = reviewTimeInWorkingHours
