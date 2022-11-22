@@ -93,7 +93,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "[" +
                 "'Reviewed For different PR Authors', " +
                 "'Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}', " +
-                "'Total Code Review Comments', " +
+                "'Total Source Code Review Comments', " +
                 "'Total PR Issue Comments', " +
                 "'Total PR Review Comments', " +
                 "'Total All Comments Made'" +
@@ -136,6 +136,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "" +
                 "[" +
                 "'PR#', " +
+                "'Initial Response Time (mins)'," +
                 "'Review Time (mins)'" +
                 "]"
         ).plus(
@@ -143,6 +144,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                 "" +
                     "[" +
                     "'PR# ${reviewStats.pullRequest.number}', " +
+                    "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}," +
                     "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
                     "]"
             }

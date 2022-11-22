@@ -78,9 +78,12 @@ class PrReviewerStatsService constructor(
                 it.prApprovalTime.containsKey(prReviewerUserId)
             }
             .map { stats ->
+                val prApprovalTime = stats.prApprovalTime[prReviewerUserId]!!
                 ReviewStats(
+                    reviewerUserId = prReviewerUserId,
                     pullRequest = stats.pullRequest,
-                    reviewCompletion = stats.prApprovalTime[prReviewerUserId]!!,
+                    reviewCompletion = prApprovalTime,
+                    initialResponseTime = stats.initialResponseTime[prReviewerUserId] ?: prApprovalTime,
                     prComments = stats.comments[prReviewerUserId] ?: noComments(prReviewerUserId),
                     prReadyOn = stats.prReadyOn,
                     prMergedOn = stats.prMergedOn

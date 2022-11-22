@@ -30,12 +30,12 @@ class PrAuthorStatsService constructor(
      *
      * For example, assume 'Bob' is a contributor on a specific repo called 'Awesome Json Library'.
      * This will be generated PR reviews for all the PRs 'Bob' has created and will be grouped by
-     * all the PR authors like 'Sally', 'Mike', 'Jim' and so on.
+     * all the PR reviewers like 'Sally', 'Mike', 'Jim' and so on.
      *
      * ```
-     * Sally -> 78 PRs reviewed; Average Review Time: 2 hours 8 min
-     * Mike -> 42 PRs reviewed; Average Review Time: 8 hours 32 min
-     * Jim -> 13 PRs reviewed; Average Review Time: 14 hours 21 min
+     * Sally -> 78 PRs reviewed for Bob; Average Review Time: 2 hours 8 min
+     * Mike -> 42 PRs reviewed for Bob; Average Review Time: 8 hours 32 min
+     * Jim -> 13 PRs reviewed for Bob; Average Review Time: 14 hours 21 min
      * ```
      */
     suspend fun authorStats(
@@ -73,7 +73,7 @@ class PrAuthorStatsService constructor(
                     )
                 } catch (e: Exception) {
                     val error = errorProcessor.getDetailedError(e)
-                    println("Error getting PR#${pr.number}. Got: ${error.message}")
+                    Log.w("Error getting PR#${pr.number}. Got: ${error.message}")
                     StatsResult.Failure(error)
                 }
             }
@@ -88,18 +88,20 @@ class PrAuthorStatsService constructor(
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
         prStatsList.filter { it.prApprovalTime.isNotEmpty() }
             .forEach { stats: PrStats ->
-                stats.prApprovalTime.forEach { (user, time) ->
+                stats.prApprovalTime.forEach { (userId, time) ->
                     val reviewStats = ReviewStats(
+                        reviewerUserId = userId,
                         pullRequest = stats.pullRequest,
                         reviewCompletion = time,
-                        prComments = stats.comments[user] ?: noComments(user),
+                        initialResponseTime = stats.initialResponseTime[userId] ?: time,
+                        prComments = stats.comments[userId] ?: noComments(userId),
                         prReadyOn = stats.prReadyOn,
                         prMergedOn = stats.prMergedOn
                     )
-                    if (userReviews.containsKey(user)) {
-                        userReviews[user] = userReviews[user]!!.plus(reviewStats)
+                    if (userReviews.containsKey(userId)) {
+                        userReviews[userId] = userReviews[userId]!!.plus(reviewStats)
                     } else {
-                        userReviews[user] = listOf(reviewStats)
+                        userReviews[userId] = listOf(reviewStats)
                     }
                 }
             }

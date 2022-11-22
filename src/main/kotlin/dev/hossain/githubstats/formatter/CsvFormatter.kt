@@ -4,9 +4,11 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import dev.hossain.ascii.Art
 import dev.hossain.githubstats.AuthorReviewStats
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.util.FileUtil
 import dev.hossain.githubstats.util.LocalProperties
+import dev.hossain.time.toWorkingHour
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.DurationUnit
@@ -50,6 +52,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                 "Reviewer",
                 "PR Number",
                 "Review time (mins)",
+                "Initial Response time (mins)",
                 "Code Review Comments",
                 "PR Issue Comments",
                 "PR Review Comments",
@@ -65,6 +68,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                         stat.reviewerId, /* "Reviewer" */
                         "PR ${reviewStats.pullRequest.number}", /* "PR Number" */
                         "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}", /* "Review time (mins)" */
+                        "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}", /* "Initial Response time (mins)" */
                         "${reviewStats.prComments.codeReviewComment}", /* "Code Review Comments" */
                         "${reviewStats.prComments.issueComment}", /* "PR Issue Comments" */
                         "${reviewStats.prComments.prReviewComment}", /* "PR Review Comments" */
@@ -126,7 +130,10 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                 listOf(
                     "PR#",
                     "Review Time",
+                    "Review Time (working days)",
                     "Review Time (mins)",
+                    "Initial Response Time (working days)",
+                    "Initial Response Time (mins)",
                     "Code Review Comments",
                     "PR Issue Comments",
                     "PR Review Comments",
@@ -138,11 +145,14 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     "PR URL"
                 )
             )
-            stats.reviewedPrStats.forEach { reviewStats ->
+            stats.reviewedPrStats.forEach { reviewStats: ReviewStats ->
                 writeRow(
                     reviewStats.pullRequest.number,
                     reviewStats.reviewCompletion,
+                    reviewStats.reviewCompletion.toWorkingHour(),
                     reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES),
+                    reviewStats.initialResponseTime.toWorkingHour(),
+                    reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES),
                     reviewStats.prComments.codeReviewComment,
                     reviewStats.prComments.issueComment,
                     reviewStats.prComments.prReviewComment,

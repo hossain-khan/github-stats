@@ -50,7 +50,11 @@ data class PrStats(
 /**
  * PR review stats for a specific author.
  */
-data class ReviewStats(
+data class ReviewStats constructor(
+    /**
+     * User who has reviewer the PR.
+     */
+    val reviewerUserId: UserId,
     /**
      * The PR information including PR number and URL.
      */
@@ -60,6 +64,12 @@ data class ReviewStats(
      * PR review completion time in working hours (excludes weekends and after hours)
      */
     val reviewCompletion: Duration,
+
+    /**
+     * The initial response time indicates the time it took for reviewer to first respond to PR
+     * by either commenting, reviewing or approving the PR.
+     */
+    val initialResponseTime: Duration,
 
     /**
      * Contains PR issue comment and review comment count by a specific user.
