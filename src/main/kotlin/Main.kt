@@ -10,13 +10,14 @@ import org.koin.core.context.GlobalContext.startKoin
  * Runs PR stats on specified repository for each GitHub users defined in the config.
  * See **`[LOCAL_PROPERTIES_SAMPLE_FILE]`** for more information on configuration available.
  * Also check out [BuildConfig] for available runtime config for debugging.
+ *
+ * See `CodeSnippets` file for [PrStatsApplication] usage and other snippets.
  */
 fun main() {
+    Log.i(Art.coffee())
     startKoin {
         modules(appModule) // Initializes dependency injection for the app
     }
-
-    Log.i(Art.coffee())
 
     runBlocking {
         val statsGeneratorApplication = StatsGeneratorApplication()
@@ -27,18 +28,4 @@ fun main() {
         // 💡 Generates stats for each user as PR reviewer - for all PRs reviewed by the user
         statsGeneratorApplication.generateReviewerStats()
     }
-
-    // ℹ️ Example code block to test single PR stats (uncomment to test by PR#)
-//    runBlocking {
-//        val prStatsApplication = PrStatsApplication()
-//        prStatsApplication.generatePrStats(prNumber = 1) // Check single PR stats
-//    }
-
-    // ℹ️ Example code block to test single GitHub API from GithubApiService.
-//    runBlocking {
-//        // Sample parameter to get PR review comments from https://github.com/square/okhttp/pull/7415
-//        val prReviewComments = dev.hossain.githubstats.io.Client.githubApiService
-//            .prReviewComments(owner = "square", repo = "okhttp", prNumber = 7415)
-//        println("The PR has ${prReviewComments.size} review comments")
-//    }
 }
