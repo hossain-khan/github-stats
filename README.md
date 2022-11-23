@@ -1,7 +1,8 @@
 # GitHub Stats 📈
-Playground for exploring Github API and collect some PR stats.
+Playground for exploring Github API and collect some PR review stats for different users/contributors.
 
-> 🚧 Work in progress.. (no ETA) 🚧
+> 🚧 Work in progress.. (no ETA) 🚧  
+> 👷‍♂️ Ready for experimental use!
 
 ### Background
 This project exist to explore github API to get some common answer about PR review time by different reviewers.
