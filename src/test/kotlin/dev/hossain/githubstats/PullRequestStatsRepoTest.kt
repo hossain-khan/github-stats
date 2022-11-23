@@ -91,7 +91,6 @@ internal class PullRequestStatsRepoTest {
         // User `naomi-lgbt` was added later in the PR.
         // This is also interesting PR because changes was requested (See issue #51)
 
-        // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
         mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47594.json")))
         mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47594.json")))
         mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
@@ -102,7 +101,7 @@ internal class PullRequestStatsRepoTest {
 
         val result = statsResult as StatsResult.Success
         val reviewTime = result.stats.prApprovalTime["naomi-lgbt"]
-        assertThat(reviewTime).isLessThan(Duration.parse("8h"))
+        assertThat(reviewTime).isLessThan(Duration.parse("13h"))
     }
 
     @Test
@@ -238,6 +237,28 @@ internal class PullRequestStatsRepoTest {
         assertThat(initialResponseTime["jeremylt"]).isEqualTo(Duration.parse("2h 49m"))
         assertThat(initialResponseTime["naomi-lgbt"]).isEqualTo(Duration.parse("8h"))
         assertThat(initialResponseTime["Sboonny"]).isEqualTo(Duration.parse("1d"))
+    }
+
+    @Test
+    fun `stats - given pr was reviewed earlier and then later approved by same reviewer - provides stats for initial response and review time accordingly`() = runTest {
+        // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
+        // The reviewer `RandellDawson` has requested change first and later approved
+        mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-48266.json")))
+        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-48266.json")))
+        mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
+
+        val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+
+        assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
+
+        val result = statsResult as StatsResult.Success
+        val initialResponseTime = result.stats.initialResponseTime
+        val prApprovalTime = result.stats.prApprovalTime
+        assertThat(initialResponseTime).hasSize(3)
+        assertThat(prApprovalTime).hasSize(3)
+
+        assertThat(initialResponseTime["RandellDawson"]).isEqualTo(Duration.parse("12h"))
+        assertThat(prApprovalTime["RandellDawson"]).isEqualTo(Duration.parse("1d 10h 23m"))
     }
 
     @Test
