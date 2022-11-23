@@ -88,6 +88,16 @@ internal fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean {
 }
 
 /**
+ * Checks if date-time is next day of the [other] provided [ZonedDateTime].
+ */
+internal fun ZonedDateTime.isNextDay(other: ZonedDateTime): Boolean {
+    val nextDayOfStartDateTime = this.plusDays(1)
+    return nextDayOfStartDateTime.year == other.year &&
+        nextDayOfStartDateTime.month == other.month &&
+        nextDayOfStartDateTime.dayOfMonth == other.dayOfMonth
+}
+
+/**
  * Checks if given date time is on working day.
  *
  * Example:

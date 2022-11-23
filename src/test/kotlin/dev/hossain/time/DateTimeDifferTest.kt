@@ -289,5 +289,15 @@ internal class DateTimeDifferTest {
         assertThat(diffWorkingHours).isEqualTo("1d".duration()) // This is same as 24 hours, which is 3 working days
     }
 
+    @Test
+    fun `diff - given start time is a day before weekend - provides diff of working hour only`() {
+        val startTime: Instant = "2022-10-28T12:22:06Z".toInstant() // Friday, October 28, 2022 at 8:22:06 AM EDT
+        val endTime: Instant = "2022-10-29T06:09:16Z".toInstant() // Saturday, October 29, 2022 at 2:09:16 AM EDT
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("8h".duration())
+    }
+
     private fun String.duration(): Duration = Duration.parse(this)
 }
