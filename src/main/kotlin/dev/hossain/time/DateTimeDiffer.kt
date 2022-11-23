@@ -76,6 +76,14 @@ object DateTimeDiffer {
                     if (startDateTime.isAfterWorkingHour()) startDateTime.nextWorkingHourOrSame() else startDateTime
                 var immediateNextWorkingDay = previousWorkingDay.nextNonWorkingHour()
 
+                /*println("startDateTime           = ${startDateTime.format()},\n" +
+                        "endDateTime             = ${endDateTime.format()},\n" +
+                        "previousWorkingDay      = ${previousWorkingDay.format()},\n" +
+                        "immediateNextWorkingDay = ${immediateNextWorkingDay.format()},\n" +
+                        "immediateNextWorkingDay.isBefore(endDateTime)=${immediateNextWorkingDay.isBefore(endDateTime)},\n" +
+                        "!immediateNextWorkingDay.isSameDay(endDateTime)=${!immediateNextWorkingDay.isSameDay(endDateTime)}")*/
+
+                // Loop through the dates while `immediateNextWorkingDay` is before end date and is not same day
                 while (immediateNextWorkingDay.isBefore(endDateTime) && !immediateNextWorkingDay.isSameDay(endDateTime)) {
                     if (previousWorkingDay.isSameDay(immediateNextWorkingDay) &&
                         previousWorkingDay.isOnWorkingDay().not()

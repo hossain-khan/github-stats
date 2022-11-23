@@ -46,7 +46,7 @@ object TemporalsExtension {
      * Provides adjuster that gives next end of day working hour or same if it's already non-working hour.
      */
     fun nextNonWorkingHourOrSame(): TemporalAdjuster {
-        return Adjuster.NEXT_NON_WORKING_HOUR
+        return Adjuster.NEXT_NON_WORKING_HOUR_OR_SAME
     }
 
     /**
@@ -119,11 +119,11 @@ object TemporalsExtension {
          * Adjuster that gives next end of day working hour or same if it's already non-working hour.
          * TODO - consider day too
          */
-        NEXT_NON_WORKING_HOUR {
+        NEXT_NON_WORKING_HOUR_OR_SAME {
             override fun adjustInto(temporal: Temporal): Temporal {
                 return when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
-                    in 9..17 -> {
-                        // When it's within 9:00AM to 5:00PM - shift to after 5:00pm
+                    in 0..17 -> {
+                        // When it's within 12:00AM to 5:00PM - shift to after 5:00pm
                         temporal.plus(17 - hour.toLong(), ChronoUnit.HOURS)
                     }
 
