@@ -55,6 +55,13 @@ object DateTimeDiffer {
                 return workingDuration(startDateTime, endDateTime)
             }
 
+            startDateTime.isNextDay(endDateTime) &&
+                startDateTime.isOnWorkingDay() &&
+                endDateTime.isOnWorkingDay().not() -> {
+                // Case where next day is weekend, just provide difference between working hours
+                return workingDuration(startDateTime, endDateTime.prevWorkingHour())
+            }
+
             startDateTime.isOnWorkingDay().not() &&
                 endDateTime.isOnWorkingDay().not() &&
                 (endInstant - startInstant < Duration.parse("2d")) -> {
@@ -69,6 +76,14 @@ object DateTimeDiffer {
                     if (startDateTime.isAfterWorkingHour()) startDateTime.nextWorkingHourOrSame() else startDateTime
                 var immediateNextWorkingDay = previousWorkingDay.nextNonWorkingHour()
 
+                /*println("startDateTime           = ${startDateTime.format()},\n" +
+                        "endDateTime             = ${endDateTime.format()},\n" +
+                        "previousWorkingDay      = ${previousWorkingDay.format()},\n" +
+                        "immediateNextWorkingDay = ${immediateNextWorkingDay.format()},\n" +
+                        "immediateNextWorkingDay.isBefore(endDateTime)=${immediateNextWorkingDay.isBefore(endDateTime)},\n" +
+                        "!immediateNextWorkingDay.isSameDay(endDateTime)=${!immediateNextWorkingDay.isSameDay(endDateTime)}")*/
+
+                // Loop through the dates while `immediateNextWorkingDay` is before end date and is not same day
                 while (immediateNextWorkingDay.isBefore(endDateTime) && !immediateNextWorkingDay.isSameDay(endDateTime)) {
                     if (previousWorkingDay.isSameDay(immediateNextWorkingDay) &&
                         previousWorkingDay.isOnWorkingDay().not()
@@ -96,12 +111,17 @@ object DateTimeDiffer {
     }
 
     /**
-     * Provides working day work hour duration between to working dates denoted by [startDateTime] and [endDateTime].
+     * Provides working day work hour duration between
+     * two working dates denoted by [startDateTime] and [endDateTime].
      */
-    internal fun workingDuration(
+    private fun workingDuration(
         startDateTime: ZonedDateTime,
         endDateTime: ZonedDateTime
     ): Duration {
+        if ((startDateTime.isOnWorkingDay() && endDateTime.isOnWorkingDay()).not()) {
+            throw IllegalArgumentException("This function can only handle working day diff")
+        }
+
         val startToEndDiff = startDateTime.diffWith(endDateTime)
         when {
             startDateTime.isWithinWorkingHour() && endDateTime.isWithinWorkingHour() -> {

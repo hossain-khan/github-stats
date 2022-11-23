@@ -289,5 +289,35 @@ internal class DateTimeDifferTest {
         assertThat(diffWorkingHours).isEqualTo("1d".duration()) // This is same as 24 hours, which is 3 working days
     }
 
+    @Test
+    fun `diff - given start time is a day before weekend - provides diff of working hour only`() {
+        val startTime: Instant = "2022-10-28T12:22:06Z".toInstant() // Friday, October 28, 2022 at 8:22:06 AM EDT
+        val endTime: Instant = "2022-10-29T06:09:16Z".toInstant() // Saturday, October 29, 2022 at 2:09:16 AM EDT
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("8h".duration())
+    }
+
+    @Test
+    fun `diff - start time and end time both on working day but before working hour - provides diff of working hour only`() {
+        val startTime: Instant = "2022-11-16T10:30:49Z".toInstant() // Wednesday, November 16, 2022 at 5:30:49 AM EST
+        val endTime: Instant = "2022-11-17T07:33:25Z".toInstant() // Thursday, November 17, 2022 at 2:33:25 AM EST
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("8h".duration())
+    }
+
+    @Test
+    fun `diff - start time and end time both on working day but one of them before working hour - provides diff of working hour only`() {
+        val startTime: Instant = "2022-11-16T10:30:49Z".toInstant() // Wednesday, November 16, 2022 at 5:30:49 AM EST
+        val endTime: Instant = "2022-11-17T15:33:25Z".toInstant() // Thursday, November 17, 2022 at 10:33:25 AM EST
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("9h 33m".duration())
+    }
+
     private fun String.duration(): Duration = Duration.parse(this)
 }

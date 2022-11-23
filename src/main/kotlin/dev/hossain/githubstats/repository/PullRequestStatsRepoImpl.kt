@@ -259,7 +259,8 @@ class PullRequestStatsRepoImpl(
 
     /**
      * Evaluates actual time when PR was available for use to review by considering
-     * if review was requested later from the specified [reviewer]
+     * if review was requested later from the specified [reviewer].
+     * Or, if user self reviewed PR without being added, then the original time will be used.
      */
     private fun evaluatePrReadyForReviewByUser(
         reviewer: User,
@@ -269,6 +270,17 @@ class PullRequestStatsRepoImpl(
         // Find out if user has been requested to review later
         val reviewRequestedEvent: ReviewRequestedEvent? = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
             .find { it.requested_reviewer == reviewer }
+
+        val reviewedByUserEvent: ReviewedEvent? = prTimelineEvents.filterTo(ReviewedEvent::class)
+            .find { it.user == reviewer }
+
+        if (reviewRequestedEvent != null && reviewedByUserEvent != null) {
+            // This is an edge case where user as reviewed PR and then was requested to review later
+            if (reviewRequestedEvent.created_at.toInstant() > reviewedByUserEvent.submitted_at.toInstant()) {
+                return prAvailableForReviewOn
+            }
+        }
+
         // Determines PR readiness time for reviewer if review was requested later for the user
         return reviewRequestedEvent?.created_at?.toInstant() ?: prAvailableForReviewOn
     }
