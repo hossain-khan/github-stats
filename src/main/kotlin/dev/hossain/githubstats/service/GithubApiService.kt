@@ -4,6 +4,7 @@ import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.PullRequestState
+import dev.hossain.githubstats.model.User
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -25,6 +26,12 @@ interface GithubApiService {
          * GitHub maximum resource item size for API requests.
          */
         const val DEFAULT_PAGE_SIZE = 100
+
+        /**
+         * Number of contributors to return. For now, it's top 10.
+         * @see topContributors
+         */
+        private const val MAX_CONTRIBUTORS_PER_PAGE = 10
     }
 
     /**
@@ -129,4 +136,17 @@ interface GithubApiService {
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
         @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
     ): IssueSearchResult
+
+    /**
+     * Lists contributors to the specified repository and sorts them
+     * by the number of commits per contributor in descending order.
+     *
+     * https://docs.github.com/en/rest/repos/repos#list-repository-contributors
+     */
+    @GET("/repos/{owner}/{repo}/contributors")
+    suspend fun topContributors(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Query("per_page") itemPerPage: Int = MAX_CONTRIBUTORS_PER_PAGE
+    ): List<User>
 }
