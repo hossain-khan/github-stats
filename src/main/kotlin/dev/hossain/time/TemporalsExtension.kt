@@ -84,6 +84,8 @@ object TemporalsExtension {
      *  - Current Date Time: Saturday 11 AM --> Saturday 12 AM (Reset to 12:00 am)
      *  - Current Date Time: Sunday 11 AM   --> Sunday 12 AM (Reset to 12:00 am)
      *  - Current Date Time: Monday 2 PM    --> Monday 12 AM (Reset to 12:00 am)
+     *  - Current Date Time: Tuesday 2:43:05 AM --> Tuesday 12:00:00 AM
+     *  - Current Date Time: Wednesday 10:37:39 AM --> Wednesday 12:00:00 AM
      */
     fun startOfDay(): TemporalAdjuster {
         return Adjuster.START_OF_DAY
@@ -105,13 +107,22 @@ object TemporalsExtension {
             }
         },
 
-        /** Beginning of the day. */
+        /**
+         * Temporal that sets date time to beginning of the day at 12am same day.
+         *
+         * Example:
+         * - Input:  Tuesday, February 22, 2022 at 2:43:05 AM Eastern Standard Time
+         * - Output: Tuesday, February 22, 2022 at 12:00:00 AM Eastern Standard Time
+         *
+         * - Input:  Wednesday, September 21, 2022 at 10:37:39 AM Eastern Daylight Time
+         * - Output: Wednesday, September 21, 2022 at 12:00:00 AM Eastern Daylight Time
+         */
         START_OF_DAY {
             override fun adjustInto(temporal: Temporal): Temporal {
-                val hour: Int = temporal[ChronoField.HOUR_OF_DAY]
-
-                // Does minimal subtraction to make it beginning of the day (ignores minutes, seconds, et al).
-                return temporal.minus(hour.toLong(), ChronoUnit.HOURS)
+                // Sets the day to at 12:00AM
+                return temporal.minus(temporal[ChronoField.HOUR_OF_DAY].toLong(), ChronoUnit.HOURS)
+                    .minus(temporal[ChronoField.MINUTE_OF_HOUR].toLong(), ChronoUnit.MINUTES)
+                    .minus(temporal[ChronoField.SECOND_OF_MINUTE].toLong(), ChronoUnit.SECONDS)
             }
         },
 

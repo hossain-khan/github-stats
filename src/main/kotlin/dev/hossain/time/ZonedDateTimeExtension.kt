@@ -15,6 +15,8 @@ import kotlin.time.toDuration
  *  - Current Date Time: Saturday 11 AM --> Saturday 12 AM (Reset to 12:00 am)
  *  - Current Date Time: Sunday 11 AM   --> Sunday 12 AM (Reset to 12:00 am)
  *  - Current Date Time: Monday 2 PM    --> Monday 12 AM (Reset to 12:00 am)
+ *  - Current Date Time: Tuesday 2:43:05 AM --> Tuesday 12:00:00 AM
+ *  - Current Date Time: Wednesday 10:37:39 AM --> Wednesday 12:00:00 AM
  */
 internal fun ZonedDateTime.startOfDay() = this.with(TemporalsExtension.startOfDay())
 
