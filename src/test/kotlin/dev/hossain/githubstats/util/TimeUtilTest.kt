@@ -1,6 +1,9 @@
 package dev.hossain.githubstats.util
 
+import com.google.common.truth.Truth.assertThat
 import dev.hossain.time.TemporalsExtension
+import dev.hossain.time.startOfDay
+import dev.hossain.time.toZdt
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -227,5 +230,22 @@ internal class TimeUtilTest {
         }
         workedMins += end[Calendar.MINUTE] - start[Calendar.MINUTE] + (end[Calendar.HOUR_OF_DAY] - start[Calendar.HOUR_OF_DAY]) * 60
         return workedMins
+    }
+
+    @Test
+    fun startOfDay() {
+        val date1 = "2022-02-22T07:43:05Z".toInstant().toZdt()
+        val date2 = "2022-09-21T14:37:39Z".toInstant().toZdt()
+
+        val startOfDay1 = date1.startOfDay()
+        val startOfDay2 = date2.startOfDay()
+
+        assertThat(startOfDay1.hour).isEqualTo(0)
+        assertThat(startOfDay1.minute).isEqualTo(0)
+        assertThat(startOfDay1.second).isEqualTo(0)
+
+        assertThat(startOfDay2.hour).isEqualTo(0)
+        assertThat(startOfDay2.minute).isEqualTo(0)
+        assertThat(startOfDay2.second).isEqualTo(0)
     }
 }
