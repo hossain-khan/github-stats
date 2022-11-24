@@ -191,16 +191,18 @@ class PullRequestStatsRepoImpl(
                 } ?: return@forEach
 
             val prReviewerUserId = reviewer.login
+            val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
 
             // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
             val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
-                startInstant = prAvailableForReviewOn,
+                startInstant = prReadyForReviewOn,
                 endInstant = firstReviewedEvent.submitted_at.toInstant(),
                 timeZoneId = userTimeZone.get(prReviewerUserId)
             )
             Log.d("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
             Log.v(
-                "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()} " +
+                "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()}," +
+                    "ready for reviewer on ${prReadyForReviewOn.format()} " +
                     "and event on ${firstReviewedEvent.submitted_at.toInstant().format()}"
             )
 
