@@ -107,7 +107,8 @@ class AuthorReviewStats(
 )
 
 /**
- * Reviewer stats for all the reviews done in specific [repoId].
+ * Reviewer stats for **all** the PR reviews done in specific [repoId].
+ * All PR review stats are available in [reviewedPrStats].
  *
  * @see PrReviewerStatsService
  */
@@ -117,6 +118,12 @@ data class ReviewerReviewStats(
     val average: Duration,
     val totalReviews: Int,
     val reviewedPrStats: List<ReviewStats>,
+    /**
+     * A hashmap for [Reviewed for UserID -> List of PR Reviewed and their Stats]
+     * For example:
+     * - john -> [PR#112 Stats, PR#931 Stats] (Meaning: The reviewer has reviewed 2 PRs created by `john`)
+     * - kirk -> [PR#341 Stats, PR#611 Stats, PR#839 Stats]  (Meaning: The reviewer has reviewed 3 PRs created by `kirk`)
+     */
     val reviewedForPrStats: Map<UserId, List<PrStats>>
 )
 
