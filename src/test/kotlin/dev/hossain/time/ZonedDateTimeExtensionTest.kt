@@ -2,6 +2,7 @@ package dev.hossain.time
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
+import kotlinx.datetime.toInstant
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
 
@@ -14,6 +15,23 @@ internal class ZonedDateTimeExtensionTest {
 
         assertThat(startOfDay)
             .isEqualTo(Instant.parse("2022-09-05T00:00:00-04:00").toZdt())
+    }
+
+    @Test
+    fun `startOfDay - given date time has minutes and seconds - resets them to zero`() {
+        val date1 = "2022-02-22T07:43:05Z".toInstant().toZdt()
+        val date2 = "2022-09-21T14:37:39Z".toInstant().toZdt()
+
+        val startOfDay1 = date1.startOfDay()
+        val startOfDay2 = date2.startOfDay()
+
+        assertThat(startOfDay1.hour).isEqualTo(0)
+        assertThat(startOfDay1.minute).isEqualTo(0)
+        assertThat(startOfDay1.second).isEqualTo(0)
+
+        assertThat(startOfDay2.hour).isEqualTo(0)
+        assertThat(startOfDay2.minute).isEqualTo(0)
+        assertThat(startOfDay2.second).isEqualTo(0)
     }
 
     @Test

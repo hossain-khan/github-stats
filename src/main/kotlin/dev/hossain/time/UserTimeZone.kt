@@ -43,7 +43,10 @@ class UserTimeZone {
             Log.v("Found configured $userZoneId time zone for '$userId'.")
             userZoneId
         } else {
-            Log.v("Using default $defaultZoneId timezone for '$userId'. Use ${UserTimeZone::class.java.simpleName} to configure time zone for '$userId'.")
+            Log.v(
+                "Using default $defaultZoneId timezone for '$userId'. " +
+                    "Use ${UserTimeZone::class.java.simpleName} to configure time zone for '$userId'."
+            )
             defaultZoneId
         }
     }
