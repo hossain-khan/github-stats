@@ -1,5 +1,6 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import kotlinx.datetime.Instant
@@ -113,10 +114,25 @@ class AuthorReviewStats(
  * @see PrReviewerStatsService
  */
 data class ReviewerReviewStats(
+    /**
+     * The GitHub repository ID.
+     */
     val repoId: String,
+    /**
+     * The reviewer's user id for whom all the stats are generated. Eg. [reviewedPrStats] and [reviewedForPrStats].
+     */
     val reviewerId: UserId,
+    /**
+     * Average PR review duration.
+     */
     val average: Duration,
+    /**
+     * Total PR reviews done by the [reviewerId] user withing date range defined in [LOCAL_PROPERTIES_FILE].
+     */
     val totalReviews: Int,
+    /**
+     * Contains [ReviewStats] for all the PRs reviewed by [reviewerId].
+     */
     val reviewedPrStats: List<ReviewStats>,
     /**
      * A hashmap for [Reviewed for UserID -> List of PR Reviewed and their Stats]
