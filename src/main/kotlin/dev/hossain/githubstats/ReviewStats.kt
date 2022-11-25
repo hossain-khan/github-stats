@@ -108,6 +108,21 @@ class AuthorReviewStats(
 )
 
 /**
+ * Extension function that calculates average time to merge **all** PRs by specific PR author.
+ * @see AuthorReviewStats
+ */
+fun List<AuthorReviewStats>.avgMergeTime(): Duration {
+    val allPrReviewStatsForAuthor: List<ReviewStats> = this.map { it.stats }.flatten()
+    return allPrReviewStatsForAuthor
+        .map {
+            val prOpenToMergeTime = it.prMergedOn - it.prReadyOn
+            prOpenToMergeTime
+        }
+        .fold(Duration.ZERO, Duration::plus)
+        .div(allPrReviewStatsForAuthor.size)
+}
+
+/**
  * Reviewer stats for **all** the PR reviews done in specific [repoId].
  * All PR review stats are available in [reviewedPrStats].
  *
