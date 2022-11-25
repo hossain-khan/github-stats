@@ -10,6 +10,7 @@ import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
+import dev.hossain.githubstats.avgMergeTime
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.time.toWorkingHour
 import kotlinx.datetime.toJavaInstant
@@ -187,6 +188,9 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 } + if (reviewStats.prComments.prReviewComment > 0) "\nalso has reviewed PR ${reviewStats.prComments.prReviewComment} ${reviewStats.prComments.prReviewComment.times()}." else ""
         }
 
+        val repoId = stats.first().repoId
+        val prAuthorId = stats.first().prAuthorId
+
         return table {
             cellStyle {
                 border = true
@@ -205,8 +209,6 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 }
                 row {
                     // Export global info for the stats
-                    val prAuthorId = stats.first().prAuthorId
-                    val repoId = stats.first().repoId
                     val headingText = "PR reviewer's stats for PRs created by '$prAuthorId' on '$repoId' repository " +
                         "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
                     val headingSeparator = "-".repeat(headingText.length)
@@ -239,6 +241,14 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     row(formatPrReviewTimeAndComments(it))
                 }
                 row("Average Time", "${stat.average}")
+            }
+
+            row {
+                cellStyle {
+                    paddingTop = 2
+                }
+                cell("● Average PR Merge Time for all PRs created by '$prAuthorId'")
+                cell("${stats.avgMergeTime()}")
             }
         }.toString()
     }
