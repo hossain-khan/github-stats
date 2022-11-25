@@ -22,7 +22,7 @@ fun main() {
         // Sample parameter to get top contributors from https://github.com/square/okhttp
         val contributors = Client.githubApiService.topContributors(owner = "square", repo = "okhttp")
 
-        println("Here top contributors: ${contributors.map { it.login }}")
+        println("Here are top contributors: ${contributors.map { it.login }}")
     }
 
     // =========================================================================
