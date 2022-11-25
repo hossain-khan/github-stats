@@ -48,7 +48,8 @@ data class PrStats(
 )
 
 /**
- * PR review stats for a specific author.
+ * PR review stats for a specific reviewer ([reviewerUserId]).
+ * This reviewer has reviewed the [pullRequest].
  */
 data class ReviewStats constructor(
     /**
@@ -92,6 +93,8 @@ data class ReviewStats constructor(
  * In other words, stats for reviewer [reviewerId], who has reviewed PRs for the [prAuthorId] user.
  *
  * The [stats] items contains PR review stats.
+ *
+ * @see PrAuthorStatsService
  */
 class AuthorReviewStats(
     val repoId: String,
@@ -105,6 +108,8 @@ class AuthorReviewStats(
 
 /**
  * Reviewer stats for all the reviews done in specific [repoId].
+ *
+ * @see PrReviewerStatsService
  */
 data class ReviewerReviewStats(
     val repoId: String,
