@@ -64,7 +64,10 @@ class PrAuthorStatsService constructor(
         val prStatsList: List<PrStats> = closedPrs
             .mapIndexed { index, pr ->
                 progress.publish(index)
-                delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
+
+                // ⏰ Slight delay to avoid GitHub API rate-limit
+                delay(BuildConfig.API_REQUEST_DELAY_MS)
+
                 try {
                     pullRequestStatsRepo.stats(
                         repoOwner = repoOwner,

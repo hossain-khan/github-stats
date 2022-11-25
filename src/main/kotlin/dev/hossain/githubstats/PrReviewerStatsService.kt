@@ -47,10 +47,12 @@ class PrReviewerStatsService constructor(
         val progress = PrAnalysisProgress(reviewedClosedPrs).also { it.start() }
 
         // For each of the PRs reviewed by the reviewer, get the stats
-        val prStatsList: List<PrStats> = reviewedClosedPrs
+        val prStatsListReviewedByReviewer: List<PrStats> = reviewedClosedPrs
             .mapIndexed { index, pr ->
                 progress.publish(index)
-                delay(BuildConfig.API_REQUEST_DELAY_MS) // Slight delay to avoid per-second limit
+
+                // ⏰ Slight delay to avoid GitHub API rate-limit
+                delay(BuildConfig.API_REQUEST_DELAY_MS)
 
                 try {
                     pullRequestStatsRepo.stats(
@@ -72,9 +74,9 @@ class PrReviewerStatsService constructor(
         progress.end()
 
         // Builds `ReviewStats` list for PRs that are reviewed by specified reviewer user-id
-        val reviewerPrStats: List<ReviewStats> = prStatsList
+        val reviewerPrReviewStatsList: List<ReviewStats> = prStatsListReviewedByReviewer
             .filter {
-                // Ensures that the PR was reviewed by the reviewer requested in the function
+                // Ensures that the PR was approved by the reviewer requested in the function
                 it.prApprovalTime.containsKey(prReviewerUserId)
             }
             .map { stats ->
@@ -95,7 +97,7 @@ class PrReviewerStatsService constructor(
         //  * john -> [PR#112 Stats, PR#931 Stats] (Meaning: The reviewer has reviewed 2 PRs created by `john`)
         //  * kirk -> [PR#341 Stats, PR#611 Stats, PR#839 Stats]  (Meaning: The reviewer has reviewed 3 PRs created by `kirk`)
         val reviewerReviewedFor = mutableMapOf<UserId, List<PrStats>>()
-        prStatsList
+        prStatsListReviewedByReviewer
             .filter {
                 // Ensures that the PR was reviewed by the reviewer requested in the function
                 it.prApprovalTime.containsKey(prReviewerUserId)
@@ -109,21 +111,21 @@ class PrReviewerStatsService constructor(
                 }
             }
 
-        Log.i("✅ Completed loading ${prStatsList.size} PRs reviewed by '$prReviewerUserId'.")
+        Log.i("✅ Completed loading ${prStatsListReviewedByReviewer.size} PRs reviewed by '$prReviewerUserId'.")
 
         // Finally build the data object that combines all related stats
         return ReviewerReviewStats(
             repoId = repoId,
             reviewerId = prReviewerUserId,
-            average = if (reviewerPrStats.isEmpty()) {
+            average = if (reviewerPrReviewStatsList.isEmpty()) {
                 Duration.ZERO
             } else {
-                reviewerPrStats.map { it.reviewCompletion }
+                reviewerPrReviewStatsList.map { it.reviewCompletion }
                     .fold(Duration.ZERO, Duration::plus)
-                    .div(reviewerPrStats.size)
+                    .div(reviewerPrReviewStatsList.size)
             },
-            totalReviews = reviewerPrStats.size,
-            reviewedPrStats = reviewerPrStats,
+            totalReviews = reviewerPrReviewStatsList.size,
+            reviewedPrStats = reviewerPrReviewStatsList,
             reviewedForPrStats = reviewerReviewedFor
         )
     }

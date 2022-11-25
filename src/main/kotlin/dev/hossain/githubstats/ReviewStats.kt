@@ -1,5 +1,6 @@
 package dev.hossain.githubstats
 
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import kotlinx.datetime.Instant
@@ -48,7 +49,8 @@ data class PrStats(
 )
 
 /**
- * PR review stats for a specific author.
+ * PR review stats for a specific reviewer ([reviewerUserId]).
+ * This reviewer has reviewed the [pullRequest].
  */
 data class ReviewStats constructor(
     /**
@@ -92,6 +94,8 @@ data class ReviewStats constructor(
  * In other words, stats for reviewer [reviewerId], who has reviewed PRs for the [prAuthorId] user.
  *
  * The [stats] items contains PR review stats.
+ *
+ * @see PrAuthorStatsService
  */
 class AuthorReviewStats(
     val repoId: String,
@@ -104,14 +108,38 @@ class AuthorReviewStats(
 )
 
 /**
- * Reviewer stats for all the reviews done in specific [repoId].
+ * Reviewer stats for **all** the PR reviews done in specific [repoId].
+ * All PR review stats are available in [reviewedPrStats].
+ *
+ * @see PrReviewerStatsService
  */
 data class ReviewerReviewStats(
+    /**
+     * The GitHub repository ID.
+     */
     val repoId: String,
+    /**
+     * The reviewer's user id for whom all the stats are generated. Eg. [reviewedPrStats] and [reviewedForPrStats].
+     */
     val reviewerId: UserId,
+    /**
+     * Average PR review duration.
+     */
     val average: Duration,
+    /**
+     * Total PR reviews done by the [reviewerId] user withing date range defined in [LOCAL_PROPERTIES_FILE].
+     */
     val totalReviews: Int,
+    /**
+     * Contains [ReviewStats] for all the PRs reviewed by [reviewerId].
+     */
     val reviewedPrStats: List<ReviewStats>,
+    /**
+     * A hashmap for [Reviewed for UserID -> List of PR Reviewed and their Stats]
+     * For example:
+     * - john -> [PR#112 Stats, PR#931 Stats] (Meaning: The reviewer has reviewed 2 PRs created by `john`)
+     * - kirk -> [PR#341 Stats, PR#611 Stats, PR#839 Stats]  (Meaning: The reviewer has reviewed 3 PRs created by `kirk`)
+     */
     val reviewedForPrStats: Map<UserId, List<PrStats>>
 )
 
