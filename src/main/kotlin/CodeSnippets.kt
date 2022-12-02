@@ -42,4 +42,7 @@ fun main() {
 //            .prSourceCodeReviewComments(owner = "square", repo = "okhttp", prNumber = 7415)
 //        println("The PR has ${prReviewComments.size} review comments")
 //    }
+
+    // Show disclaimer about the review time being inaccurate
+    Log.i(Art.warnAboutReviewTime())
 }

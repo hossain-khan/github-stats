@@ -28,4 +28,7 @@ fun main() {
         // 💡 Generates stats for each user as PR reviewer - for all PRs reviewed by the user
         statsGeneratorApplication.generateReviewerStats()
     }
+
+    // Show disclaimer about the review time being inaccurate
+    Log.i(Art.warnAboutReviewTime())
 }
