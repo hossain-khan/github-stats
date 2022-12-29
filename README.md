@@ -1,7 +1,7 @@
 # GitHub Stats 📈
 Playground for exploring Github API and collect some PR review stats for different users/contributors.
 
-> 🚧 Work in progress.. (no ETA) 🚧  
+> 🚧 Initial work done (see limitations) 🚧  
 > 👷‍♂️ Ready for experimental use!
 
 ### Background
