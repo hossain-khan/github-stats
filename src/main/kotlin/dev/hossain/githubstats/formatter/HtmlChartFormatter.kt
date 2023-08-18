@@ -78,7 +78,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
 
         // Prepares data for bar chart with author PR's aggregate data generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
-        val barStatsJsDataAggregate: String = listOf("['Author', 'Total PRs Created', 'Total Source Code Review Comments', 'Total PR Issue Comments', 'Total PR Review+Re-review Submissions']")
+        val barStatsJsDataAggregate: String = listOf("['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']")
             .plus(
 
                 "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]"
