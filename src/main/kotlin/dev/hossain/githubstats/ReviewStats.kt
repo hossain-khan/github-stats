@@ -167,20 +167,21 @@ data class ReviewerReviewStats(
 data class UserPrComment(
     val user: UserId,
     /**
-     * PR issue comments count that are directly commented on the PR.
+     * PR issue comments count that are directly commented on the PR. Not related to any code or diff.
+     * For example, on an open PR page, going at the end of the page to add comment.
      */
     val issueComment: Int,
 
     /**
-     * Total PR review comments count.
      * Pull request review comments are comments on a portion of the unified diff made during a pull request review.
      */
     val codeReviewComment: Int,
 
     /**
-     * Total PR review comment that either is [ReviewState.COMMENTED] or [ReviewState.CHANGE_REQUESTED].
+     * Total PR review comment that either is [ReviewState.COMMENTED] or [ReviewState.CHANGE_REQUESTED] which
+     * is used when reviewer submits a review after reviewing the PR.
      */
-    val prReviewComment: Int
+    val prReviewSubmissionComment: Int
 ) {
     companion object {
         /**
@@ -190,19 +191,19 @@ data class UserPrComment(
             user = userId,
             issueComment = 0,
             codeReviewComment = 0,
-            prReviewComment = 0
+            prReviewSubmissionComment = 0
         )
     }
 
-    val allComments: Int = issueComment + codeReviewComment + prReviewComment
+    val allComments: Int = issueComment + codeReviewComment + prReviewSubmissionComment
 
     /**
      * Checks if stats is empty, then it's likely not worth showing.
      */
-    fun isEmpty(): Boolean = issueComment == 0 && codeReviewComment == 0 && prReviewComment == 0
+    fun isEmpty(): Boolean = issueComment == 0 && codeReviewComment == 0 && prReviewSubmissionComment == 0
 
     override fun toString(): String {
         return "$user made $issueComment PR comment and $codeReviewComment review comment " +
-            "and has reviewed PR $prReviewComment times. Total: $allComments comments."
+            "and has reviewed PR $prReviewSubmissionComment times. Total: $allComments comments."
     }
 }

@@ -68,7 +68,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
             "${userPrComment.user} made total ${userPrComment.allComments} ${userPrComment.allComments.comments()}.\n" +
                 "Code Review Comments = ${userPrComment.codeReviewComment}, " +
                 "Issue Comments = ${userPrComment.issueComment}" +
-                if (userPrComment.prReviewComment > 0) "\nHas reviewed PR ${userPrComment.prReviewComment} ${userPrComment.prReviewComment.times()}." else ""
+                if (userPrComment.prReviewSubmissionComment > 0) "\nHas reviewed PR ${userPrComment.prReviewSubmissionComment} ${userPrComment.prReviewSubmissionComment.times()}." else ""
 
         fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String {
             return "$userDuration | ${userDuration.value.toWorkingHour()}"
@@ -185,7 +185,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                         "and ${reviewStats.prComments.issueComment} issue ${reviewStats.prComments.issueComment.comments()}."
                 } else {
                     "" // When no comment metrics is available, don't show it.
-                } + if (reviewStats.prComments.prReviewComment > 0) "\nalso has reviewed PR ${reviewStats.prComments.prReviewComment} ${reviewStats.prComments.prReviewComment.times()}." else ""
+                } + if (reviewStats.prComments.prReviewSubmissionComment > 0) "\nalso has reviewed PR ${reviewStats.prComments.prReviewSubmissionComment} ${reviewStats.prComments.prReviewSubmissionComment.times()}." else ""
         }
 
         val repoId = stats.first().repoId

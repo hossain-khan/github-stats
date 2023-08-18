@@ -115,7 +115,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                         "${prReviewStats.size}, " +
                         "${userComments.sumOf { it.codeReviewComment }}," +
                         "${userComments.sumOf { it.issueComment }}," +
-                        "${userComments.sumOf { it.prReviewComment }}," +
+                        "${userComments.sumOf { it.prReviewSubmissionComment }}," +
                         "${userComments.sumOf { it.allComments }}" +
                         "]"
                 }
