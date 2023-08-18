@@ -32,16 +32,36 @@ import org.koin.dsl.module
 val appModule = module {
     // Network and local services for stat generation
     single { Client.githubApiService }
-    single<PullRequestStatsRepo> { PullRequestStatsRepoImpl(get(), get(), get()) }
-    factory { IssueSearchPagerService(get(), get()) }
-    factory { TimelineEventsPagerService(get(), get()) }
-    factory { PrReviewerStatsService(get(), get(), get(), get()) }
-    factory { PrAuthorStatsService(get(), get(), get(), get()) }
+    single<PullRequestStatsRepo> {
+        PullRequestStatsRepoImpl(
+            githubApiService = get(),
+            timelinesPager = get(),
+            userTimeZone = get()
+        )
+    }
+    factory { IssueSearchPagerService(githubApiService = get(), errorProcessor = get()) }
+    factory { TimelineEventsPagerService(githubApiService = get(), errorProcessor = get()) }
+    factory {
+        PrReviewerStatsService(
+            pullRequestStatsRepo = get(),
+            issueSearchPager = get(),
+            appConfig = get(),
+            errorProcessor = get()
+        )
+    }
+    factory {
+        PrAuthorStatsService(
+            pullRequestStatsRepo = get(),
+            issueSearchPager = get(),
+            appConfig = get(),
+            errorProcessor = get()
+        )
+    }
     single { ErrorProcessor() }
     single { UserTimeZone() }
 
     // Config to load local properties
-    factory { AppConfig(get()) }
+    factory { AppConfig(localProperties = get()) }
     factory { LocalProperties() }
     single<PropertiesReader> { LocalProperties() }
 
