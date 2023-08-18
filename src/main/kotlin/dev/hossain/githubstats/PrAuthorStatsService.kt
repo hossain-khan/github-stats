@@ -26,7 +26,7 @@ class PrAuthorStatsService constructor(
 ) {
 
     /**
-     * Generates stats for reviews given by different PR reviewers for specified PR [prAuthorUsedId].
+     * Generates stats for reviews given by different PR reviewers for specified PR [prAuthorUserId].
      *
      * For example, assume 'Bob' is a contributor on a specific repo called 'Awesome Json Library'.
      * This will be generated PR reviews for all the PRs 'Bob' has created and will be grouped by
@@ -39,7 +39,7 @@ class PrAuthorStatsService constructor(
      * ```
      */
     suspend fun authorStats(
-        prAuthorUsedId: String
+        prAuthorUserId: String
     ): List<AuthorReviewStats> {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
@@ -48,7 +48,7 @@ class PrAuthorStatsService constructor(
             searchQuery = SearchParams(
                 repoOwner = repoOwner,
                 repoId = repoId,
-                author = prAuthorUsedId,
+                author = prAuthorUserId,
                 dateAfter = dateLimitAfter,
                 dateBefore = dateLimitBefore
             ).toQuery()
@@ -87,8 +87,14 @@ class PrAuthorStatsService constructor(
 
         progress.end()
 
-        val authorPrStats = aggregatePrAuthorsPrStats(prAuthorUsedId, allMergedPrsByAuthor, mergedPrsStatsList)
-        val authorReviewStats: List<AuthorReviewStats> = aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUsedId)
+        val authorPrStats = aggregatePrAuthorsPrStats(prAuthorUserId, allMergedPrsByAuthor, mergedPrsStatsList)
+        Log.i(
+            "ℹ️ The author '$prAuthorUserId' has created ${authorPrStats.totalPrsCreated} PRs that successfully got merged." +
+                "\nTotal Comments Received - Code Review: ${authorPrStats.totalCodeReviewComments}, PR Comment: ${authorPrStats.totalIssueComments}, Review+Re-review: ${authorPrStats.totalPrSubmissionComments}"
+        )
+
+        val authorReviewStats: List<AuthorReviewStats> = aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUserId)
+        Log.i("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
 
         return authorReviewStats
     }
@@ -139,7 +145,6 @@ class PrAuthorStatsService constructor(
             )
         }.sortedByDescending { it.totalReviews }
 
-        Log.i("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
         return authorReviewStats
     }
 
@@ -159,11 +164,6 @@ class PrAuthorStatsService constructor(
         val totalCodeReviewComments = mergedPrsStatsList.sumOf {
             it.comments.entries.filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }.sumOf { commentEntry -> commentEntry.value.codeReviewComment }
         }
-
-        Log.i(
-            "ℹ️ The author '$prAuthorUserId' has created $totalPrsCreated PRs that successfully got merged." +
-                "\nTotal Comments Received - Code Review: $totalCodeReviewComments, PR Comment: $totalIssueComments, Review+Re-review: $totalPrSubmissionComments"
-        )
 
         return AuthorPrStats(
             authorUserId = prAuthorUserId,
