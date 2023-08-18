@@ -4,7 +4,7 @@ import com.jakewharton.picnic.TextAlignment.TopCenter
 import com.jakewharton.picnic.TextAlignment.TopLeft
 import com.jakewharton.picnic.table
 import dev.hossain.ascii.Art
-import dev.hossain.githubstats.AuthorReviewStats
+import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
@@ -170,8 +170,8 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      * └───────────────────────────────────────────────┴────────────────────────────────────────────────────────────┘
      * ```
      */
-    override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
-        if (stats.isEmpty()) {
+    override fun formatAuthorStats(stats: AuthorStats): String {
+        if (stats.reviewStats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
         }
 
@@ -188,8 +188,8 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 } + if (reviewStats.prComments.prReviewSubmissionComment > 0) "\nalso has reviewed PR ${reviewStats.prComments.prReviewSubmissionComment} ${reviewStats.prComments.prReviewSubmissionComment.times()}." else ""
         }
 
-        val repoId = stats.first().repoId
-        val prAuthorId = stats.first().prAuthorId
+        val repoId = stats.reviewStats.first().repoId
+        val prAuthorId = stats.reviewStats.first().prAuthorId
 
         return table {
             cellStyle {
@@ -218,7 +218,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 }
             }
 
-            stats.forEach { stat ->
+            stats.reviewStats.forEach { stat ->
                 // Author header item for all the author specific stats
                 row {
                     cellStyle {
@@ -248,7 +248,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     paddingTop = 2
                 }
                 cell("● Average PR Merge Time for all PRs created by '$prAuthorId'")
-                cell("${stats.avgMergeTime()}")
+                cell("${stats.reviewStats.avgMergeTime()}")
             }
         }.toString()
     }

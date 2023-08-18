@@ -1,7 +1,7 @@
 package dev.hossain.githubstats.formatter
 
 import dev.hossain.ascii.Art
-import dev.hossain.githubstats.AuthorReviewStats
+import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.formatter.html.Template
@@ -34,16 +34,16 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
     /**
      * Formats PR review stats for list of users that reviewed specific user's PRs.
      */
-    override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
-        if (stats.isEmpty()) {
+    override fun formatAuthorStats(stats: AuthorStats): String {
+        if (stats.reviewStats.isEmpty()) {
             return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.shrug}"
         }
 
-        val prAuthorId = stats.first().prAuthorId
+        val prAuthorId = stats.reviewStats.first().prAuthorId
 
         // Prepares data for pie chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/piechart
-        val statsJsData = stats.map {
+        val statsJsData = stats.reviewStats.map {
             "['${it.reviewerId} [${it.stats.size}]', ${it.stats.size}]"
         }.joinToString()
 
@@ -62,7 +62,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
         val barStatsJsData: String = listOf("['Reviewer', 'Total Reviewed', 'Total Commented']")
             .plus(
-                stats.map {
+                stats.reviewStats.map {
                     "['${it.reviewerId}', ${it.totalReviews}, ${it.totalComments}]"
                 }
             ).joinToString()
@@ -70,7 +70,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val formattedBarChart = Template.barChart(
             title = chartTitle,
             chartData = barStatsJsData,
-            dataSize = stats.size * 2 // Multiplied by data columns
+            dataSize = stats.reviewStats.size * 2 // Multiplied by data columns
         )
         val barChartFileName = FileUtil.authorBarChartFile(prAuthorId)
         val barChartFile = File(barChartFileName)

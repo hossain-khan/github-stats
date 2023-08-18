@@ -40,7 +40,7 @@ class PrAuthorStatsService constructor(
      */
     suspend fun authorStats(
         prAuthorUserId: String
-    ): List<AuthorReviewStats> {
+    ): AuthorStats {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
         // First get all the recent PRs made by author
@@ -96,7 +96,7 @@ class PrAuthorStatsService constructor(
         val authorReviewStats: List<AuthorReviewStats> = aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUserId)
         Log.i("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
 
-        return authorReviewStats
+        return AuthorStats(prStats = authorPrStats, reviewStats = authorReviewStats)
     }
 
     private fun aggregatePrAuthorReviewStats(
