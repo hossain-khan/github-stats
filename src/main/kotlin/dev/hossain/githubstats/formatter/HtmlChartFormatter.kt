@@ -76,8 +76,28 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val barChartFile = File(barChartFileName)
         barChartFile.writeText(formattedBarChart)
 
+        // Prepares data for bar chart with author PR's aggregate data generation
+        // https://developers.google.com/chart/interactive/docs/gallery/barchart
+        val barStatsJsDataAggregate: String = listOf("['Author', 'Total PRs Created', 'Total Source Code Review Comments', 'Total PR Issue Comments', 'Total PR Review+Re-review Submissions']")
+            .plus(
+
+                "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]"
+
+            ).joinToString()
+
+        val formattedBarChartAggregate = Template.barChart(
+            title = "PR authors`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
+                "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
+            chartData = barStatsJsDataAggregate,
+            dataSize = 5 // Multiplied by data columns
+        )
+        val barChartFileNameAggregate = FileUtil.authorBarChartAggregateFile(prAuthorId)
+        val barChartFileAggregate = File(barChartFileNameAggregate)
+        barChartFileAggregate.writeText(formattedBarChartAggregate)
+
         return "📊 Written following charts for user: $prAuthorId. (Copy & paste file path URL in browser to preview)" +
             "\n - file://${pieChartFile.absolutePath}" +
+            "\n - file://${barChartFileAggregate.absolutePath}" +
             "\n - file://${barChartFile.absolutePath}"
     }
 

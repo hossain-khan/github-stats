@@ -55,6 +55,15 @@ object FileUtil : KoinComponent {
      * HTML Chart file for author stats.
      * @see authorReportFile
      */
+    internal fun authorBarChartAggregateFile(prAuthorId: UserId): String {
+        val dir: File = createReportDir(prAuthorId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-pr-stats-aggregate.html"
+    }
+
+    /**
+     * HTML Chart file for author stats.
+     * @see authorReportFile
+     */
     internal fun authorBarChartFile(prAuthorId: UserId): String {
         val dir: File = createReportDir(prAuthorId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-bar-chart.html"
