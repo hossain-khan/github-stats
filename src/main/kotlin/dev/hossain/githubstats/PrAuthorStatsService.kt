@@ -44,7 +44,7 @@ class PrAuthorStatsService constructor(
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
         // First get all the recent PRs made by author
-        val closedPrs: List<Issue> = issueSearchPager.searchIssues(
+        val allMergedPrsByAuthor: List<Issue> = issueSearchPager.searchIssues(
             searchQuery = SearchParams(
                 repoOwner = repoOwner,
                 repoId = repoId,
@@ -58,10 +58,10 @@ class PrAuthorStatsService constructor(
         }
 
         // Provides periodic progress updates based on config
-        val progress = PrAnalysisProgress(closedPrs).also { it.start() }
+        val progress = PrAnalysisProgress(allMergedPrsByAuthor).also { it.start() }
 
         // For each PR by author, get the review stats on the PR
-        val prStatsList: List<PrStats> = closedPrs
+        val mergedPrsStatsList: List<PrStats> = allMergedPrsByAuthor
             .mapIndexed { index, pr ->
                 progress.publish(index)
 
@@ -87,9 +87,25 @@ class PrAuthorStatsService constructor(
 
         progress.end()
 
+        // Builds author's stats for all PRs made by the author
+        val totalPrsCreated = allMergedPrsByAuthor.size
+        val totalIssueComments = mergedPrsStatsList.sumOf {
+            it.comments.entries.filter { it.key != prAuthorUsedId }.sumOf { it.value.issueComment }
+        }
+        val totalPrSubmissionComments = mergedPrsStatsList.sumOf {
+            it.comments.entries.filter { it.key != prAuthorUsedId }.sumOf { it.value.prReviewSubmissionComment }
+        }
+        val totalCodeReviewComments = mergedPrsStatsList.sumOf {
+            it.comments.entries.filter { it.key != prAuthorUsedId }.sumOf { it.value.codeReviewComment }
+        }
+
+        Log.i("ℹ️ The author '$prAuthorUsedId' has created $totalPrsCreated PRs that successfully got merged." +
+                "\nTotal Comments Received - Code Review: $totalCodeReviewComments, PR Comment: $totalIssueComments, Review+Re-review: $totalPrSubmissionComments")
+
+
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
-        prStatsList.filter { it.prApprovalTime.isNotEmpty() }
+        mergedPrsStatsList.filter { it.prApprovalTime.isNotEmpty() }
             .forEach { stats: PrStats ->
                 stats.prApprovalTime.forEach { (userId, time) ->
                     val reviewStats = ReviewStats(

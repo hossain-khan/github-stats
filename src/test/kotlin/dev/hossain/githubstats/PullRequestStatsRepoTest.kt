@@ -212,7 +212,7 @@ internal class PullRequestStatsRepoTest {
         // yschimke made 9 PR comment, 14 pr review and 21 code review comment. Total: 44 comments.
         assertThat(userPrComment.issueComment).isEqualTo(9)
         assertThat(userPrComment.codeReviewComment).isEqualTo(21)
-        assertThat(userPrComment.prReviewComment).isEqualTo(14)
+        assertThat(userPrComment.prReviewSubmissionComment).isEqualTo(14)
         assertThat(userPrComment.allComments).isEqualTo(44)
     }
 

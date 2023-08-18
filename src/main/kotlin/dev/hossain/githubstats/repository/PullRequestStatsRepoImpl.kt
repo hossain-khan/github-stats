@@ -159,7 +159,7 @@ class PullRequestStatsRepoImpl(
                     user = userId,
                     issueComment = issueCommentsByUser[userId] ?: 0,
                     codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
-                    prReviewComment = reviewedEventByUser[userId] ?: 0
+                    prReviewSubmissionComment = reviewedEventByUser[userId] ?: 0
                 )
             }
 

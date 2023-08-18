@@ -71,7 +71,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                         "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}", /* "Initial Response time (mins)" */
                         "${reviewStats.prComments.codeReviewComment}", /* "Code Review Comments" */
                         "${reviewStats.prComments.issueComment}", /* "PR Issue Comments" */
-                        "${reviewStats.prComments.prReviewComment}", /* "PR Review Comments" */
+                        "${reviewStats.prComments.prReviewSubmissionComment}", /* "PR Review Comments" */
                         "${reviewStats.prComments.allComments}", /* "Total Comments" */
                         reviewStats.pullRequest.html_url /* "PR URL" */
                     )
@@ -117,7 +117,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     prReviewStats.size,
                     userComments.sumOf { it.codeReviewComment },
                     userComments.sumOf { it.issueComment },
-                    userComments.sumOf { it.prReviewComment },
+                    userComments.sumOf { it.prReviewSubmissionComment },
                     userComments.sumOf { it.allComments },
                     prReviewStats.map { it.pullRequest.number }.sorted().toString()
                 )
@@ -155,7 +155,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES),
                     reviewStats.prComments.codeReviewComment,
                     reviewStats.prComments.issueComment,
-                    reviewStats.prComments.prReviewComment,
+                    reviewStats.prComments.prReviewSubmissionComment,
                     reviewStats.prComments.allComments,
                     reviewStats.prReadyOn,
                     reviewStats.prMergedOn,
