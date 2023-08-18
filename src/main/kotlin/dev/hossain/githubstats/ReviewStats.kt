@@ -108,6 +108,17 @@ class AuthorReviewStats(
 )
 
 /**
+ * Contains aggregated information about author's PRs.
+ */
+data class AuthorPrStats(
+    val authorUserId: UserId,
+    val totalPrsCreated: Int,
+    val totalIssueComments: Int,
+    val totalPrSubmissionComments: Int,
+    val totalCodeReviewComments: Int
+)
+
+/**
  * Extension function that calculates average time to merge **all** PRs by specific PR author.
  * @see AuthorReviewStats
  */
