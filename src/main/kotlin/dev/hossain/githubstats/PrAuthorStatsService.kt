@@ -99,9 +99,10 @@ class PrAuthorStatsService constructor(
             it.comments.entries.filter { it.key != prAuthorUsedId }.sumOf { it.value.codeReviewComment }
         }
 
-        Log.i("ℹ️ The author '$prAuthorUsedId' has created $totalPrsCreated PRs that successfully got merged." +
-                "\nTotal Comments Received - Code Review: $totalCodeReviewComments, PR Comment: $totalIssueComments, Review+Re-review: $totalPrSubmissionComments")
-
+        Log.i(
+            "ℹ️ The author '$prAuthorUsedId' has created $totalPrsCreated PRs that successfully got merged." +
+                "\nTotal Comments Received - Code Review: $totalCodeReviewComments, PR Comment: $totalIssueComments, Review+Re-review: $totalPrSubmissionComments"
+        )
 
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
