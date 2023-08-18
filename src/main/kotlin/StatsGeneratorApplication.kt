@@ -1,5 +1,5 @@
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
-import dev.hossain.githubstats.AuthorReviewStats
+import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.formatter.StatsFormatter
@@ -43,10 +43,10 @@ class StatsGeneratorApplication : KoinComponent {
         appConfig.get().userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
             val authorReportBuildTime = measureTimeMillis {
-                val prAuthorStats: List<AuthorReviewStats> = prAuthorStatsService.authorStats(prAuthorUsedId = authorId)
+                val authorStats: AuthorStats = prAuthorStatsService.authorStats(prAuthorUserId = authorId)
 
                 formatters.forEach {
-                    println(it.formatAuthorStats(prAuthorStats))
+                    println(it.formatAuthorStats(authorStats))
                 }
             }
 

@@ -90,14 +90,24 @@ data class ReviewStats constructor(
 )
 
 /**
+ * Class containing different type of stats for PR Author.
+ */
+data class AuthorStats(
+    val prStats: AuthorPrStats,
+    val reviewStats: List<AuthorReviewStats>
+)
+
+/**
  * Stats of list PRs that are reviewed by [reviewerId] user, which are authored by the [prAuthorId] user.
  * In other words, stats for reviewer [reviewerId], who has reviewed PRs for the [prAuthorId] user.
  *
  * The [stats] items contains PR review stats.
  *
  * @see PrAuthorStatsService
+ * @see AuthorStats
+ * @see AuthorPrStats
  */
-class AuthorReviewStats(
+data class AuthorReviewStats(
     val repoId: String,
     val prAuthorId: UserId,
     val reviewerId: UserId,
@@ -105,6 +115,20 @@ class AuthorReviewStats(
     val totalReviews: Int,
     val totalComments: Int,
     val stats: List<ReviewStats>
+)
+
+/**
+ * Contains aggregated information about author's PRs.
+ *
+ * @see AuthorStats
+ * @see AuthorReviewStats
+ */
+data class AuthorPrStats(
+    val authorUserId: UserId,
+    val totalPrsCreated: Int,
+    val totalIssueComments: Int,
+    val totalPrSubmissionComments: Int,
+    val totalCodeReviewComments: Int
 )
 
 /**

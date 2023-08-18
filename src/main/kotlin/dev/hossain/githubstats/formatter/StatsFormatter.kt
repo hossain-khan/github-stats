@@ -1,6 +1,6 @@
 package dev.hossain.githubstats.formatter
 
-import dev.hossain.githubstats.AuthorReviewStats
+import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
 
@@ -16,7 +16,7 @@ interface StatsFormatter {
     /**
      * Formats PR review stats for list of users that reviewed specific user's PRs.
      */
-    fun formatAuthorStats(stats: List<AuthorReviewStats>): String
+    fun formatAuthorStats(stats: AuthorStats): String
 
     /**
      * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.

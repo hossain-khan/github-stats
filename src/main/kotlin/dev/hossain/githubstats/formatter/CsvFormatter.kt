@@ -2,7 +2,7 @@ package dev.hossain.githubstats.formatter
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import dev.hossain.ascii.Art
-import dev.hossain.githubstats.AuthorReviewStats
+import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
@@ -22,14 +22,14 @@ class CsvFormatter : StatsFormatter, KoinComponent {
     /**
      * Formats PR review stats for list of users that reviewed specific user's PRs.
      */
-    override fun formatAuthorStats(stats: List<AuthorReviewStats>): String {
-        if (stats.isEmpty()) {
+    override fun formatAuthorStats(stats: AuthorStats): String {
+        if (stats.reviewStats.isEmpty()) {
             return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.shrug}"
         }
 
         // Create multiple CSV file per author for better visualization
         // Also create a single CSV with total reviews to visualize responsiveness to author
-        val prAuthorId = stats.first().prAuthorId
+        val prAuthorId = stats.reviewStats.first().prAuthorId
 
         // Write combine review count by reviewer
         val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId since ${props.getDateLimitAfter()}"))
@@ -38,7 +38,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
 
         val filesCreated = mutableListOf<String>()
-        stats.forEach { stat ->
+        stats.reviewStats.forEach { stat ->
             // Add a row for total reviews done by reviewer in the combined report
             csvWriter().writeAll(
                 listOf(listOf(stat.reviewerId, stat.totalReviews)),
