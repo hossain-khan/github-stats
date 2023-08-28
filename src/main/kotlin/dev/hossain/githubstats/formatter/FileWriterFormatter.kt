@@ -18,7 +18,7 @@ class FileWriterFormatter constructor(
     override fun formatSinglePrStats(prStats: PrStats): String {
         val formattedPrStats = formatter.formatSinglePrStats(prStats)
 
-        val prStatsFileName = FileUtil.prReportFile(prStats)
+        val prStatsFileName = FileUtil.individualPrReportAsciiFile(prStats)
         File(prStatsFileName).writeText(formattedPrStats)
 
         return ""
@@ -35,7 +35,7 @@ class FileWriterFormatter constructor(
 
         val formattedStats = formatter.formatAuthorStats(stats)
 
-        val combinedReportFileName = FileUtil.authorReportFile(prAuthorId)
+        val combinedReportFileName = FileUtil.authorReportAsciiFile(prAuthorId)
         File(combinedReportFileName).writeText(formattedStats)
 
         return ""
@@ -51,7 +51,7 @@ class FileWriterFormatter constructor(
         }
         val formattedStats = formatter.formatReviewerStats(stats)
 
-        val combinedReportFileName = FileUtil.reviewerReportFile(stats.reviewerId)
+        val combinedReportFileName = FileUtil.reviewerReportAsciiFile(stats.reviewerId)
         File(combinedReportFileName).writeText(formattedStats)
 
         return ""
