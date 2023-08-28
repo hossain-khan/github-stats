@@ -90,10 +90,11 @@ class PrAuthorStatsService constructor(
         val authorPrStats = aggregatePrAuthorsPrStats(prAuthorUserId, allMergedPrsByAuthor, mergedPrsStatsList)
         Log.i(
             "ℹ️ The author '$prAuthorUserId' has created ${authorPrStats.totalPrsCreated} PRs that successfully got merged." +
-                "\nTotal Comments Received - Code Review: ${authorPrStats.totalCodeReviewComments}, PR Comment: ${authorPrStats.totalIssueComments}, Review+Re-review: ${authorPrStats.totalPrSubmissionComments}"
+                    "\nTotal Comments Received - Code Review: ${authorPrStats.totalCodeReviewComments}, PR Comment: ${authorPrStats.totalIssueComments}, Review+Re-review: ${authorPrStats.totalPrSubmissionComments}"
         )
 
-        val authorReviewStats: List<AuthorReviewStats> = aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUserId)
+        val authorReviewStats: List<AuthorReviewStats> =
+            aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUserId)
         Log.i("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
 
         return AuthorStats(prStats = authorPrStats, reviewStats = authorReviewStats)
@@ -148,6 +149,14 @@ class PrAuthorStatsService constructor(
         return authorReviewStats
     }
 
+    /**
+     * This basically aggregates PR authors stats about PR created by the author.
+     *
+     * For example, if Bob had created 20 PRs that got merged into repository. That stats would include things like:
+     * - Total PRs created
+     * - Total PR comments received (for different types)
+     * - and so on. See [AuthorPrStats] for available properties.
+     */
     private fun aggregatePrAuthorsPrStats(
         prAuthorUserId: String,
         allMergedPrsByAuthor: List<Issue>,
@@ -156,13 +165,19 @@ class PrAuthorStatsService constructor(
         // Builds author's stats for all PRs made by the author
         val totalPrsCreated = allMergedPrsByAuthor.size
         val totalIssueComments = mergedPrsStatsList.sumOf {
-            it.comments.entries.filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }.sumOf { commentEntry -> commentEntry.value.issueComment }
+            it.comments.entries
+                .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
+                .sumOf { commentEntry -> commentEntry.value.issueComment }
         }
         val totalPrSubmissionComments = mergedPrsStatsList.sumOf {
-            it.comments.entries.filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }.sumOf { commentEntry -> commentEntry.value.prReviewSubmissionComment }
+            it.comments.entries
+                .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
+                .sumOf { commentEntry -> commentEntry.value.prReviewSubmissionComment }
         }
         val totalCodeReviewComments = mergedPrsStatsList.sumOf {
-            it.comments.entries.filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }.sumOf { commentEntry -> commentEntry.value.codeReviewComment }
+            it.comments.entries
+                .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
+                .sumOf { commentEntry -> commentEntry.value.codeReviewComment }
         }
 
         return AuthorPrStats(
