@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.formatter
 
 import dev.hossain.ascii.Art
+import dev.hossain.githubstats.AuthorPrStats
 import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
@@ -37,6 +38,10 @@ class FileWriterFormatter constructor(
         val combinedReportFileName = FileUtil.authorReportFile(prAuthorId)
         File(combinedReportFileName).writeText(formattedStats)
 
+        return ""
+    }
+
+    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
         return ""
     }
 

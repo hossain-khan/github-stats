@@ -4,6 +4,7 @@ import com.jakewharton.picnic.TextAlignment.TopCenter
 import com.jakewharton.picnic.TextAlignment.TopLeft
 import com.jakewharton.picnic.table
 import dev.hossain.ascii.Art
+import dev.hossain.githubstats.AuthorPrStats
 import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewStats
@@ -251,6 +252,10 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 cell("${stats.reviewStats.avgMergeTime()}")
             }
         }.toString()
+    }
+
+    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
+        return ""
     }
 
     /**

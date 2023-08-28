@@ -10,6 +10,7 @@ import java.io.File
 object FileUtil : KoinComponent {
     private const val REPORTS_DIR_PREFIX = "REPORTS"
     private const val REPORT_FILE_PREFIX = "REPORT"
+    internal const val REPORT_DIR_AGGREGATE_SUFFIX = "AGGREGATED"
 
     /**
      * Creates reporting directory path with known prefix.
@@ -61,6 +62,15 @@ object FileUtil : KoinComponent {
     }
 
     /**
+     * HTML Chart file for all author aggregated stats.
+     * @see authorReportFile
+     */
+    internal fun allAuthorBarChartAggregateFile(dirSuffix: String): String {
+        val dir: File = createReportDir(dirSuffix)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_aggregated-pr-stats-for-all-authors.html"
+    }
+
+    /**
      * HTML Chart file for author stats.
      * @see authorReportFile
      */
@@ -100,6 +110,17 @@ object FileUtil : KoinComponent {
     internal fun prReviewedForCombinedFilename(reviewerUserId: UserId): String {
         val dir: File = createReportDir(reviewerUserId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId.csv"
+    }
+
+    /**
+     * This is the file name for the repository's aggregated stats of all PRs created by user.
+     *
+     * Sample file names:
+     * - `REPORT_-_aggregated-pr-stats-for-all-authors-on-XYZ-repo.csv`
+     */
+    internal fun repositoryAggregatedPrStatsByAuthorFilename(repoId: String): String {
+        val dir: File = createReportDir(repoId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_aggregated-pr-stats-for-all-authors-on-$repoId-repo.csv"
     }
 
     internal fun prReviewerReviewedPrStatsFile(reviewerUserId: UserId): String {

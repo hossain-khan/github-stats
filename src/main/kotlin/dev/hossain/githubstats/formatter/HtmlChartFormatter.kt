@@ -1,12 +1,14 @@
 package dev.hossain.githubstats.formatter
 
 import dev.hossain.ascii.Art
+import dev.hossain.githubstats.AuthorPrStats
 import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.formatter.html.Template
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.FileUtil
+import dev.hossain.githubstats.util.FileUtil.REPORT_DIR_AGGREGATE_SUFFIX
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.io.File
@@ -99,6 +101,30 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "\n - file://${pieChartFile.absolutePath}" +
             "\n - file://${barChartFileAggregate.absolutePath}" +
             "\n - file://${barChartFile.absolutePath}"
+    }
+
+    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
+        // Prepares data for bar chart with all author PR's aggregate data generation
+        // https://developers.google.com/chart/interactive/docs/gallery/barchart
+        val barStatsJsDataAggregate: String = listOf("['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']")
+            .plus(
+                aggregatedPrStats.filter { it.isEmpty().not() }.map {
+                    "['${it.authorUserId}', ${it.totalPrsCreated}, ${it.totalCodeReviewComments},${it.totalIssueComments},${it.totalPrSubmissionComments}]"
+                }
+            ).joinToString()
+
+        val formattedBarChartAggregate = Template.barChart(
+            title = "Aggregated PR Stats on `${appConfig.get().repoId}` repository " +
+                "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
+            chartData = barStatsJsDataAggregate,
+            dataSize = 5 // Multiplied by data columns
+        )
+        val barChartFileNameAggregate = FileUtil.allAuthorBarChartAggregateFile(REPORT_DIR_AGGREGATE_SUFFIX)
+        val barChartFileAggregate = File(barChartFileNameAggregate)
+        barChartFileAggregate.writeText(formattedBarChartAggregate)
+
+        return "📊 Written following aggregated chat for repository: (Copy & paste file path URL in browser to preview)" +
+            "\n - ${barChartFileAggregate.toURI()}"
     }
 
     /**

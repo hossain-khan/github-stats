@@ -2,11 +2,14 @@ package dev.hossain.githubstats.formatter
 
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import dev.hossain.ascii.Art
+import dev.hossain.githubstats.AuthorPrStats
 import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
+import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.FileUtil
+import dev.hossain.githubstats.util.FileUtil.REPORT_DIR_AGGREGATE_SUFFIX
 import dev.hossain.githubstats.util.LocalProperties
 import dev.hossain.time.toWorkingHour
 import org.koin.core.component.KoinComponent
@@ -15,6 +18,8 @@ import kotlin.time.DurationUnit
 
 class CsvFormatter : StatsFormatter, KoinComponent {
     private val props: LocalProperties by inject()
+    private val appConfig: AppConfig by inject()
+
     override fun formatSinglePrStats(prStats: PrStats): String {
         return "Individual PR stats is not supported for CSV export."
     }
@@ -81,6 +86,41 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             filesCreated.add(fileName)
         }
         return "Generated following files: \n${filesCreated.joinToString()} and $combinedReportFileName"
+    }
+
+    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
+        if (aggregatedPrStats.isEmpty()) {
+            return "⚠ ERROR: No aggregated stats to format. No CSV files for you! ${Art.shrug}"
+        }
+
+        // Generate aggregated PR review stats
+        //  1. List of users that created PR and cumulative stats about those PRs
+
+        val targetFileName = FileUtil.repositoryAggregatedPrStatsByAuthorFilename(REPORT_DIR_AGGREGATE_SUFFIX)
+        val headerItem: List<String> = listOf(
+            "Stats Date Range",
+            "PR Author ID (created by)",
+            "Total PRs Created by Author",
+            "Total Source Code Review Comments",
+            "Total PR Issue Comments (not associated with code)",
+            "Total PR Review Submission comments (reviewed or request change)"
+        )
+        csvWriter().open(targetFileName) {
+            writeRow(headerItem)
+
+            aggregatedPrStats.filter { it.isEmpty().not() }.forEach {
+                writeRow(
+                    "Between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}",
+                    it.authorUserId,
+                    it.totalPrsCreated,
+                    it.totalCodeReviewComments,
+                    it.totalIssueComments,
+                    it.totalPrSubmissionComments
+                )
+            }
+        }
+
+        return "Generated following files: \n$targetFileName"
     }
 
     /**
