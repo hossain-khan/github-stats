@@ -90,7 +90,7 @@ class PrAuthorStatsService constructor(
         val authorPrStats = aggregatePrAuthorsPrStats(prAuthorUserId, allMergedPrsByAuthor, mergedPrsStatsList)
         Log.i(
             "ℹ️ The author '$prAuthorUserId' has created ${authorPrStats.totalPrsCreated} PRs that successfully got merged." +
-                    "\nTotal Comments Received - Code Review: ${authorPrStats.totalCodeReviewComments}, PR Comment: ${authorPrStats.totalIssueComments}, Review+Re-review: ${authorPrStats.totalPrSubmissionComments}"
+                "\nTotal Comments Received - Code Review: ${authorPrStats.totalCodeReviewComments}, PR Comment: ${authorPrStats.totalIssueComments}, Review+Re-review: ${authorPrStats.totalPrSubmissionComments}"
         )
 
         val authorReviewStats: List<AuthorReviewStats> =
