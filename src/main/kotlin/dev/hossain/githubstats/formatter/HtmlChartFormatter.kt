@@ -101,6 +101,10 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "\n - file://${barChartFile.absolutePath}"
     }
 
+    override fun formatAllAuthorStats(allAuthors: List<AuthorStats>) {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
      */

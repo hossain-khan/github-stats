@@ -40,6 +40,10 @@ class FileWriterFormatter constructor(
         return ""
     }
 
+    override fun formatAllAuthorStats(allAuthors: List<AuthorStats>) {
+        TODO("Not yet implemented")
+    }
+
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
             return "⚠ ERROR: No reviewer stats to format. No files to write! ${Art.shrug}"

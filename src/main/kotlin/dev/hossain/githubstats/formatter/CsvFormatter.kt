@@ -83,6 +83,10 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         return "Generated following files: \n${filesCreated.joinToString()} and $combinedReportFileName"
     }
 
+    override fun formatAllAuthorStats(allAuthors: List<AuthorStats>) {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
      */

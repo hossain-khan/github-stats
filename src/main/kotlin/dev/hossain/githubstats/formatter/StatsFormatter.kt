@@ -19,6 +19,11 @@ interface StatsFormatter {
     fun formatAuthorStats(stats: AuthorStats): String
 
     /**
+     * This formats all authors stats to provided aggregated information about authors.
+     */
+    fun formatAllAuthorStats(allAuthors: List<AuthorStats>)
+
+    /**
      * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
      */
     fun formatReviewerStats(stats: ReviewerReviewStats): String

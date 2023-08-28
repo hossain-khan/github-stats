@@ -253,6 +253,10 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
         }.toString()
     }
 
+    override fun formatAllAuthorStats(allAuthors: List<AuthorStats>) {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
      *
