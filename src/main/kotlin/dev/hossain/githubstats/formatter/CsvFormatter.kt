@@ -9,7 +9,6 @@ import dev.hossain.githubstats.ReviewStats
 import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.FileUtil
-import dev.hossain.githubstats.util.FileUtil.REPORT_DIR_AGGREGATE_SUFFIX
 import dev.hossain.githubstats.util.LocalProperties
 import dev.hossain.time.toWorkingHour
 import org.koin.core.component.KoinComponent
@@ -52,7 +51,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             )
 
             // Individual report per reviewer
-            val fileName = FileUtil.reviewedForAuthorFileName(stat)
+            val fileName = FileUtil.reviewedForAuthorCsvFile(stat)
             val headerItem: List<String> = listOf(
                 "Reviewer",
                 "PR Number",
@@ -96,7 +95,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         // Generate aggregated PR review stats
         //  1. List of users that created PR and cumulative stats about those PRs
 
-        val targetFileName = FileUtil.repositoryAggregatedPrStatsByAuthorFilename(REPORT_DIR_AGGREGATE_SUFFIX)
+        val targetFileName = FileUtil.repositoryAggregatedPrStatsByAuthorFilename()
         val headerItem: List<String> = listOf(
             "Stats Date Range",
             "PR Author ID (created by)",

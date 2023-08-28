@@ -13,7 +13,12 @@ object FileUtil : KoinComponent {
     internal const val REPORT_DIR_AGGREGATE_SUFFIX = "AGGREGATED"
 
     /**
-     * Creates reporting directory path with known prefix.
+     * Creates reporting directory path with **repository id** prefixed with it.
+     *
+     * Example dirs for `freeCodeCamp` repository:
+     * - `REPORTS-freeCodeCamp-DanielRosa74`
+     * - `REPORTS-freeCodeCamp-ojeytonwilliams`
+     * - `REPORTS-freeCodeCamp-AGGREGATED`
      */
     private fun createReportDir(directoryName: String): File {
         val repoId = getKoin().get<LocalProperties>().getRepoId()
@@ -25,7 +30,7 @@ object FileUtil : KoinComponent {
     }
 
     /**
-     * Provides HTTP cache directory path.
+     * Provides HTTP cache directory path that is used for caching responses.
      */
     internal fun httpCacheDir(): File {
         val directory = File("http-cache")
@@ -36,70 +41,117 @@ object FileUtil : KoinComponent {
     }
 
     /**
-     * @see authorPieChartFile
+     * Contains PR reviewer's stats for PRs created by PR author on repository between configured dates.
+     *
+     * Example:
+     * - `REPORT_-_pr-author-naomi-lgbt-ascii.txt`
+     *
+     * @see authorPieChartHtmlFile
      */
-    internal fun authorReportFile(prAuthorId: UserId): String {
+    internal fun authorReportAsciiFile(prAuthorId: UserId): String {
         val dir: File = createReportDir(prAuthorId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-ascii.txt"
     }
 
     /**
      * HTML Chart file for author stats.
-     * @see authorReportFile
+     *
+     * Example:
+     * - `REPORT_-_pr-author-naomi-lgbt-pie-chart.html`
+     *
+     * @see authorReportAsciiFile
      */
-    internal fun authorPieChartFile(prAuthorId: UserId): String {
+    internal fun authorPieChartHtmlFile(prAuthorId: UserId): String {
         val dir: File = createReportDir(prAuthorId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-pie-chart.html"
     }
 
     /**
-     * HTML Chart file for author stats.
-     * @see authorReportFile
+     * HTML Chart file for author PR stats that is aggregated.
+     *
+     * Example:
+     * - `REPORT_-_pr-author-naomi-lgbt-pr-stats-aggregate.html`
+     *
+     * @see authorReportAsciiFile
      */
-    internal fun authorBarChartAggregateFile(prAuthorId: UserId): String {
+    internal fun authorBarChartAggregateHtmlFile(prAuthorId: UserId): String {
         val dir: File = createReportDir(prAuthorId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-pr-stats-aggregate.html"
     }
 
     /**
      * HTML Chart file for all author aggregated stats.
-     * @see authorReportFile
+     *
+     * Example:
+     * - `REPORT_-_aggregated-pr-stats-for-all-authors.html`
+     *
+     * @see authorReportAsciiFile
+     * @see repositoryAggregatedPrStatsByAuthorFilename
      */
-    internal fun allAuthorBarChartAggregateFile(dirSuffix: String): String {
-        val dir: File = createReportDir(dirSuffix)
+    internal fun allAuthorBarChartAggregateHtmlFile(): String {
+        val dir: File = createReportDir(REPORT_DIR_AGGREGATE_SUFFIX)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_aggregated-pr-stats-for-all-authors.html"
     }
 
     /**
      * HTML Chart file for author stats.
-     * @see authorReportFile
+     * Contains PR reviewer`s stats for PRs created by author on repository between configured dates.
+     *
+     * Example:
+     * - `REPORT_-_pr-author-naomi-lgbt-bar-chart.html`
+     *
+     * @see authorReportAsciiFile
      */
-    internal fun authorBarChartFile(prAuthorId: UserId): String {
+    internal fun authorBarChartHtmlFile(prAuthorId: UserId): String {
         val dir: File = createReportDir(prAuthorId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-author-$prAuthorId-bar-chart.html"
     }
 
-    internal fun reviewerReportFile(prReviewerId: UserId): String {
+    /**
+     * Stats for all PR reviews given by user on repository between configured dates.
+     *
+     * Example:
+     * - `REPORT_-_pr-reviewer-naomi-lgbt-ascii.txt`
+     */
+    internal fun reviewerReportAsciiFile(prReviewerId: UserId): String {
         val dir: File = createReportDir(prReviewerId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_pr-reviewer-$prReviewerId-ascii.txt"
     }
 
-    internal fun prReportFile(prStats: PrStats): String {
+    /**
+     * Generates individual PR stats ascii file.
+     *
+     * Example:
+     * - `REPORTS-freeCodeCamp-naomi-lgbt-PRs/REPORT-PR-51018.txt`
+     *
+     * @see individualPrReportHtmlChart
+     */
+    internal fun individualPrReportAsciiFile(prStats: PrStats): String {
         val dir: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
 
         return dir.path() + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.txt"
     }
 
     /**
-     * @see prReportFile
+     * Generates individual PR stats html chart file.
+     *
+     * Example:
+     * - `REPORTS-freeCodeCamp-naomi-lgbt-PRs/REPORT-PR-51018.html`
+     *
+     * @see individualPrReportAsciiFile
      */
-    internal fun prReportChart(prStats: PrStats): String {
+    internal fun individualPrReportHtmlChart(prStats: PrStats): String {
         val dir: File = createReportDir("${prStats.pullRequest.user.login}-PRs")
 
         return dir.path() + "$REPORT_FILE_PREFIX-PR-${prStats.pullRequest.number}.html"
     }
 
     /**
+     * Bar chart file for PRs reviewed by user for other users.
+     *
+     * Example
+     * - `REPORT_-_prs-reviewed-for-authors-by-Sboonny-bar-chart.html`
+     *
      * @see prReviewedForCombinedFilename
      */
     internal fun prReviewedForCombinedBarChartFilename(reviewerUserId: UserId): String {
@@ -107,6 +159,14 @@ object FileUtil : KoinComponent {
         return dir.path() + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId-bar-chart.html"
     }
 
+    /**
+     * Ascii report file for PRs reviewed by user for other users.
+     *
+     * Example:
+     * - `REPORT_-_prs-reviewed-for-authors-by-Sboonny.csv`
+     *
+     * @see prReviewedForCombinedBarChartFilename
+     */
     internal fun prReviewedForCombinedFilename(reviewerUserId: UserId): String {
         val dir: File = createReportDir(reviewerUserId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId.csv"
@@ -116,19 +176,34 @@ object FileUtil : KoinComponent {
      * This is the file name for the repository's aggregated stats of all PRs created by user.
      *
      * Sample file names:
-     * - `REPORT_-_aggregated-pr-stats-for-all-authors-on-XYZ-repo.csv`
+     * - `REPORT_-_aggregated-pr-stats-for-all-authors.csv`
+     *
+     * @see allAuthorBarChartAggregateHtmlFile
      */
-    internal fun repositoryAggregatedPrStatsByAuthorFilename(repoId: String): String {
-        val dir: File = createReportDir(repoId)
-        return dir.path() + "${REPORT_FILE_PREFIX}_-_aggregated-pr-stats-for-all-authors-on-$repoId-repo.csv"
+    internal fun repositoryAggregatedPrStatsByAuthorFilename(): String {
+        val dir: File = createReportDir(REPORT_DIR_AGGREGATE_SUFFIX)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_aggregated-pr-stats-for-all-authors.csv"
     }
 
+    /**
+     * Ascii report file for all PRs reviewed by user.
+     *
+     * Example:
+     * - `REPORT_-_all-prs-reviewed-by-Sboonny.csv`
+     *
+     * @see prReviewerReviewedPrStatsBarChartFile
+     */
     internal fun prReviewerReviewedPrStatsFile(reviewerUserId: UserId): String {
         val dir: File = createReportDir(reviewerUserId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId.csv"
     }
 
     /**
+     * Bar chart html file for all PRs reviewed by user.
+     *
+     * Example:
+     * - `REPORT_-_all-prs-reviewed-by-Sboonny-bar-chart.html`
+     *
      * @see prReviewerReviewedPrStatsFile
      */
     internal fun prReviewerReviewedPrStatsBarChartFile(reviewerUserId: UserId): String {
@@ -136,14 +211,28 @@ object FileUtil : KoinComponent {
         return dir.path() + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId-bar-chart.html"
     }
 
-    internal fun reviewedForAuthorFileName(authorStats: AuthorReviewStats): String {
+    /**
+     * CSV data for all reviews given to specific author.
+     *
+     * Example
+     * - `REPORT-all-prs-reviewed-by-ojeytonwilliams-for-Sboonny.csv`
+     * - `REPORT-all-prs-reviewed-by-huyenltnguyen-for-Sboonny.csv`
+     * - `REPORT-all-prs-reviewed-by-raisedadead-for-Sboonny.csv`
+     */
+    internal fun reviewedForAuthorCsvFile(authorStats: AuthorReviewStats): String {
         val dir: File = createReportDir(authorStats.prAuthorId)
-        return dir.path() + "REPORT-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"
+        return dir.path() + "REPORT-all-prs-reviewed-by-${authorStats.reviewerId}-for-${authorStats.prAuthorId}.csv"
     }
 
+    /**
+     * Total PR Reviewed for user by different reviewers between configured dates.
+     *
+     * Example:
+     * - `REPORT_-_Sboonny-all-reviewers-total-prs-reviewed.csv`
+     */
     internal fun allReviewersForAuthorFile(prAuthorId: UserId): String {
         val dir: File = createReportDir(prAuthorId)
-        return dir.path() + "REPORT_-_$prAuthorId-all-reviewers.csv"
+        return dir.path() + "REPORT_-_$prAuthorId-all-reviewers-total-prs-reviewed.csv"
     }
 
     /**

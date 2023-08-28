@@ -8,7 +8,6 @@ import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.formatter.html.Template
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.FileUtil
-import dev.hossain.githubstats.util.FileUtil.REPORT_DIR_AGGREGATE_SUFFIX
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.io.File
@@ -27,7 +26,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
     override fun formatSinglePrStats(prStats: PrStats): String {
         val formattedChart = ""
 
-        val prStatsFileName = FileUtil.prReportChart(prStats)
+        val prStatsFileName = FileUtil.individualPrReportHtmlChart(prStats)
         File(prStatsFileName).writeText(formattedChart)
 
         return ""
@@ -56,7 +55,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             statsJsData = statsJsData
         )
 
-        val pieChartFileName = FileUtil.authorPieChartFile(prAuthorId)
+        val pieChartFileName = FileUtil.authorPieChartHtmlFile(prAuthorId)
         val pieChartFile = File(pieChartFileName)
         pieChartFile.writeText(formattedPieChart)
 
@@ -74,7 +73,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             chartData = barStatsJsData,
             dataSize = stats.reviewStats.size * 2 // Multiplied by data columns
         )
-        val barChartFileName = FileUtil.authorBarChartFile(prAuthorId)
+        val barChartFileName = FileUtil.authorBarChartHtmlFile(prAuthorId)
         val barChartFile = File(barChartFileName)
         barChartFile.writeText(formattedBarChart)
 
@@ -93,7 +92,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             chartData = barStatsJsDataAggregate,
             dataSize = 5 // Multiplied by data columns
         )
-        val barChartFileNameAggregate = FileUtil.authorBarChartAggregateFile(prAuthorId)
+        val barChartFileNameAggregate = FileUtil.authorBarChartAggregateHtmlFile(prAuthorId)
         val barChartFileAggregate = File(barChartFileNameAggregate)
         barChartFileAggregate.writeText(formattedBarChartAggregate)
 
@@ -119,7 +118,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             chartData = barStatsJsDataAggregate,
             dataSize = 5 // Multiplied by data columns
         )
-        val barChartFileNameAggregate = FileUtil.allAuthorBarChartAggregateFile(REPORT_DIR_AGGREGATE_SUFFIX)
+        val barChartFileNameAggregate = FileUtil.allAuthorBarChartAggregateHtmlFile()
         val barChartFileAggregate = File(barChartFileNameAggregate)
         barChartFileAggregate.writeText(formattedBarChartAggregate)
 
