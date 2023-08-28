@@ -10,6 +10,7 @@ import java.io.File
 object FileUtil : KoinComponent {
     private const val REPORTS_DIR_PREFIX = "REPORTS"
     private const val REPORT_FILE_PREFIX = "REPORT"
+    internal const val REPORT_DIR_AGGREGATE_SUFFIX = "AGGREGATED"
 
     /**
      * Creates reporting directory path with known prefix.

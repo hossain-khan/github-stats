@@ -129,7 +129,15 @@ data class AuthorPrStats(
     val totalIssueComments: Int,
     val totalPrSubmissionComments: Int,
     val totalCodeReviewComments: Int
-)
+) {
+    /**
+     * Checks if stats is empty, then it's likely not worth showing.
+     */
+    fun isEmpty(): Boolean = totalPrsCreated == 0 &&
+        totalIssueComments == 0 &&
+        totalPrSubmissionComments == 0 &&
+        totalCodeReviewComments == 0
+}
 
 /**
  * Extension function that calculates average time to merge **all** PRs by specific PR author.
