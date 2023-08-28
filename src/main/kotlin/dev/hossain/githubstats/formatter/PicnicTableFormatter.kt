@@ -255,7 +255,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
     }
 
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
-        return "TBD"
+        return ""
     }
 
     /**

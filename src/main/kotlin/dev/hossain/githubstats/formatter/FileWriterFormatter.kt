@@ -42,7 +42,7 @@ class FileWriterFormatter constructor(
     }
 
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
-        return "TBD"
+        return ""
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
