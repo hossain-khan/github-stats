@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.formatter
 
 import dev.hossain.ascii.Art
+import dev.hossain.githubstats.AuthorPrStats
 import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.ReviewerReviewStats
@@ -40,8 +41,8 @@ class FileWriterFormatter constructor(
         return ""
     }
 
-    override fun formatAllAuthorStats(allAuthors: List<AuthorStats>) {
-        TODO("Not yet implemented")
+    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
+        return "TBD"
     }
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {

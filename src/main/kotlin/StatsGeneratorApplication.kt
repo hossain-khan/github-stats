@@ -1,4 +1,5 @@
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
+import dev.hossain.githubstats.AuthorPrStats
 import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
@@ -39,12 +40,14 @@ class StatsGeneratorApplication : KoinComponent {
     suspend fun generateAuthorStats() {
         printCurrentAppConfigs()
 
+        val allAuthorStats = mutableListOf<AuthorStats>()
         // For each of the users, generates stats for all the PRs created by the user
         appConfig.get().userIds.forEach { authorId ->
             println("■ Building stats for `$authorId` as PR author.\n")
+
             val authorReportBuildTime = measureTimeMillis {
                 val authorStats: AuthorStats = prAuthorStatsService.authorStats(prAuthorUserId = authorId)
-
+                allAuthorStats.add(authorStats)
                 formatters.forEach {
                     println(it.formatAuthorStats(authorStats))
                 }
@@ -52,6 +55,12 @@ class StatsGeneratorApplication : KoinComponent {
 
             Log.d("\nⓘ Stats generation for `$authorId` took ${authorReportBuildTime.milliseconds}")
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+        }
+
+        // Now that we have all author stats, leverage aggregated stats generator
+        val aggregatedPrStats: List<AuthorPrStats> = allAuthorStats.map { it.prStats }
+        formatters.forEach {
+            println(it.formatAllAuthorStats(aggregatedPrStats))
         }
     }
 

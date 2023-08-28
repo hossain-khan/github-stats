@@ -102,6 +102,17 @@ object FileUtil : KoinComponent {
         return dir.path() + "${REPORT_FILE_PREFIX}_-_prs-reviewed-for-authors-by-$reviewerUserId.csv"
     }
 
+    /**
+     * This is the file name for the repository's aggregated stats of all PRs created by user.
+     *
+     * Sample file names:
+     * - `REPORT_-_aggregated-pr-stats-for-all-authors-on-XYZ-repo.csv`
+     */
+    internal fun repositoryAggregatedPrStatsByAuthorFilename(repoId: String): String {
+        val dir: File = createReportDir(repoId)
+        return dir.path() + "${REPORT_FILE_PREFIX}_-_aggregated-pr-stats-for-all-authors-on-$repoId-repo.csv"
+    }
+
     internal fun prReviewerReviewedPrStatsFile(reviewerUserId: UserId): String {
         val dir: File = createReportDir(reviewerUserId)
         return dir.path() + "${REPORT_FILE_PREFIX}_-_all-prs-reviewed-by-$reviewerUserId.csv"
