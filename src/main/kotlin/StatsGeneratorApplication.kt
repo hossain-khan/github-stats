@@ -47,7 +47,6 @@ class StatsGeneratorApplication : KoinComponent {
         appConfig.get().userIds.forEach { authorId ->
             println(String.format(resources.getString("status_building_author_pr_stats"), authorId))
 
-
             val authorReportBuildTime = measureTimeMillis {
                 val authorStats: AuthorStats = prAuthorStatsService.authorStats(prAuthorUserId = authorId)
                 allAuthorStats.add(authorStats)
