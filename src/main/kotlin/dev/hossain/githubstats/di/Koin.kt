@@ -23,6 +23,7 @@ import me.tongfei.progressbar.ProgressBarBuilder
 import me.tongfei.progressbar.ProgressBarStyle
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import java.util.*
 
 /**
  * Application module setup for dependency injection using Koin.
@@ -60,12 +61,15 @@ val appModule = module {
     single { ErrorProcessor() }
     single { UserTimeZone() }
 
+    // Localization
+    single { ResourceBundle.getBundle("strings", Locale.getDefault()) }
+
     // Config to load local properties
     factory { AppConfig(localProperties = get()) }
     factory { LocalProperties() }
     single<PropertiesReader> { LocalProperties() }
 
-    // Stats Formatters
+    // Binds all the different stats formatters
     single { PicnicTableFormatter() } bind StatsFormatter::class
     single { CsvFormatter() } bind StatsFormatter::class
     single { FileWriterFormatter(PicnicTableFormatter()) } bind StatsFormatter::class

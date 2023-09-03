@@ -8,6 +8,7 @@ import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.util.AppConfig
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.ResourceBundle
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -18,6 +19,7 @@ import kotlin.time.Duration.Companion.milliseconds
 class StatsGeneratorApplication : KoinComponent {
     private val prReviewerStatsService: PrReviewerStatsService by inject()
     private val prAuthorStatsService: PrAuthorStatsService by inject()
+    private val resources: ResourceBundle by inject()
 
     /**
      * Config loader that provides configs from `[LOCAL_PROPERTIES_FILE]`
@@ -43,7 +45,8 @@ class StatsGeneratorApplication : KoinComponent {
         val allAuthorStats = mutableListOf<AuthorStats>()
         // For each of the users, generates stats for all the PRs created by the user
         appConfig.get().userIds.forEach { authorId ->
-            println("■ Building stats for `$authorId` as PR author.\n")
+            println(String.format(resources.getString("status_building_author_pr_stats"), authorId))
+
 
             val authorReportBuildTime = measureTimeMillis {
                 val authorStats: AuthorStats = prAuthorStatsService.authorStats(prAuthorUserId = authorId)
