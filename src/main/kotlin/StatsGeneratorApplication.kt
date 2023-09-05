@@ -55,7 +55,7 @@ class StatsGeneratorApplication : KoinComponent {
                 }
             }
 
-            Log.d("\nⓘ Stats generation for `$authorId` took ${authorReportBuildTime.milliseconds}")
+            Log.d(resources.string("stats_process_time_for_user", authorId, authorReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
 
@@ -78,7 +78,7 @@ class StatsGeneratorApplication : KoinComponent {
         // For each user, generates stats for all the PRs reviewed by the user
         appConfig.get().userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {
-                println("■ Building stats for `$usedId` as PR reviewer.\n")
+                println(resources.string("status_building_reviewer_pr_stats", usedId))
                 val prReviewerReviewStats = prReviewerStatsService.reviewerStats(prReviewerUserId = usedId)
                 formatters.forEach {
                     println(it.formatReviewerStats(prReviewerReviewStats))
