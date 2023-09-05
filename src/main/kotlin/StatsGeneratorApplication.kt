@@ -6,9 +6,9 @@ import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.i18n.Resources
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.ResourceBundle
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -19,7 +19,7 @@ import kotlin.time.Duration.Companion.milliseconds
 class StatsGeneratorApplication : KoinComponent {
     private val prReviewerStatsService: PrReviewerStatsService by inject()
     private val prAuthorStatsService: PrAuthorStatsService by inject()
-    private val resources: ResourceBundle by inject()
+    private val resources: Resources by inject()
 
     /**
      * Config loader that provides configs from `[LOCAL_PROPERTIES_FILE]`
@@ -45,7 +45,7 @@ class StatsGeneratorApplication : KoinComponent {
         val allAuthorStats = mutableListOf<AuthorStats>()
         // For each of the users, generates stats for all the PRs created by the user
         appConfig.get().userIds.forEach { authorId ->
-            println(String.format(resources.getString("status_building_author_pr_stats"), authorId))
+            println(resources.string("status_building_author_pr_stats", authorId))
 
             val authorReportBuildTime = measureTimeMillis {
                 val authorStats: AuthorStats = prAuthorStatsService.authorStats(prAuthorUserId = authorId)
@@ -55,7 +55,7 @@ class StatsGeneratorApplication : KoinComponent {
                 }
             }
 
-            Log.d("\nⓘ Stats generation for `$authorId` took ${authorReportBuildTime.milliseconds}")
+            Log.d(resources.string("stats_process_time_for_user", authorId, authorReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
 
@@ -78,14 +78,14 @@ class StatsGeneratorApplication : KoinComponent {
         // For each user, generates stats for all the PRs reviewed by the user
         appConfig.get().userIds.forEach { usedId ->
             val reviewerReportBuildTime = measureTimeMillis {
-                println("■ Building stats for `$usedId` as PR reviewer.\n")
+                println(resources.string("status_building_reviewer_pr_stats", usedId))
                 val prReviewerReviewStats = prReviewerStatsService.reviewerStats(prReviewerUserId = usedId)
                 formatters.forEach {
                     println(it.formatReviewerStats(prReviewerReviewStats))
                 }
             }
 
-            Log.d("\nⓘ Stats generation for `$usedId` took ${reviewerReportBuildTime.milliseconds}")
+            Log.d(resources.string("stats_process_time_for_user", usedId, reviewerReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }
@@ -94,9 +94,6 @@ class StatsGeneratorApplication : KoinComponent {
      * Prints current app configs for visibility when running stats.
      */
     private fun printCurrentAppConfigs() {
-        Log.i(
-            "\nⓘ Loaded current app configs from $LOCAL_PROPERTIES_FILE: " +
-                "\n${appConfig.get()}\n"
-        )
+        Log.i(resources.string("app_config_snapshot", LOCAL_PROPERTIES_FILE, appConfig.get()))
     }
 }

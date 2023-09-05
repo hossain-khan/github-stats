@@ -17,6 +17,8 @@ import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.LocalProperties
 import dev.hossain.githubstats.util.PropertiesReader
+import dev.hossain.i18n.Resources
+import dev.hossain.i18n.ResourcesImpl
 import dev.hossain.time.UserTimeZone
 import me.tongfei.progressbar.ConsoleProgressBarConsumer
 import me.tongfei.progressbar.ProgressBarBuilder
@@ -63,6 +65,7 @@ val appModule = module {
 
     // Localization
     single { ResourceBundle.getBundle("strings", Locale.getDefault()) }
+    factory { ResourcesImpl(resourceBundle = get()) } bind Resources::class
 
     // Config to load local properties
     factory { AppConfig(localProperties = get()) }
