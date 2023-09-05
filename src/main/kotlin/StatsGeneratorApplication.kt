@@ -85,7 +85,7 @@ class StatsGeneratorApplication : KoinComponent {
                 }
             }
 
-            Log.d("\nⓘ Stats generation for `$usedId` took ${reviewerReportBuildTime.milliseconds}")
+            Log.d(resources.string("stats_process_time_for_user", usedId, reviewerReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
     }
@@ -94,9 +94,6 @@ class StatsGeneratorApplication : KoinComponent {
      * Prints current app configs for visibility when running stats.
      */
     private fun printCurrentAppConfigs() {
-        Log.i(
-            "\nⓘ Loaded current app configs from $LOCAL_PROPERTIES_FILE: " +
-                "\n${appConfig.get()}\n"
-        )
+        Log.i(resources.string("app_config_snapshot", LOCAL_PROPERTIES_FILE, appConfig.get()))
     }
 }
