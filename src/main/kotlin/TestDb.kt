@@ -29,8 +29,12 @@ private fun getSource(): DataSource {
     config.driverClassName = "org.postgresql.Driver"
     val ds = HikariDataSource( config );
 
+    val conn = ds.getConnection()
 
-    return ds.dataSource
+    println("conn.isClosed ${conn.isClosed} - ${conn.schema} ${conn.metaData} ${conn.typeMap}")
+
+
+    return ds
 }
 
 fun doDatabaseThings(driver: SqlDriver) {
