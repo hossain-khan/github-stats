@@ -5,6 +5,11 @@ plugins {
     // https://kotlinlang.org/docs/releases.html#release-details
     kotlin("jvm") version "1.7.10"
     id("org.jmailen.kotlinter") version "3.12.0"
+
+    // SQLDelight - Generates typesafe Kotlin APIs from SQL
+    // https://cashapp.github.io/sqldelight/2.0.0/
+    id("app.cash.sqldelight") version "2.0.0"
+
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
     // id("com.google.devtools.ksp") version "1.7.10-1.0.6" // Not needed yet.
     application
@@ -14,7 +19,21 @@ group = "dev.hossain.githubstats"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    google()
     mavenCentral()
+}
+
+// SQLDelight - Generates typesafe Kotlin APIs from SQL
+// https://github.com/cashapp/sqldelight
+sqldelight {
+    databases {
+        create("GitHubApiCacheDb") {
+            packageName.set("dev.hossain.githubstats")
+            // https://cashapp.github.io/sqldelight/2.0.0/jvm_postgresql/
+            dialect("app.cash.sqldelight:postgresql-dialect:2.0.0")
+
+        }
+    }
 }
 
 dependencies {
@@ -44,6 +63,17 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
     implementation("com.squareup.moshi:moshi-adapters:1.14.0")
     // ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0") // Not needed yet.
+
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation("org.postgresql:postgresql:42.6.0")
+
+    // 光 HikariCP・A solid, high-performance, JDBC connection pool at last.
+    // https://github.com/brettwooldridge/HikariCP#artifacts
+    // https://www.baeldung.com/hikaricp
+    implementation("com.zaxxer:HikariCP:5.0.1")
+
+    // https://cashapp.github.io/sqldelight/2.0.0/jvm_postgresql
+    implementation("app.cash.sqldelight:jdbc-driver:2.0.0")
 
     // https://github.com/doyaaaaaken/kotlin-csv
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.6.0") //for JVM platform
