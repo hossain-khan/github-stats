@@ -20,6 +20,7 @@ import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -76,6 +77,18 @@ object Client {
                 .header("Authorization", "Bearer ${getAccessToken()}")
 
             chain.proceed(requestBuilder.build())
+        }
+
+        // Add another interceptor for caching
+        builder.addInterceptor { chain ->
+            println("Intercepting request: ${chain.request().url}")
+            val originalRequest = chain.request()
+
+            val response = chain.proceed(originalRequest)
+            val responseBody: String = response.peekBody(Long.MAX_VALUE).string()
+            println("Response body size: ${responseBody.length}")
+
+            response
         }
 
         // https://square.github.io/okhttp/features/caching/

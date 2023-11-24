@@ -3,8 +3,6 @@ import app.cash.sqldelight.driver.jdbc.asJdbcDriver
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import dev.hossain.githubstats.GitHubApiCacheDb
-import dev.hossain.githubstats.HockeyPlayer
-import dev.hossain.githubstats.PlayerQueries
 import dev.hossain.githubstats.util.LocalProperties
 import javax.sql.DataSource
 
