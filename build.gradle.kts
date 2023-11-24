@@ -67,6 +67,11 @@ dependencies {
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation("org.postgresql:postgresql:42.6.0")
 
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    implementation("org.slf4j:slf4j-simple:2.0.9")
+
     // 光 HikariCP・A solid, high-performance, JDBC connection pool at last.
     // https://github.com/brettwooldridge/HikariCP#artifacts
     // https://www.baeldung.com/hikaricp

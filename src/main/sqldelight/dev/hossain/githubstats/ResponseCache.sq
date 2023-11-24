@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS response_cache
+(
+    request_url character varying(512) NOT NULL,
+    id integer NOT NULL,
+    response json NOT NULL,
+    CONSTRAINT response_cache_pkey PRIMARY KEY (id)
+);
+
+
+selectAll:
+SELECT *
+FROM response_cache;
+
+insert:
+INSERT INTO response_cache(id, request_url, response)
+VALUES ( ?, ?, ?);
+
+select:
+SELECT * FROM response_cache
+WHERE request_url = ?;
+
+delete:
+DELETE FROM response_cache
+WHERE request_url = ?;
+
+deleteAll:
+DELETE FROM response_cache;
+
+count:
+SELECT COUNT(*) FROM response_cache;
