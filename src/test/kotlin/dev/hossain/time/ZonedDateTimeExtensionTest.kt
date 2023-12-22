@@ -1,6 +1,7 @@
 package dev.hossain.time
 
 import com.google.common.truth.Truth.assertThat
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import org.junit.jupiter.api.Test
@@ -138,4 +139,93 @@ internal class ZonedDateTimeExtensionTest {
         val dateTime = Instant.parse("2022-09-05T06:00:00-04:00").toZdt() // 06:00am Monday
         assertThat(dateTime.isAfterWorkingHour()).isFalse()
     }
+
+    // region Tests by AI
+
+    @Test
+    fun `startOfDay - given ZonedDateTime - returns ZonedDateTime at start of day`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-05T10:00:00-04:00[America/New_York]")
+
+        val startOfDay = zonedDateTime.startOfDay()
+
+        assertThat(startOfDay.hour).isEqualTo(0)
+        assertThat(startOfDay.minute).isEqualTo(0)
+        assertThat(startOfDay.second).isEqualTo(0)
+    }
+
+    @Test
+    fun `nextWorkingDay - given ZonedDateTime on weekend - returns ZonedDateTime on next Monday`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-04T10:00:00-04:00[America/New_York]") // Sunday
+
+        val nextWorkingDay = zonedDateTime.nextWorkingDay()
+
+        assertThat(nextWorkingDay.dayOfWeek).isEqualTo(DayOfWeek.MONDAY)
+    }
+
+    @Test
+    fun `nextWorkingDay - given ZonedDateTime on weekday - returns ZonedDateTime on next day`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-05T10:00:00-04:00[America/New_York]") // Monday
+
+        val nextWorkingDay = zonedDateTime.nextWorkingDay()
+
+        assertThat(nextWorkingDay.dayOfWeek).isEqualTo(DayOfWeek.TUESDAY)
+    }
+
+    @Test
+    fun `nextWorkingDayOrSame - given ZonedDateTime on weekend - returns ZonedDateTime on next Monday`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-04T10:00:00-04:00[America/New_York]") // Sunday
+
+        val nextWorkingDayOrSame = zonedDateTime.nextWorkingDayOrSame()
+
+        assertThat(nextWorkingDayOrSame.dayOfWeek).isEqualTo(DayOfWeek.MONDAY)
+    }
+
+    @Test
+    fun `nextWorkingDayOrSame - given ZonedDateTime on weekday - returns same ZonedDateTime`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-05T10:00:00-04:00[America/New_York]") // Monday
+
+        val nextWorkingDayOrSame = zonedDateTime.nextWorkingDayOrSame()
+
+        assertThat(nextWorkingDayOrSame).isEqualTo(zonedDateTime)
+    }
+
+    @Test
+    fun `nextWorkingHourOrSame - given ZonedDateTime on weekend - returns same ZonedDateTime`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-04T10:00:00-04:00[America/New_York]") // Sunday
+
+        val nextWorkingHourOrSame = zonedDateTime.nextWorkingHourOrSame()
+
+        assertThat(nextWorkingHourOrSame).isEqualTo(zonedDateTime)
+    }
+
+    @Test
+    fun `nextWorkingHourOrSame - given ZonedDateTime on weekday during working hours - returns same ZonedDateTime`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-05T10:00:00-04:00[America/New_York]") // Monday
+
+        val nextWorkingHourOrSame = zonedDateTime.nextWorkingHourOrSame()
+
+        assertThat(nextWorkingHourOrSame).isEqualTo(zonedDateTime)
+    }
+
+    @Test
+    fun `nextWorkingHourOrSame - given ZonedDateTime on weekday after working hours - returns ZonedDateTime at start of next working day`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-05T18:00:00-04:00[America/New_York]") // Monday
+
+        val nextWorkingHourOrSame = zonedDateTime.nextWorkingHourOrSame()
+
+        assertThat(nextWorkingHourOrSame.dayOfWeek).isEqualTo(DayOfWeek.TUESDAY)
+        assertThat(nextWorkingHourOrSame.hour).isEqualTo(9)
+    }
+
+    @Test
+    fun `nextWorkingHourOrSame - given ZonedDateTime on weekday before working hours - returns ZonedDateTime at start of same working day`() {
+        val zonedDateTime: ZonedDateTime = ZonedDateTime.parse("2022-09-05T06:00:00-04:00[America/New_York]") // Monday
+
+        val nextWorkingHourOrSame = zonedDateTime.nextWorkingHourOrSame()
+
+        assertThat(nextWorkingHourOrSame.dayOfWeek).isEqualTo(DayOfWeek.MONDAY)
+        assertThat(nextWorkingHourOrSame.hour).isEqualTo(9)
+    }
+
+    // endregion Tests by AI
 }
