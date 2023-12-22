@@ -163,7 +163,7 @@ internal fun ZonedDateTime.isAfterWorkingHour(): Boolean {
 internal fun ZonedDateTime.format(): String {
     val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
         .withLocale(Locale.US)
-        .withZone(ZoneId.systemDefault())
+        .withZone(zone)
 
     return this.format(formatter)
 }
