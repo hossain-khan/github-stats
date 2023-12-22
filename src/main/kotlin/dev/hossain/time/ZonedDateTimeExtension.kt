@@ -1,6 +1,5 @@
 package dev.hossain.time
 
-import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -163,7 +162,7 @@ internal fun ZonedDateTime.isAfterWorkingHour(): Boolean {
 internal fun ZonedDateTime.format(): String {
     val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
         .withLocale(Locale.US)
-        .withZone(ZoneId.systemDefault())
+        .withZone(zone)
 
     return this.format(formatter)
 }
