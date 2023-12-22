@@ -319,5 +319,55 @@ internal class DateTimeDifferTest {
         assertThat(diffWorkingHours).isEqualTo("9h 33m".duration())
     }
 
+    @Test
+    fun `diffWorkingHours - given start time is equal to end time - provides zero working hour`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
+        val endTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am same day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo(Duration.ZERO)
+    }
+
+    @Test
+    fun `diffWorkingHours - given start time is during working hour and end time is after working hour on the same day - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
+        val endTime: Instant = Instant.parse("2022-09-05T18:00:00-04:00") // 6:00pm same day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("7h".duration())
+    }
+
+    @Test
+    fun `diffWorkingHours - given start time is during working hour and end time is before working hour on the same day - provides zero working hour`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
+        val endTime: Instant = Instant.parse("2022-09-05T08:00:00-04:00") // 8:00am same day
+
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+        }
+    }
+
+    @Test
+    fun `diffWorkingHours - given start time is during working hour and end time is before working hour on the next day - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
+        val endTime: Instant = Instant.parse("2022-09-06T08:00:00-04:00") // 8:00am next day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("7h".duration())
+    }
+
+    @Test
+    fun `diffWorkingHours - given start time is during working hour and end time is after working hour on the next day - provides diff of working hour only`() {
+        val startTime: Instant = Instant.parse("2022-09-05T10:00:00-04:00") // 10:00am
+        val endTime: Instant = Instant.parse("2022-09-06T18:00:00-04:00") // 6:00pm next day
+
+        val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
+
+        assertThat(diffWorkingHours).isEqualTo("15h".duration())
+    }
+
     private fun String.duration(): Duration = Duration.parse(this)
 }
