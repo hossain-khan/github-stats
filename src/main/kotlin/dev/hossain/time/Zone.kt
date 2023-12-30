@@ -26,5 +26,5 @@ object Zone {
      * Provides [ZoneId] based on known [cityName] defined in [cities].
      * @throws NullPointerException if [cityName] is not in [cities]
      */
-    fun city(cityName: String): ZoneId = cities[cityName]!!
+    fun city(cityName: String): ZoneId = requireNotNull(cities[cityName]) { "Please add $cityName to Zone.cities map first." }
 }
