@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.util
 
+import dev.hossain.githubstats.AppConstants
 import dev.hossain.githubstats.AppConstants.BUILD_CONFIG
 import dev.hossain.githubstats.BuildConfig
 import okhttp3.ResponseBody
@@ -7,6 +8,18 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 class ErrorProcessor {
+    companion object {
+        /**
+         * Error message when token is invalid.
+         *
+         * Sample error message.
+         * ```json
+         * {"message":"Bad credentials","documentation_url":"https://docs.github.com/rest"}
+         * ```
+         */
+        private const val TOKEN_ERROR_MESSAGE = "Bad credentials"
+    }
+
     /**
      * Provides exception with detailed message to debug the error.
      */
@@ -28,11 +41,29 @@ class ErrorProcessor {
             val message: String = exception.message ?: "HTTP Error ${exception.code()}"
 
             if (error != null) {
-                return "$message - ${error.string()}\n$debugGuide"
+                val errorContent = error.string()
+                return "$message - ${errorContent}${getTokenErrorGuide(errorContent)}\n$debugGuide"
             }
             return "${message}\n$debugGuide"
         } else {
             return "${exception.message}\n$debugGuide"
+        }
+    }
+
+    private fun getTokenErrorGuide(errorMessage: String): String {
+        println("Error message: $errorMessage")
+        return if (errorMessage.contains(TOKEN_ERROR_MESSAGE)) {
+            """
+                
+                
+                ------------------------------------------------------------------------------------------------
+                ⚠️ NOTE: Your token likely have expired. 
+                         You can create a new token from GitHub settings page and provide it in `[${AppConstants.LOCAL_PROPERTIES_FILE}]`.
+                         See: ${AppConstants.GITHUB_TOKEN_SETTINGS_URL}
+                ------------------------------------------------------------------------------------------------
+            """.trimIndent()
+        } else {
+            ""
         }
     }
 
