@@ -26,4 +26,9 @@ object AppConstants {
      * Label for PR analysis progress bar.
      */
     const val PROGRESS_LABEL = "Progress"
+
+    /**
+     * GitHub token settings URL to direct user to create a new token.
+     */
+    const val GITHUB_TOKEN_SETTINGS_URL = "https://github.com/settings/tokens"
 }
