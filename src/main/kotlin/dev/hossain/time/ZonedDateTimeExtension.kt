@@ -133,7 +133,12 @@ internal fun ZonedDateTime.isWithinWorkingHour(): Boolean {
 }
 
 /**
- * TODO - doc and example please.
+ * Checks if the current ZonedDateTime is before the start of the working hour.
+ * The working hour is considered to start at 9 AM.
+ *
+ * @return Boolean value indicating whether the current time is before the start of the working hour.
+ * If the next working hour is the same as the current time, it returns false.
+ * If the previous working hour is on the previous day, it means the current time is before 9 AM, so it returns true.
  */
 internal fun ZonedDateTime.isBeforeWorkingHour(): Boolean {
     val nextWorkingHourOrSame = this.nextWorkingHourOrSame()
@@ -146,6 +151,14 @@ internal fun ZonedDateTime.isBeforeWorkingHour(): Boolean {
     return prevWorkingHour.isSameDay(this).not()
 }
 
+/**
+ * Checks if the current ZonedDateTime is after the end of the working hour.
+ * The working hour is considered to end at 5 PM.
+ *
+ * @return Boolean value indicating whether the current time is after the end of the working hour.
+ * If the next working hour is the same as the current time, it returns false.
+ * If the next working hour is on the next day, it means the current time is after 5 PM, so it returns true.
+ */
 internal fun ZonedDateTime.isAfterWorkingHour(): Boolean {
     val nextWorkingHourOrSame = this.nextWorkingHourOrSame()
     if (nextWorkingHourOrSame == this) {
@@ -157,7 +170,10 @@ internal fun ZonedDateTime.isAfterWorkingHour(): Boolean {
 }
 
 /**
- * Formats the [ZonedDateTime] with formatter to more human-readable time.
+ * Formats the ZonedDateTime to a more human-readable format.
+ *
+ * @return A string representing the formatted date and time.
+ * The format used is the full localized date-time format for the US locale.
  */
 internal fun ZonedDateTime.format(): String {
     val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
