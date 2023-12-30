@@ -1,7 +1,8 @@
 package dev.hossain.githubstats.util
 
-import dev.hossain.githubstats.AppConstants
 import dev.hossain.githubstats.AppConstants.BUILD_CONFIG
+import dev.hossain.githubstats.AppConstants.GITHUB_TOKEN_SETTINGS_URL
+import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -58,8 +59,8 @@ class ErrorProcessor {
                 
                 ------------------------------------------------------------------------------------------------
                 ⚠️ NOTE: Your token likely have expired. 
-                         You can create a new token from GitHub settings page and provide it in `[${AppConstants.LOCAL_PROPERTIES_FILE}]`.
-                         See: ${AppConstants.GITHUB_TOKEN_SETTINGS_URL}
+                         You can create a new token from GitHub settings page and provide it in `[$LOCAL_PROPERTIES_FILE]`.
+                         See: $GITHUB_TOKEN_SETTINGS_URL
                 ------------------------------------------------------------------------------------------------
             """.trimIndent()
         } else {
