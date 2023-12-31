@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.di
 
+import StatsGeneratorApplication
 import dev.hossain.githubstats.AppConstants
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
@@ -84,5 +85,15 @@ val appModule = module {
             .setTaskName(AppConstants.PROGRESS_LABEL)
             .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BAR)
             .setConsumer(ConsoleProgressBarConsumer(System.out))
+    }
+
+    single {
+        StatsGeneratorApplication(
+            prReviewerStatsService = get(),
+            prAuthorStatsService = get(),
+            resources = get(),
+            appConfig = get(),
+            formatters = getAll()
+        )
     }
 }

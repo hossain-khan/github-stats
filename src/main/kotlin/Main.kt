@@ -4,7 +4,9 @@ import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.di.appModule
 import dev.hossain.githubstats.logging.Log
 import kotlinx.coroutines.runBlocking
+import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.java.KoinJavaComponent.inject
 
 /**
  * Runs PR stats on specified repository for each GitHub users defined in the config.
@@ -19,9 +21,9 @@ fun main() {
         modules(appModule) // Initializes dependency injection for the app
     }
 
-    runBlocking {
-        val statsGeneratorApplication = StatsGeneratorApplication()
+    val statsGeneratorApplication: StatsGeneratorApplication by inject(StatsGeneratorApplication::class.java)
 
+    runBlocking {
         // 💡 Generates stats for each user as PR author - for all PRs created by the user
         statsGeneratorApplication.generateAuthorStats()
 

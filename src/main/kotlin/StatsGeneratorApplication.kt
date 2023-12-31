@@ -8,7 +8,6 @@ import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.i18n.Resources
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import kotlin.system.measureTimeMillis
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -16,21 +15,23 @@ import kotlin.time.Duration.Companion.milliseconds
  * App for generating PR stats for users that created PRs and reviewed PRs.
  * See [generateAuthorStats] and [generateReviewerStats] for details.
  */
-class StatsGeneratorApplication : KoinComponent {
-    private val prReviewerStatsService: PrReviewerStatsService by inject()
-    private val prAuthorStatsService: PrAuthorStatsService by inject()
-    private val resources: Resources by inject()
-
+class StatsGeneratorApplication(
+    private val prReviewerStatsService: PrReviewerStatsService,
+    private val prAuthorStatsService: PrAuthorStatsService,
+    /**
+     * Localized resources for printing messages.
+     */
+    private val resources: Resources,
     /**
      * Config loader that provides configs from `[LOCAL_PROPERTIES_FILE]`
      */
-    private val appConfig: AppConfig by inject()
-
+    private val appConfig: AppConfig,
     /**
      * Get all the available stats formatters - such as ASCII table, CSV writer and so on.
      * @see StatsFormatter
      */
-    private val formatters: List<StatsFormatter> = getKoin().getAll()
+    private val formatters: List<StatsFormatter>
+) : KoinComponent {
 
     /**
      * Generates stats for user as PR author
