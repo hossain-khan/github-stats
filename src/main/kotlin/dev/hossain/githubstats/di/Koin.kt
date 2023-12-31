@@ -43,8 +43,18 @@ val appModule = module {
             userTimeZone = get()
         )
     }
-    factory { IssueSearchPagerService(githubApiService = get(), errorProcessor = get()) }
-    factory { TimelineEventsPagerService(githubApiService = get(), errorProcessor = get()) }
+    factory {
+        IssueSearchPagerService(
+            githubApiService = get(),
+            errorProcessor = get()
+        )
+    }
+    factory {
+        TimelineEventsPagerService(
+            githubApiService = get(),
+            errorProcessor = get()
+        )
+    }
     factory {
         PrReviewerStatsService(
             pullRequestStatsRepo = get(),
@@ -63,6 +73,16 @@ val appModule = module {
     }
     single { ErrorProcessor() }
     single { UserTimeZone() }
+
+    single {
+        StatsGeneratorApplication(
+            prReviewerStatsService = get(),
+            prAuthorStatsService = get(),
+            resources = get(),
+            appConfig = get(),
+            formatters = getAll()
+        )
+    }
 
     // Localization
     single { ResourceBundle.getBundle("strings", Locale.getDefault()) }
@@ -85,15 +105,5 @@ val appModule = module {
             .setTaskName(AppConstants.PROGRESS_LABEL)
             .setStyle(ProgressBarStyle.COLORFUL_UNICODE_BAR)
             .setConsumer(ConsoleProgressBarConsumer(System.out))
-    }
-
-    single {
-        StatsGeneratorApplication(
-            prReviewerStatsService = get(),
-            prAuthorStatsService = get(),
-            resources = get(),
-            appConfig = get(),
-            formatters = getAll()
-        )
     }
 }
