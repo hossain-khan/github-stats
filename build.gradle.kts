@@ -60,11 +60,12 @@ dependencies {
     // =======================
     //
     testImplementation(kotlin("test"))
-    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("com.google.truth:truth:1.2.0")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.20")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.20")
 }
 
 tasks.test {
