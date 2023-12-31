@@ -1,5 +1,6 @@
 package dev.hossain.githubstats.di
 
+import StatsGeneratorApplication
 import dev.hossain.githubstats.AppConstants
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
@@ -42,8 +43,18 @@ val appModule = module {
             userTimeZone = get()
         )
     }
-    factory { IssueSearchPagerService(githubApiService = get(), errorProcessor = get()) }
-    factory { TimelineEventsPagerService(githubApiService = get(), errorProcessor = get()) }
+    factory {
+        IssueSearchPagerService(
+            githubApiService = get(),
+            errorProcessor = get()
+        )
+    }
+    factory {
+        TimelineEventsPagerService(
+            githubApiService = get(),
+            errorProcessor = get()
+        )
+    }
     factory {
         PrReviewerStatsService(
             pullRequestStatsRepo = get(),
@@ -62,6 +73,16 @@ val appModule = module {
     }
     single { ErrorProcessor() }
     single { UserTimeZone() }
+
+    single {
+        StatsGeneratorApplication(
+            prReviewerStatsService = get(),
+            prAuthorStatsService = get(),
+            resources = get(),
+            appConfig = get(),
+            formatters = getAll()
+        )
+    }
 
     // Localization
     single { ResourceBundle.getBundle("strings", Locale.getDefault()) }
