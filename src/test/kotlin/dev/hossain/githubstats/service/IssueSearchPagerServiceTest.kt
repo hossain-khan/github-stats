@@ -1,6 +1,5 @@
 package dev.hossain.githubstats.service
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.Issue
