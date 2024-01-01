@@ -85,7 +85,7 @@ internal class TimelineEventsPagerServiceTest {
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
-        return TimelineEventsPagerServiceTest::class.java.getResource("/$jsonResponseFile")!!.readText()
+        return requireNotNull(TimelineEventsPagerServiceTest::class.java.getResource("/$jsonResponseFile")).readText()
     }
     // endregion: Test Utility Functions
 }

@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.service
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.util.ErrorProcessor
@@ -60,7 +61,7 @@ internal class IssueSearchPagerServiceTest {
 
         val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
 
-        Truth.assertThat(githubIssueResults).hasSize(0)
+        assertThat(githubIssueResults).hasSize(0)
     }
 
     @Test
@@ -69,7 +70,7 @@ internal class IssueSearchPagerServiceTest {
 
         val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
 
-        Truth.assertThat(githubIssueResults).hasSize(1)
+        assertThat(githubIssueResults).hasSize(1)
     }
 
     @Test
@@ -87,13 +88,13 @@ internal class IssueSearchPagerServiceTest {
 
         val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
 
-        Truth.assertThat(githubIssueResults).hasSize(24)
+        assertThat(githubIssueResults).hasSize(24)
     }
 
     // region: Test Utility Functions
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
-        return IssueSearchPagerServiceTest::class.java.getResource("/$jsonResponseFile")!!.readText()
+        return requireNotNull(IssueSearchPagerServiceTest::class.java.getResource("/$jsonResponseFile")).readText()
     }
     // endregion: Test Utility Functions
 }
