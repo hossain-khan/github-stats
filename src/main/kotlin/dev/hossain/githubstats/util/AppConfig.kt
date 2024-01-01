@@ -1,6 +1,8 @@
 package dev.hossain.githubstats.util
 
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
+import dev.hossain.time.UserCity
+import dev.hossain.time.UserTimeZone
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -9,6 +11,9 @@ import java.util.Locale
 
 /**
  * Application config loader from the [LOCAL_PROPERTIES_FILE].
+ *
+ * @see UserTimeZone.userZones
+ * @see UserCity
  */
 class AppConfig constructor(localProperties: LocalProperties) {
     private val repoOwner: String = localProperties.getRepoOwner()
