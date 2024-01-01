@@ -361,10 +361,10 @@ class PullRequestStatsRepoImpl(
         // Finds first event (TODO: Check if the result is sorted, if not sort it)
         .find { reviewedEvent ->
             reviewedEvent.user == reviewer &&
-                    listOf(
-                        ReviewState.APPROVED,
-                        ReviewState.CHANGE_REQUESTED,
-                        ReviewState.COMMENTED
-                    ).any { it == reviewedEvent.state }
+                listOf(
+                    ReviewState.APPROVED,
+                    ReviewState.CHANGE_REQUESTED,
+                    ReviewState.COMMENTED
+                ).any { it == reviewedEvent.state }
         }
 }
