@@ -1,6 +1,8 @@
 package dev.hossain.githubstats.util
 
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
+import dev.hossain.time.UserCity
+import dev.hossain.time.UserTimeZone
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -9,6 +11,9 @@ import java.util.Locale
 
 /**
  * Application config loader from the [LOCAL_PROPERTIES_FILE].
+ *
+ * @see UserTimeZone.userZones
+ * @see UserCity
  */
 class AppConfig constructor(localProperties: LocalProperties) {
     private val repoOwner: String = localProperties.getRepoOwner()
@@ -73,6 +78,9 @@ class AppConfig constructor(localProperties: LocalProperties) {
         return dateText
     }
 
+    /**
+     * Validates date format defined in the [LOCAL_PROPERTIES_FILE] config.
+     */
     private fun validateDate(dateText: String) {
         val dateFormatter: DateTimeFormatter = DateTimeFormatter
             .ofPattern("uuuu-MM-dd", Locale.US)
