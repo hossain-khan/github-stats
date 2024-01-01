@@ -78,6 +78,9 @@ class AppConfig constructor(localProperties: LocalProperties) {
         return dateText
     }
 
+    /**
+     * Validates date format defined in the [LOCAL_PROPERTIES_FILE] config.
+     */
     private fun validateDate(dateText: String) {
         val dateFormatter: DateTimeFormatter = DateTimeFormatter
             .ofPattern("uuuu-MM-dd", Locale.US)

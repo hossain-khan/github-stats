@@ -62,7 +62,9 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("com.google.truth:truth:1.2.0")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
-    testImplementation("io.mockk:mockk:1.13.8")
+    // MockK - https://mockk.io/ : don't use 1.13.8 due to
+    // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
+    testImplementation("io.mockk:mockk:1.13.7")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.20")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
@@ -73,6 +75,9 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
+    /**
+     * https://kotlinlang.org/docs/compiler-reference.html#jvm-target-version
+     */
     kotlinOptions.jvmTarget = "1.8"
 }
 
