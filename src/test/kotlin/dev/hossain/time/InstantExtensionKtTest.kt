@@ -28,6 +28,5 @@ class InstantExtensionKtTest {
         assertThat(formattedString).contains("Monday, September 5, 2022")
         assertThat(formattedString).contains("6:00:00")
         assertThat(formattedString).contains("Eastern Daylight Time")
-
     }
 }
