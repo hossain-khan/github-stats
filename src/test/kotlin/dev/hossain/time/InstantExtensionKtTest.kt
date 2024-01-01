@@ -23,6 +23,10 @@ class InstantExtensionKtTest {
 
         val formattedString = instant.format()
 
-        assertThat(formattedString).isEqualTo("Monday, September 5, 2022 at 6:00:00 AM Eastern Daylight Time")
+        // Expected: Monday, September 5, 2022 at 6:00:00 AM Eastern Daylight Time
+        // However, splitted text because of different result in CI and local gradle run.
+        assertThat(formattedString).contains("Monday, September 5, 2022")
+        assertThat(formattedString).contains("6:00:00")
+        assertThat(formattedString).contains("Eastern Daylight Time")
     }
 }
