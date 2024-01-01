@@ -7,7 +7,6 @@ import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.i18n.Resources
-
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -44,13 +43,16 @@ class StatsGeneratorApplicationTest {
     @Test
     fun `generateAuthorStats should call authorStats and formatAuthorStats for each user`() = runBlocking {
         val userIds = listOf("user1", "user2")
-        val authorStats = AuthorStats(AuthorPrStats(
-            authorUserId = "user1",
-            totalPrsCreated = 0,
-            totalIssueComments = 0,
-            totalPrSubmissionComments = 0,
-            totalCodeReviewComments = 0
-        ), emptyList())
+        val authorStats = AuthorStats(
+            AuthorPrStats(
+                authorUserId = "user1",
+                totalPrsCreated = 0,
+                totalIssueComments = 0,
+                totalPrSubmissionComments = 0,
+                totalCodeReviewComments = 0
+            ),
+            emptyList()
+        )
 
         coEvery { appConfig.get().userIds } returns userIds
         coEvery { prAuthorStatsService.authorStats(any()) } returns authorStats
