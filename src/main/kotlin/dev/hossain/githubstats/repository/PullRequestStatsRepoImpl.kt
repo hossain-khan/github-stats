@@ -179,16 +179,7 @@ class PullRequestStatsRepoImpl(
         val initialResponseTime = mutableMapOf<UserId, Duration>()
 
         prReviewers.forEach { reviewer ->
-            val firstReviewedEvent: ReviewedEvent = prTimelineEvents.filterTo(ReviewedEvent::class)
-                // Finds first event (TODO: Check if the result is sorted, if not sort it)
-                .find { reviewedEvent ->
-                    reviewedEvent.user == reviewer &&
-                        listOf(
-                            ReviewState.APPROVED,
-                            ReviewState.CHANGE_REQUESTED,
-                            ReviewState.COMMENTED
-                        ).any { it == reviewedEvent.state }
-                } ?: return@forEach
+            val firstReviewedEvent: ReviewedEvent = firstReviewedEvent(prTimelineEvents, reviewer) ?: return@forEach
 
             val prReviewerUserId = reviewer.login
             val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
@@ -359,4 +350,21 @@ class PullRequestStatsRepoImpl(
 
         return prCreatedOn
     }
+
+    /**
+     * Finds the first reviewed event by the [reviewer] to know when user has finished reviewing the PR.
+     */
+    private fun firstReviewedEvent(
+        prTimelineEvents: List<TimelineEvent>,
+        reviewer: User
+    ) = prTimelineEvents.filterTo(ReviewedEvent::class)
+        // Finds first event (TODO: Check if the result is sorted, if not sort it)
+        .find { reviewedEvent ->
+            reviewedEvent.user == reviewer &&
+                listOf(
+                    ReviewState.APPROVED,
+                    ReviewState.CHANGE_REQUESTED,
+                    ReviewState.COMMENTED
+                ).any { it == reviewedEvent.state }
+        }
 }
