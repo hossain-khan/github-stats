@@ -15,7 +15,7 @@ object BuildConfig {
      * @see Log.WARNING
      * @see Log.NONE
      */
-    const val LOG_LEVEL = Log.DEBUG
+    var LOG_LEVEL = Log.DEBUG
 
     /**
      * Shows HTTP requests and response on the console.
