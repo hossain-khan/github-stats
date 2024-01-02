@@ -37,7 +37,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     // https://github.com/JakeWharton/picnic
-    implementation("com.jakewharton.picnic:picnic:0.6.0")
+    implementation("com.jakewharton.picnic:picnic:0.7.0")
 
     // https://github.com/square/moshi
     implementation("com.squareup.moshi:moshi:1.15.0")
