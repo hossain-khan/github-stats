@@ -34,5 +34,5 @@ data class Config(
      * (Optional) Limits the search at MAX given date to exclude newer data
      * (Format: YYYY-MM-DD)
      */
-    val dateLimitBefore: String
+    val dateLimitBefore: String,
 )

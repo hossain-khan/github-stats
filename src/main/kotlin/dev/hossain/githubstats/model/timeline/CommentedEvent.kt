@@ -49,7 +49,7 @@ data class CommentedEvent(
     val created_at: String,
     val updated_at: String,
     @Json(name = "event")
-    override val eventType: String = TYPE
+    override val eventType: String = TYPE,
 ) : TimelineEvent {
     companion object {
         const val TYPE = "commented"

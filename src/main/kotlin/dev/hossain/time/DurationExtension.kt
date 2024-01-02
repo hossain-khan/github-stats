@@ -18,7 +18,7 @@ fun Duration.toWorkingHour(workingHoursInADay: Int = 8): String {
         val remainingHoursAfterWholeDays = this.minus(wholeDayHours)
 
         "$wholeDays ${if (wholeDays > 1) "days" else "day"}${
-        (if (remainingHoursAfterWholeDays > Duration.ZERO) " and $remainingHoursAfterWholeDays" else "")
+            (if (remainingHoursAfterWholeDays > Duration.ZERO) " and $remainingHoursAfterWholeDays" else "")
         } [Based on ${workingHoursInADay}h on a working day]"
     } else {
         this.toString()

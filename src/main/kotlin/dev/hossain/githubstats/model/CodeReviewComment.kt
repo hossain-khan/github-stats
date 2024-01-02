@@ -46,5 +46,5 @@ data class CodeReviewComment(
     val original_commit_id: String,
     val created_at: String,
     val updated_at: String,
-    val author_association: String
+    val author_association: String,
 )

@@ -40,9 +40,9 @@ internal class PullRequestStatsRepoTest {
             githubApiService = Client.githubApiService,
             timelinesPager = TimelineEventsPagerService(
                 githubApiService = Client.githubApiService,
-                errorProcessor = ErrorProcessor()
+                errorProcessor = ErrorProcessor(),
             ),
-            userTimeZone = UserTimeZone()
+            userTimeZone = UserTimeZone(),
         )
     }
 

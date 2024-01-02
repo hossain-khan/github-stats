@@ -20,5 +20,5 @@ class IssuePullRequest(
     val html_url: String,
     val diff_url: String,
     val patch_url: String,
-    val merged_at: String?
+    val merged_at: String?,
 )

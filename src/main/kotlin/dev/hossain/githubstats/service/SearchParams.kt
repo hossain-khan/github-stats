@@ -23,7 +23,7 @@ class SearchParams constructor(
      * Upper bound of date to limit anything beyond [dateBefore].
      * Format: YYYY-MM-DD
      */
-    private val dateBefore: String
+    private val dateBefore: String,
 ) {
     /**
      * Provides search query for the [GithubApiService.searchIssues] API.

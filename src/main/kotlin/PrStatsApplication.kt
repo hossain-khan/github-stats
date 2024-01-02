@@ -26,7 +26,7 @@ class PrStatsApplication : KoinComponent {
                 pullRequestStatsRepo.stats(
                     repoOwner = repoOwner,
                     repoId = repoId,
-                    prNumber = prNumber
+                    prNumber = prNumber,
                 )
             } catch (e: Exception) {
                 val error = errorProcessor.getDetailedError(e)

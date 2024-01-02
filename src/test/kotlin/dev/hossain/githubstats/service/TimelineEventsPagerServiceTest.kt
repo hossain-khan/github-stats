@@ -32,7 +32,7 @@ internal class TimelineEventsPagerServiceTest {
 
         timelinePagerService = TimelineEventsPagerService(
             githubApiService = Client.githubApiService,
-            errorProcessor = ErrorProcessor()
+            errorProcessor = ErrorProcessor(),
         )
     }
 
@@ -46,7 +46,7 @@ internal class TimelineEventsPagerServiceTest {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(400)
-                .setBody("{ \"error\": 400 }")
+                .setBody("{ \"error\": 400 }"),
         )
 
         assertFailsWith(IllegalStateException::class) {

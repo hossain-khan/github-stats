@@ -56,7 +56,7 @@ data class ReviewRequestedEvent(
      * NOTE: This is null when [requested_reviewer] is used
      */
     val requested_team: Team?,
-    val review_requester: User
+    val review_requester: User,
 ) : TimelineEvent {
     companion object {
         const val TYPE = "review_requested"

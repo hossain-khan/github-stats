@@ -45,7 +45,7 @@ object Client {
                 .withSubtype(ReadyForReviewEvent::class.java, ReadyForReviewEvent.TYPE)
                 .withSubtype(ReviewRequestedEvent::class.java, ReviewRequestedEvent.TYPE)
                 .withSubtype(ReviewedEvent::class.java, ReviewedEvent.TYPE)
-                .withDefaultValue(UnknownEvent())
+                .withDefaultValue(UnknownEvent()),
         )
         .addLast(KotlinJsonAdapterFactory())
         .build()
@@ -82,8 +82,8 @@ object Client {
         builder.cache(
             Cache(
                 directory = httpCacheDir(),
-                maxSize = BuildConfig.HTTP_CACHE_SIZE
-            )
+                maxSize = BuildConfig.HTTP_CACHE_SIZE,
+            ),
         )
 
         return builder.build()

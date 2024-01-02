@@ -27,7 +27,7 @@ object Zone {
         PHOENIX to ZoneId.of("America/Phoenix"),
         SAN_FRANCISCO to ZoneId.of("America/Los_Angeles"),
         TORONTO to ZoneId.of("America/Toronto"),
-        VANCOUVER to ZoneId.of("America/Vancouver")
+        VANCOUVER to ZoneId.of("America/Vancouver"),
     )
 
     /**

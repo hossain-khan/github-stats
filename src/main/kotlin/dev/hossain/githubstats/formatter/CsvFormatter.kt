@@ -47,7 +47,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             csvWriter().writeAll(
                 listOf(listOf(stat.reviewerId, stat.totalReviews)),
                 combinedReportFileName,
-                append = true
+                append = true,
             )
 
             // Individual report per reviewer
@@ -61,7 +61,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                 "PR Issue Comments",
                 "PR Review Comments",
                 "Total Comments",
-                "PR URL"
+                "PR URL",
             )
 
             csvWriter().open(fileName) {
@@ -69,15 +69,24 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
                 stat.stats.forEach { reviewStats ->
                     writeRow(
-                        stat.reviewerId, /* "Reviewer" */
-                        "PR ${reviewStats.pullRequest.number}", /* "PR Number" */
-                        "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}", /* "Review time (mins)" */
-                        "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}", /* "Initial Response time (mins)" */
-                        "${reviewStats.prComments.codeReviewComment}", /* "Code Review Comments" */
-                        "${reviewStats.prComments.issueComment}", /* "PR Issue Comments" */
-                        "${reviewStats.prComments.prReviewSubmissionComment}", /* "PR Review Comments" */
-                        "${reviewStats.prComments.allComments}", /* "Total Comments" */
-                        reviewStats.pullRequest.html_url /* "PR URL" */
+                        /* "Reviewer" */
+                        stat.reviewerId,
+                        /* "PR Number" */
+                        "PR ${reviewStats.pullRequest.number}",
+                        /* "Review time (mins)" */
+                        "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}",
+                        /* "Initial Response time (mins)" */
+                        "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}",
+                        /* "Code Review Comments" */
+                        "${reviewStats.prComments.codeReviewComment}",
+                        /* "PR Issue Comments" */
+                        "${reviewStats.prComments.issueComment}",
+                        /* "PR Review Comments" */
+                        "${reviewStats.prComments.prReviewSubmissionComment}",
+                        /* "Total Comments" */
+                        "${reviewStats.prComments.allComments}",
+                        /* "PR URL" */
+                        reviewStats.pullRequest.html_url,
                     )
                 }
             }
@@ -102,7 +111,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             "Total PRs Created by Author",
             "Total Source Code Review Comments",
             "Total PR Issue Comments (not associated with code)",
-            "Total PR Review Submission comments (reviewed or request change)"
+            "Total PR Review Submission comments (reviewed or request change)",
         )
         csvWriter().open(targetFileName) {
             writeRow(headerItem)
@@ -114,7 +123,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     it.totalPrsCreated,
                     it.totalCodeReviewComments,
                     it.totalIssueComments,
-                    it.totalPrSubmissionComments
+                    it.totalPrSubmissionComments,
                 )
             }
         }
@@ -142,7 +151,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             "Total PR Issue Comments",
             "Total PR Review Comments",
             "Total All Comments Made",
-            "PR# List"
+            "PR# List",
         )
         csvWriter().open(reviewedForFile) {
             writeRow(headerItem)
@@ -158,7 +167,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     userComments.sumOf { it.issueComment },
                     userComments.sumOf { it.prReviewSubmissionComment },
                     userComments.sumOf { it.allComments },
-                    prReviewStats.map { it.pullRequest.number }.sorted().toString()
+                    prReviewStats.map { it.pullRequest.number }.sorted().toString(),
                 )
             }
         }
@@ -181,8 +190,8 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     "PR Merged On",
                     "Ready->Merge",
                     "PR Author",
-                    "PR URL"
-                )
+                    "PR URL",
+                ),
             )
             stats.reviewedPrStats.forEach { reviewStats: ReviewStats ->
                 writeRow(
@@ -200,7 +209,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
                     reviewStats.prMergedOn,
                     (reviewStats.prMergedOn - reviewStats.prReadyOn),
                     reviewStats.pullRequest.user.login,
-                    reviewStats.pullRequest.html_url
+                    reviewStats.pullRequest.html_url,
                 )
             }
         }

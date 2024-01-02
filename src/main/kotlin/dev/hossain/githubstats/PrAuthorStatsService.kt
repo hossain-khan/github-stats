@@ -22,7 +22,7 @@ class PrAuthorStatsService constructor(
     private val pullRequestStatsRepo: PullRequestStatsRepo,
     private val issueSearchPager: IssueSearchPagerService,
     private val appConfig: AppConfig,
-    private val errorProcessor: ErrorProcessor
+    private val errorProcessor: ErrorProcessor,
 ) {
 
     /**
@@ -39,7 +39,7 @@ class PrAuthorStatsService constructor(
      * ```
      */
     suspend fun authorStats(
-        prAuthorUserId: String
+        prAuthorUserId: String,
     ): AuthorStats {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
@@ -50,8 +50,8 @@ class PrAuthorStatsService constructor(
                 repoId = repoId,
                 author = prAuthorUserId,
                 dateAfter = dateLimitAfter,
-                dateBefore = dateLimitBefore
-            ).toQuery()
+                dateBefore = dateLimitBefore,
+            ).toQuery(),
         ).filter {
             // Makes sure it is a PR, not an issue
             it.pull_request != null
@@ -72,7 +72,7 @@ class PrAuthorStatsService constructor(
                     pullRequestStatsRepo.stats(
                         repoOwner = repoOwner,
                         repoId = repoId,
-                        prNumber = pr.number
+                        prNumber = pr.number,
                     )
                 } catch (e: Exception) {
                     val error = errorProcessor.getDetailedError(e)
@@ -90,7 +90,7 @@ class PrAuthorStatsService constructor(
         val authorPrStats = aggregatePrAuthorsPrStats(prAuthorUserId, allMergedPrsByAuthor, mergedPrsStatsList)
         Log.i(
             "ℹ️ The author '$prAuthorUserId' has created ${authorPrStats.totalPrsCreated} PRs that successfully got merged." +
-                "\nTotal Comments Received - Code Review: ${authorPrStats.totalCodeReviewComments}, PR Comment: ${authorPrStats.totalIssueComments}, Review+Re-review: ${authorPrStats.totalPrSubmissionComments}"
+                "\nTotal Comments Received - Code Review: ${authorPrStats.totalCodeReviewComments}, PR Comment: ${authorPrStats.totalIssueComments}, Review+Re-review: ${authorPrStats.totalPrSubmissionComments}",
         )
 
         val authorReviewStats: List<AuthorReviewStats> =
@@ -103,7 +103,7 @@ class PrAuthorStatsService constructor(
     private fun aggregatePrAuthorReviewStats(
         mergedPrsStatsList: List<PrStats>,
         repoId: String,
-        prAuthorUsedId: String
+        prAuthorUsedId: String,
     ): List<AuthorReviewStats> {
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
@@ -117,7 +117,7 @@ class PrAuthorStatsService constructor(
                         initialResponseTime = stats.initialResponseTime[userId] ?: time,
                         prComments = stats.comments[userId] ?: noComments(userId),
                         prReadyOn = stats.prReadyOn,
-                        prMergedOn = stats.prMergedOn
+                        prMergedOn = stats.prMergedOn,
                     )
                     if (userReviews.containsKey(userId)) {
                         userReviews[userId] = userReviews[userId]!!.plus(reviewStats)
@@ -142,7 +142,7 @@ class PrAuthorStatsService constructor(
                 average = averageReviewTime,
                 totalReviews = totalReviews,
                 totalComments = totalReviewComments,
-                stats = reviewStats
+                stats = reviewStats,
             )
         }.sortedByDescending { it.totalReviews }
 
@@ -160,7 +160,7 @@ class PrAuthorStatsService constructor(
     private fun aggregatePrAuthorsPrStats(
         prAuthorUserId: String,
         allMergedPrsByAuthor: List<Issue>,
-        mergedPrsStatsList: List<PrStats>
+        mergedPrsStatsList: List<PrStats>,
     ): AuthorPrStats {
         // Builds author's stats for all PRs made by the author
         val totalPrsCreated = allMergedPrsByAuthor.size
@@ -185,7 +185,7 @@ class PrAuthorStatsService constructor(
             totalPrsCreated = totalPrsCreated,
             totalIssueComments = totalIssueComments,
             totalPrSubmissionComments = totalPrSubmissionComments,
-            totalCodeReviewComments = totalCodeReviewComments
+            totalCodeReviewComments = totalCodeReviewComments,
         )
     }
 }

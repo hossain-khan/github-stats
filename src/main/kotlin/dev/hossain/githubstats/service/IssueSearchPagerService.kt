@@ -15,7 +15,7 @@ import kotlin.math.ceil
 class IssueSearchPagerService constructor(
     private val githubApiService: GithubApiService,
     private val errorProcessor: ErrorProcessor,
-    private val pageSize: Int = DEFAULT_PAGE_SIZE
+    private val pageSize: Int = DEFAULT_PAGE_SIZE,
 ) {
     /**
      * Does the search API call using [GithubApiService.searchIssues] and pages to collect all results.
@@ -29,7 +29,7 @@ class IssueSearchPagerService constructor(
                 githubApiService.searchIssues(
                     searchQuery = searchQuery,
                     page = pageNumber,
-                    size = pageSize
+                    size = pageSize,
                 )
             } catch (exception: Exception) {
                 throw errorProcessor.getDetailedError(exception)

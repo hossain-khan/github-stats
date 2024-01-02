@@ -42,7 +42,7 @@ class AppConfig constructor(localProperties: LocalProperties) {
         if (users.isEmpty()) {
             throw IllegalArgumentException(
                 "You must provide at least one user name for generating " +
-                    "stats as PR author or reviewer."
+                    "stats as PR author or reviewer.",
             )
         }
 
@@ -91,10 +91,10 @@ class AppConfig constructor(localProperties: LocalProperties) {
         } catch (e: DateTimeParseException) {
             throw IllegalArgumentException(
                 "The date '$dateText' should be formatted like `YYYY-MM-DD`. Today is `${
-                dateFormatter.format(
-                    LocalDate.now()
-                )
-                }`."
+                    dateFormatter.format(
+                        LocalDate.now(),
+                    )
+                }`.",
             )
         }
     }

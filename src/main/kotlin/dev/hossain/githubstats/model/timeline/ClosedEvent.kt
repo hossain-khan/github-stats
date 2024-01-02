@@ -29,7 +29,7 @@ data class ClosedEvent(
     val created_at: String,
     @Json(name = "event")
     override val eventType: String = TYPE,
-    val id: Long
+    val id: Long,
 ) : TimelineEvent {
     companion object {
         const val TYPE = "closed"
