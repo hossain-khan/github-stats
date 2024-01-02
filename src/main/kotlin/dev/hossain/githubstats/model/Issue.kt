@@ -60,5 +60,5 @@ data class Issue(
     val created_at: String,
     val updated_at: String?,
     val closed_at: String?,
-    val pull_request: IssuePullRequest?
+    val pull_request: IssuePullRequest?,
 )

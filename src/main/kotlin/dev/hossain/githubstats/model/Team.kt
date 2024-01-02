@@ -48,5 +48,5 @@ data class Team(
     /**
      * Permission that the team will have for its repositories
      */
-    val permission: String
+    val permission: String,
 )

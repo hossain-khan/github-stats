@@ -32,7 +32,7 @@ internal class IssueSearchPagerServiceTest {
 
         issueSearchPager = IssueSearchPagerService(
             githubApiService = Client.githubApiService,
-            errorProcessor = ErrorProcessor()
+            errorProcessor = ErrorProcessor(),
         )
     }
 
@@ -46,7 +46,7 @@ internal class IssueSearchPagerServiceTest {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(400)
-                .setBody("{ \"error\": 400 }")
+                .setBody("{ \"error\": 400 }"),
         )
 
         assertFailsWith(IllegalStateException::class) {
@@ -82,7 +82,7 @@ internal class IssueSearchPagerServiceTest {
         issueSearchPager = IssueSearchPagerService(
             githubApiService = Client.githubApiService,
             errorProcessor = ErrorProcessor(),
-            pageSize = 10 // sets the page size low based on unit test
+            pageSize = 10, // sets the page size low based on unit test
         )
 
         val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")

@@ -22,10 +22,10 @@ class PrReviewerStatsService constructor(
     private val pullRequestStatsRepo: PullRequestStatsRepo,
     private val issueSearchPager: IssueSearchPagerService,
     private val appConfig: AppConfig,
-    private val errorProcessor: ErrorProcessor
+    private val errorProcessor: ErrorProcessor,
 ) {
     suspend fun reviewerStats(
-        prReviewerUserId: String
+        prReviewerUserId: String,
     ): ReviewerReviewStats {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
@@ -36,8 +36,8 @@ class PrReviewerStatsService constructor(
                 repoId = repoId,
                 reviewer = prReviewerUserId,
                 dateAfter = dateLimitAfter,
-                dateBefore = dateLimitBefore
-            ).toQuery()
+                dateBefore = dateLimitBefore,
+            ).toQuery(),
         ).filter {
             // Makes sure it is a PR, not an issue
             it.pull_request != null
@@ -58,7 +58,7 @@ class PrReviewerStatsService constructor(
                     pullRequestStatsRepo.stats(
                         repoOwner = repoOwner,
                         repoId = repoId,
-                        prNumber = pr.number
+                        prNumber = pr.number,
                     )
                 } catch (e: Exception) {
                     val error = errorProcessor.getDetailedError(e)
@@ -88,7 +88,7 @@ class PrReviewerStatsService constructor(
                     initialResponseTime = stats.initialResponseTime[prReviewerUserId] ?: prApprovalTime,
                     prComments = stats.comments[prReviewerUserId] ?: noComments(prReviewerUserId),
                     prReadyOn = stats.prReadyOn,
-                    prMergedOn = stats.prMergedOn
+                    prMergedOn = stats.prMergedOn,
                 )
             }
 
@@ -126,7 +126,7 @@ class PrReviewerStatsService constructor(
             },
             totalReviews = reviewerPrReviewStatsList.size,
             reviewedPrStats = reviewerPrReviewStatsList,
-            reviewedForPrStats = reviewerReviewedFor
+            reviewedForPrStats = reviewerReviewedFor,
         )
     }
 }

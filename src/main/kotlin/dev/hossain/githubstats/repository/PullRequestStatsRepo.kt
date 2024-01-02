@@ -12,11 +12,11 @@ interface PullRequestStatsRepo {
      */
     sealed class StatsResult {
         data class Success(
-            val stats: PrStats
+            val stats: PrStats,
         ) : StatsResult()
 
         data class Failure(
-            val error: Throwable
+            val error: Throwable,
         ) : StatsResult()
     }
 

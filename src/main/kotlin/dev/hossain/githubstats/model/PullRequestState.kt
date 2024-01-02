@@ -13,5 +13,5 @@ enum class PullRequestState {
     CLOSED,
 
     @Json(name = "all")
-    ALL
+    ALL,
 }

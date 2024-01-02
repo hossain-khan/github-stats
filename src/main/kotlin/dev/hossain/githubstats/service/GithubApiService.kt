@@ -43,7 +43,7 @@ interface GithubApiService {
     suspend fun pullRequest(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Path("pull_number") pullNumber: Int
+        @Path("pull_number") pullNumber: Int,
     ): PullRequest
 
     /**
@@ -63,7 +63,7 @@ interface GithubApiService {
         @Query("head") filter: String? = null,
         @Query("state") prState: String = PullRequestState.CLOSED.name.lowercase(),
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
-        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
+        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE,
     ): List<PullRequest>
 
     /**
@@ -78,7 +78,7 @@ interface GithubApiService {
         @Path("repo") repo: String,
         @Path("issue_number") issue: Int,
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
-        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
+        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE,
     ): List<TimelineEvent>
 
     /**
@@ -93,7 +93,7 @@ interface GithubApiService {
         @Path("repo") repo: String,
         @Path("pull_number") prNumber: Int,
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
-        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
+        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE,
     ): List<CodeReviewComment>
 
     /**
@@ -134,7 +134,7 @@ interface GithubApiService {
          */
         @Query("order") order: String = "desc",
         @Query("page") page: Int = DEFAULT_PAGE_NUMBER,
-        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE
+        @Query("per_page") size: Int = DEFAULT_PAGE_SIZE,
     ): IssueSearchResult
 
     /**
@@ -147,6 +147,6 @@ interface GithubApiService {
     suspend fun topContributors(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Query("per_page") itemPerPage: Int = MAX_CONTRIBUTORS_PER_PAGE
+        @Query("per_page") itemPerPage: Int = MAX_CONTRIBUTORS_PER_PAGE,
     ): List<User>
 }

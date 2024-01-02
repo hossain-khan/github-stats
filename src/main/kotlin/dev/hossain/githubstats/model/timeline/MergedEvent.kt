@@ -29,7 +29,7 @@ data class MergedEvent(
     @Json(name = "event")
     override val eventType: String = TYPE,
     val id: Long,
-    val url: String
+    val url: String,
 ) : TimelineEvent {
     companion object {
         const val TYPE = "merged"

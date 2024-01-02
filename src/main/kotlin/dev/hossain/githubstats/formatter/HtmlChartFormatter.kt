@@ -52,7 +52,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
         val formattedPieChart = Template.pieChart(
             title = chartTitle,
-            statsJsData = statsJsData
+            statsJsData = statsJsData,
         )
 
         val pieChartFileName = FileUtil.authorPieChartHtmlFile(prAuthorId)
@@ -65,13 +65,13 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             .plus(
                 stats.reviewStats.map {
                     "['${it.reviewerId}', ${it.totalReviews}, ${it.totalComments}]"
-                }
+                },
             ).joinToString()
 
         val formattedBarChart = Template.barChart(
             title = chartTitle,
             chartData = barStatsJsData,
-            dataSize = stats.reviewStats.size * 2 // Multiplied by data columns
+            dataSize = stats.reviewStats.size * 2, // Multiplied by data columns
         )
         val barChartFileName = FileUtil.authorBarChartHtmlFile(prAuthorId)
         val barChartFile = File(barChartFileName)
@@ -82,7 +82,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val barStatsJsDataAggregate: String = listOf("['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']")
             .plus(
 
-                "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]"
+                "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]",
 
             ).joinToString()
 
@@ -90,7 +90,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             title = "PR authors`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
                 "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
             chartData = barStatsJsDataAggregate,
-            dataSize = 5 // Multiplied by data columns
+            dataSize = 5, // Multiplied by data columns
         )
         val barChartFileNameAggregate = FileUtil.authorBarChartAggregateHtmlFile(prAuthorId)
         val barChartFileAggregate = File(barChartFileNameAggregate)
@@ -109,14 +109,14 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             .plus(
                 aggregatedPrStats.filter { it.isEmpty().not() }.map {
                     "['${it.authorUserId}', ${it.totalPrsCreated}, ${it.totalCodeReviewComments},${it.totalIssueComments},${it.totalPrSubmissionComments}]"
-                }
+                },
             ).joinToString()
 
         val formattedBarChartAggregate = Template.barChart(
             title = "Aggregated PR Stats on `${appConfig.get().repoId}` repository " +
                 "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
             chartData = barStatsJsDataAggregate,
-            dataSize = 5 // Multiplied by data columns
+            dataSize = 5, // Multiplied by data columns
         )
         val barChartFileNameAggregate = FileUtil.allAuthorBarChartAggregateHtmlFile()
         val barChartFileAggregate = File(barChartFileNameAggregate)
@@ -142,7 +142,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                 "'Total PR Issue Comments', " +
                 "'Total PR Review Comments', " +
                 "'Total All Comments Made'" +
-                "]"
+                "]",
         )
 
         // Prepares data for bar chart generation
@@ -163,13 +163,13 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                         "${userComments.sumOf { it.prReviewSubmissionComment }}," +
                         "${userComments.sumOf { it.allComments }}" +
                         "]"
-                }
+                },
             ).joinToString()
 
         val formattedBarChart = Template.barChart(
             title = "PRs Reviewed by ${stats.reviewerId}",
             chartData = barStatsJsData,
-            dataSize = stats.reviewedForPrStats.size * 6 // Multiplied by data columns
+            dataSize = stats.reviewedForPrStats.size * 6, // Multiplied by data columns
         )
         val reviewedForBarChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
         val reviewedForBarChartFile = File(reviewedForBarChartFileName)
@@ -183,7 +183,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                 "'PR#', " +
                 "'Initial Response Time (mins)'," +
                 "'Review Time (mins)'" +
-                "]"
+                "]",
         ).plus(
             stats.reviewedPrStats.map { reviewStats ->
                 "" +
@@ -192,13 +192,13 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                     "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}," +
                     "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
                     "]"
-            }
+            },
         ).joinToString()
 
         val appPrBarChart = Template.barChart(
             title = "PRs Reviewed by ${stats.reviewerId}",
             chartData = userAllPrChartData,
-            dataSize = stats.reviewedPrStats.size
+            dataSize = stats.reviewedPrStats.size,
         )
 
         val allPrChartFileName = FileUtil.prReviewerReviewedPrStatsBarChartFile(stats.reviewerId)

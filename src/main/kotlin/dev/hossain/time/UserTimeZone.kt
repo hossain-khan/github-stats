@@ -36,7 +36,7 @@ class UserTimeZone {
      */
     private val userZones: Map<String, ZoneId> = mapOf(
         "user-id-1" to city(TORONTO),
-        "user-id-2" to city(VANCOUVER)
+        "user-id-2" to city(VANCOUVER),
     )
 
     /**
@@ -50,7 +50,7 @@ class UserTimeZone {
         } else {
             Log.v(
                 "Using default $defaultZoneId timezone for '$userId'. " +
-                    "Use ${UserTimeZone::class.java.simpleName} to configure time zone for '$userId'."
+                    "Use ${UserTimeZone::class.java.simpleName} to configure time zone for '$userId'.",
             )
             defaultZoneId
         }

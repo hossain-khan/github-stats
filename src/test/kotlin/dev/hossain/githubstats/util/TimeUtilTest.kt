@@ -118,7 +118,7 @@ internal class TimeUtilTest {
         val nextWorkingDayOrSame = zonedDateTime1.with(TemporalsExtension.nextWorkingDayOrSame())
 
         println(
-            "Date#1: ($zonedDateTime1) \nnextWorkingDay=$nextWorkingDay, \nnextWorkingDayOrSame=$nextWorkingDayOrSame"
+            "Date#1: ($zonedDateTime1) \nnextWorkingDay=$nextWorkingDay, \nnextWorkingDayOrSame=$nextWorkingDayOrSame",
         )
 
         val date2JavaInstant: java.time.Instant = date2.toJavaInstant()
@@ -126,7 +126,7 @@ internal class TimeUtilTest {
         val nextWorkingDay2: ZonedDateTime = zonedDateTime2.with(TemporalsExtension.nextWorkingDay())
         val nextWorkingDayOrSame2 = zonedDateTime2.with(TemporalsExtension.nextWorkingDayOrSame())
         println(
-            "Date#2: ($zonedDateTime2) \nnextWorkingDay=$nextWorkingDay2, \nnextWorkingDayOrSame=$nextWorkingDayOrSame2"
+            "Date#2: ($zonedDateTime2) \nnextWorkingDay=$nextWorkingDay2, \nnextWorkingDayOrSame=$nextWorkingDayOrSame2",
         )
 
         // Represent a span-of-time in terms of days (24-hour chunks of time, not calendar days), hours, minutes, seconds.
@@ -138,7 +138,7 @@ internal class TimeUtilTest {
         // Extract the date-only from the date-time-zone object.
         val periodZ1Z2 = Period.between(
             zonedDateTime1.toLocalDate(),
-            zonedDateTime2.toLocalDate()
+            zonedDateTime2.toLocalDate(),
         )
         println("periodZ1Z2=$periodZ1Z2")
         println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")

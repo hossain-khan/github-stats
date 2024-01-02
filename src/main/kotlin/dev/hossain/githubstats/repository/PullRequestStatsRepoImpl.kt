@@ -31,7 +31,7 @@ import kotlin.time.Duration
 class PullRequestStatsRepoImpl(
     private val githubApiService: GithubApiService,
     private val timelinesPager: TimelineEventsPagerService,
-    private val userTimeZone: UserTimeZone
+    private val userTimeZone: UserTimeZone,
 ) : PullRequestStatsRepo {
     /**
      * Provides Pull Request stats [PrStats] for given [prNumber].
@@ -39,7 +39,7 @@ class PullRequestStatsRepoImpl(
     override suspend fun stats(
         repoOwner: String,
         repoId: String,
-        prNumber: Int
+        prNumber: Int,
     ): StatsResult {
         // API request to get PR information
         val pullRequest: PullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
@@ -66,7 +66,7 @@ class PullRequestStatsRepoImpl(
         val prInitialResponseTimeMap: Map<UserId, Duration> = prInitialResponseTimeByUser(
             prAvailableForReviewOn = prAvailableForReviewOn,
             prReviewers = prReviewers,
-            prTimelineEvents = prTimelineEvents
+            prTimelineEvents = prTimelineEvents,
         )
 
         // Builds a map of [Reviewer User -> Review Time during Working Hours]
@@ -74,12 +74,12 @@ class PullRequestStatsRepoImpl(
             pullRequest = pullRequest,
             prAvailableForReviewOn = prAvailableForReviewOn,
             prReviewers = prReviewers,
-            prTimelineEvents = prTimelineEvents
+            prTimelineEvents = prTimelineEvents,
         )
 
         val commentsByUser: Map<UserId, UserPrComment> = prCommentsCountByUser(
             prTimelineEvents = prTimelineEvents,
-            prCodeReviewComments = prCodeReviewComments
+            prCodeReviewComments = prCodeReviewComments,
         )
 
         return StatsResult.Success(
@@ -89,8 +89,8 @@ class PullRequestStatsRepoImpl(
                 initialResponseTime = prInitialResponseTimeMap,
                 comments = commentsByUser,
                 prReadyOn = prAvailableForReviewOn,
-                prMergedOn = pullRequest.prMergedOn!!
-            )
+                prMergedOn = pullRequest.prMergedOn!!,
+            ),
         )
     }
 
@@ -114,7 +114,7 @@ class PullRequestStatsRepoImpl(
      */
     private fun prCommentsCountByUser(
         prTimelineEvents: List<TimelineEvent>,
-        prCodeReviewComments: List<CodeReviewComment>
+        prCodeReviewComments: List<CodeReviewComment>,
     ): Map<UserId, UserPrComment> {
         val issueCommentsByUser = mutableMapOf<UserId, Int>()
         val codeReviewCommentsByUser = mutableMapOf<UserId, Int>()
@@ -159,7 +159,7 @@ class PullRequestStatsRepoImpl(
                     user = userId,
                     issueComment = issueCommentsByUser[userId] ?: 0,
                     codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
-                    prReviewSubmissionComment = reviewedEventByUser[userId] ?: 0
+                    prReviewSubmissionComment = reviewedEventByUser[userId] ?: 0,
                 )
             }
 
@@ -174,7 +174,7 @@ class PullRequestStatsRepoImpl(
     private fun prInitialResponseTimeByUser(
         prAvailableForReviewOn: Instant,
         prReviewers: Set<User>,
-        prTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>,
     ): Map<UserId, Duration> {
         val initialResponseTime = mutableMapOf<UserId, Duration>()
 
@@ -188,13 +188,13 @@ class PullRequestStatsRepoImpl(
             val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                 startInstant = prReadyForReviewOn,
                 endInstant = firstReviewedEvent.submitted_at.toInstant(),
-                timeZoneId = userTimeZone.get(prReviewerUserId)
+                timeZoneId = userTimeZone.get(prReviewerUserId),
             )
             Log.d("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
             Log.v(
                 "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()}," +
                     "ready for reviewer on ${prReadyForReviewOn.format()} " +
-                    "and event on ${firstReviewedEvent.submitted_at.toInstant().format()}"
+                    "and event on ${firstReviewedEvent.submitted_at.toInstant().format()}",
             )
 
             initialResponseTime[prReviewerUserId] = reviewTimeInWorkingHours
@@ -214,7 +214,7 @@ class PullRequestStatsRepoImpl(
         pullRequest: PullRequest,
         prAvailableForReviewOn: Instant,
         prReviewers: Set<User>,
-        prTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>,
     ): Map<UserId, Duration> {
         val reviewTimesByUser = mutableMapOf<UserId, Duration>()
 
@@ -237,11 +237,11 @@ class PullRequestStatsRepoImpl(
             val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
                 startInstant = prReadyForReviewOn,
                 endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
-                timeZoneId = userTimeZone.get(prReviewerUserId)
+                timeZoneId = userTimeZone.get(prReviewerUserId),
             )
             Log.i(
                 "  -- Reviewed and ✔approved in `$reviewTimeInWorkingHours` by `$prReviewerUserId`. " +
-                    "PR open->merged: $openToCloseDuration"
+                    "PR open->merged: $openToCloseDuration",
             )
 
             reviewTimesByUser[prReviewerUserId] = reviewTimeInWorkingHours
@@ -258,7 +258,7 @@ class PullRequestStatsRepoImpl(
     private fun evaluatePrReadyForReviewByUser(
         reviewer: User,
         prAvailableForReviewOn: Instant,
-        prTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>,
     ): Instant {
         // Find out if user has been requested to review later
         val reviewRequestedEvent: ReviewRequestedEvent? = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
@@ -286,7 +286,7 @@ class PullRequestStatsRepoImpl(
      */
     private fun isApprovedByReviewer(
         reviewer: User,
-        prTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>,
     ): Boolean {
         return prTimelineEvents.filterTo(ReviewedEvent::class)
             .any { it.user == reviewer && it.state == ReviewState.APPROVED }
@@ -305,7 +305,7 @@ class PullRequestStatsRepoImpl(
      */
     private fun findPrApprovedEventByUser(
         reviewer: User,
-        prTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>,
     ): ReviewedEvent {
         return prTimelineEvents.filterTo(ReviewedEvent::class)
             .find { it.user == reviewer && it.state == ReviewState.APPROVED }!!
@@ -321,13 +321,13 @@ class PullRequestStatsRepoImpl(
     @TestOnly
     internal fun prReviewers(
         prAuthor: User,
-        prTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>,
     ): Set<User> {
         return prTimelineEvents
             .filterTo(ReviewRequestedEvent::class)
             .map { it.actor }
             .plus(
-                prTimelineEvents.filterTo(ReviewedEvent::class).map { it.user }
+                prTimelineEvents.filterTo(ReviewedEvent::class).map { it.user },
             ).toSet()
             .minus(prAuthor)
     }
@@ -338,7 +338,7 @@ class PullRequestStatsRepoImpl(
      */
     private fun prAvailableForReviewTime(
         prCreatedOn: Instant,
-        prTimelineEvents: List<TimelineEvent>
+        prTimelineEvents: List<TimelineEvent>,
     ): Instant {
         val wasDraftPr: Boolean = prTimelineEvents.any { it.eventType == ReadyForReviewEvent.TYPE }
 
@@ -356,7 +356,7 @@ class PullRequestStatsRepoImpl(
      */
     private fun firstReviewedEvent(
         prTimelineEvents: List<TimelineEvent>,
-        reviewer: User
+        reviewer: User,
     ) = prTimelineEvents.filterTo(ReviewedEvent::class)
         // Finds first event (TODO: Check if the result is sorted, if not sort it)
         .find { reviewedEvent ->
@@ -364,7 +364,7 @@ class PullRequestStatsRepoImpl(
                 listOf(
                     ReviewState.APPROVED,
                     ReviewState.CHANGE_REQUESTED,
-                    ReviewState.COMMENTED
+                    ReviewState.COMMENTED,
                 ).any { it == reviewedEvent.state }
         }
 }

@@ -36,7 +36,7 @@ class StatsGeneratorApplicationTest {
             prAuthorStatsService,
             resources,
             appConfig,
-            formatters
+            formatters,
         )
     }
 
@@ -49,9 +49,9 @@ class StatsGeneratorApplicationTest {
                 totalPrsCreated = 0,
                 totalIssueComments = 0,
                 totalPrSubmissionComments = 0,
-                totalCodeReviewComments = 0
+                totalCodeReviewComments = 0,
             ),
-            emptyList()
+            emptyList(),
         )
 
         coEvery { appConfig.get().userIds } returns userIds
@@ -76,7 +76,7 @@ class StatsGeneratorApplicationTest {
             average = Duration.ZERO,
             totalReviews = 1,
             reviewedPrStats = emptyList(),
-            reviewedForPrStats = emptyMap()
+            reviewedForPrStats = emptyMap(),
         )
 
         coEvery { appConfig.get().userIds } returns userIds

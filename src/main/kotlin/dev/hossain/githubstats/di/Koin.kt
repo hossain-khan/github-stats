@@ -40,19 +40,19 @@ val appModule = module {
         PullRequestStatsRepoImpl(
             githubApiService = get(),
             timelinesPager = get(),
-            userTimeZone = get()
+            userTimeZone = get(),
         )
     }
     factory {
         IssueSearchPagerService(
             githubApiService = get(),
-            errorProcessor = get()
+            errorProcessor = get(),
         )
     }
     factory {
         TimelineEventsPagerService(
             githubApiService = get(),
-            errorProcessor = get()
+            errorProcessor = get(),
         )
     }
     factory {
@@ -60,7 +60,7 @@ val appModule = module {
             pullRequestStatsRepo = get(),
             issueSearchPager = get(),
             appConfig = get(),
-            errorProcessor = get()
+            errorProcessor = get(),
         )
     }
     factory {
@@ -68,7 +68,7 @@ val appModule = module {
             pullRequestStatsRepo = get(),
             issueSearchPager = get(),
             appConfig = get(),
-            errorProcessor = get()
+            errorProcessor = get(),
         )
     }
     single { ErrorProcessor() }
@@ -80,7 +80,7 @@ val appModule = module {
             prAuthorStatsService = get(),
             resources = get(),
             appConfig = get(),
-            formatters = getAll()
+            formatters = getAll(),
         )
     }
 

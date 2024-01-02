@@ -30,7 +30,7 @@ class StatsGeneratorApplication(
      * Get all the available stats formatters - such as ASCII table, CSV writer and so on.
      * @see StatsFormatter
      */
-    private val formatters: List<StatsFormatter>
+    private val formatters: List<StatsFormatter>,
 ) : KoinComponent {
 
     /**

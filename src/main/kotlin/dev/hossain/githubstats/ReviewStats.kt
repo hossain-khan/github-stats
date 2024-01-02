@@ -45,7 +45,7 @@ data class PrStats(
     /**
      * Date and time when the PR was merged successfully.
      */
-    val prMergedOn: Instant
+    val prMergedOn: Instant,
 )
 
 /**
@@ -86,7 +86,7 @@ data class ReviewStats constructor(
     /**
      * Date and time when the PR was merged successfully.
      */
-    val prMergedOn: Instant
+    val prMergedOn: Instant,
 )
 
 /**
@@ -94,7 +94,7 @@ data class ReviewStats constructor(
  */
 data class AuthorStats(
     val prStats: AuthorPrStats,
-    val reviewStats: List<AuthorReviewStats>
+    val reviewStats: List<AuthorReviewStats>,
 )
 
 /**
@@ -114,7 +114,7 @@ data class AuthorReviewStats(
     val average: Duration,
     val totalReviews: Int,
     val totalComments: Int,
-    val stats: List<ReviewStats>
+    val stats: List<ReviewStats>,
 )
 
 /**
@@ -128,7 +128,7 @@ data class AuthorPrStats(
     val totalPrsCreated: Int,
     val totalIssueComments: Int,
     val totalPrSubmissionComments: Int,
-    val totalCodeReviewComments: Int
+    val totalCodeReviewComments: Int,
 ) {
     /**
      * Checks if stats is empty, then it's likely not worth showing.
@@ -187,7 +187,7 @@ data class ReviewerReviewStats(
      * - john -> [PR#112 Stats, PR#931 Stats] (Meaning: The reviewer has reviewed 2 PRs created by `john`)
      * - kirk -> [PR#341 Stats, PR#611 Stats, PR#839 Stats]  (Meaning: The reviewer has reviewed 3 PRs created by `kirk`)
      */
-    val reviewedForPrStats: Map<UserId, List<PrStats>>
+    val reviewedForPrStats: Map<UserId, List<PrStats>>,
 )
 
 /**
@@ -213,7 +213,7 @@ data class UserPrComment(
      * Total PR review comment that either is [ReviewState.COMMENTED] or [ReviewState.CHANGE_REQUESTED] which
      * is used when reviewer submits a review after reviewing the PR.
      */
-    val prReviewSubmissionComment: Int
+    val prReviewSubmissionComment: Int,
 ) {
     companion object {
         /**
@@ -223,7 +223,7 @@ data class UserPrComment(
             user = userId,
             issueComment = 0,
             codeReviewComment = 0,
-            prReviewSubmissionComment = 0
+            prReviewSubmissionComment = 0,
         )
     }
 

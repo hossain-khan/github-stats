@@ -13,7 +13,7 @@ import java.io.File
  * The main purpose is to use the [PicnicTableFormatter] and write the output to file for later reference.
  */
 class FileWriterFormatter constructor(
-    private val formatter: StatsFormatter
+    private val formatter: StatsFormatter,
 ) : StatsFormatter {
     override fun formatSinglePrStats(prStats: PrStats): String {
         val formattedPrStats = formatter.formatSinglePrStats(prStats)

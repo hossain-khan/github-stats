@@ -108,7 +108,7 @@ data class PullRequest(
     val created_at: String,
     val updated_at: String?,
     val closed_at: String?,
-    val merged_at: String?
+    val merged_at: String?,
 ) {
     val isMerged: Boolean = merged != null && merged == true
     val prCreatedOn: Instant = created_at.toInstant()

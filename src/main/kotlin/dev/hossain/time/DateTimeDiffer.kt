@@ -37,7 +37,7 @@ object DateTimeDiffer {
     fun diffWorkingHours(
         startInstant: Instant,
         endInstant: Instant,
-        timeZoneId: ZoneId
+        timeZoneId: ZoneId,
     ): Duration {
         val startDateTime: ZonedDateTime = startInstant.toJavaInstant().atZone(timeZoneId)
         val endDateTime: ZonedDateTime = endInstant.toJavaInstant().atZone(timeZoneId)
@@ -116,7 +116,7 @@ object DateTimeDiffer {
      */
     private fun workingDuration(
         startDateTime: ZonedDateTime,
-        endDateTime: ZonedDateTime
+        endDateTime: ZonedDateTime,
     ): Duration {
         if ((startDateTime.isOnWorkingDay() && endDateTime.isOnWorkingDay()).not()) {
             throw IllegalArgumentException("This function can only handle working day diff")

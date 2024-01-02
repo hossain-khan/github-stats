@@ -211,6 +211,6 @@ object TemporalsExtension {
                     else -> temporal
                 }
             }
-        }
+        },
     }
 }

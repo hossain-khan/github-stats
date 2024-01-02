@@ -32,7 +32,7 @@ data class ReviewedEvent(
     val state: ReviewState,
     val submitted_at: String,
     val html_url: String,
-    val user: User
+    val user: User,
 ) : TimelineEvent {
     companion object {
         const val TYPE = "reviewed"
@@ -52,7 +52,7 @@ data class ReviewedEvent(
         COMMENTED,
 
         @Json(name = "dismissed")
-        DISMISSED
+        DISMISSED,
     }
 
     override fun toString(): String {

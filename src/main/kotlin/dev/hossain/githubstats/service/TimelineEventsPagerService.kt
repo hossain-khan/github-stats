@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 class TimelineEventsPagerService constructor(
     private val githubApiService: GithubApiService,
     private val errorProcessor: ErrorProcessor,
-    private val pageSize: Int = GithubApiService.DEFAULT_PAGE_SIZE
+    private val pageSize: Int = GithubApiService.DEFAULT_PAGE_SIZE,
 ) {
     /**
      * Provides all timeline events for [prNumber] by requesting multiple API requests if necessary.
@@ -20,7 +20,7 @@ class TimelineEventsPagerService constructor(
     suspend fun getAllTimelineEvents(
         repoOwner: String,
         repoId: String,
-        prNumber: Int
+        prNumber: Int,
     ): List<TimelineEvent> {
         val allTimelineEvents = mutableListOf<TimelineEvent>()
         var pageNumber = 1
@@ -31,7 +31,7 @@ class TimelineEventsPagerService constructor(
                     owner = repoOwner,
                     repo = repoId,
                     issue = prNumber,
-                    page = pageNumber
+                    page = pageNumber,
                 )
             } catch (exception: Exception) {
                 throw errorProcessor.getDetailedError(exception)
