@@ -31,8 +31,6 @@ object Log {
      */
     const val NONE = 5
 
-    private const val CURRENT_LOG_LEVEL = BuildConfig.LOG_LEVEL
-
     fun v(msg: String): Unit = log(VERBOSE, msg)
     fun d(msg: String): Unit = log(DEBUG, msg)
     fun i(msg: String): Unit = log(INFO, msg)
@@ -42,7 +40,7 @@ object Log {
      * Logs only if set log level
      */
     private fun log(logLevel: Int, logMessage: String) {
-        if (logLevel >= CURRENT_LOG_LEVEL) {
+        if (logLevel >= BuildConfig.LOG_LEVEL) {
             println(logMessage)
         }
     }
