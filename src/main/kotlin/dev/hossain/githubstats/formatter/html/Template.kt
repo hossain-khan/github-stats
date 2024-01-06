@@ -28,7 +28,7 @@ object Template {
                 <!--Load the AJAX API-->
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script type="text/javascript">
-            $chartJsScriptchartJsScript
+            $chartJsScript
                 </script>
               </head>
 
@@ -110,7 +110,7 @@ object Template {
               <head>
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script type="text/javascript">
-            $chartJsScriptchartJsScript
+            $chartJsScript
                 </script>
               </head>
               <body>
