@@ -13,7 +13,6 @@ import retrofit2.Response
  * Test for [ErrorProcessor]
  */
 class ErrorProcessorTest {
-
     @BeforeEach
     fun setUp() {
     }

@@ -176,9 +176,10 @@ internal fun ZonedDateTime.isAfterWorkingHour(): Boolean {
  * The format used is the full localized date-time format for the US locale.
  */
 internal fun ZonedDateTime.format(): String {
-    val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
-        .withLocale(Locale.US)
-        .withZone(zone)
+    val formatter =
+        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+            .withLocale(Locale.US)
+            .withZone(zone)
 
     return this.format(formatter)
 }

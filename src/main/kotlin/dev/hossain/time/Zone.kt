@@ -19,16 +19,17 @@ object Zone {
      * Convenient map to get [ZoneId] for some known locations.
      * REF: https://mkyong.com/java8/java-display-all-zoneid-and-its-utc-offset/
      */
-    val cities = mapOf(
-        ATLANTA to ZoneId.of("America/New_York"),
-        CHICAGO to ZoneId.of("America/Chicago"),
-        DETROIT to ZoneId.of("America/Detroit"),
-        NEW_YORK to ZoneId.of("America/New_York"),
-        PHOENIX to ZoneId.of("America/Phoenix"),
-        SAN_FRANCISCO to ZoneId.of("America/Los_Angeles"),
-        TORONTO to ZoneId.of("America/Toronto"),
-        VANCOUVER to ZoneId.of("America/Vancouver"),
-    )
+    val cities =
+        mapOf(
+            ATLANTA to ZoneId.of("America/New_York"),
+            CHICAGO to ZoneId.of("America/Chicago"),
+            DETROIT to ZoneId.of("America/Detroit"),
+            NEW_YORK to ZoneId.of("America/New_York"),
+            PHOENIX to ZoneId.of("America/Phoenix"),
+            SAN_FRANCISCO to ZoneId.of("America/Los_Angeles"),
+            TORONTO to ZoneId.of("America/Toronto"),
+            VANCOUVER to ZoneId.of("America/Vancouver"),
+        )
 
     /**
      * Provides [ZoneId] based on known [cityName] defined in [UserCity].

@@ -19,7 +19,9 @@ abstract class PropertiesReader(fileName: String) {
             if (System.getenv("IS_GITHUB_CI") == "true") {
                 properties.load(File(LOCAL_PROPERTIES_SAMPLE_FILE).inputStream())
             } else {
-                throw IllegalStateException("Please create `$LOCAL_PROPERTIES_FILE` with config values. See `$LOCAL_PROPERTIES_SAMPLE_FILE`.")
+                throw IllegalStateException(
+                    "Please create `$LOCAL_PROPERTIES_FILE` with config values. See `$LOCAL_PROPERTIES_SAMPLE_FILE`.",
+                )
             }
         }
     }
@@ -36,14 +38,19 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         private const val KEY_DATE_LIMIT_BEFORE = "date_limit_before"
     }
 
-    fun getRepoOwner(): String = requireNotNull(getProperty(KEY_REPO_OWNER)) {
-        "Repository owner also known as Org ID config is required in $LOCAL_PROPERTIES_FILE"
-    }
+    fun getRepoOwner(): String =
+        requireNotNull(getProperty(KEY_REPO_OWNER)) {
+            "Repository owner also known as Org ID config is required in $LOCAL_PROPERTIES_FILE"
+        }
 
-    fun getRepoId(): String = requireNotNull(getProperty(KEY_REPO_ID)) {
-        "Repository ID config is required in $LOCAL_PROPERTIES_FILE"
-    }
+    fun getRepoId(): String =
+        requireNotNull(getProperty(KEY_REPO_ID)) {
+            "Repository ID config is required in $LOCAL_PROPERTIES_FILE"
+        }
+
     fun getAuthors(): String? = getProperty(KEY_AUTHOR_IDS)
+
     fun getDateLimitAfter(): String? = getProperty(KEY_DATE_LIMIT_AFTER)
+
     fun getDateLimitBefore(): String? = getProperty(KEY_DATE_LIMIT_BEFORE)
 }

@@ -7,8 +7,8 @@ import kotlinx.datetime.toInstant
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
 
+@Suppress("ktlint:standard:max-line-length")
 internal class ZonedDateTimeExtensionTest {
-
     @Test
     fun startOfDay() {
         val dateTime = Instant.parse("2022-09-05T10:00:00-04:00").toZdt() // 10:00am Monday

@@ -26,16 +26,17 @@ class TimelineEventsPagerService constructor(
         var pageNumber = 1
 
         do {
-            val timelineEvents = try {
-                githubApiService.timelineEvents(
-                    owner = repoOwner,
-                    repo = repoId,
-                    issue = prNumber,
-                    page = pageNumber,
-                )
-            } catch (exception: Exception) {
-                throw errorProcessor.getDetailedError(exception)
-            }
+            val timelineEvents =
+                try {
+                    githubApiService.timelineEvents(
+                        owner = repoOwner,
+                        repo = repoId,
+                        issue = prNumber,
+                        page = pageNumber,
+                    )
+                } catch (exception: Exception) {
+                    throw errorProcessor.getDetailedError(exception)
+                }
 
             allTimelineEvents.addAll(timelineEvents)
 

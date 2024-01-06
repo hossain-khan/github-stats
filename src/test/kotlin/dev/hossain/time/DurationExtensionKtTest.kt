@@ -10,7 +10,6 @@ import kotlin.time.Duration
  * Contains unit tests for [DurationExtension].
  */
 class DurationExtensionKtTest {
-
     @BeforeEach
     fun setUp() {
     }

@@ -16,9 +16,10 @@ class PrAnalysisProgress(private val prs: List<Issue>) : KoinComponent {
      * Provides a progress bar for provided [prs].
      */
     fun start() {
-        progressBar = getKoin().get<ProgressBarBuilder>()
-            .setInitialMax(prs.size.toLong())
-            .build()
+        progressBar =
+            getKoin().get<ProgressBarBuilder>()
+                .setInitialMax(prs.size.toLong())
+                .build()
     }
 
     /**

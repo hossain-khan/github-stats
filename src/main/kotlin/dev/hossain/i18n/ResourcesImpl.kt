@@ -1,6 +1,6 @@
 package dev.hossain.i18n
 
-import java.util.*
+import java.util.ResourceBundle
 
 /**
  * Localized resource provider.
@@ -9,7 +9,10 @@ import java.util.*
 class ResourcesImpl constructor(
     private val resourceBundle: ResourceBundle,
 ) : Resources {
-    override fun string(key: String, vararg args: Any?): String {
+    override fun string(
+        key: String,
+        vararg args: Any?,
+    ): String {
         return String.format(resourceBundle.getString(key), *args)
     }
 }

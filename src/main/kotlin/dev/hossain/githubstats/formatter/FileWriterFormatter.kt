@@ -26,7 +26,7 @@ class FileWriterFormatter constructor(
 
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No author stats to format. No files to write! ${Art.shrug}"
+            return "⚠ ERROR: No author stats to format. No files to write! ${Art.SHRUG}"
         }
 
         // Create multiple CSV file per author for better visualization
@@ -47,7 +47,7 @@ class FileWriterFormatter constructor(
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
-            return "⚠ ERROR: No reviewer stats to format. No files to write! ${Art.shrug}"
+            return "⚠ ERROR: No reviewer stats to format. No files to write! ${Art.SHRUG}"
         }
         val formattedStats = formatter.formatReviewerStats(stats)
 

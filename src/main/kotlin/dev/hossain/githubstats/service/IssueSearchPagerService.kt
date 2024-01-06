@@ -25,15 +25,16 @@ class IssueSearchPagerService constructor(
         var pageNumber = 1
 
         do {
-            val issueSearchResult: IssueSearchResult = try {
-                githubApiService.searchIssues(
-                    searchQuery = searchQuery,
-                    page = pageNumber,
-                    size = pageSize,
-                )
-            } catch (exception: Exception) {
-                throw errorProcessor.getDetailedError(exception)
-            }
+            val issueSearchResult: IssueSearchResult =
+                try {
+                    githubApiService.searchIssues(
+                        searchQuery = searchQuery,
+                        page = pageNumber,
+                        size = pageSize,
+                    )
+                } catch (exception: Exception) {
+                    throw errorProcessor.getDetailedError(exception)
+                }
 
             val totalItemCount: Int = issueSearchResult.total_count
             val maxPageNeeded: Int = ceil(totalItemCount * 1.0f / pageSize * 1.0f).toInt()

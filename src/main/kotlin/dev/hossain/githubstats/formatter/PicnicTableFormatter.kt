@@ -27,9 +27,10 @@ import kotlin.time.Duration
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
  */
 class PicnicTableFormatter : StatsFormatter, KoinComponent {
-    private val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-        .withLocale(Locale.US)
-        .withZone(ZoneId.systemDefault())
+    private val dateFormatter =
+        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            .withLocale(Locale.US)
+            .withZone(ZoneId.systemDefault())
 
     private val appConfig: AppConfig by inject()
 
@@ -69,7 +70,11 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
             "${userPrComment.user} made total ${userPrComment.allComments} ${userPrComment.allComments.comments()}.\n" +
                 "Code Review Comments = ${userPrComment.codeReviewComment}, " +
                 "Issue Comments = ${userPrComment.issueComment}" +
-                if (userPrComment.prReviewSubmissionComment > 0) "\nHas reviewed PR ${userPrComment.prReviewSubmissionComment} ${userPrComment.prReviewSubmissionComment.times()}." else ""
+                if (userPrComment.prReviewSubmissionComment > 0) {
+                    "\nHas reviewed PR ${userPrComment.prReviewSubmissionComment} ${userPrComment.prReviewSubmissionComment.times()}."
+                } else {
+                    ""
+                }
 
         fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String {
             return "$userDuration | ${userDuration.value.toWorkingHour()}"
@@ -173,12 +178,13 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
+            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.SHRUG}"
         }
 
         /**
          * Internal function to format PR review time and review comments count.
          */
+        @Suppress("ktlint:standard:max-line-length")
         fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String {
             return "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
                 if (reviewStats.prComments.isEmpty().not()) {
@@ -210,8 +216,9 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 }
                 row {
                     // Export global info for the stats
-                    val headingText = "PR reviewer's stats for PRs created by '$prAuthorId' on '$repoId' repository " +
-                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+                    val headingText =
+                        "PR reviewer's stats for PRs created by '$prAuthorId' on '$repoId' repository " +
+                            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -290,7 +297,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.shrug}"
+            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.SHRUG}"
         }
         return table {
             cellStyle {
@@ -309,8 +316,9 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     paddingTop = 2
                 }
                 row {
-                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository " +
-                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+                    val headingText =
+                        "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository " +
+                            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2

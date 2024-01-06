@@ -10,27 +10,27 @@ object Art {
         // Tea/Coffee art by Elissa Potier
         return """
 
-            (  )   (   )  )
-             ) (   )  (  (
-             ( )  (    ) )
-             _____________
-            <_____________> ___
-            |             |/ _ \
-            |               | | |
-            |               |_| |
-         ___|             |\___/
-        /    \___________/    \
-        \_____________________/
-        
-Enjoy a cup of ☕️ while stats are being generated.
+                        (  )   (   )  )
+                         ) (   )  (  (
+                         ( )  (    ) )
+                         _____________
+                        <_____________> ___
+                        |             |/ _ \
+                        |               | | |
+                        |               |_| |
+                     ___|             |\___/
+                    /    \___________/    \
+                    \_____________________/
+                    
+            Enjoy a cup of ☕️ while stats are being generated.
 
-        """.trimIndent()
+            """.trimIndent()
     }
 
     /**
      * Meh! just 🤷
      */
-    const val shrug = "¯\\_(ツ)_/¯"
+    const val SHRUG = "¯\\_(ツ)_/¯"
 
     /**
      * Warns library user about the provided review time which can't be used literaly.
@@ -73,6 +73,6 @@ Enjoy a cup of ☕️ while stats are being generated.
                      !  !
                      \__/
                      
-        """.trimIndent()
+            """.trimIndent()
     }
 }

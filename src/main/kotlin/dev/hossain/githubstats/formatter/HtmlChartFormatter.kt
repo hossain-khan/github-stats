@@ -37,23 +37,26 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.shrug}"
+            return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.SHRUG}"
         }
 
         val prAuthorId = stats.reviewStats.first().prAuthorId
 
         // Prepares data for pie chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/piechart
-        val statsJsData = stats.reviewStats.map {
-            "['${it.reviewerId} [${it.stats.size}]', ${it.stats.size}]"
-        }.joinToString()
+        val statsJsData =
+            stats.reviewStats.map {
+                "['${it.reviewerId} [${it.stats.size}]', ${it.stats.size}]"
+            }.joinToString()
 
-        val chartTitle = "PR reviewer`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
-            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
-        val formattedPieChart = Template.pieChart(
-            title = chartTitle,
-            statsJsData = statsJsData,
-        )
+        val chartTitle =
+            "PR reviewer`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
+                "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+        val formattedPieChart =
+            Template.pieChart(
+                title = chartTitle,
+                statsJsData = statsJsData,
+            )
 
         val pieChartFileName = FileUtil.authorPieChartHtmlFile(prAuthorId)
         val pieChartFile = File(pieChartFileName)
@@ -61,37 +64,45 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
 
         // Prepares data for bar chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
-        val barStatsJsData: String = listOf("['Reviewer', 'Total Reviewed', 'Total Commented']")
-            .plus(
-                stats.reviewStats.map {
-                    "['${it.reviewerId}', ${it.totalReviews}, ${it.totalComments}]"
-                },
-            ).joinToString()
+        val barStatsJsData: String =
+            listOf("['Reviewer', 'Total Reviewed', 'Total Commented']")
+                .plus(
+                    stats.reviewStats.map {
+                        "['${it.reviewerId}', ${it.totalReviews}, ${it.totalComments}]"
+                    },
+                ).joinToString()
 
-        val formattedBarChart = Template.barChart(
-            title = chartTitle,
-            chartData = barStatsJsData,
-            dataSize = stats.reviewStats.size * 2, // Multiplied by data columns
-        )
+        val formattedBarChart =
+            Template.barChart(
+                title = chartTitle,
+                chartData = barStatsJsData,
+                // Multiplied by data columns
+                dataSize = stats.reviewStats.size * 2,
+            )
         val barChartFileName = FileUtil.authorBarChartHtmlFile(prAuthorId)
         val barChartFile = File(barChartFileName)
         barChartFile.writeText(formattedBarChart)
 
         // Prepares data for bar chart with author PR's aggregate data generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
-        val barStatsJsDataAggregate: String = listOf("['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']")
-            .plus(
+        @Suppress("ktlint:standard:max-line-length")
+        val barStatsJsDataAggregate: String =
+            listOf(
+                "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
+            )
+                .plus(
+                    "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]",
+                ).joinToString()
 
-                "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]",
-
-            ).joinToString()
-
-        val formattedBarChartAggregate = Template.barChart(
-            title = "PR authors`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
-                "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
-            chartData = barStatsJsDataAggregate,
-            dataSize = 5, // Multiplied by data columns
-        )
+        val formattedBarChartAggregate =
+            Template.barChart(
+                title =
+                    "PR authors`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
+                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
+                chartData = barStatsJsDataAggregate,
+                // Multiplied by data columns
+                dataSize = 5,
+            )
         val barChartFileNameAggregate = FileUtil.authorBarChartAggregateHtmlFile(prAuthorId)
         val barChartFileAggregate = File(barChartFileNameAggregate)
         barChartFileAggregate.writeText(formattedBarChartAggregate)
@@ -105,19 +116,26 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
         // Prepares data for bar chart with all author PR's aggregate data generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
-        val barStatsJsDataAggregate: String = listOf("['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']")
-            .plus(
-                aggregatedPrStats.filter { it.isEmpty().not() }.map {
-                    "['${it.authorUserId}', ${it.totalPrsCreated}, ${it.totalCodeReviewComments},${it.totalIssueComments},${it.totalPrSubmissionComments}]"
-                },
-            ).joinToString()
+        @Suppress("ktlint:standard:max-line-length")
+        val barStatsJsDataAggregate: String =
+            listOf(
+                "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
+            )
+                .plus(
+                    aggregatedPrStats.filter { it.isEmpty().not() }.map {
+                        "['${it.authorUserId}', ${it.totalPrsCreated}, ${it.totalCodeReviewComments},${it.totalIssueComments},${it.totalPrSubmissionComments}]"
+                    },
+                ).joinToString()
 
-        val formattedBarChartAggregate = Template.barChart(
-            title = "Aggregated PR Stats on `${appConfig.get().repoId}` repository " +
-                "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
-            chartData = barStatsJsDataAggregate,
-            dataSize = 5, // Multiplied by data columns
-        )
+        val formattedBarChartAggregate =
+            Template.barChart(
+                title =
+                    "Aggregated PR Stats on `${appConfig.get().repoId}` repository " +
+                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
+                chartData = barStatsJsDataAggregate,
+                // Multiplied by data columns
+                dataSize = 5,
+            )
         val barChartFileNameAggregate = FileUtil.allAuthorBarChartAggregateHtmlFile()
         val barChartFileAggregate = File(barChartFileNameAggregate)
         barChartFileAggregate.writeText(formattedBarChartAggregate)
@@ -131,75 +149,82 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
-            return "⚠ ERROR: No reviewer stats to format. No charts to generate! ${Art.shrug}"
+            return "⚠ ERROR: No reviewer stats to format. No charts to generate! ${Art.SHRUG}"
         }
 
-        val headerItem: List<String> = listOf(
-            "[" +
-                "'Reviewed For different PR Authors', " +
-                "'Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}', " +
-                "'Total Source Code Review Comments', " +
-                "'Total PR Issue Comments', " +
-                "'Total PR Review Comments', " +
-                "'Total All Comments Made'" +
-                "]",
-        )
+        val headerItem: List<String> =
+            listOf(
+                "[" +
+                    "'Reviewed For different PR Authors', " +
+                    "'Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}', " +
+                    "'Total Source Code Review Comments', " +
+                    "'Total PR Issue Comments', " +
+                    "'Total PR Review Comments', " +
+                    "'Total All Comments Made'" +
+                    "]",
+            )
 
         // Prepares data for bar chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
-        val barStatsJsData: String = headerItem
-            .plus(
-                stats.reviewedForPrStats.map { (prAuthorId, prReviewStats) ->
-                    // Get all the comments made by the reviewer for the PR author
-                    val userComments = prReviewStats.map { it.comments.values }.flatten()
-                        .filter { it.user == stats.reviewerId }
+        val barStatsJsData: String =
+            headerItem
+                .plus(
+                    stats.reviewedForPrStats.map { (prAuthorId, prReviewStats) ->
+                        // Get all the comments made by the reviewer for the PR author
+                        val userComments =
+                            prReviewStats.map { it.comments.values }.flatten()
+                                .filter { it.user == stats.reviewerId }
 
-                    "" +
-                        "[" +
-                        "'$prAuthorId', " +
-                        "${prReviewStats.size}, " +
-                        "${userComments.sumOf { it.codeReviewComment }}," +
-                        "${userComments.sumOf { it.issueComment }}," +
-                        "${userComments.sumOf { it.prReviewSubmissionComment }}," +
-                        "${userComments.sumOf { it.allComments }}" +
-                        "]"
-                },
-            ).joinToString()
+                        "" +
+                            "[" +
+                            "'$prAuthorId', " +
+                            "${prReviewStats.size}, " +
+                            "${userComments.sumOf { it.codeReviewComment }}," +
+                            "${userComments.sumOf { it.issueComment }}," +
+                            "${userComments.sumOf { it.prReviewSubmissionComment }}," +
+                            "${userComments.sumOf { it.allComments }}" +
+                            "]"
+                    },
+                ).joinToString()
 
-        val formattedBarChart = Template.barChart(
-            title = "PRs Reviewed by ${stats.reviewerId}",
-            chartData = barStatsJsData,
-            dataSize = stats.reviewedForPrStats.size * 6, // Multiplied by data columns
-        )
+        val formattedBarChart =
+            Template.barChart(
+                title = "PRs Reviewed by ${stats.reviewerId}",
+                chartData = barStatsJsData,
+                // Multiplied by data columns
+                dataSize = stats.reviewedForPrStats.size * 6,
+            )
         val reviewedForBarChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
         val reviewedForBarChartFile = File(reviewedForBarChartFileName)
         reviewedForBarChartFile.writeText(formattedBarChart)
 
         // Prepares data for bar chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
-        val userAllPrChartData: String = listOf(
-            "" +
-                "[" +
-                "'PR#', " +
-                "'Initial Response Time (mins)'," +
-                "'Review Time (mins)'" +
-                "]",
-        ).plus(
-            stats.reviewedPrStats.map { reviewStats ->
+        val userAllPrChartData: String =
+            listOf(
                 "" +
                     "[" +
-                    "'PR# ${reviewStats.pullRequest.number}', " +
-                    "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}," +
-                    "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
-                    "]"
-            },
-        ).joinToString()
+                    "'PR#', " +
+                    "'Initial Response Time (mins)'," +
+                    "'Review Time (mins)'" +
+                    "]",
+            ).plus(
+                stats.reviewedPrStats.map { reviewStats ->
+                    "" +
+                        "[" +
+                        "'PR# ${reviewStats.pullRequest.number}', " +
+                        "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}," +
+                        "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
+                        "]"
+                },
+            ).joinToString()
 
-        val appPrBarChart = Template.barChart(
-            title = "PRs Reviewed by ${stats.reviewerId}",
-            chartData = userAllPrChartData,
-            dataSize = stats.reviewedPrStats.size,
-        )
+        val appPrBarChart =
+            Template.barChart(
+                title = "PRs Reviewed by ${stats.reviewerId}",
+                chartData = userAllPrChartData,
+                dataSize = stats.reviewedPrStats.size,
+            )
 
         val allPrChartFileName = FileUtil.prReviewerReviewedPrStatsBarChartFile(stats.reviewerId)
         val allPrChartFile = File(allPrChartFileName)

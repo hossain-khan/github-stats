@@ -31,46 +31,51 @@ internal class TimelineEventTest {
     }
 
     @Test
-    fun `timelineEvents filterTo - given filtered to CommentedEvent - provides filtered items only`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
+    fun `timelineEvents filterTo - given filtered to CommentedEvent - provides filtered items only`() =
+        runTest {
+            mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-        val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
 
-        val commentedEvents: List<CommentedEvent> = timelineEvents.filterTo(CommentedEvent::class)
-        assertThat(commentedEvents).hasSize(24)
-    }
-
-    @Test
-    fun `timelineEvents filterTo - given filtered to ReviewedEvent - provides filtered items only`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
-
-        val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
-
-        val commentedEvents: List<ReviewedEvent> = timelineEvents.filterTo(ReviewedEvent::class)
-        assertThat(commentedEvents).hasSize(20)
-    }
+            val commentedEvents: List<CommentedEvent> = timelineEvents.filterTo(CommentedEvent::class)
+            assertThat(commentedEvents).hasSize(24)
+        }
 
     @Test
-    fun `timelineEvents filterTo - given filtered to ClosedEvent - provides filtered items only`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
+    fun `timelineEvents filterTo - given filtered to ReviewedEvent - provides filtered items only`() =
+        runTest {
+            mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-        val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
 
-        val commentedEvents: List<ClosedEvent> = timelineEvents.filterTo(ClosedEvent::class)
-        assertThat(commentedEvents).hasSize(1)
-    }
+            val commentedEvents: List<ReviewedEvent> = timelineEvents.filterTo(ReviewedEvent::class)
+            assertThat(commentedEvents).hasSize(20)
+        }
 
     @Test
-    fun `timelineEvents filterTo - given filtered to MergedEvent - provides filtered items only`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
+    fun `timelineEvents filterTo - given filtered to ClosedEvent - provides filtered items only`() =
+        runTest {
+            mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-        val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
 
-        val commentedEvents: List<MergedEvent> = timelineEvents.filterTo(MergedEvent::class)
-        assertThat(commentedEvents).hasSize(1)
-    }
+            val commentedEvents: List<ClosedEvent> = timelineEvents.filterTo(ClosedEvent::class)
+            assertThat(commentedEvents).hasSize(1)
+        }
+
+    @Test
+    fun `timelineEvents filterTo - given filtered to MergedEvent - provides filtered items only`() =
+        runTest {
+            mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
+
+            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+
+            val commentedEvents: List<MergedEvent> = timelineEvents.filterTo(MergedEvent::class)
+            assertThat(commentedEvents).hasSize(1)
+        }
 
     // region: Test Utility Functions
+
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
         return TimelineEventTest::class.java.getResource("/$jsonResponseFile")!!.readText()

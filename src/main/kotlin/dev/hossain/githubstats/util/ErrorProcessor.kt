@@ -55,20 +55,21 @@ class ErrorProcessor {
         println("Error message: $errorMessage")
         return if (errorMessage.contains(TOKEN_ERROR_MESSAGE)) {
             """
-                
-                
-                ------------------------------------------------------------------------------------------------
-                ⚠️ NOTE: Your token likely have expired. 
-                         You can create a new token from GitHub settings page and provide it in `[$LOCAL_PROPERTIES_FILE]`.
-                         See: $GITHUB_TOKEN_SETTINGS_URL
-                ------------------------------------------------------------------------------------------------
+            
+            
+            ------------------------------------------------------------------------------------------------
+            ⚠️ NOTE: Your token likely have expired. 
+                     You can create a new token from GitHub settings page and provide it in `[$LOCAL_PROPERTIES_FILE]`.
+                     See: $GITHUB_TOKEN_SETTINGS_URL
+            ------------------------------------------------------------------------------------------------
             """.trimIndent()
         } else {
             ""
         }
     }
 
-    private val httpResponseDebugGuide: String = """
+    private val httpResponseDebugGuide: String =
+        """
         
         ------------------------------------------------------------------------------------------------
         NOTE: You can turn on HTTP request and response debugging that contains
@@ -77,5 +78,5 @@ class ErrorProcessor {
         You can turn on this feature by opening `[$BUILD_CONFIG]` and setting `DEBUG_HTTP_REQUESTS = true`.
         ------------------------------------------------------------------------------------------------
         
-    """.trimIndent()
+        """.trimIndent()
 }

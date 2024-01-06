@@ -21,29 +21,31 @@ class PrStatsApplication : KoinComponent {
     suspend fun generatePrStats(prNumber: Int) {
         val (repoOwner, repoId, _, _) = appConfig.get()
         Log.i("■ Building stats for PR#`$prNumber`.\n")
-        val authorReportBuildTime = measureTimeMillis {
-            val statsResult: PullRequestStatsRepo.StatsResult = try {
-                pullRequestStatsRepo.stats(
-                    repoOwner = repoOwner,
-                    repoId = repoId,
-                    prNumber = prNumber,
-                )
-            } catch (e: Exception) {
-                val error = errorProcessor.getDetailedError(e)
-                PullRequestStatsRepo.StatsResult.Failure(error)
-            }
+        val authorReportBuildTime =
+            measureTimeMillis {
+                val statsResult: PullRequestStatsRepo.StatsResult =
+                    try {
+                        pullRequestStatsRepo.stats(
+                            repoOwner = repoOwner,
+                            repoId = repoId,
+                            prNumber = prNumber,
+                        )
+                    } catch (e: Exception) {
+                        val error = errorProcessor.getDetailedError(e)
+                        PullRequestStatsRepo.StatsResult.Failure(error)
+                    }
 
-            when (statsResult) {
-                is PullRequestStatsRepo.StatsResult.Success -> {
-                    formatters.forEach {
-                        println(it.formatSinglePrStats(statsResult.stats))
+                when (statsResult) {
+                    is PullRequestStatsRepo.StatsResult.Success -> {
+                        formatters.forEach {
+                            println(it.formatSinglePrStats(statsResult.stats))
+                        }
+                    }
+                    is PullRequestStatsRepo.StatsResult.Failure -> {
+                        Log.w("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.error.message}")
                     }
                 }
-                is PullRequestStatsRepo.StatsResult.Failure -> {
-                    Log.w("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.error.message}")
-                }
             }
-        }
 
         Log.d("\nⓘ Stats generation for PR#`$prNumber` took ${authorReportBuildTime.milliseconds}")
 

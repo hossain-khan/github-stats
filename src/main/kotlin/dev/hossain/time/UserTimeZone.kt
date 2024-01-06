@@ -34,10 +34,11 @@ class UserTimeZone {
      *
      * @see UserCity
      */
-    private val userZones: Map<String, ZoneId> = mapOf(
-        "user-id-1" to city(TORONTO),
-        "user-id-2" to city(VANCOUVER),
-    )
+    private val userZones: Map<String, ZoneId> =
+        mapOf(
+            "user-id-1" to city(TORONTO),
+            "user-id-2" to city(VANCOUVER),
+        )
 
     /**
      * Provides user's time zone id, if configured in [userZones], otherwise [defaultZoneId] is used.

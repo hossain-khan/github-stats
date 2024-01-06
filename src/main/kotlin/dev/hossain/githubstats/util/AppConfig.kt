@@ -35,9 +35,10 @@ class AppConfig constructor(localProperties: LocalProperties) {
             "Author/user list config is required in $LOCAL_PROPERTIES_FILE"
         }
 
-        val users = authors.split(",")
-            .filter { it.isNotEmpty() }
-            .map { it.trim() }
+        val users =
+            authors.split(",")
+                .filter { it.isNotEmpty() }
+                .map { it.trim() }
 
         if (users.isEmpty()) {
             throw IllegalArgumentException(
@@ -54,9 +55,10 @@ class AppConfig constructor(localProperties: LocalProperties) {
      * or defaults to today's date.
      */
     private fun requiredValidDateOrDefault(dateText: String?): String {
-        val dateFormatter: DateTimeFormatter = DateTimeFormatter
-            .ofPattern("uuuu-MM-dd", Locale.US)
-            .withResolverStyle(ResolverStyle.STRICT)
+        val dateFormatter: DateTimeFormatter =
+            DateTimeFormatter
+                .ofPattern("uuuu-MM-dd", Locale.US)
+                .withResolverStyle(ResolverStyle.STRICT)
 
         if (dateText.isNullOrBlank()) {
             val todayDate = dateFormatter.format(LocalDate.now())
@@ -82,9 +84,10 @@ class AppConfig constructor(localProperties: LocalProperties) {
      * Validates date format defined in the [LOCAL_PROPERTIES_FILE] config.
      */
     private fun validateDate(dateText: String) {
-        val dateFormatter: DateTimeFormatter = DateTimeFormatter
-            .ofPattern("uuuu-MM-dd", Locale.US)
-            .withResolverStyle(ResolverStyle.STRICT)
+        val dateFormatter: DateTimeFormatter =
+            DateTimeFormatter
+                .ofPattern("uuuu-MM-dd", Locale.US)
+                .withResolverStyle(ResolverStyle.STRICT)
 
         try {
             dateFormatter.parse(dateText)

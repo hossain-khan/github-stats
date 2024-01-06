@@ -32,15 +32,21 @@ object Log {
     const val NONE = 5
 
     fun v(msg: String): Unit = log(VERBOSE, msg)
+
     fun d(msg: String): Unit = log(DEBUG, msg)
+
     fun i(msg: String): Unit = log(INFO, msg)
+
     fun w(msg: String): Unit = log(WARNING, msg)
 
     /**
      * Logs only if set log level
      */
-    private fun log(logLevel: Int, logMessage: String) {
-        if (logLevel >= BuildConfig.LOG_LEVEL) {
+    private fun log(
+        logLevel: Int,
+        logMessage: String,
+    ) {
+        if (logLevel >= BuildConfig.logLevel) {
             println(logMessage)
         }
     }
