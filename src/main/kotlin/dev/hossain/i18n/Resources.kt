@@ -8,5 +8,8 @@ interface Resources {
      * Provides localized string for given key formatted with [args] if provided.
      * @see String.format
      */
-    fun string(key: String, vararg args: Any?): String
+    fun string(
+        key: String,
+        vararg args: Any?,
+    ): String
 }

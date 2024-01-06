@@ -63,24 +63,27 @@ class PullRequestStatsRepoImpl(
         val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
 
         // Builds a map of [Reviewer User -> Initial response time by either commenting, reviewing or approving PR]
-        val prInitialResponseTimeMap: Map<UserId, Duration> = prInitialResponseTimeByUser(
-            prAvailableForReviewOn = prAvailableForReviewOn,
-            prReviewers = prReviewers,
-            prTimelineEvents = prTimelineEvents,
-        )
+        val prInitialResponseTimeMap: Map<UserId, Duration> =
+            prInitialResponseTimeByUser(
+                prAvailableForReviewOn = prAvailableForReviewOn,
+                prReviewers = prReviewers,
+                prTimelineEvents = prTimelineEvents,
+            )
 
         // Builds a map of [Reviewer User -> Review Time during Working Hours]
-        val prReviewCompletionMap: Map<String, Duration> = prReviewTimeByUser(
-            pullRequest = pullRequest,
-            prAvailableForReviewOn = prAvailableForReviewOn,
-            prReviewers = prReviewers,
-            prTimelineEvents = prTimelineEvents,
-        )
+        val prReviewCompletionMap: Map<String, Duration> =
+            prReviewTimeByUser(
+                pullRequest = pullRequest,
+                prAvailableForReviewOn = prAvailableForReviewOn,
+                prReviewers = prReviewers,
+                prTimelineEvents = prTimelineEvents,
+            )
 
-        val commentsByUser: Map<UserId, UserPrComment> = prCommentsCountByUser(
-            prTimelineEvents = prTimelineEvents,
-            prCodeReviewComments = prCodeReviewComments,
-        )
+        val commentsByUser: Map<UserId, UserPrComment> =
+            prCommentsCountByUser(
+                prTimelineEvents = prTimelineEvents,
+                prCodeReviewComments = prCodeReviewComments,
+            )
 
         return StatsResult.Success(
             PrStats(
@@ -153,15 +156,16 @@ class PullRequestStatsRepoImpl(
             }
         }
 
-        val prUserCommentsMap = (issueCommentsByUser.keys + codeReviewCommentsByUser.keys + reviewedEventByUser.keys)
-            .associateWith { userId ->
-                UserPrComment(
-                    user = userId,
-                    issueComment = issueCommentsByUser[userId] ?: 0,
-                    codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
-                    prReviewSubmissionComment = reviewedEventByUser[userId] ?: 0,
-                )
-            }
+        val prUserCommentsMap =
+            (issueCommentsByUser.keys + codeReviewCommentsByUser.keys + reviewedEventByUser.keys)
+                .associateWith { userId ->
+                    UserPrComment(
+                        user = userId,
+                        issueComment = issueCommentsByUser[userId] ?: 0,
+                        codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
+                        prReviewSubmissionComment = reviewedEventByUser[userId] ?: 0,
+                    )
+                }
 
         return prUserCommentsMap
     }
@@ -185,12 +189,15 @@ class PullRequestStatsRepoImpl(
             val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
 
             // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
-            val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
-                startInstant = prReadyForReviewOn,
-                endInstant = firstReviewedEvent.submitted_at.toInstant(),
-                timeZoneId = userTimeZone.get(prReviewerUserId),
+            val reviewTimeInWorkingHours =
+                DateTimeDiffer.diffWorkingHours(
+                    startInstant = prReadyForReviewOn,
+                    endInstant = firstReviewedEvent.submitted_at.toInstant(),
+                    timeZoneId = userTimeZone.get(prReviewerUserId),
+                )
+            Log.d(
+                "  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.",
             )
-            Log.d("  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.")
             Log.v(
                 "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()}," +
                     "ready for reviewer on ${prReadyForReviewOn.format()} " +
@@ -234,11 +241,12 @@ class PullRequestStatsRepoImpl(
             val openToCloseDuration = pullRequest.prMergedOn!! - prAvailableForReviewOn
 
             // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
-            val reviewTimeInWorkingHours = DateTimeDiffer.diffWorkingHours(
-                startInstant = prReadyForReviewOn,
-                endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
-                timeZoneId = userTimeZone.get(prReviewerUserId),
-            )
+            val reviewTimeInWorkingHours =
+                DateTimeDiffer.diffWorkingHours(
+                    startInstant = prReadyForReviewOn,
+                    endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
+                    timeZoneId = userTimeZone.get(prReviewerUserId),
+                )
             Log.i(
                 "  -- Reviewed and ✔approved in `$reviewTimeInWorkingHours` by `$prReviewerUserId`. " +
                     "PR open->merged: $openToCloseDuration",
@@ -261,11 +269,13 @@ class PullRequestStatsRepoImpl(
         prTimelineEvents: List<TimelineEvent>,
     ): Instant {
         // Find out if user has been requested to review later
-        val reviewRequestedEvent: ReviewRequestedEvent? = prTimelineEvents.filterTo(ReviewRequestedEvent::class)
-            .find { it.requested_reviewer == reviewer }
+        val reviewRequestedEvent: ReviewRequestedEvent? =
+            prTimelineEvents.filterTo(ReviewRequestedEvent::class)
+                .find { it.requested_reviewer == reviewer }
 
-        val reviewedByUserEvent: ReviewedEvent? = prTimelineEvents.filterTo(ReviewedEvent::class)
-            .find { it.user == reviewer }
+        val reviewedByUserEvent: ReviewedEvent? =
+            prTimelineEvents.filterTo(ReviewedEvent::class)
+                .find { it.user == reviewer }
 
         if (reviewRequestedEvent != null && reviewedByUserEvent != null) {
             // This is an edge case where user as reviewed PR and then was requested to review later

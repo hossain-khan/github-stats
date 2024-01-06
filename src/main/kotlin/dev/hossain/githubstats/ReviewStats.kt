@@ -19,29 +19,24 @@ data class PrStats(
      * The PR information including PR number and URL.
      */
     val pullRequest: PullRequest,
-
     /**
      * A map containing `reviewer-id -> PR review time` in working hours (excludes weekends and after hours)
      */
     val prApprovalTime: Map<UserId, Duration>,
-
     /**
      * A map containing `reviewer-id -> PR initial response time` in working hours (excludes weekends and after hours)
      * The initial response time indicates the time it took for reviewer to first respond to PR
      * by either commenting, reviewing or approving the PR.
      */
     val initialResponseTime: Map<UserId, Duration>,
-
     /**
      * Map of `user-id -> total comments made` for the [pullRequest].
      */
     val comments: Map<UserId, UserPrComment>,
-
     /**
      * Date and time when the PR was ready for review for the specific author.
      */
     val prReadyOn: Instant,
-
     /**
      * Date and time when the PR was merged successfully.
      */
@@ -61,28 +56,23 @@ data class ReviewStats constructor(
      * The PR information including PR number and URL.
      */
     val pullRequest: PullRequest,
-
     /**
      * PR review completion time in working hours (excludes weekends and after hours)
      */
     val reviewCompletion: Duration,
-
     /**
      * The initial response time indicates the time it took for reviewer to first respond to PR
      * by either commenting, reviewing or approving the PR.
      */
     val initialResponseTime: Duration,
-
     /**
      * Contains PR issue comment and review comment count by a specific user.
      */
     val prComments: UserPrComment,
-
     /**
      * Date and time when the PR was ready for review for the specific author.
      */
     val prReadyOn: Instant,
-
     /**
      * Date and time when the PR was merged successfully.
      */
@@ -133,10 +123,11 @@ data class AuthorPrStats(
     /**
      * Checks if stats is empty, then it's likely not worth showing.
      */
-    fun isEmpty(): Boolean = totalPrsCreated == 0 &&
-        totalIssueComments == 0 &&
-        totalPrSubmissionComments == 0 &&
-        totalCodeReviewComments == 0
+    fun isEmpty(): Boolean =
+        totalPrsCreated == 0 &&
+            totalIssueComments == 0 &&
+            totalPrSubmissionComments == 0 &&
+            totalCodeReviewComments == 0
 }
 
 /**
@@ -203,12 +194,10 @@ data class UserPrComment(
      * For example, on an open PR page, going at the end of the page to add comment.
      */
     val issueComment: Int,
-
     /**
      * Pull request review comments are comments on a portion of the unified diff made during a pull request review.
      */
     val codeReviewComment: Int,
-
     /**
      * Total PR review comment that either is [ReviewState.COMMENTED] or [ReviewState.CHANGE_REQUESTED] which
      * is used when reviewer submits a review after reviewing the PR.
@@ -219,12 +208,13 @@ data class UserPrComment(
         /**
          * Provides empty comments stats for specific [userId]/
          */
-        fun noComments(userId: UserId) = UserPrComment(
-            user = userId,
-            issueComment = 0,
-            codeReviewComment = 0,
-            prReviewSubmissionComment = 0,
-        )
+        fun noComments(userId: UserId) =
+            UserPrComment(
+                user = userId,
+                issueComment = 0,
+                codeReviewComment = 0,
+                prReviewSubmissionComment = 0,
+            )
     }
 
     val allComments: Int = issueComment + codeReviewComment + prReviewSubmissionComment

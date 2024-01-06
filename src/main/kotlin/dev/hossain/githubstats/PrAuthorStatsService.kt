@@ -24,7 +24,6 @@ class PrAuthorStatsService constructor(
     private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor,
 ) {
-
     /**
      * Generates stats for reviews given by different PR reviewers for specified PR [prAuthorUserId].
      *
@@ -38,52 +37,53 @@ class PrAuthorStatsService constructor(
      * Jim -> 13 PRs reviewed for Bob; Average Review Time: 14 hours 21 min
      * ```
      */
-    suspend fun authorStats(
-        prAuthorUserId: String,
-    ): AuthorStats {
+    suspend fun authorStats(prAuthorUserId: String): AuthorStats {
         val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
         // First get all the recent PRs made by author
-        val allMergedPrsByAuthor: List<Issue> = issueSearchPager.searchIssues(
-            searchQuery = SearchParams(
-                repoOwner = repoOwner,
-                repoId = repoId,
-                author = prAuthorUserId,
-                dateAfter = dateLimitAfter,
-                dateBefore = dateLimitBefore,
-            ).toQuery(),
-        ).filter {
-            // Makes sure it is a PR, not an issue
-            it.pull_request != null
-        }
+        val allMergedPrsByAuthor: List<Issue> =
+            issueSearchPager.searchIssues(
+                searchQuery =
+                    SearchParams(
+                        repoOwner = repoOwner,
+                        repoId = repoId,
+                        author = prAuthorUserId,
+                        dateAfter = dateLimitAfter,
+                        dateBefore = dateLimitBefore,
+                    ).toQuery(),
+            ).filter {
+                // Makes sure it is a PR, not an issue
+                it.pull_request != null
+            }
 
         // Provides periodic progress updates based on config
         val progress = PrAnalysisProgress(allMergedPrsByAuthor).also { it.start() }
 
         // For each PR by author, get the review stats on the PR
-        val mergedPrsStatsList: List<PrStats> = allMergedPrsByAuthor
-            .mapIndexed { index, pr ->
-                progress.publish(index)
+        val mergedPrsStatsList: List<PrStats> =
+            allMergedPrsByAuthor
+                .mapIndexed { index, pr ->
+                    progress.publish(index)
 
-                // ⏰ Slight delay to avoid GitHub API rate-limit
-                delay(BuildConfig.API_REQUEST_DELAY_MS)
+                    // ⏰ Slight delay to avoid GitHub API rate-limit
+                    delay(BuildConfig.API_REQUEST_DELAY_MS)
 
-                try {
-                    pullRequestStatsRepo.stats(
-                        repoOwner = repoOwner,
-                        repoId = repoId,
-                        prNumber = pr.number,
-                    )
-                } catch (e: Exception) {
-                    val error = errorProcessor.getDetailedError(e)
-                    Log.w("Error getting PR#${pr.number}. Got: ${error.message}")
-                    StatsResult.Failure(error)
+                    try {
+                        pullRequestStatsRepo.stats(
+                            repoOwner = repoOwner,
+                            repoId = repoId,
+                            prNumber = pr.number,
+                        )
+                    } catch (e: Exception) {
+                        val error = errorProcessor.getDetailedError(e)
+                        Log.w("Error getting PR#${pr.number}. Got: ${error.message}")
+                        StatsResult.Failure(error)
+                    }
                 }
-            }
-            .filterIsInstance<StatsResult.Success>()
-            .map {
-                it.stats
-            }
+                .filterIsInstance<StatsResult.Success>()
+                .map {
+                    it.stats
+                }
 
         progress.end()
 
@@ -110,15 +110,16 @@ class PrAuthorStatsService constructor(
         mergedPrsStatsList.filter { it.prApprovalTime.isNotEmpty() }
             .forEach { stats: PrStats ->
                 stats.prApprovalTime.forEach { (userId, time) ->
-                    val reviewStats = ReviewStats(
-                        reviewerUserId = userId,
-                        pullRequest = stats.pullRequest,
-                        reviewCompletion = time,
-                        initialResponseTime = stats.initialResponseTime[userId] ?: time,
-                        prComments = stats.comments[userId] ?: noComments(userId),
-                        prReadyOn = stats.prReadyOn,
-                        prMergedOn = stats.prMergedOn,
-                    )
+                    val reviewStats =
+                        ReviewStats(
+                            reviewerUserId = userId,
+                            pullRequest = stats.pullRequest,
+                            reviewCompletion = time,
+                            initialResponseTime = stats.initialResponseTime[userId] ?: time,
+                            prComments = stats.comments[userId] ?: noComments(userId),
+                            prReadyOn = stats.prReadyOn,
+                            prMergedOn = stats.prMergedOn,
+                        )
                     if (userReviews.containsKey(userId)) {
                         userReviews[userId] = userReviews[userId]!!.plus(reviewStats)
                     } else {
@@ -127,24 +128,26 @@ class PrAuthorStatsService constructor(
                 }
             }
 
-        val authorReviewStats: List<AuthorReviewStats> = userReviews.map { (reviewerUserId, reviewStats) ->
-            val totalReviews: Int = reviewStats.size
-            val averageReviewTime: Duration = reviewStats
-                .map { it.reviewCompletion }
-                .fold(Duration.ZERO, Duration::plus)
-                .div(totalReviews)
-            val totalReviewComments = reviewStats.sumOf { it.prComments.allComments }
+        val authorReviewStats: List<AuthorReviewStats> =
+            userReviews.map { (reviewerUserId, reviewStats) ->
+                val totalReviews: Int = reviewStats.size
+                val averageReviewTime: Duration =
+                    reviewStats
+                        .map { it.reviewCompletion }
+                        .fold(Duration.ZERO, Duration::plus)
+                        .div(totalReviews)
+                val totalReviewComments = reviewStats.sumOf { it.prComments.allComments }
 
-            AuthorReviewStats(
-                repoId = repoId,
-                prAuthorId = prAuthorUsedId,
-                reviewerId = reviewerUserId,
-                average = averageReviewTime,
-                totalReviews = totalReviews,
-                totalComments = totalReviewComments,
-                stats = reviewStats,
-            )
-        }.sortedByDescending { it.totalReviews }
+                AuthorReviewStats(
+                    repoId = repoId,
+                    prAuthorId = prAuthorUsedId,
+                    reviewerId = reviewerUserId,
+                    average = averageReviewTime,
+                    totalReviews = totalReviews,
+                    totalComments = totalReviewComments,
+                    stats = reviewStats,
+                )
+            }.sortedByDescending { it.totalReviews }
 
         return authorReviewStats
     }
@@ -164,21 +167,24 @@ class PrAuthorStatsService constructor(
     ): AuthorPrStats {
         // Builds author's stats for all PRs made by the author
         val totalPrsCreated = allMergedPrsByAuthor.size
-        val totalIssueComments = mergedPrsStatsList.sumOf {
-            it.comments.entries
-                .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
-                .sumOf { commentEntry -> commentEntry.value.issueComment }
-        }
-        val totalPrSubmissionComments = mergedPrsStatsList.sumOf {
-            it.comments.entries
-                .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
-                .sumOf { commentEntry -> commentEntry.value.prReviewSubmissionComment }
-        }
-        val totalCodeReviewComments = mergedPrsStatsList.sumOf {
-            it.comments.entries
-                .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
-                .sumOf { commentEntry -> commentEntry.value.codeReviewComment }
-        }
+        val totalIssueComments =
+            mergedPrsStatsList.sumOf {
+                it.comments.entries
+                    .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
+                    .sumOf { commentEntry -> commentEntry.value.issueComment }
+            }
+        val totalPrSubmissionComments =
+            mergedPrsStatsList.sumOf {
+                it.comments.entries
+                    .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
+                    .sumOf { commentEntry -> commentEntry.value.prReviewSubmissionComment }
+            }
+        val totalCodeReviewComments =
+            mergedPrsStatsList.sumOf {
+                it.comments.entries
+                    .filter { prCommentEntry -> prCommentEntry.key != prAuthorUserId }
+                    .sumOf { commentEntry -> commentEntry.value.codeReviewComment }
+            }
 
         return AuthorPrStats(
             authorUserId = prAuthorUserId,

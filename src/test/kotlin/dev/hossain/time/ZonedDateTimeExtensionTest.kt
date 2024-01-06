@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
 
 internal class ZonedDateTimeExtensionTest {
-
     @Test
     fun startOfDay() {
         val dateTime = Instant.parse("2022-09-05T10:00:00-04:00").toZdt() // 10:00am Monday

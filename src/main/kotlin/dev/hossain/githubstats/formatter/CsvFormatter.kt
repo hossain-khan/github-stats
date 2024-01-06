@@ -52,40 +52,41 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
             // Individual report per reviewer
             val fileName = FileUtil.reviewedForAuthorCsvFile(stat)
-            val headerItem: List<String> = listOf(
-                "Reviewer",
-                "PR Number",
-                "Review time (mins)",
-                "Initial Response time (mins)",
-                "Code Review Comments",
-                "PR Issue Comments",
-                "PR Review Comments",
-                "Total Comments",
-                "PR URL",
-            )
+            val headerItem: List<String> =
+                listOf(
+                    "Reviewer",
+                    "PR Number",
+                    "Review time (mins)",
+                    "Initial Response time (mins)",
+                    "Code Review Comments",
+                    "PR Issue Comments",
+                    "PR Review Comments",
+                    "Total Comments",
+                    "PR URL",
+                )
 
             csvWriter().open(fileName) {
                 writeRow(headerItem)
 
                 stat.stats.forEach { reviewStats ->
                     writeRow(
-                        /* "Reviewer" */
+                        // "Reviewer"
                         stat.reviewerId,
-                        /* "PR Number" */
+                        // "PR Number"
                         "PR ${reviewStats.pullRequest.number}",
-                        /* "Review time (mins)" */
+                        // "Review time (mins)"
                         "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}",
-                        /* "Initial Response time (mins)" */
+                        // "Initial Response time (mins)"
                         "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}",
-                        /* "Code Review Comments" */
+                        // "Code Review Comments"
                         "${reviewStats.prComments.codeReviewComment}",
-                        /* "PR Issue Comments" */
+                        // "PR Issue Comments"
                         "${reviewStats.prComments.issueComment}",
-                        /* "PR Review Comments" */
+                        // "PR Review Comments"
                         "${reviewStats.prComments.prReviewSubmissionComment}",
-                        /* "Total Comments" */
+                        // "Total Comments"
                         "${reviewStats.prComments.allComments}",
-                        /* "PR URL" */
+                        // "PR URL"
                         reviewStats.pullRequest.html_url,
                     )
                 }
@@ -105,14 +106,15 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         //  1. List of users that created PR and cumulative stats about those PRs
 
         val targetFileName = FileUtil.repositoryAggregatedPrStatsByAuthorFilename()
-        val headerItem: List<String> = listOf(
-            "Stats Date Range",
-            "PR Author ID (created by)",
-            "Total PRs Created by Author",
-            "Total Source Code Review Comments",
-            "Total PR Issue Comments (not associated with code)",
-            "Total PR Review Submission comments (reviewed or request change)",
-        )
+        val headerItem: List<String> =
+            listOf(
+                "Stats Date Range",
+                "PR Author ID (created by)",
+                "Total PRs Created by Author",
+                "Total Source Code Review Comments",
+                "Total PR Issue Comments (not associated with code)",
+                "Total PR Review Submission comments (reviewed or request change)",
+            )
         csvWriter().open(targetFileName) {
             writeRow(headerItem)
 
@@ -144,22 +146,24 @@ class CsvFormatter : StatsFormatter, KoinComponent {
         //  2. List of author reviewed for
 
         val reviewedForFile = FileUtil.prReviewedForCombinedFilename(stats.reviewerId)
-        val headerItem: List<String> = listOf(
-            "Reviewed For different PR Authors",
-            "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimitAfter()}",
-            "Total Code Review Comments",
-            "Total PR Issue Comments",
-            "Total PR Review Comments",
-            "Total All Comments Made",
-            "PR# List",
-        )
+        val headerItem: List<String> =
+            listOf(
+                "Reviewed For different PR Authors",
+                "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimitAfter()}",
+                "Total Code Review Comments",
+                "Total PR Issue Comments",
+                "Total PR Review Comments",
+                "Total All Comments Made",
+                "PR# List",
+            )
         csvWriter().open(reviewedForFile) {
             writeRow(headerItem)
 
             stats.reviewedForPrStats.forEach { (prAuthorId, prReviewStats) ->
                 // Get all the comments made by the reviewer for the PR author
-                val userComments = prReviewStats.map { it.comments.values }.flatten()
-                    .filter { it.user == stats.reviewerId }
+                val userComments =
+                    prReviewStats.map { it.comments.values }.flatten()
+                        .filter { it.user == stats.reviewerId }
                 writeRow(
                     prAuthorId,
                     prReviewStats.size,

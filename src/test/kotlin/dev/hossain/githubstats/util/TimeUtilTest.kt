@@ -52,15 +52,18 @@ internal class TimeUtilTest {
     @Test
     fun testDateTimeFormat() {
         val instantNow = Clock.System.now()
-        val shortFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
-            .withLocale(Locale.US)
-            .withZone(ZoneId.systemDefault())
-        val mediumFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-            .withLocale(Locale.US)
-            .withZone(ZoneId.systemDefault())
-        val fullFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
-            .withLocale(Locale.US)
-            .withZone(ZoneId.systemDefault())
+        val shortFormat =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                .withLocale(Locale.US)
+                .withZone(ZoneId.systemDefault())
+        val mediumFormat =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                .withLocale(Locale.US)
+                .withZone(ZoneId.systemDefault())
+        val fullFormat =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+                .withLocale(Locale.US)
+                .withZone(ZoneId.systemDefault())
 
         println(shortFormat.format(instantNow.toJavaInstant()))
         println(mediumFormat.format(instantNow.toJavaInstant()))
@@ -76,9 +79,10 @@ internal class TimeUtilTest {
         // The difference should be 20 hours,
         // However, since it's in saturday, actual working hour is 5 hours!!!
 
-        val mediumFormat = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
-            .withLocale(Locale.US)
-            .withZone(ZoneId.systemDefault())
+        val mediumFormat =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+                .withLocale(Locale.US)
+                .withZone(ZoneId.systemDefault())
 
         // Sat Jan 01 2022 10:00:00 GMT-0500 (Eastern Standard Time)
         // Sat Jan 01 2022 15:00:00 GMT+0000
@@ -136,10 +140,11 @@ internal class TimeUtilTest {
 
         // Represent a span-of-time in terms of years-months-days.
         // Extract the date-only from the date-time-zone object.
-        val periodZ1Z2 = Period.between(
-            zonedDateTime1.toLocalDate(),
-            zonedDateTime2.toLocalDate(),
-        )
+        val periodZ1Z2 =
+            Period.between(
+                zonedDateTime1.toLocalDate(),
+                zonedDateTime2.toLocalDate(),
+            )
         println("periodZ1Z2=$periodZ1Z2")
         println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -")
     }
@@ -161,11 +166,19 @@ internal class TimeUtilTest {
         assertEquals(fourteenDaysAfterDate, result.toString())
     }
 
-    var NEXT_WORKING_DAY = TemporalAdjusters.ofDateAdjuster { date: LocalDate ->
-        val dayOfWeek = date.dayOfWeek
-        val daysToAdd: Int = if (dayOfWeek == DayOfWeek.FRIDAY) 3 else if (dayOfWeek == DayOfWeek.SATURDAY) 2 else 1
-        date.plusDays(daysToAdd.toLong())
-    }
+    var NEXT_WORKING_DAY =
+        TemporalAdjusters.ofDateAdjuster { date: LocalDate ->
+            val dayOfWeek = date.dayOfWeek
+            val daysToAdd: Int =
+                if (dayOfWeek == DayOfWeek.FRIDAY) {
+                    3
+                } else if (dayOfWeek == DayOfWeek.SATURDAY) {
+                    2
+                } else {
+                    1
+                }
+            date.plusDays(daysToAdd.toLong())
+        }
 
     @Test
     fun whenAdjust_thenNextWorkingDay() {
@@ -196,7 +209,10 @@ internal class TimeUtilTest {
     /**
      * https://stackoverflow.com/questions/28995301/get-minutes-between-two-working-days-in-java
      */
-    fun getWorkedMinutes(startTime: Calendar, endTime: Calendar): Int {
+    fun getWorkedMinutes(
+        startTime: Calendar,
+        endTime: Calendar,
+    ): Int {
         val BEGINWORKHOUR = 8
         val ENDWORKHOUR = 16
 
@@ -204,7 +220,10 @@ internal class TimeUtilTest {
             return if (start[Calendar.DAY_OF_WEEK] == 1 || start[Calendar.DAY_OF_WEEK] == 6) 0 else 60 - start[Calendar.MINUTE] + (ENDWORKHOUR - start[Calendar.HOUR_OF_DAY] - 1) * 60
         }
 
-        fun sameDay(start: Calendar, end: Calendar): Boolean {
+        fun sameDay(
+            start: Calendar,
+            end: Calendar,
+        ): Boolean {
             return start[Calendar.YEAR] == end[Calendar.YEAR] && start[Calendar.MONTH] == end[Calendar.MONTH] && start[Calendar.DAY_OF_MONTH] == end[Calendar.DAY_OF_MONTH]
         }
 

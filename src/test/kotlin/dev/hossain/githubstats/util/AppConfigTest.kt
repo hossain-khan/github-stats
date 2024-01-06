@@ -15,7 +15,6 @@ import java.util.Locale
  * Unit test for [AppConfig].
  */
 class AppConfigTest {
-
     private lateinit var localProperties: LocalProperties
     private lateinit var appConfig: AppConfig
 
@@ -76,9 +75,10 @@ class AppConfigTest {
         every { localProperties.getAuthors() } returns "author1,author2"
         every { localProperties.getDateLimitBefore() } returns null
 
-        val todayDate = DateTimeFormatter.ofPattern("uuuu-MM-dd", Locale.US)
-            .withResolverStyle(ResolverStyle.STRICT)
-            .format(LocalDate.now())
+        val todayDate =
+            DateTimeFormatter.ofPattern("uuuu-MM-dd", Locale.US)
+                .withResolverStyle(ResolverStyle.STRICT)
+                .format(LocalDate.now())
 
         appConfig = AppConfig(localProperties)
         val config = appConfig.get()

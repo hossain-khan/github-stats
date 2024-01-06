@@ -35,5 +35,9 @@ interface PullRequestStatsRepo {
      * }
      * ```
      */
-    suspend fun stats(repoOwner: String, repoId: String, prNumber: Int): StatsResult
+    suspend fun stats(
+        repoOwner: String,
+        repoId: String,
+        prNumber: Int,
+    ): StatsResult
 }

@@ -92,6 +92,7 @@ object TemporalsExtension {
     }
 
     // -----------------------------------------------------------------------
+
     /**
      * Enum implementing the adjusters.
      */
@@ -183,8 +184,9 @@ object TemporalsExtension {
         PREV_WORKING_HOUR {
             override fun adjustInto(temporal: Temporal): Temporal {
                 return when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
-                    in 9..17 -> temporal.minus((hour - 9).toLong(), ChronoUnit.HOURS)
-                        .minus(temporal[ChronoField.MINUTE_OF_HOUR].toLong(), ChronoUnit.MINUTES)
+                    in 9..17 ->
+                        temporal.minus((hour - 9).toLong(), ChronoUnit.HOURS)
+                            .minus(temporal[ChronoField.MINUTE_OF_HOUR].toLong(), ChronoUnit.MINUTES)
                     in 0..8 -> {
                         // Set time to end of the day on previous day
                         temporal.minus((hour + 7).toLong(), ChronoUnit.HOURS)

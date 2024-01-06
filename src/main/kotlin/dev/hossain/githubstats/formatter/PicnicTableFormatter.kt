@@ -27,9 +27,10 @@ import kotlin.time.Duration
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
  */
 class PicnicTableFormatter : StatsFormatter, KoinComponent {
-    private val dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-        .withLocale(Locale.US)
-        .withZone(ZoneId.systemDefault())
+    private val dateFormatter =
+        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            .withLocale(Locale.US)
+            .withZone(ZoneId.systemDefault())
 
     private val appConfig: AppConfig by inject()
 
@@ -210,8 +211,9 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                 }
                 row {
                     // Export global info for the stats
-                    val headingText = "PR reviewer's stats for PRs created by '$prAuthorId' on '$repoId' repository " +
-                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+                    val headingText =
+                        "PR reviewer's stats for PRs created by '$prAuthorId' on '$repoId' repository " +
+                            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -309,8 +311,9 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     paddingTop = 2
                 }
                 row {
-                    val headingText = "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository " +
-                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+                    val headingText =
+                        "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository " +
+                            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2

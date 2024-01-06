@@ -18,7 +18,6 @@ import kotlin.test.assertFailsWith
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class IssueSearchPagerServiceTest {
-
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
 
@@ -30,10 +29,11 @@ internal class IssueSearchPagerServiceTest {
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
 
-        issueSearchPager = IssueSearchPagerService(
-            githubApiService = Client.githubApiService,
-            errorProcessor = ErrorProcessor(),
-        )
+        issueSearchPager =
+            IssueSearchPagerService(
+                githubApiService = Client.githubApiService,
+                errorProcessor = ErrorProcessor(),
+            )
     }
 
     @AfterEach
@@ -42,55 +42,61 @@ internal class IssueSearchPagerServiceTest {
     }
 
     @Test
-    fun `searchIssues - responds with error - throws error`() = runTest {
-        mockWebServer.enqueue(
-            MockResponse()
-                .setResponseCode(400)
-                .setBody("{ \"error\": 400 }"),
-        )
+    fun `searchIssues - responds with error - throws error`() =
+        runTest {
+            mockWebServer.enqueue(
+                MockResponse()
+                    .setResponseCode(400)
+                    .setBody("{ \"error\": 400 }"),
+            )
 
-        assertFailsWith(IllegalStateException::class) {
-            issueSearchPager.searchIssues("search-query")
+            assertFailsWith(IllegalStateException::class) {
+                issueSearchPager.searchIssues("search-query")
+            }
         }
-    }
 
     @Test
-    fun `searchIssues - given contains no items does not make next page request`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody("{ \"total_count\": 0, \"items\": [] }"))
+    fun `searchIssues - given contains no items does not make next page request`() =
+        runTest {
+            mockWebServer.enqueue(MockResponse().setBody("{ \"total_count\": 0, \"items\": [] }"))
 
-        val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
+            val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
 
-        assertThat(githubIssueResults).hasSize(0)
-    }
-
-    @Test
-    fun `searchIssues - given contains less than max per page does not make next page request`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("search-prs-freeCodeCamp-DanielRosa74-47511.json")))
-
-        val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
-
-        assertThat(githubIssueResults).hasSize(1)
-    }
+            assertThat(githubIssueResults).hasSize(0)
+        }
 
     @Test
-    fun `searchIssues - given contains more than max per page makes next page request`() = runTest {
-        mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-1.json")))
-        mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-2.json")))
-        mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-3.json")))
+    fun `searchIssues - given contains less than max per page does not make next page request`() =
+        runTest {
+            mockWebServer.enqueue(MockResponse().setBody(respond("search-prs-freeCodeCamp-DanielRosa74-47511.json")))
 
-        // Re-initializes the pager to reduce page size for testing
-        issueSearchPager = IssueSearchPagerService(
-            githubApiService = Client.githubApiService,
-            errorProcessor = ErrorProcessor(),
-            pageSize = 10, // sets the page size low based on unit test
-        )
+            val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
 
-        val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
+            assertThat(githubIssueResults).hasSize(1)
+        }
 
-        assertThat(githubIssueResults).hasSize(24)
-    }
+    @Test
+    fun `searchIssues - given contains more than max per page makes next page request`() =
+        runTest {
+            mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-1.json")))
+            mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-2.json")))
+            mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-3.json")))
+
+            // Re-initializes the pager to reduce page size for testing
+            issueSearchPager =
+                IssueSearchPagerService(
+                    githubApiService = Client.githubApiService,
+                    errorProcessor = ErrorProcessor(),
+                    pageSize = 10, // sets the page size low based on unit test
+                )
+
+            val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")
+
+            assertThat(githubIssueResults).hasSize(24)
+        }
 
     // region: Test Utility Functions
+
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String {
         return requireNotNull(IssueSearchPagerServiceTest::class.java.getResource("/$jsonResponseFile")).readText()

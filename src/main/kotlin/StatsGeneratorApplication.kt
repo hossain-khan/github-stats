@@ -32,7 +32,6 @@ class StatsGeneratorApplication(
      */
     private val formatters: List<StatsFormatter>,
 ) : KoinComponent {
-
     /**
      * Generates stats for user as PR author
      * for all PRs created by each user defined in `[LOCAL_PROPERTIES_FILE]` config file.
@@ -48,13 +47,14 @@ class StatsGeneratorApplication(
         appConfig.get().userIds.forEach { authorId ->
             println(resources.string("status_building_author_pr_stats", authorId))
 
-            val authorReportBuildTime = measureTimeMillis {
-                val authorStats: AuthorStats = prAuthorStatsService.authorStats(prAuthorUserId = authorId)
-                allAuthorStats.add(authorStats)
-                formatters.forEach {
-                    println(it.formatAuthorStats(authorStats))
+            val authorReportBuildTime =
+                measureTimeMillis {
+                    val authorStats: AuthorStats = prAuthorStatsService.authorStats(prAuthorUserId = authorId)
+                    allAuthorStats.add(authorStats)
+                    formatters.forEach {
+                        println(it.formatAuthorStats(authorStats))
+                    }
                 }
-            }
 
             Log.d(resources.string("stats_process_time_for_user", authorId, authorReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
@@ -78,13 +78,14 @@ class StatsGeneratorApplication(
         printCurrentAppConfigs()
         // For each user, generates stats for all the PRs reviewed by the user
         appConfig.get().userIds.forEach { usedId ->
-            val reviewerReportBuildTime = measureTimeMillis {
-                println(resources.string("status_building_reviewer_pr_stats", usedId))
-                val prReviewerReviewStats = prReviewerStatsService.reviewerStats(prReviewerUserId = usedId)
-                formatters.forEach {
-                    println(it.formatReviewerStats(prReviewerReviewStats))
+            val reviewerReportBuildTime =
+                measureTimeMillis {
+                    println(resources.string("status_building_reviewer_pr_stats", usedId))
+                    val prReviewerReviewStats = prReviewerStatsService.reviewerStats(prReviewerUserId = usedId)
+                    formatters.forEach {
+                        println(it.formatReviewerStats(prReviewerReviewStats))
+                    }
                 }
-            }
 
             Log.d(resources.string("stats_process_time_for_user", usedId, reviewerReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")

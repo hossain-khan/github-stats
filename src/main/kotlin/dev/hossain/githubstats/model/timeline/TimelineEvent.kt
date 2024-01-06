@@ -26,9 +26,10 @@ sealed interface TimelineEvent {
 @Suppress("UNCHECKED_CAST")
 fun <T : TimelineEvent> List<TimelineEvent>.filterTo(kClass: KClass<T>): List<T> {
     // Finds the timeline event type value first
-    val clazzEventType: String = kClass.companionObject!!.members
-        .filter { it is KProperty }
-        .first().call(null) as String
+    val clazzEventType: String =
+        kClass.companionObject!!.members
+            .filter { it is KProperty }
+            .first().call(null) as String
 
     // Filters the timelines to only selected type, and returns typed list
     return this.filter { it.eventType == clazzEventType }.map { it as T }
