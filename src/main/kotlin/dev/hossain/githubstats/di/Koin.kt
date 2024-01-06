@@ -26,7 +26,8 @@ import me.tongfei.progressbar.ProgressBarBuilder
 import me.tongfei.progressbar.ProgressBarStyle
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import java.util.*
+import java.util.Locale
+import java.util.ResourceBundle
 
 /**
  * Application module setup for dependency injection using Koin.

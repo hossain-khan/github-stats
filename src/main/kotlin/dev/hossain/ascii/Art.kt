@@ -30,7 +30,7 @@ object Art {
     /**
      * Meh! just 🤷
      */
-    const val shrug = "¯\\_(ツ)_/¯"
+    const val SHRUG = "¯\\_(ツ)_/¯"
 
     /**
      * Warns library user about the provided review time which can't be used literaly.

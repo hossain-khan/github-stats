@@ -28,6 +28,7 @@ import kotlin.time.Duration
 /**
  * Some random testing ground to test out date time library and functionality.
  */
+@Suppress("ktlint:standard:max-line-length")
 internal class TimeUtilTest {
     @Test
     fun testDateTime() {

@@ -7,6 +7,7 @@ import kotlinx.datetime.toInstant
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
 
+@Suppress("ktlint:standard:max-line-length")
 internal class ZonedDateTimeExtensionTest {
     @Test
     fun startOfDay() {

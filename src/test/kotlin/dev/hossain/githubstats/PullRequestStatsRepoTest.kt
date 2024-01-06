@@ -7,7 +7,6 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
 import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.time.UserTimeZone
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -19,7 +18,7 @@ import kotlin.time.Duration
 /**
  * Tests Pull Request stats calculator [PullRequestStatsRepoImpl].
  */
-@OptIn(ExperimentalCoroutinesApi::class)
+@Suppress("ktlint:standard:max-line-length")
 internal class PullRequestStatsRepoTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer

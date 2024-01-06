@@ -1,6 +1,6 @@
 package dev.hossain.i18n
 
-import java.util.*
+import java.util.ResourceBundle
 
 /**
  * Localized resource provider.

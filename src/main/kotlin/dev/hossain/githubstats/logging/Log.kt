@@ -46,7 +46,7 @@ object Log {
         logLevel: Int,
         logMessage: String,
     ) {
-        if (logLevel >= BuildConfig.LOG_LEVEL) {
+        if (logLevel >= BuildConfig.logLevel) {
             println(logMessage)
         }
     }

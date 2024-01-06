@@ -18,6 +18,7 @@ import kotlin.time.Duration
  * - https://time.lol/ (Custom format: `ddd, D MMM YYYY h:mm a`)
  * - https://timestampgenerator.com/1662386400/-04:00
  */
+@Suppress("ktlint:standard:max-line-length")
 internal class DateTimeDifferTest {
     /*
      * System default on my machine is: `America/Toronto`

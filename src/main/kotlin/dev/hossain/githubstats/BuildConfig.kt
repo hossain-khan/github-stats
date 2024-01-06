@@ -15,7 +15,7 @@ object BuildConfig {
      * @see Log.WARNING
      * @see Log.NONE
      */
-    var LOG_LEVEL = Log.DEBUG
+    var logLevel = Log.DEBUG
 
     /**
      * Shows HTTP requests and response on the console.

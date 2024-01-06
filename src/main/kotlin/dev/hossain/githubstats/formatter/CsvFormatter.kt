@@ -28,7 +28,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.shrug}"
+            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.SHRUG}"
         }
 
         // Create multiple CSV file per author for better visualization
@@ -99,7 +99,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
 
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
         if (aggregatedPrStats.isEmpty()) {
-            return "⚠ ERROR: No aggregated stats to format. No CSV files for you! ${Art.shrug}"
+            return "⚠ ERROR: No aggregated stats to format. No CSV files for you! ${Art.SHRUG}"
         }
 
         // Generate aggregated PR review stats
@@ -138,7 +138,7 @@ class CsvFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.shrug}"
+            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.SHRUG}"
         }
 
         // Generate two different CSV

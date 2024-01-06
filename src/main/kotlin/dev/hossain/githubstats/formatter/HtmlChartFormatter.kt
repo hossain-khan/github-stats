@@ -37,7 +37,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.shrug}"
+            return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.SHRUG}"
         }
 
         val prAuthorId = stats.reviewStats.first().prAuthorId
@@ -76,7 +76,8 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             Template.barChart(
                 title = chartTitle,
                 chartData = barStatsJsData,
-                dataSize = stats.reviewStats.size * 2, // Multiplied by data columns
+                // Multiplied by data columns
+                dataSize = stats.reviewStats.size * 2,
             )
         val barChartFileName = FileUtil.authorBarChartHtmlFile(prAuthorId)
         val barChartFile = File(barChartFileName)
@@ -84,6 +85,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
 
         // Prepares data for bar chart with author PR's aggregate data generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
+        @Suppress("ktlint:standard:max-line-length")
         val barStatsJsDataAggregate: String =
             listOf(
                 "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
@@ -98,7 +100,8 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                     "PR authors`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
                         "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
                 chartData = barStatsJsDataAggregate,
-                dataSize = 5, // Multiplied by data columns
+                // Multiplied by data columns
+                dataSize = 5,
             )
         val barChartFileNameAggregate = FileUtil.authorBarChartAggregateHtmlFile(prAuthorId)
         val barChartFileAggregate = File(barChartFileNameAggregate)
@@ -113,6 +116,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
         // Prepares data for bar chart with all author PR's aggregate data generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
+        @Suppress("ktlint:standard:max-line-length")
         val barStatsJsDataAggregate: String =
             listOf(
                 "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
@@ -129,7 +133,8 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                     "Aggregated PR Stats on `${appConfig.get().repoId}` repository " +
                         "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
                 chartData = barStatsJsDataAggregate,
-                dataSize = 5, // Multiplied by data columns
+                // Multiplied by data columns
+                dataSize = 5,
             )
         val barChartFileNameAggregate = FileUtil.allAuthorBarChartAggregateHtmlFile()
         val barChartFileAggregate = File(barChartFileNameAggregate)
@@ -144,7 +149,7 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
      */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
-            return "⚠ ERROR: No reviewer stats to format. No charts to generate! ${Art.shrug}"
+            return "⚠ ERROR: No reviewer stats to format. No charts to generate! ${Art.SHRUG}"
         }
 
         val headerItem: List<String> =
@@ -186,7 +191,8 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
             Template.barChart(
                 title = "PRs Reviewed by ${stats.reviewerId}",
                 chartData = barStatsJsData,
-                dataSize = stats.reviewedForPrStats.size * 6, // Multiplied by data columns
+                // Multiplied by data columns
+                dataSize = stats.reviewedForPrStats.size * 6,
             )
         val reviewedForBarChartFileName = FileUtil.prReviewedForCombinedBarChartFilename(stats.reviewerId)
         val reviewedForBarChartFile = File(reviewedForBarChartFileName)
