@@ -87,7 +87,8 @@ internal class IssueSearchPagerServiceTest {
                 IssueSearchPagerService(
                     githubApiService = Client.githubApiService,
                     errorProcessor = ErrorProcessor(),
-                    pageSize = 10, // sets the page size low based on unit test
+                    // sets the page size low based on unit test
+                    pageSize = 10,
                 )
 
             val githubIssueResults: List<Issue> = issueSearchPager.searchIssues("search-query")

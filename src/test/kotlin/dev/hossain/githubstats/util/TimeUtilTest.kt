@@ -167,24 +167,10 @@ internal class TimeUtilTest {
         assertEquals(fourteenDaysAfterDate, result.toString())
     }
 
-    var NEXT_WORKING_DAY =
-        TemporalAdjusters.ofDateAdjuster { date: LocalDate ->
-            val dayOfWeek = date.dayOfWeek
-            val daysToAdd: Int =
-                if (dayOfWeek == DayOfWeek.FRIDAY) {
-                    3
-                } else if (dayOfWeek == DayOfWeek.SATURDAY) {
-                    2
-                } else {
-                    1
-                }
-            date.plusDays(daysToAdd.toLong())
-        }
-
     @Test
     fun whenAdjust_thenNextWorkingDay() {
         val localDate = LocalDate.of(2017, 7, 8)
-        val temporalAdjuster: TemporalAdjuster = NEXT_WORKING_DAY
+        val temporalAdjuster: TemporalAdjuster = nextWorkingDay
         val result = localDate.with(temporalAdjuster)
         assertEquals("2017-07-10", result.toString())
     }
@@ -210,15 +196,15 @@ internal class TimeUtilTest {
     /**
      * https://stackoverflow.com/questions/28995301/get-minutes-between-two-working-days-in-java
      */
-    fun getWorkedMinutes(
+    private fun getWorkedMinutes(
         startTime: Calendar,
         endTime: Calendar,
     ): Int {
-        val BEGINWORKHOUR = 8
-        val ENDWORKHOUR = 16
+        val beginWorkHour = 8
+        val endWOrkHour = 16
 
         fun workedMinsDay(start: Calendar): Int {
-            return if (start[Calendar.DAY_OF_WEEK] == 1 || start[Calendar.DAY_OF_WEEK] == 6) 0 else 60 - start[Calendar.MINUTE] + (ENDWORKHOUR - start[Calendar.HOUR_OF_DAY] - 1) * 60
+            return if (start[Calendar.DAY_OF_WEEK] == 1 || start[Calendar.DAY_OF_WEEK] == 6) 0 else 60 - start[Calendar.MINUTE] + (endWOrkHour - start[Calendar.HOUR_OF_DAY] - 1) * 60
         }
 
         fun sameDay(
@@ -230,22 +216,36 @@ internal class TimeUtilTest {
 
         val start = startTime
         val end = endTime
-        if (start[Calendar.HOUR_OF_DAY] < BEGINWORKHOUR) {
-            start[Calendar.HOUR_OF_DAY] = BEGINWORKHOUR
+        if (start[Calendar.HOUR_OF_DAY] < beginWorkHour) {
+            start[Calendar.HOUR_OF_DAY] = beginWorkHour
             start[Calendar.MINUTE] = 0
         }
-        if (end[Calendar.HOUR_OF_DAY] >= ENDWORKHOUR) {
-            end[Calendar.HOUR_OF_DAY] = ENDWORKHOUR
+        if (end[Calendar.HOUR_OF_DAY] >= endWOrkHour) {
+            end[Calendar.HOUR_OF_DAY] = endWOrkHour
             end[Calendar.MINUTE] = 0
         }
         var workedMins = 0
         while (!sameDay(start, end)) {
             workedMins += workedMinsDay(start)
             start.add(Calendar.DAY_OF_MONTH, 1)
-            start[Calendar.HOUR_OF_DAY] = BEGINWORKHOUR
+            start[Calendar.HOUR_OF_DAY] = beginWorkHour
             start[Calendar.MINUTE] = 0
         }
         workedMins += end[Calendar.MINUTE] - start[Calendar.MINUTE] + (end[Calendar.HOUR_OF_DAY] - start[Calendar.HOUR_OF_DAY]) * 60
         return workedMins
     }
+
+    private val nextWorkingDay: TemporalAdjuster =
+        TemporalAdjusters.ofDateAdjuster { date: LocalDate ->
+            val dayOfWeek = date.dayOfWeek
+            val daysToAdd: Int =
+                if (dayOfWeek == DayOfWeek.FRIDAY) {
+                    3
+                } else if (dayOfWeek == DayOfWeek.SATURDAY) {
+                    2
+                } else {
+                    1
+                }
+            date.plusDays(daysToAdd.toLong())
+        }
 }
