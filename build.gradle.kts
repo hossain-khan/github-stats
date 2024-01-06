@@ -78,7 +78,12 @@ tasks.withType<KotlinCompile> {
     /**
      * https://kotlinlang.org/docs/compiler-reference.html#jvm-target-version
      */
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
+}
+
+kotlin {
+    // https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
+    jvmToolchain(17)
 }
 
 application {
