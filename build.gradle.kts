@@ -46,7 +46,7 @@ dependencies {
     // ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0") // Not needed yet.
 
     // https://github.com/doyaaaaaken/kotlin-csv
-    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.2") //for JVM platform
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3") //for JVM platform
 
     // Koin Core features - https://insert-koin.io/
     implementation("io.insert-koin:koin-core:3.5.3")
