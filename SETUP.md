@@ -24,8 +24,12 @@ git clone https://github.com/hossain-khan/github-stats.git
 
 <img width="250" src="https://user-images.githubusercontent.com/99822/197037727-bb55fa9e-c1d8-4ede-ae53-ae21c5fbe362.png"/>
 
+
 ### Open in IntelliJ
 Open the checked out directory in IntelliJ IDEA 
+
+> ℹ️ Instead of using IntelliJ, you can use Gradle command after configuring [`local.properties`](#setup-localproperties)
+> `./gradlew run`
 
 <img width="700" alt="IntelliJ open" src="https://user-images.githubusercontent.com/99822/197038306-3f3dfd92-54d5-45fa-971b-70203b673273.png">
 <img width="400" alt="Select dir" src="https://user-images.githubusercontent.com/99822/197038309-299f6ab3-b2fd-477c-8c61-542525f7a726.png">
