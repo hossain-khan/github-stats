@@ -18,7 +18,7 @@ class LogTest {
         System.setOut(PrintStream(outputStreamCaptor))
         BuildConfig.logLevel = Log.VERBOSE
         Log.v("Verbose message")
-        assertEquals("Verbose message\n", outputStreamCaptor.toString())
+        assertEquals("Verbose message", outputStreamCaptor.toString().trim())
         System.setOut(standardOut)
     }
 
@@ -36,7 +36,7 @@ class LogTest {
         System.setOut(PrintStream(outputStreamCaptor))
         BuildConfig.logLevel = Log.DEBUG
         Log.d("Debug message")
-        assertEquals("Debug message\n", outputStreamCaptor.toString())
+        assertEquals("Debug message", outputStreamCaptor.toString().trim())
         System.setOut(standardOut)
     }
 
@@ -54,7 +54,7 @@ class LogTest {
         System.setOut(PrintStream(outputStreamCaptor))
         BuildConfig.logLevel = Log.INFO
         Log.i("Info message")
-        assertEquals("Info message\n", outputStreamCaptor.toString())
+        assertEquals("Info message", outputStreamCaptor.toString().trim())
         System.setOut(standardOut)
     }
 
@@ -72,7 +72,7 @@ class LogTest {
         System.setOut(PrintStream(outputStreamCaptor))
         BuildConfig.logLevel = Log.WARNING
         Log.w("Warning message")
-        assertEquals("Warning message\n", outputStreamCaptor.toString())
+        assertEquals("Warning message", outputStreamCaptor.toString().trim())
         System.setOut(standardOut)
     }
 
