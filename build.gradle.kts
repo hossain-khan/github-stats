@@ -66,7 +66,7 @@ dependencies {
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
     testImplementation("io.mockk:mockk:1.13.9")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.22")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
 }
 
