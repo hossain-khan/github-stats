@@ -158,11 +158,24 @@ internal class PullRequestStatsRepoTest {
         }
 
     @Test
-    fun `stats - given merged with bot user as reviewer - provides no related metrics`() =
+    fun `stats - given merged with bot user as reviewer - provides failure status`() =
         runTest {
             // Uses data from https://github.com/hossain-khan/github-stats/pull/27
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27-bot-user.json")))
+            mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
+
+            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, listOf("BotUser"))
+
+            assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
+        }
+
+    @Test
+    fun `stats - given pr created by ignored bot user - provides failure status`() =
+        runTest {
+            // Uses data from https://github.com/jquery/jquery/pull/5046
+            mockWebServer.enqueue(MockResponse().setBody(respond("pulls-jquery-5046-bot-user.json")))
+            mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
             val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, listOf("BotUser"))
