@@ -156,6 +156,7 @@ internal class PullRequestStatsRepoTest {
 
             assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
         }
+
     @Test
     fun `stats - given merged with bot user as reviewer - provides no related metrics`() =
         runTest {

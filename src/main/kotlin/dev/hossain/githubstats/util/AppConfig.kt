@@ -21,7 +21,7 @@ class AppConfig constructor(localProperties: LocalProperties) {
     private val dateLimitAfter: String = requireValidDate(localProperties.getDateLimitAfter())
     private val dateLimitBefore: String = requiredValidDateOrDefault(localProperties.getDateLimitBefore())
     private val prAuthorUserIds: List<String> = requireUser(localProperties.getAuthors())
-    private val botUserIds: List<String> =  localProperties.getBotUsers()?.let { extractUserIds(it) } ?: emptyList()
+    private val botUserIds: List<String> = localProperties.getBotUsers()?.let { extractUserIds(it) } ?: emptyList()
 
     /**
      * Provides all available config values from [LOCAL_PROPERTIES_FILE].
@@ -51,9 +51,10 @@ class AppConfig constructor(localProperties: LocalProperties) {
     /**
      * Extracts user IDs from the comma separated string.
      */
-    private fun extractUserIds(userIds: String): List<String> = userIds.split(",")
-        .filter { it.isNotEmpty() }
-        .map { it.trim() }
+    private fun extractUserIds(userIds: String): List<String> =
+        userIds.split(",")
+            .filter { it.isNotEmpty() }
+            .map { it.trim() }
 
     /**
      * Validates optional date provided in the [LOCAL_PROPERTIES_FILE] config,

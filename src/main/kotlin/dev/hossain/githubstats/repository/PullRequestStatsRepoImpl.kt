@@ -61,9 +61,10 @@ class PullRequestStatsRepoImpl(
         val prAvailableForReviewOn: Instant = prAvailableForReviewTime(pullRequest.prCreatedOn, prTimelineEvents)
 
         // List of users who has been requested as reviewer or reviewed the PR
-        val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
-            // Filters out the bot users from the reviewers
-            .filter { it.login !in botUserIds }.toSet()
+        val prReviewers: Set<User> =
+            prReviewers(pullRequest.user, prTimelineEvents)
+                // Filters out the bot users from the reviewers
+                .filter { it.login !in botUserIds }.toSet()
 
         if (prReviewers.isEmpty()) {
             Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
