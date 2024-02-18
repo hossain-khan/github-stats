@@ -22,7 +22,7 @@ import kotlin.time.Duration
 internal class PullRequestStatsRepoTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
-    lateinit var pullRequestStatsRepo: PullRequestStatsRepoImpl
+    private lateinit var pullRequestStatsRepo: PullRequestStatsRepoImpl
 
     private companion object {
         const val REPO_OWNER = "owner"
