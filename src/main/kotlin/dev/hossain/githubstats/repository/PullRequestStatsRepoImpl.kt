@@ -79,7 +79,8 @@ class PullRequestStatsRepoImpl(
             Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
             return StatsResult.Failure(
                 IllegalStateException(
-                    "No human reviewers found for PR#${pullRequest.number}. Original reviewers: ${nonFilteredPrReviewerUsers.map { it.login }}.",
+                    "No human reviewers found for PR#${pullRequest.number}. " +
+                        "Original reviewers: ${nonFilteredPrReviewerUsers.map { it.login }}.",
                 ),
             )
         }
