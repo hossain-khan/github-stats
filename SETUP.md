@@ -52,6 +52,13 @@ Once configuration is in place, all you need to do is open the [`Main.kt`](https
 <img width="307" src="https://user-images.githubusercontent.com/99822/197039854-641344eb-5e75-472c-a911-331923f6b163.png">
 <img width="360" src="https://user-images.githubusercontent.com/99822/197039857-dda04738-6b24-4389-a87c-95816225e513.png">
 
+#### Run using gradle command
+
+You can also use following gradle command to run the stats generator
+```
+./gradlew run
+```
+
 > See troubleshooting section if you encounter issue.
 
 ### Preview Stats
