@@ -34,6 +34,7 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         private const val KEY_REPO_OWNER = "repository_owner"
         private const val KEY_REPO_ID = "repository_id"
         private const val KEY_AUTHOR_IDS = "authors"
+        private const val KEY_BOT_USERS = "bot_users"
         private const val KEY_DATE_LIMIT_AFTER = "date_limit_after"
         private const val KEY_DATE_LIMIT_BEFORE = "date_limit_before"
     }
@@ -49,6 +50,8 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         }
 
     fun getAuthors(): String? = getProperty(KEY_AUTHOR_IDS)
+
+    fun getBotUsers(): String? = getProperty(KEY_BOT_USERS)
 
     fun getDateLimitAfter(): String? = getProperty(KEY_DATE_LIMIT_AFTER)
 

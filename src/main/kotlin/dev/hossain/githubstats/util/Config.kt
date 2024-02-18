@@ -26,6 +26,10 @@ data class Config(
      */
     val userIds: List<String>,
     /**
+     * List of bot user-ids to exclude from the stats.
+     */
+    val botUserIds: List<String>,
+    /**
      * Limits the search at MIN given date to exclude older data
      * (Format: YYYY-MM-DD)
      */

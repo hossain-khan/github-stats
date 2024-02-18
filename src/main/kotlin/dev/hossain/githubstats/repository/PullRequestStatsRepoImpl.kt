@@ -40,6 +40,7 @@ class PullRequestStatsRepoImpl(
         repoOwner: String,
         repoId: String,
         prNumber: Int,
+        botUserIds: List<String>,
     ): StatsResult {
         // API request to get PR information
         val pullRequest: PullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
@@ -61,6 +62,13 @@ class PullRequestStatsRepoImpl(
 
         // List of users who has been requested as reviewer or reviewed the PR
         val prReviewers: Set<User> = prReviewers(pullRequest.user, prTimelineEvents)
+            // Filters out the bot users from the reviewers
+            .filter { it.login !in botUserIds }.toSet()
+
+        if (prReviewers.isEmpty()) {
+            Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
+            return StatsResult.Failure(IllegalStateException("No human reviewers found for PR#${pullRequest.number}."))
+        }
 
         // Builds a map of [Reviewer User -> Initial response time by either commenting, reviewing or approving PR]
         val prInitialResponseTimeMap: Map<UserId, Duration> =

@@ -21,11 +21,12 @@ class AppConfig constructor(localProperties: LocalProperties) {
     private val dateLimitAfter: String = requireValidDate(localProperties.getDateLimitAfter())
     private val dateLimitBefore: String = requiredValidDateOrDefault(localProperties.getDateLimitBefore())
     private val prAuthorUserIds: List<String> = requireUser(localProperties.getAuthors())
+    private val botUserIds: List<String> =  localProperties.getBotUsers()?.let { extractUserIds(it) } ?: emptyList()
 
     /**
      * Provides all available config values from [LOCAL_PROPERTIES_FILE].
      */
-    fun get(): Config = Config(repoOwner, repoId, prAuthorUserIds, dateLimitAfter, dateLimitBefore)
+    fun get(): Config = Config(repoOwner, repoId, prAuthorUserIds, botUserIds, dateLimitAfter, dateLimitBefore)
 
     /**
      * Validates at least one user is provided in [LOCAL_PROPERTIES_FILE]  for the stats generations.
@@ -35,10 +36,7 @@ class AppConfig constructor(localProperties: LocalProperties) {
             "Author/user list config is required in $LOCAL_PROPERTIES_FILE"
         }
 
-        val users =
-            authors.split(",")
-                .filter { it.isNotEmpty() }
-                .map { it.trim() }
+        val users = extractUserIds(authors)
 
         if (users.isEmpty()) {
             throw IllegalArgumentException(
@@ -49,6 +47,13 @@ class AppConfig constructor(localProperties: LocalProperties) {
 
         return users
     }
+
+    /**
+     * Extracts user IDs from the comma separated string.
+     */
+    private fun extractUserIds(userIds: String): List<String> = userIds.split(",")
+        .filter { it.isNotEmpty() }
+        .map { it.trim() }
 
     /**
      * Validates optional date provided in the [LOCAL_PROPERTIES_FILE] config,
