@@ -51,6 +51,12 @@ class PullRequestStatsRepoImpl(
             return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to analyze PR stats."))
         }
 
+        if (pullRequest.user.login in botUserIds) {
+            // Skips PR stats generation if PR is created by bot user.
+            Log.i("The PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'. Skipping PR stat analysis.")
+            return StatsResult.Failure(IllegalStateException("PR has been created by bot user '${pullRequest.user.login}', no reason to analyze PR stats."))
+        }
+
         // API request to get all timeline events for the PR
         val prTimelineEvents = timelinesPager.getAllTimelineEvents(repoOwner, repoId, prNumber)
         // API request to get all PR source code review comments associated with diffs
@@ -61,14 +67,19 @@ class PullRequestStatsRepoImpl(
         val prAvailableForReviewOn: Instant = prAvailableForReviewTime(pullRequest.prCreatedOn, prTimelineEvents)
 
         // List of users who has been requested as reviewer or reviewed the PR
+        val nonFilteredPrReviewerUsers = prReviewers(pullRequest.user, prTimelineEvents)
         val prReviewers: Set<User> =
-            prReviewers(pullRequest.user, prTimelineEvents)
+            nonFilteredPrReviewerUsers
                 // Filters out the bot users from the reviewers
                 .filter { it.login !in botUserIds }.toSet()
 
         if (prReviewers.isEmpty()) {
             Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
-            return StatsResult.Failure(IllegalStateException("No human reviewers found for PR#${pullRequest.number}."))
+            return StatsResult.Failure(
+                IllegalStateException(
+                    "No human reviewers found for PR#${pullRequest.number}. Original reviewers: ${nonFilteredPrReviewerUsers.map { it.login }}.",
+                ),
+            )
         }
 
         // Builds a map of [Reviewer User -> Initial response time by either commenting, reviewing or approving PR]
