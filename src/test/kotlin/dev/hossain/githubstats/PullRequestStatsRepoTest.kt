@@ -58,7 +58,7 @@ internal class PullRequestStatsRepoTest {
             // Uses data from https://github.com/jquery/jquery/pull/5046
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-48543-not-merged.json")))
 
-            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
         }
@@ -71,7 +71,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-jquery-5046.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
         }
@@ -84,7 +84,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-opensearch-4515.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
         }
@@ -100,7 +100,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47594.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
@@ -118,7 +118,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
@@ -135,7 +135,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3267.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
@@ -152,9 +152,22 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
-            assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
+            assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
+        }
+
+    @Test
+    fun `stats - given merged with bot user as reviewer - provides no related metrics`() =
+        runTest {
+            // Uses data from https://github.com/hossain-khan/github-stats/pull/27
+            mockWebServer.enqueue(MockResponse().setBody(respond("pulls-githubstats-27.json")))
+            mockWebServer.enqueue(MockResponse().setBody(respond("timeline-githubstats-27-bot-user.json")))
+            mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
+
+            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, listOf("BotUser"))
+
+            assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
         }
 
     @Test
@@ -170,9 +183,9 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-retrofit-3114.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val calculateStats = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
-            assertThat(calculateStats).isInstanceOf(StatsResult.Success::class.java)
+            assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
         }
 
     @Test
@@ -182,7 +195,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-45711.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
             val result = statsResult as StatsResult.Success
             assertThat(result.stats.prApprovalTime).hasSize(2)
             assertThat(result.stats.prApprovalTime["DanielRosa74"]).isEqualTo(Duration.parse("7m"))
@@ -197,7 +210,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
             val stats = (statsResult as StatsResult.Success).stats
             assertThat(stats.comments).hasSize(5)
             assertThat(stats.comments.keys)
@@ -214,7 +227,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-num-comments-okhttp-3873.json")))
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
             val stats = (statsResult as StatsResult.Success).stats
             assertThat(stats.comments).hasSize(5)
             assertThat(stats.comments.keys)
@@ -238,7 +251,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 
@@ -262,7 +275,7 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-48266.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
 
-            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123)
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
 
             assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
 

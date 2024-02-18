@@ -19,7 +19,7 @@ class PrStatsApplication : KoinComponent {
     private val errorProcessor: ErrorProcessor by inject()
 
     suspend fun generatePrStats(prNumber: Int) {
-        val (repoOwner, repoId, _, _) = appConfig.get()
+        val (repoOwner, repoId, _, botUserIds) = appConfig.get()
         Log.i("■ Building stats for PR#`$prNumber`.\n")
         val authorReportBuildTime =
             measureTimeMillis {
@@ -29,6 +29,7 @@ class PrStatsApplication : KoinComponent {
                             repoOwner = repoOwner,
                             repoId = repoId,
                             prNumber = prNumber,
+                            botUserIds = botUserIds,
                         )
                     } catch (e: Exception) {
                         val error = errorProcessor.getDetailedError(e)

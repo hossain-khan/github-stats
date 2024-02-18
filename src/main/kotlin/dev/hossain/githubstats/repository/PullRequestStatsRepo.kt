@@ -39,5 +39,6 @@ interface PullRequestStatsRepo {
         repoOwner: String,
         repoId: String,
         prNumber: Int,
+        botUserIds: List<String>,
     ): StatsResult
 }

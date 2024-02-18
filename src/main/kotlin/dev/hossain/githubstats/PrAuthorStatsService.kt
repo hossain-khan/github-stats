@@ -31,6 +31,8 @@ class PrAuthorStatsService constructor(
      * This will be generated PR reviews for all the PRs 'Bob' has created and will be grouped by
      * all the PR reviewers like 'Sally', 'Mike', 'Jim' and so on.
      *
+     * NOTE: If [AppConfig.botUserIds] is defined, then those users will be excluded from the review stats.
+     *
      * ```
      * Sally -> 78 PRs reviewed for Bob; Average Review Time: 2 hours 8 min
      * Mike -> 42 PRs reviewed for Bob; Average Review Time: 8 hours 32 min
@@ -38,7 +40,7 @@ class PrAuthorStatsService constructor(
      * ```
      */
     suspend fun authorStats(prAuthorUserId: String): AuthorStats {
-        val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
+        val (repoOwner, repoId, _, botUserIds, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
         // First get all the recent PRs made by author
         val allMergedPrsByAuthor: List<Issue> =
@@ -73,6 +75,7 @@ class PrAuthorStatsService constructor(
                             repoOwner = repoOwner,
                             repoId = repoId,
                             prNumber = pr.number,
+                            botUserIds = botUserIds,
                         )
                     } catch (e: Exception) {
                         val error = errorProcessor.getDetailedError(e)

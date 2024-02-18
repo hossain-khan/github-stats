@@ -25,7 +25,7 @@ class PrReviewerStatsService constructor(
     private val errorProcessor: ErrorProcessor,
 ) {
     suspend fun reviewerStats(prReviewerUserId: String): ReviewerReviewStats {
-        val (repoOwner, repoId, _, dateLimitAfter, dateLimitBefore) = appConfig.get()
+        val (repoOwner, repoId, _, botUserIds, dateLimitAfter, dateLimitBefore) = appConfig.get()
 
         // First get all the recent PRs reviewed by the user
         val reviewedClosedPrs: List<Issue> =
@@ -60,6 +60,7 @@ class PrReviewerStatsService constructor(
                             repoOwner = repoOwner,
                             repoId = repoId,
                             prNumber = pr.number,
+                            botUserIds = botUserIds,
                         )
                     } catch (e: Exception) {
                         val error = errorProcessor.getDetailedError(e)
