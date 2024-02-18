@@ -205,11 +205,13 @@ class PullRequestStatsRepoImpl(
     ): Map<UserId, Duration> {
         val initialResponseTime = mutableMapOf<UserId, Duration>()
 
-        prReviewers.forEach { reviewer ->
-            val firstReviewedEvent: ReviewedEvent = firstReviewedEvent(prTimelineEvents, reviewer) ?: return@forEach
+        prReviewers.forEach { reviewer: User ->
+            val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
+
+            // If user hasn't reviewed the PR after the PR was ready, then skip the user stats
+            val firstReviewedEvent: ReviewedEvent = firstReviewedEvent(prTimelineEvents, reviewer, prReadyForReviewOn) ?: return@forEach
 
             val prReviewerUserId = reviewer.login
-            val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
 
             // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
             val reviewTimeInWorkingHours =
@@ -385,19 +387,25 @@ class PullRequestStatsRepoImpl(
     }
 
     /**
-     * Finds the first reviewed event by the [reviewer] to know when user has finished reviewing the PR.
+     * Finds the first reviewed event by the [reviewer] after the PR was opened
+     * for review to know when user has finished reviewing the PR.
      */
     private fun firstReviewedEvent(
         prTimelineEvents: List<TimelineEvent>,
         reviewer: User,
-    ) = prTimelineEvents.filterTo(ReviewedEvent::class)
-        // Finds first event (TODO: Check if the result is sorted, if not sort it)
-        .find { reviewedEvent ->
-            reviewedEvent.user == reviewer &&
-                listOf(
-                    ReviewState.APPROVED,
-                    ReviewState.CHANGE_REQUESTED,
-                    ReviewState.COMMENTED,
-                ).any { it == reviewedEvent.state }
-        }
+        prReadyForReviewOn: Instant,
+    ): ReviewedEvent? =
+        prTimelineEvents.filterTo(ReviewedEvent::class)
+            // Finds first event (TODO: Check if the result is sorted, if not sort it)
+            .find { reviewedEvent ->
+                reviewedEvent.user == reviewer &&
+                    // Sometimes, users can review before the PR is ready for review.
+                    // In that case, ignore any reviews before it was ready for review.
+                    prReadyForReviewOn < reviewedEvent.submitted_at.toInstant() &&
+                    listOf(
+                        ReviewState.APPROVED,
+                        ReviewState.CHANGE_REQUESTED,
+                        ReviewState.COMMENTED,
+                    ).any { it == reviewedEvent.state }
+            }
 }
