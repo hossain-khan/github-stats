@@ -2,7 +2,6 @@ package dev.hossain.githubstats.model.timeline
 
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test
 /**
  * Tests [TimelineEvent] and related extension function.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class TimelineEventTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer

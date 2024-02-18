@@ -9,7 +9,6 @@ import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import dev.hossain.githubstats.service.GithubApiService
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -21,7 +20,6 @@ import kotlin.test.assertEquals
 /**
  * Tests [GithubApiService] APIs.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class ClientTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer

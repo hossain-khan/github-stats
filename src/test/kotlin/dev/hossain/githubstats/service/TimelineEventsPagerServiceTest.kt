@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.util.ErrorProcessor
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -16,7 +15,6 @@ import kotlin.test.assertFailsWith
 /**
  * Tests [TimelineEventsPagerService] paging.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class TimelineEventsPagerServiceTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
