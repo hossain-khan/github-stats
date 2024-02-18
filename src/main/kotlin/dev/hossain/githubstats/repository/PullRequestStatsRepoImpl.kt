@@ -54,7 +54,9 @@ class PullRequestStatsRepoImpl(
         if (pullRequest.user.login in botUserIds) {
             // Skips PR stats generation if PR is created by bot user.
             Log.i("The PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'. Skipping PR stat analysis.")
-            return StatsResult.Failure(IllegalStateException("PR has been created by bot user '${pullRequest.user.login}', no reason to analyze PR stats."))
+            return StatsResult.Failure(
+                IllegalStateException("PR has been created by bot user '${pullRequest.user.login}', no reason to analyze PR stats."),
+            )
         }
 
         // API request to get all timeline events for the PR
