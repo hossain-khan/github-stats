@@ -3,12 +3,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     // For build.gradle.kts (Kotlin DSL)
     // https://kotlinlang.org/docs/releases.html#release-details
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "1.9.23"
     id("org.jmailen.kotlinter") version "4.2.0"
 
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "1.9.20"
 
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
     // id("com.google.devtools.ksp") version "1.9.20-1.0.6" // Not needed yet.
@@ -70,7 +70,7 @@ dependencies {
     // MockK - https://mockk.io/ : don't use 1.13.8 due to
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
     testImplementation("io.mockk:mockk:1.13.10")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.22")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.23")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
 }
