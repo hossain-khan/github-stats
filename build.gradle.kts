@@ -39,7 +39,7 @@ dependencies {
 
     // https://square.github.io/retrofit/
     implementation("com.squareup.retrofit2:retrofit:2.10.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.10.0")
 
     // https://github.com/JakeWharton/picnic
     implementation("com.jakewharton.picnic:picnic:0.7.0")
