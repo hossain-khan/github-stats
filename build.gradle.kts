@@ -57,7 +57,7 @@ dependencies {
     implementation("io.insert-koin:koin-core:3.5.3")
 
     // ASCII Progress Bar https://github.com/ctongfei/progressbar
-    implementation("me.tongfei:progressbar:0.10.0")
+    implementation("me.tongfei:progressbar:0.10.1")
 
     //
     // =======================
