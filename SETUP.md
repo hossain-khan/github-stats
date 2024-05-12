@@ -75,7 +75,7 @@ If you see following error, it could be your token is not setup, or you have exc
 Exception in thread "main" retrofit2.HttpException: HTTP 401 
 ```
 
-Open [BuildConfig](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/dev/hossain/githubstats/BuildConfig.kt#L16) and enable `DEBUG_HTTP_REQUESTS` to `true` to see API request header information to confirm error details.
+Open [BuildConfig](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/dev/hossain/githubstats/BuildConfig.kt#L23) and enable `DEBUG_HTTP_REQUESTS` to `true` to see API request header information to confirm error details.
 
 --- 
 
