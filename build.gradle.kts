@@ -65,7 +65,7 @@ dependencies {
     // =======================
     //
     testImplementation(kotlin("test"))
-    testImplementation("com.google.truth:truth:1.4.2")
+    testImplementation("com.google.truth:truth:1.4.4")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     // MockK - https://mockk.io/ : don't use 1.13.8 due to
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
