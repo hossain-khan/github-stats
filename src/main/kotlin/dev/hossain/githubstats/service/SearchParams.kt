@@ -56,12 +56,14 @@ class SearchParams constructor(
             .append(encode("created:$dateAfter..$dateBefore", UTF_8))
 
         if (author != null) {
-            query.append("+")
+            query
+                .append("+")
                 // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-author
                 .append(encode("author:$author", UTF_8))
         }
         if (reviewer != null) {
-            query.append("+")
+            query
+                .append("+")
                 // reviewed-by:USERNAME
                 // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-pull-request-review-status-and-reviewer
                 .append(encode("reviewed-by:$reviewer", UTF_8))

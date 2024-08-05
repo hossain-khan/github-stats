@@ -12,7 +12,5 @@ class ResourcesImpl constructor(
     override fun string(
         key: String,
         vararg args: Any?,
-    ): String {
-        return String.format(resourceBundle.getString(key), *args)
-    }
+    ): String = String.format(resourceBundle.getString(key), *args)
 }

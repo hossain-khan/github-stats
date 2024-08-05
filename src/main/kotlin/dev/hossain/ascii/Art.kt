@@ -46,33 +46,32 @@ object Art {
      *
      * Art source: https://www.asciiart.eu/miscellaneous/signs
      */
-    fun warnAboutReviewTime(): String {
-        return """
-            
-            
-             ________________________
-            /                        \
-            |      ⚠ WARNING ⚠       |
-            |  PR review times are   |
-            |  for reference only!   |
-            |                        |
-            |  They are likely not   |
-            |  accurate due to many  |
-            |  many limitations.     |
-            \________________________/
-                     !  !
-                     !  !
-                     L_ !
-                    / _)!
-                   / /__L
-             _____/ (____)
-                    (____)
-             _____  (____)
-                  \_(____)
-                     !  !
-                     !  !
-                     \__/
-                     
-            """.trimIndent()
-    }
+    fun warnAboutReviewTime(): String =
+        """
+        
+        
+         ________________________
+        /                        \
+        |      ⚠ WARNING ⚠       |
+        |  PR review times are   |
+        |  for reference only!   |
+        |                        |
+        |  They are likely not   |
+        |  accurate due to many  |
+        |  many limitations.     |
+        \________________________/
+                 !  !
+                 !  !
+                 L_ !
+                / _)!
+               / /__L
+         _____/ (____)
+                (____)
+         _____  (____)
+              \_(____)
+                 !  !
+                 !  !
+                 \__/
+                 
+        """.trimIndent()
 }

@@ -11,8 +11,8 @@ import kotlin.time.Duration
  *  - Input: 1d      | Output: 3 days [Based on 8h on a working day]
  *  - Input: 24h     | Output: 3 days [Based on 8h on a working day]
  */
-fun Duration.toWorkingHour(workingHoursInADay: Int = 8): String {
-    return if (inWholeHours >= workingHoursInADay) {
+fun Duration.toWorkingHour(workingHoursInADay: Int = 8): String =
+    if (inWholeHours >= workingHoursInADay) {
         val wholeDays: Long = inWholeHours.div(workingHoursInADay)
         val wholeDayHours = Duration.parse("${wholeDays * workingHoursInADay}h")
         val remainingHoursAfterWholeDays = this.minus(wholeDayHours)
@@ -23,4 +23,3 @@ fun Duration.toWorkingHour(workingHoursInADay: Int = 8): String {
     } else {
         this.toString()
     }
-}

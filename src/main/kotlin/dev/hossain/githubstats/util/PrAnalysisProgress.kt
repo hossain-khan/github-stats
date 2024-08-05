@@ -9,7 +9,9 @@ import org.koin.core.component.KoinComponent
 /**
  * Provides progress bar updates for [prs] that are being analyzed.
  */
-class PrAnalysisProgress(private val prs: List<Issue>) : KoinComponent {
+class PrAnalysisProgress(
+    private val prs: List<Issue>,
+) : KoinComponent {
     private lateinit var progressBar: ProgressBar
 
     /**
@@ -17,7 +19,8 @@ class PrAnalysisProgress(private val prs: List<Issue>) : KoinComponent {
      */
     fun start() {
         progressBar =
-            getKoin().get<ProgressBarBuilder>()
+            getKoin()
+                .get<ProgressBarBuilder>()
                 .setInitialMax(prs.size.toLong())
                 .build()
     }

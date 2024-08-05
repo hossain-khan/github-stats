@@ -8,7 +8,9 @@ import java.util.Properties
 /**
  * Internal class to get properties
  */
-abstract class PropertiesReader(fileName: String) {
+abstract class PropertiesReader(
+    fileName: String,
+) {
     private val properties = Properties()
 
     init {

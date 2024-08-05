@@ -12,9 +12,7 @@ object Template {
     fun pieChart(
         title: String,
         statsJsData: String,
-    ): String {
-        return getPieChartHtml(pieChartScript(title, statsJsData))
-    }
+    ): String = getPieChartHtml(pieChartScript(title, statsJsData))
 
     /**
      * https://developers.google.com/chart/interactive/docs/gallery/piechart
@@ -90,9 +88,7 @@ object Template {
         title: String,
         chartData: String,
         dataSize: Int,
-    ): String {
-        return barChartHtml(barChartJsScript(title, chartData), dataSize)
-    }
+    ): String = barChartHtml(barChartJsScript(title, chartData), dataSize)
 
     /**
      * https://developers.google.com/chart/interactive/docs/gallery/barchart

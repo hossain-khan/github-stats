@@ -5,7 +5,7 @@ Playground for exploring Github API and collect some PR review stats for differe
 > 👷‍♂️ Ready for experimental use!
 
 ### Background
-This project exist to explore github API to get some common answer about PR review time by different reviewers.
+This project exist to explore GitHub API to get some common answer about PR review time by different reviewers.
 
 #### What it is NOT
 - ❌ It is not a comprehensive GitHub statistics generator tool. Built for specific purpose.

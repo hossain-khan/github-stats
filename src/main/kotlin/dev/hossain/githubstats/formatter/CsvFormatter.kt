@@ -15,13 +15,13 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.DurationUnit
 
-class CsvFormatter : StatsFormatter, KoinComponent {
+class CsvFormatter :
+    StatsFormatter,
+    KoinComponent {
     private val props: LocalProperties by inject()
     private val appConfig: AppConfig by inject()
 
-    override fun formatSinglePrStats(prStats: PrStats): String {
-        return "Individual PR stats is not supported for CSV export."
-    }
+    override fun formatSinglePrStats(prStats: PrStats): String = "Individual PR stats is not supported for CSV export."
 
     /**
      * Formats PR review stats for list of users that reviewed specific user's PRs.
@@ -162,7 +162,9 @@ class CsvFormatter : StatsFormatter, KoinComponent {
             stats.reviewedForPrStats.forEach { (prAuthorId, prReviewStats) ->
                 // Get all the comments made by the reviewer for the PR author
                 val userComments =
-                    prReviewStats.map { it.comments.values }.flatten()
+                    prReviewStats
+                        .map { it.comments.values }
+                        .flatten()
                         .filter { it.user == stats.reviewerId }
                 writeRow(
                     prAuthorId,

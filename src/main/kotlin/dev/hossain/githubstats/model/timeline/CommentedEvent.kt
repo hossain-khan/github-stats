@@ -55,7 +55,5 @@ data class CommentedEvent(
         const val TYPE = "commented"
     }
 
-    override fun toString(): String {
-        return "Commented by ${actor.login} at $html_url"
-    }
+    override fun toString(): String = "Commented by ${actor.login} at $html_url"
 }

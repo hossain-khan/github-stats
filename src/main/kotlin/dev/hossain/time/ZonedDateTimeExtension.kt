@@ -63,9 +63,11 @@ internal fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.n
  */
 internal fun ZonedDateTime.prevWorkingHour() = this.with(TemporalsExtension.prevWorkingHour())
 
-internal fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
-    return java.time.Duration.between(this, endDateTime).seconds.toDuration(DurationUnit.SECONDS)
-}
+internal fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration =
+    java.time.Duration
+        .between(this, endDateTime)
+        .seconds
+        .toDuration(DurationUnit.SECONDS)
 
 /**
  * Checks if two [ZonedDateTime] are in same day (ignores time zone).
@@ -84,9 +86,8 @@ internal fun ZonedDateTime.diffWith(endDateTime: ZonedDateTime): Duration {
  * - Friday, June 24, 2022 at 9:00:33 AM EDT <-> and
  *   Friday, June 24, 2022 at 5:02:33 PM EDT isSameDay = true
  */
-internal fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean {
-    return this.year == other.year && this.month == other.month && this.dayOfMonth == other.dayOfMonth
-}
+internal fun ZonedDateTime.isSameDay(other: ZonedDateTime): Boolean =
+    this.year == other.year && this.month == other.month && this.dayOfMonth == other.dayOfMonth
 
 /**
  * Checks if date-time is next day of the [other] provided [ZonedDateTime].
@@ -177,7 +178,8 @@ internal fun ZonedDateTime.isAfterWorkingHour(): Boolean {
  */
 internal fun ZonedDateTime.format(): String {
     val formatter =
-        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+        DateTimeFormatter
+            .ofLocalizedDateTime(FormatStyle.FULL)
             .withLocale(Locale.US)
             .withZone(zone)
 

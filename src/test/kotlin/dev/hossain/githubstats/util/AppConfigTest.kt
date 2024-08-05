@@ -76,7 +76,8 @@ class AppConfigTest {
         every { localProperties.getDateLimitBefore() } returns null
 
         val todayDate =
-            DateTimeFormatter.ofPattern("uuuu-MM-dd", Locale.US)
+            DateTimeFormatter
+                .ofPattern("uuuu-MM-dd", Locale.US)
                 .withResolverStyle(ResolverStyle.STRICT)
                 .format(LocalDate.now())
 

@@ -21,7 +21,6 @@ import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import dev.hossain.time.format
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
 import org.jetbrains.annotations.TestOnly
 import kotlin.time.Duration
 
@@ -73,7 +72,8 @@ class PullRequestStatsRepoImpl(
         val prReviewers: Set<User> =
             nonFilteredPrReviewerUsers
                 // Filters out the bot users from the reviewers
-                .filter { it.login !in botUserIds }.toSet()
+                .filter { it.login !in botUserIds }
+                .toSet()
 
         if (prReviewers.isEmpty()) {
             Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
@@ -147,7 +147,8 @@ class PullRequestStatsRepoImpl(
         val reviewedEventByUser = mutableMapOf<UserId, Int>()
 
         // Collect all comments made on the PR issue itself, without referencing any line-of-code.
-        prTimelineEvents.filterTo(CommentedEvent::class)
+        prTimelineEvents
+            .filterTo(CommentedEvent::class)
             .forEach { commentedEvent ->
                 val commentsCount: Int? = issueCommentsByUser[commentedEvent.user.login]
                 if (commentsCount != null) {
@@ -158,7 +159,8 @@ class PullRequestStatsRepoImpl(
             }
 
         // Collect all the reviewed comments that are comments or changes requested
-        prTimelineEvents.filterTo(ReviewedEvent::class)
+        prTimelineEvents
+            .filterTo(ReviewedEvent::class)
             .filter { it.state == ReviewState.COMMENTED || it.state == ReviewState.CHANGE_REQUESTED }
             .forEach { reviewedEvent ->
                 val reviewedCount: Int? = reviewedEventByUser[reviewedEvent.user.login]
@@ -217,7 +219,7 @@ class PullRequestStatsRepoImpl(
             val reviewTimeInWorkingHours =
                 DateTimeDiffer.diffWorkingHours(
                     startInstant = prReadyForReviewOn,
-                    endInstant = firstReviewedEvent.submitted_at.toInstant(),
+                    endInstant = Instant.parse(firstReviewedEvent.submitted_at),
                     timeZoneId = userTimeZone.get(prReviewerUserId),
                 )
             Log.d(
@@ -226,7 +228,7 @@ class PullRequestStatsRepoImpl(
             Log.v(
                 "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()}," +
                     "ready for reviewer on ${prReadyForReviewOn.format()} " +
-                    "and event on ${firstReviewedEvent.submitted_at.toInstant().format()}",
+                    "and event on ${Instant.parse(firstReviewedEvent.submitted_at).format()}",
             )
 
             initialResponseTime[prReviewerUserId] = reviewTimeInWorkingHours
@@ -269,7 +271,7 @@ class PullRequestStatsRepoImpl(
             val reviewTimeInWorkingHours =
                 DateTimeDiffer.diffWorkingHours(
                     startInstant = prReadyForReviewOn,
-                    endInstant = prApprovedByReviewerEvent.submitted_at.toInstant(),
+                    endInstant = Instant.parse(prApprovedByReviewerEvent.submitted_at),
                     timeZoneId = userTimeZone.get(prReviewerUserId),
                 )
             Log.i(
@@ -295,22 +297,24 @@ class PullRequestStatsRepoImpl(
     ): Instant {
         // Find out if user has been requested to review later
         val reviewRequestedEvent: ReviewRequestedEvent? =
-            prTimelineEvents.filterTo(ReviewRequestedEvent::class)
+            prTimelineEvents
+                .filterTo(ReviewRequestedEvent::class)
                 .find { it.requested_reviewer == reviewer }
 
         val reviewedByUserEvent: ReviewedEvent? =
-            prTimelineEvents.filterTo(ReviewedEvent::class)
+            prTimelineEvents
+                .filterTo(ReviewedEvent::class)
                 .find { it.user == reviewer }
 
         if (reviewRequestedEvent != null && reviewedByUserEvent != null) {
             // This is an edge case where user as reviewed PR and then was requested to review later
-            if (reviewRequestedEvent.created_at.toInstant() > reviewedByUserEvent.submitted_at.toInstant()) {
+            if (Instant.parse(reviewRequestedEvent.created_at) > Instant.parse(reviewedByUserEvent.submitted_at)) {
                 return prAvailableForReviewOn
             }
         }
 
         // Determines PR readiness time for reviewer if review was requested later for the user
-        return reviewRequestedEvent?.created_at?.toInstant() ?: prAvailableForReviewOn
+        return reviewRequestedEvent?.created_at?.let { Instant.parse(it) } ?: prAvailableForReviewOn
     }
 
     /**
@@ -322,10 +326,10 @@ class PullRequestStatsRepoImpl(
     private fun isApprovedByReviewer(
         reviewer: User,
         prTimelineEvents: List<TimelineEvent>,
-    ): Boolean {
-        return prTimelineEvents.filterTo(ReviewedEvent::class)
+    ): Boolean =
+        prTimelineEvents
+            .filterTo(ReviewedEvent::class)
             .any { it.user == reviewer && it.state == ReviewState.APPROVED }
-    }
 
     /**
      * Finds the first reviewed event with [ReviewState.APPROVED] state
@@ -341,10 +345,10 @@ class PullRequestStatsRepoImpl(
     private fun findPrApprovedEventByUser(
         reviewer: User,
         prTimelineEvents: List<TimelineEvent>,
-    ): ReviewedEvent {
-        return prTimelineEvents.filterTo(ReviewedEvent::class)
+    ): ReviewedEvent =
+        prTimelineEvents
+            .filterTo(ReviewedEvent::class)
             .find { it.user == reviewer && it.state == ReviewState.APPROVED }!!
-    }
 
     /**
      * Extracts all the PR reviewers who reviewed (approved or reviewed)
@@ -357,15 +361,14 @@ class PullRequestStatsRepoImpl(
     internal fun prReviewers(
         prAuthor: User,
         prTimelineEvents: List<TimelineEvent>,
-    ): Set<User> {
-        return prTimelineEvents
+    ): Set<User> =
+        prTimelineEvents
             .filterTo(ReviewRequestedEvent::class)
             .map { it.actor }
             .plus(
                 prTimelineEvents.filterTo(ReviewedEvent::class).map { it.user },
             ).toSet()
             .minus(prAuthor)
-    }
 
     /**
      * Provides date-time when the PR was actually available for review
@@ -380,7 +383,7 @@ class PullRequestStatsRepoImpl(
         if (wasDraftPr) {
             val readyForReview =
                 prTimelineEvents.find { it.eventType == ReadyForReviewEvent.TYPE }!! as ReadyForReviewEvent
-            return readyForReview.created_at.toInstant()
+            return Instant.parse(readyForReview.created_at)
         }
 
         return prCreatedOn
@@ -395,13 +398,14 @@ class PullRequestStatsRepoImpl(
         reviewer: User,
         prReadyForReviewOn: Instant,
     ): ReviewedEvent? =
-        prTimelineEvents.filterTo(ReviewedEvent::class)
+        prTimelineEvents
+            .filterTo(ReviewedEvent::class)
             // Finds first event (TODO: Check if the result is sorted, if not sort it)
             .find { reviewedEvent ->
                 reviewedEvent.user == reviewer &&
                     // Sometimes, users can review before the PR is ready for review.
                     // In that case, ignore any reviews before it was ready for review.
-                    prReadyForReviewOn < reviewedEvent.submitted_at.toInstant() &&
+                    prReadyForReviewOn < Instant.parse(reviewedEvent.submitted_at) &&
                     listOf(
                         ReviewState.APPROVED,
                         ReviewState.CHANGE_REQUESTED,

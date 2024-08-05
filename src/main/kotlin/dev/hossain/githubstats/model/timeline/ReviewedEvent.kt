@@ -55,7 +55,5 @@ data class ReviewedEvent(
         DISMISSED,
     }
 
-    override fun toString(): String {
-        return "Reviewed (${state.name.lowercase()}) by `${user.login}` at $html_url"
-    }
+    override fun toString(): String = "Reviewed (${state.name.lowercase()}) by `${user.login}` at $html_url"
 }

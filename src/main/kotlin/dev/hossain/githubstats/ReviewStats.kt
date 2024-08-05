@@ -140,8 +140,7 @@ fun List<AuthorReviewStats>.avgMergeTime(): Duration {
         .map {
             val prOpenToMergeTime = it.prMergedOn - it.prReadyOn
             prOpenToMergeTime
-        }
-        .fold(Duration.ZERO, Duration::plus)
+        }.fold(Duration.ZERO, Duration::plus)
         .div(allPrReviewStatsForAuthor.size)
 }
 
@@ -224,8 +223,7 @@ data class UserPrComment(
      */
     fun isEmpty(): Boolean = issueComment == 0 && codeReviewComment == 0 && prReviewSubmissionComment == 0
 
-    override fun toString(): String {
-        return "$user made $issueComment PR comment and $codeReviewComment review comment " +
+    override fun toString(): String =
+        "$user made $issueComment PR comment and $codeReviewComment review comment " +
             "and has reviewed PR $prReviewSubmissionComment times. Total: $allComments comments."
-    }
 }

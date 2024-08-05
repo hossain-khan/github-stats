@@ -7,7 +7,6 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.periodUntil
 import kotlinx.datetime.toDateTimePeriod
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toLocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -39,8 +38,8 @@ internal class TimeUtilTest {
         val instantNow = Clock.System.now()
         println(instantNow.toString())
 
-        val instant1: Instant = dateText1.toInstant()
-        val instant2: Instant = dateText2.toInstant()
+        val instant1: Instant = Instant.parse(dateText1)
+        val instant2: Instant = Instant.parse(dateText2)
         println(instant1.toString())
         println(instant2.toString())
 
@@ -54,15 +53,18 @@ internal class TimeUtilTest {
     fun testDateTimeFormat() {
         val instantNow = Clock.System.now()
         val shortFormat =
-            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+            DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.SHORT)
                 .withLocale(Locale.US)
                 .withZone(ZoneId.systemDefault())
         val mediumFormat =
-            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+            DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.MEDIUM)
                 .withLocale(Locale.US)
                 .withZone(ZoneId.systemDefault())
         val fullFormat =
-            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+            DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.FULL)
                 .withLocale(Locale.US)
                 .withZone(ZoneId.systemDefault())
 
@@ -81,7 +83,8 @@ internal class TimeUtilTest {
         // However, since it's in saturday, actual working hour is 5 hours!!!
 
         val mediumFormat =
-            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+            DateTimeFormatter
+                .ofLocalizedDateTime(FormatStyle.FULL)
                 .withLocale(Locale.US)
                 .withZone(ZoneId.systemDefault())
 
@@ -203,16 +206,22 @@ internal class TimeUtilTest {
         val beginWorkHour = 8
         val endWOrkHour = 16
 
-        fun workedMinsDay(start: Calendar): Int {
-            return if (start[Calendar.DAY_OF_WEEK] == 1 || start[Calendar.DAY_OF_WEEK] == 6) 0 else 60 - start[Calendar.MINUTE] + (endWOrkHour - start[Calendar.HOUR_OF_DAY] - 1) * 60
-        }
+        fun workedMinsDay(start: Calendar): Int =
+            if (start[Calendar.DAY_OF_WEEK] == 1 ||
+                start[Calendar.DAY_OF_WEEK] == 6
+            ) {
+                0
+            } else {
+                60 - start[Calendar.MINUTE] + (endWOrkHour - start[Calendar.HOUR_OF_DAY] - 1) * 60
+            }
 
         fun sameDay(
             start: Calendar,
             end: Calendar,
-        ): Boolean {
-            return start[Calendar.YEAR] == end[Calendar.YEAR] && start[Calendar.MONTH] == end[Calendar.MONTH] && start[Calendar.DAY_OF_MONTH] == end[Calendar.DAY_OF_MONTH]
-        }
+        ): Boolean =
+            start[Calendar.YEAR] == end[Calendar.YEAR] &&
+                start[Calendar.MONTH] == end[Calendar.MONTH] &&
+                start[Calendar.DAY_OF_MONTH] == end[Calendar.DAY_OF_MONTH]
 
         val start = startTime
         val end = endTime

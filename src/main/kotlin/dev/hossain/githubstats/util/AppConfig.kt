@@ -15,7 +15,9 @@ import java.util.Locale
  * @see UserTimeZone.userZones
  * @see UserCity
  */
-class AppConfig constructor(localProperties: LocalProperties) {
+class AppConfig constructor(
+    localProperties: LocalProperties,
+) {
     private val repoOwner: String = localProperties.getRepoOwner()
     private val repoId: String = localProperties.getRepoId()
     private val dateLimitAfter: String = requireValidDate(localProperties.getDateLimitAfter())
@@ -52,7 +54,8 @@ class AppConfig constructor(localProperties: LocalProperties) {
      * Extracts user IDs from the comma separated string.
      */
     private fun extractUserIds(userIds: String): List<String> =
-        userIds.split(",")
+        userIds
+            .split(",")
             .filter { it.isNotEmpty() }
             .map { it.trim() }
 

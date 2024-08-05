@@ -1,7 +1,6 @@
 package dev.hossain.githubstats.model
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
 
 /**
  * A GitHub PR (Pull Request).
@@ -111,6 +110,6 @@ data class PullRequest(
     val merged_at: String?,
 ) {
     val isMerged: Boolean = merged != null && merged == true
-    val prCreatedOn: Instant = created_at.toInstant()
-    val prMergedOn: Instant? = merged_at?.toInstant()
+    val prCreatedOn: Instant = Instant.parse(created_at)
+    val prMergedOn: Instant? = merged_at?.let { Instant.parse(it) }
 }

@@ -37,7 +37,5 @@ data class User(
     val id: Long,
     val repos_url: String?,
 ) {
-    override fun toString(): String {
-        return "User: $login"
-    }
+    override fun toString(): String = "User: $login"
 }

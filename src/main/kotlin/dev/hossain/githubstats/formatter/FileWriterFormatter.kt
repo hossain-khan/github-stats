@@ -41,9 +41,7 @@ class FileWriterFormatter constructor(
         return ""
     }
 
-    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
-        return ""
-    }
+    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String = ""
 
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {

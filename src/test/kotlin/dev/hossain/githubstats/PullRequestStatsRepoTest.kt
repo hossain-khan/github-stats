@@ -355,8 +355,7 @@ internal class PullRequestStatsRepoTest {
     // region: Test Utility Functions
 
     /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String): String {
-        return PullRequestStatsRepoTest::class.java.getResource("/$jsonResponseFile")!!.readText()
-    }
+    private fun respond(jsonResponseFile: String): String =
+        PullRequestStatsRepoTest::class.java.getResource("/$jsonResponseFile")!!.readText()
     // endregion: Test Utility Functions
 }

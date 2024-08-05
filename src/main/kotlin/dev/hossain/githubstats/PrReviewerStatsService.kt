@@ -29,19 +29,20 @@ class PrReviewerStatsService constructor(
 
         // First get all the recent PRs reviewed by the user
         val reviewedClosedPrs: List<Issue> =
-            issueSearchPager.searchIssues(
-                searchQuery =
-                    SearchParams(
-                        repoOwner = repoOwner,
-                        repoId = repoId,
-                        reviewer = prReviewerUserId,
-                        dateAfter = dateLimitAfter,
-                        dateBefore = dateLimitBefore,
-                    ).toQuery(),
-            ).filter {
-                // Makes sure it is a PR, not an issue
-                it.pull_request != null
-            }
+            issueSearchPager
+                .searchIssues(
+                    searchQuery =
+                        SearchParams(
+                            repoOwner = repoOwner,
+                            repoId = repoId,
+                            reviewer = prReviewerUserId,
+                            dateAfter = dateLimitAfter,
+                            dateBefore = dateLimitBefore,
+                        ).toQuery(),
+                ).filter {
+                    // Makes sure it is a PR, not an issue
+                    it.pull_request != null
+                }
 
         // Provides periodic progress updates based on config
         val progress = PrAnalysisProgress(reviewedClosedPrs).also { it.start() }
@@ -67,8 +68,7 @@ class PrReviewerStatsService constructor(
                         println("Error getting PR#${pr.number}. Got: ${error.message}")
                         StatsResult.Failure(error)
                     }
-                }
-                .filterIsInstance<StatsResult.Success>()
+                }.filterIsInstance<StatsResult.Success>()
                 .map {
                     it.stats
                 }
@@ -81,8 +81,7 @@ class PrReviewerStatsService constructor(
                 .filter {
                     // Ensures that the PR was approved by the reviewer requested in the function
                     it.prApprovalTime.containsKey(prReviewerUserId)
-                }
-                .map { stats ->
+                }.map { stats ->
                     val prApprovalTime = stats.prApprovalTime[prReviewerUserId]!!
                     ReviewStats(
                         reviewerUserId = prReviewerUserId,
@@ -104,8 +103,7 @@ class PrReviewerStatsService constructor(
             .filter {
                 // Ensures that the PR was reviewed by the reviewer requested in the function
                 it.prApprovalTime.containsKey(prReviewerUserId)
-            }
-            .forEach { prStats ->
+            }.forEach { prStats ->
                 val prAuthorUserId = prStats.pullRequest.user.login
                 if (reviewerReviewedFor.containsKey(prAuthorUserId)) {
                     reviewerReviewedFor[prAuthorUserId] = reviewerReviewedFor[prAuthorUserId]!!.plus(prStats)
@@ -124,7 +122,8 @@ class PrReviewerStatsService constructor(
                 if (reviewerPrReviewStatsList.isEmpty()) {
                     Duration.ZERO
                 } else {
-                    reviewerPrReviewStatsList.map { it.reviewCompletion }
+                    reviewerPrReviewStatsList
+                        .map { it.reviewCompletion }
                         .fold(Duration.ZERO, Duration::plus)
                         .div(reviewerPrReviewStatsList.size)
                 },

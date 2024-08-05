@@ -2,7 +2,6 @@ package dev.hossain.time
 
 import com.google.common.truth.Truth.assertThat
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
@@ -289,8 +288,10 @@ internal class DateTimeDifferTest {
 
     @Test
     fun `diff - given start time is during weekend and ends in the middle of week after hours - provides diff of working hour only`() {
-        val startTime: Instant = "2022-09-17T22:28:41Z".toInstant() // Saturday, September 17, 2022 at 6:28:41 PM Eastern Daylight
-        val endTime: Instant = "2022-09-22T11:51:40Z".toInstant() // Thursday, September 22, 2022 at 7:51:40 AM Eastern Daylight Time
+        val startTime: Instant =
+            Instant.parse("2022-09-17T22:28:41Z") // Saturday, September 17, 2022 at 6:28:41 PM Eastern Daylight
+        val endTime: Instant =
+            Instant.parse("2022-09-22T11:51:40Z") // Thursday, September 22, 2022 at 7:51:40 AM Eastern Daylight Time
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
@@ -300,8 +301,8 @@ internal class DateTimeDifferTest {
 
     @Test
     fun `diff - given start time is a day before weekend - provides diff of working hour only`() {
-        val startTime: Instant = "2022-10-28T12:22:06Z".toInstant() // Friday, October 28, 2022 at 8:22:06 AM EDT
-        val endTime: Instant = "2022-10-29T06:09:16Z".toInstant() // Saturday, October 29, 2022 at 2:09:16 AM EDT
+        val startTime: Instant = Instant.parse("2022-10-28T12:22:06Z") // Friday, October 28, 2022 at 8:22:06 AM EDT
+        val endTime: Instant = Instant.parse("2022-10-29T06:09:16Z") // Saturday, October 29, 2022 at 2:09:16 AM EDT
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
@@ -310,8 +311,8 @@ internal class DateTimeDifferTest {
 
     @Test
     fun `diff - start time and end time both on working day but before working hour - provides diff of working hour only`() {
-        val startTime: Instant = "2022-11-16T10:30:49Z".toInstant() // Wednesday, November 16, 2022 at 5:30:49 AM EST
-        val endTime: Instant = "2022-11-17T07:33:25Z".toInstant() // Thursday, November 17, 2022 at 2:33:25 AM EST
+        val startTime: Instant = Instant.parse("2022-11-16T10:30:49Z") // Wednesday, November 16, 2022 at 5:30:49 AM EST
+        val endTime: Instant = Instant.parse("2022-11-17T07:33:25Z") // Thursday, November 17, 2022 at 2:33:25 AM EST
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
@@ -320,8 +321,8 @@ internal class DateTimeDifferTest {
 
     @Test
     fun `diff - start time and end time both on working day but one of them before working hour - provides diff of working hour only`() {
-        val startTime: Instant = "2022-11-16T10:30:49Z".toInstant() // Wednesday, November 16, 2022 at 5:30:49 AM EST
-        val endTime: Instant = "2022-11-17T15:33:25Z".toInstant() // Thursday, November 17, 2022 at 10:33:25 AM EST
+        val startTime: Instant = Instant.parse("2022-11-16T10:30:49Z") // Wednesday, November 16, 2022 at 5:30:49 AM EST
+        val endTime: Instant = Instant.parse("2022-11-17T15:33:25Z") // Thursday, November 17, 2022 at 10:33:25 AM EST
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 

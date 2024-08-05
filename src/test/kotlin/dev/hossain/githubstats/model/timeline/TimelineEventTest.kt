@@ -75,8 +75,6 @@ internal class TimelineEventTest {
     // region: Test Utility Functions
 
     /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String): String {
-        return TimelineEventTest::class.java.getResource("/$jsonResponseFile")!!.readText()
-    }
+    private fun respond(jsonResponseFile: String): String = TimelineEventTest::class.java.getResource("/$jsonResponseFile")!!.readText()
     // endregion: Test Utility Functions
 }
