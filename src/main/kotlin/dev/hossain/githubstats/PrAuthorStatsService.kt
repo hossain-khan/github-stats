@@ -44,19 +44,20 @@ class PrAuthorStatsService constructor(
 
         // First get all the recent PRs made by author
         val allMergedPrsByAuthor: List<Issue> =
-            issueSearchPager.searchIssues(
-                searchQuery =
-                    SearchParams(
-                        repoOwner = repoOwner,
-                        repoId = repoId,
-                        author = prAuthorUserId,
-                        dateAfter = dateLimitAfter,
-                        dateBefore = dateLimitBefore,
-                    ).toQuery(),
-            ).filter {
-                // Makes sure it is a PR, not an issue
-                it.pull_request != null
-            }
+            issueSearchPager
+                .searchIssues(
+                    searchQuery =
+                        SearchParams(
+                            repoOwner = repoOwner,
+                            repoId = repoId,
+                            author = prAuthorUserId,
+                            dateAfter = dateLimitAfter,
+                            dateBefore = dateLimitBefore,
+                        ).toQuery(),
+                ).filter {
+                    // Makes sure it is a PR, not an issue
+                    it.pull_request != null
+                }
 
         // Provides periodic progress updates based on config
         val progress = PrAnalysisProgress(allMergedPrsByAuthor).also { it.start() }
@@ -82,8 +83,7 @@ class PrAuthorStatsService constructor(
                         Log.w("Error getting PR#${pr.number}. Got: ${error.message}")
                         StatsResult.Failure(error)
                     }
-                }
-                .filterIsInstance<StatsResult.Success>()
+                }.filterIsInstance<StatsResult.Success>()
                 .map {
                     it.stats
                 }
@@ -113,7 +113,8 @@ class PrAuthorStatsService constructor(
     ): List<AuthorReviewStats> {
         // Builds a map of reviewer ID to list PRs they have reviewed for the PR-Author
         val userReviews = mutableMapOf<UserId, List<ReviewStats>>()
-        mergedPrsStatsList.filter { it.prApprovalTime.isNotEmpty() }
+        mergedPrsStatsList
+            .filter { it.prApprovalTime.isNotEmpty() }
             .forEach { stats: PrStats ->
                 stats.prApprovalTime.forEach { (userId, time) ->
                     val reviewStats =
@@ -135,25 +136,26 @@ class PrAuthorStatsService constructor(
             }
 
         val authorReviewStats: List<AuthorReviewStats> =
-            userReviews.map { (reviewerUserId, reviewStats) ->
-                val totalReviews: Int = reviewStats.size
-                val averageReviewTime: Duration =
-                    reviewStats
-                        .map { it.reviewCompletion }
-                        .fold(Duration.ZERO, Duration::plus)
-                        .div(totalReviews)
-                val totalReviewComments = reviewStats.sumOf { it.prComments.allComments }
+            userReviews
+                .map { (reviewerUserId, reviewStats) ->
+                    val totalReviews: Int = reviewStats.size
+                    val averageReviewTime: Duration =
+                        reviewStats
+                            .map { it.reviewCompletion }
+                            .fold(Duration.ZERO, Duration::plus)
+                            .div(totalReviews)
+                    val totalReviewComments = reviewStats.sumOf { it.prComments.allComments }
 
-                AuthorReviewStats(
-                    repoId = repoId,
-                    prAuthorId = prAuthorUsedId,
-                    reviewerId = reviewerUserId,
-                    average = averageReviewTime,
-                    totalReviews = totalReviews,
-                    totalComments = totalReviewComments,
-                    stats = reviewStats,
-                )
-            }.sortedByDescending { it.totalReviews }
+                    AuthorReviewStats(
+                        repoId = repoId,
+                        prAuthorId = prAuthorUsedId,
+                        reviewerId = reviewerUserId,
+                        average = averageReviewTime,
+                        totalReviews = totalReviews,
+                        totalComments = totalReviewComments,
+                        stats = reviewStats,
+                    )
+                }.sortedByDescending { it.totalReviews }
 
         return authorReviewStats
     }

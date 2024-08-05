@@ -17,7 +17,9 @@ import kotlin.time.DurationUnit
  * Generates HTML based charts for the available data.
  * Currently, it uses [Google Chart](https://developers.google.com/chart) to generate simple charts.
  */
-class HtmlChartFormatter : StatsFormatter, KoinComponent {
+class HtmlChartFormatter :
+    StatsFormatter,
+    KoinComponent {
     private val appConfig: AppConfig by inject()
 
     /**
@@ -45,9 +47,10 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         // Prepares data for pie chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/piechart
         val statsJsData =
-            stats.reviewStats.map {
-                "['${it.reviewerId} [${it.stats.size}]', ${it.stats.size}]"
-            }.joinToString()
+            stats.reviewStats
+                .map {
+                    "['${it.reviewerId} [${it.stats.size}]', ${it.stats.size}]"
+                }.joinToString()
 
         val chartTitle =
             "PR reviewer`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
@@ -89,10 +92,9 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val barStatsJsDataAggregate: String =
             listOf(
                 "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
-            )
-                .plus(
-                    "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]",
-                ).joinToString()
+            ).plus(
+                "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]",
+            ).joinToString()
 
         val formattedBarChartAggregate =
             Template.barChart(
@@ -120,12 +122,11 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
         val barStatsJsDataAggregate: String =
             listOf(
                 "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
-            )
-                .plus(
-                    aggregatedPrStats.filter { it.isEmpty().not() }.map {
-                        "['${it.authorUserId}', ${it.totalPrsCreated}, ${it.totalCodeReviewComments},${it.totalIssueComments},${it.totalPrSubmissionComments}]"
-                    },
-                ).joinToString()
+            ).plus(
+                aggregatedPrStats.filter { it.isEmpty().not() }.map {
+                    "['${it.authorUserId}', ${it.totalPrsCreated}, ${it.totalCodeReviewComments},${it.totalIssueComments},${it.totalPrSubmissionComments}]"
+                },
+            ).joinToString()
 
         val formattedBarChartAggregate =
             Template.barChart(
@@ -172,7 +173,9 @@ class HtmlChartFormatter : StatsFormatter, KoinComponent {
                     stats.reviewedForPrStats.map { (prAuthorId, prReviewStats) ->
                         // Get all the comments made by the reviewer for the PR author
                         val userComments =
-                            prReviewStats.map { it.comments.values }.flatten()
+                            prReviewStats
+                                .map { it.comments.values }
+                                .flatten()
                                 .filter { it.user == stats.reviewerId }
 
                         "" +

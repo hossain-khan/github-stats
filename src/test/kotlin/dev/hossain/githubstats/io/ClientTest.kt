@@ -176,8 +176,6 @@ internal class ClientTest {
     // region: Test Utility Functions
 
     /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String): String {
-        return ClientTest::class.java.getResource("/$jsonResponseFile")!!.readText()
-    }
+    private fun respond(jsonResponseFile: String): String = ClientTest::class.java.getResource("/$jsonResponseFile")!!.readText()
     // endregion: Test Utility Functions
 }

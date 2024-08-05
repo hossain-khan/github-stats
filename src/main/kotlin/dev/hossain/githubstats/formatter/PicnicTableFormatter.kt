@@ -26,9 +26,12 @@ import kotlin.time.Duration
 /**
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
  */
-class PicnicTableFormatter : StatsFormatter, KoinComponent {
+class PicnicTableFormatter :
+    StatsFormatter,
+    KoinComponent {
     private val dateFormatter =
-        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        DateTimeFormatter
+            .ofLocalizedDateTime(FormatStyle.MEDIUM)
             .withLocale(Locale.US)
             .withZone(ZoneId.systemDefault())
 
@@ -76,9 +79,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     ""
                 }
 
-        fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String {
-            return "$userDuration | ${userDuration.value.toWorkingHour()}"
-        }
+        fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String = "$userDuration | ${userDuration.value.toWorkingHour()}"
 
         return table {
             cellStyle {
@@ -119,7 +120,13 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
                     cell("PR Comments") {
                         rowSpan = prStats.comments.size
                     }
-                    cell(formatUserPrComments(prStats.comments.entries.first().value))
+                    cell(
+                        formatUserPrComments(
+                            prStats.comments.entries
+                                .first()
+                                .value,
+                        ),
+                    )
                 }
                 // This row has only one cell because earlier data will carry over and push it to the right.
                 prStats.comments.entries.drop(1).forEach {
@@ -185,15 +192,21 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
          * Internal function to format PR review time and review comments count.
          */
         @Suppress("ktlint:standard:max-line-length")
-        fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String {
-            return "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
+        fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String =
+            "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
                 if (reviewStats.prComments.isEmpty().not()) {
                     "\nmade ${reviewStats.prComments.codeReviewComment} code review ${reviewStats.prComments.codeReviewComment.comments()} " +
                         "and ${reviewStats.prComments.issueComment} issue ${reviewStats.prComments.issueComment.comments()}."
                 } else {
                     "" // When no comment metrics is available, don't show it.
-                } + if (reviewStats.prComments.prReviewSubmissionComment > 0) "\nalso has reviewed PR ${reviewStats.prComments.prReviewSubmissionComment} ${reviewStats.prComments.prReviewSubmissionComment.times()}." else ""
-        }
+                } +
+                if (reviewStats.prComments.prReviewSubmissionComment >
+                    0
+                ) {
+                    "\nalso has reviewed PR ${reviewStats.prComments.prReviewSubmissionComment} ${reviewStats.prComments.prReviewSubmissionComment.times()}."
+                } else {
+                    ""
+                }
 
         val repoId = stats.reviewStats.first().repoId
         val prAuthorId = stats.reviewStats.first().prAuthorId
@@ -261,9 +274,7 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
         }.toString()
     }
 
-    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
-        return ""
-    }
+    override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String = ""
 
     /**
      * Formats [ReviewerReviewStats] that contains all review stats given by the reviewer.
@@ -332,7 +343,8 @@ class PicnicTableFormatter : StatsFormatter, KoinComponent {
             if (stats.reviewedForPrStats.isNotEmpty()) {
                 var itemCount = 1
                 stats.reviewedForPrStats.entries
-                    .sortedBy { it.value.size }.associate { it.toPair() }
+                    .sortedBy { it.value.size }
+                    .associate { it.toPair() }
                     .forEach { (userId, prStats) ->
                         val count = prStats.size
                         val statMessage = "✔ $count ${count.prs()} reviewed for '$userId'"

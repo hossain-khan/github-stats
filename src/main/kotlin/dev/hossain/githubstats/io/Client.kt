@@ -36,10 +36,12 @@ object Client {
 
     // JSON serialization using Moshi
     private val moshi =
-        Moshi.Builder()
+        Moshi
+            .Builder()
             .add(
                 // https://github.com/square/moshi/blob/master/moshi-adapters/src/main/java/com/squareup/moshi/adapters/PolymorphicJsonAdapterFactory.kt
-                PolymorphicJsonAdapterFactory.of(TimelineEvent::class.java, "event")
+                PolymorphicJsonAdapterFactory
+                    .of(TimelineEvent::class.java, "event")
                     .withSubtype(ClosedEvent::class.java, ClosedEvent.TYPE)
                     .withSubtype(CommentedEvent::class.java, CommentedEvent.TYPE)
                     .withSubtype(MergedEvent::class.java, MergedEvent.TYPE)
@@ -47,8 +49,7 @@ object Client {
                     .withSubtype(ReviewRequestedEvent::class.java, ReviewRequestedEvent.TYPE)
                     .withSubtype(ReviewedEvent::class.java, ReviewedEvent.TYPE)
                     .withDefaultValue(UnknownEvent()),
-            )
-            .addLast(KotlinJsonAdapterFactory())
+            ).addLast(KotlinJsonAdapterFactory())
             .build()
 
     /**
@@ -72,7 +73,8 @@ object Client {
         builder.addInterceptor { chain ->
             val originalRequest = chain.request()
             val requestBuilder =
-                originalRequest.newBuilder()
+                originalRequest
+                    .newBuilder()
                     .header("User-Agent", "Kotlin-Cli")
                     .header("Accept", "application/vnd.github.v3+json")
                     // https://docs.github.com/en/rest/overview/other-authentication-methods
@@ -94,7 +96,8 @@ object Client {
 
     val githubApiService: GithubApiService by lazy {
         val retrofit =
-            Retrofit.Builder()
+            Retrofit
+                .Builder()
                 .baseUrl(baseUrl)
                 .client(httpClient)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))

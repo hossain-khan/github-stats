@@ -24,9 +24,7 @@ class ErrorProcessor {
     /**
      * Provides exception with detailed message to debug the error.
      */
-    fun getDetailedError(exception: Exception): Exception {
-        return IllegalStateException(getErrorMessage(exception), exception)
-    }
+    fun getDetailedError(exception: Exception): Exception = IllegalStateException(getErrorMessage(exception), exception)
 
     /**
      * Provides bit more verbose error message to help understand the error.
