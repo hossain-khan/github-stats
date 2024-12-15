@@ -45,9 +45,9 @@ dependencies {
     implementation("com.jakewharton.picnic:picnic:0.7.0")
 
     // https://github.com/square/moshi
-    implementation("com.squareup.moshi:moshi:1.15.1")
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
-    implementation("com.squareup.moshi:moshi-adapters:1.15.1")
+    implementation("com.squareup.moshi:moshi:1.15.2")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
+    implementation("com.squareup.moshi:moshi-adapters:1.15.2")
     // ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0") // Not needed yet.
 
     // https://github.com/doyaaaaaken/kotlin-csv
