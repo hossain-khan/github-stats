@@ -10,6 +10,9 @@ import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 
+/**
+ * A utility class to process errors and provide detailed error information using [ErrorInfo].
+ */
 class ErrorProcessor {
     companion object {
         /**
@@ -55,11 +58,17 @@ class ErrorProcessor {
 
     /**
      * Provides exception with detailed message to debug the error.
+     *
+     * @param exception The exception to process.
+     * @return An `ErrorInfo` object containing detailed error information.
      */
     fun getDetailedError(exception: Exception): ErrorInfo = getErrorInformation(exception)
 
     /**
      * Provides bit more verbose error message to help understand the error.
+     *
+     * @param exception The exception to process.
+     * @return An `ErrorInfo` object containing detailed error information.
      */
     private fun getErrorInformation(exception: Exception): ErrorInfo {
         // Tell about HTTP Response Headers has important debug information
@@ -97,6 +106,9 @@ class ErrorProcessor {
 
     /**
      * Parse GitHub API error response.
+     *
+     * @param errorContentJson The JSON string containing the GitHub error response.
+     * @return A `GithubError` object if parsing is successful, `null` otherwise.
      */
     private fun getGithubError(errorContentJson: String): GithubError? =
         try {
@@ -110,6 +122,12 @@ class ErrorProcessor {
             null
         }
 
+    /**
+     * Provides a guide message for token errors.
+     *
+     * @param errorMessage The error message to check.
+     * @return A guide message if the error message contains token error, an empty string otherwise.
+     */
     private fun getTokenErrorGuide(errorMessage: String): String {
         println("Error message: $errorMessage")
         return if (errorMessage.contains(TOKEN_ERROR_MESSAGE)) {
@@ -127,6 +145,9 @@ class ErrorProcessor {
         }
     }
 
+    /**
+     * Debug guide message for HTTP response headers.
+     */
     private val httpResponseDebugGuide: String =
         """
         
