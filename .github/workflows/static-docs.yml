@@ -1,4 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
+# Publishes dokka generated kotlin documentation to GitHub Pages
 name: Deploy static content to Pages
 
 on:
@@ -35,6 +36,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
+          # Use JDK LTS version (keep this in sync with other workflows)
           java-version: '21'
           distribution: 'temurin'
 
@@ -43,7 +45,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
         with:
-           gradle-version: '8.4'
+           # Match gradle/wrapper/gradle-wrapper.properties version
+           gradle-version: '8.12'
 
       - name: Build with Gradle
         run: gradle clean dokkaGeneratePublicationHtml
