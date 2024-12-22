@@ -79,9 +79,9 @@ class PrAuthorStatsService constructor(
                             botUserIds = botUserIds,
                         )
                     } catch (e: Exception) {
-                        val error = errorProcessor.getDetailedError(e)
-                        Log.w("Error getting PR#${pr.number}. Got: ${error.message}")
-                        StatsResult.Failure(error)
+                        val errorInfo = errorProcessor.getDetailedError(e)
+                        Log.w("Error getting PR#${pr.number}. Got: ${errorInfo.errorMessage}${errorInfo.debugGuideMessage}")
+                        StatsResult.Failure(errorInfo)
                     }
                 }.filterIsInstance<StatsResult.Success>()
                 .map {

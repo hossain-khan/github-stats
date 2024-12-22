@@ -33,7 +33,8 @@ class IssueSearchPagerService constructor(
                         size = pageSize,
                     )
                 } catch (exception: Exception) {
-                    throw errorProcessor.getDetailedError(exception)
+                    val errorInfo = errorProcessor.getDetailedError(exception)
+                    throw errorInfo.exception
                 }
 
             val totalItemCount: Int = issueSearchResult.total_count

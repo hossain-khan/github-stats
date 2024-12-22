@@ -26,11 +26,11 @@ class ErrorProcessorTest {
         val httpException = HttpException(Response.error<Any>(404, "Not found".toResponseBody("text/plain".toMediaTypeOrNull())))
         val errorProcessor = ErrorProcessor()
 
-        val exception = errorProcessor.getDetailedError(httpException)
+        val errorInfo = errorProcessor.getDetailedError(httpException)
 
-        assertThat(exception).isInstanceOf(IllegalStateException::class.java)
-        assertThat(exception.message).contains("HTTP 404")
-        assertThat(exception.message).contains("Not found")
+        assertThat(errorInfo).isInstanceOf(ErrorInfo::class.java)
+        assertThat(errorInfo.errorMessage).contains("HTTP 404")
+        assertThat(errorInfo.errorMessage).contains("Not found")
     }
 
     @Test
@@ -38,10 +38,10 @@ class ErrorProcessorTest {
         val httpException = HttpException(Response.error<Any>(404, "".toResponseBody("text/plain".toMediaTypeOrNull())))
         val errorProcessor = ErrorProcessor()
 
-        val exception = errorProcessor.getDetailedError(httpException)
+        val errorInfo = errorProcessor.getDetailedError(httpException)
 
-        assertThat(exception).isInstanceOf(IllegalStateException::class.java)
-        assertThat(exception.message).contains("HTTP 404")
+        assertThat(errorInfo).isInstanceOf(ErrorInfo::class.java)
+        assertThat(errorInfo.errorMessage).contains("HTTP 404")
     }
 
     @Test
@@ -49,9 +49,9 @@ class ErrorProcessorTest {
         val exception = Exception("Some error")
         val errorProcessor = ErrorProcessor()
 
-        val detailedException = errorProcessor.getDetailedError(exception)
+        val errorInfo = errorProcessor.getDetailedError(exception)
 
-        assertThat(detailedException).isInstanceOf(IllegalStateException::class.java)
-        assertThat(detailedException.message).contains("Some error")
+        assertThat(errorInfo).isInstanceOf(ErrorInfo::class.java)
+        assertThat(errorInfo.errorMessage).contains("Some error")
     }
 }

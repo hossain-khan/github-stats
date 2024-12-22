@@ -35,7 +35,8 @@ class TimelineEventsPagerService constructor(
                         page = pageNumber,
                     )
                 } catch (exception: Exception) {
-                    throw errorProcessor.getDetailedError(exception)
+                    val errorInfo = errorProcessor.getDetailedError(exception)
+                    throw errorInfo.exception
                 }
 
             allTimelineEvents.addAll(timelineEvents)
