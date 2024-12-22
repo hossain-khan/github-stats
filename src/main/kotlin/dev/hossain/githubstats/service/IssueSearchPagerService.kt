@@ -36,7 +36,7 @@ class IssueSearchPagerService constructor(
                 } catch (exception: Exception) {
                     val errorInfo: ErrorInfo = errorProcessor.getDetailedError(exception)
 
-                    if(errorInfo.isUserNotFound()) {
+                    if (errorInfo.isUserNotFound()) {
                         Log.w("❌ User not found. Skipping the PR list search for the user.\n")
                         return emptyList()
                     } else {
