@@ -71,7 +71,15 @@ class ErrorProcessorTest {
 
     @Test
     fun `getDetailedError - given HttpException with JSON error body and code - returns ErrorInfo processed data`() {
-        val jsonErrorBody = """{"message":"Not Found","documentation_url":"https://docs.github.com/rest/pulls/pulls#get-a-pull-request","status":"404"}"""
+        // language=JSON
+        val jsonErrorBody =
+            """
+            {
+              "message": "Not Found",
+              "documentation_url": "https://docs.github.com/rest/pulls/pulls#get-a-pull-request",
+              "status": "404"
+            }
+            """.trimIndent()
         val httpException = HttpException(Response.error<Any>(404, jsonErrorBody.toResponseBody("application/json".toMediaTypeOrNull())))
         val errorProcessor = ErrorProcessor()
 
