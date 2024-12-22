@@ -21,6 +21,7 @@ This project exist to explore GitHub API to get some common answer about PR revi
 ##### Limitation
 - 🏋️ It does not collect stats in parallel to avoid GitHub API rate-limit and adds delay between API calls
 - 🏋️ It is **NOT** able to accurately compute PR review time due to many complexities. The review time is provided for informational purpose only.
+- 🔐 The generated API token must have access to repository and user in the orginization, otherwise all API request will fail.
 
 ## Setup 🛠
 See [SETUP](SETUP.md) for details on how to setup the project using IntelliJ IDEA.
