@@ -17,7 +17,7 @@ This project exist to explore GitHub API to get some common answer about PR revi
 #### What it is ✔️
 - ✅ It can show you PR statistics for PRs created by specific author/contributor of a repository
 - ✅ It can generate CSV for the PR stats which can be used in Google Sheets or alike to generate charts
-- ✅ It can also generate basic chart/graph using Google Chart to visual respresentation of data
+- ✅ It can also generate basic chart/graph using Google Chart to visualize the PR stats
 ##### Limitation
 - 🏋️ It does not collect stats in parallel to avoid GitHub API rate-limit and adds delay between API calls, resulting in longer wait time for larger date span with lot of PRs.
 - 🏋️ It is **NOT** able to accurately compute PR review time due to many complexities. The review time is provided for informational purpose only.
@@ -25,6 +25,12 @@ This project exist to explore GitHub API to get some common answer about PR revi
 
 ## Setup 🛠
 See [SETUP](SETUP.md) for details on how to setup the project using IntelliJ IDEA.
+
+### Run App 📊
+After configuration comlete, you can run the app in either ways: 
+
+1. Run the app from IntelliJ ▶️ [Main.kt](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/Main.kt)
+2. Run the app from terminal using **`./gradlew run`** command
 
 ## How
 The program collects all the related data to user's via different GitHub APIs and compiles releavant data into stats. Those stats are then run through [StatsFormatter](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/dev/hossain/githubstats/formatter/StatsFormatter.kt) to generate files.  
