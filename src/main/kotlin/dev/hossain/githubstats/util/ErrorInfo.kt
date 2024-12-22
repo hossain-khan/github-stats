@@ -11,7 +11,11 @@ data class ErrorInfo(
     val exception: Exception,
     val debugGuideMessage: String = "",
     val githubError: GithubError? = null,
-)
+) {
+    fun isUserNotFound(): Boolean {
+        return ErrorProcessor.isUserMissingError(githubError)
+    }
+}
 
 /**
  * Error threshold information.

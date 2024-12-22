@@ -5,6 +5,7 @@ import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.service.GithubApiService.Companion.DEFAULT_PAGE_SIZE
+import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
 import kotlin.math.ceil
@@ -33,8 +34,14 @@ class IssueSearchPagerService constructor(
                         size = pageSize,
                     )
                 } catch (exception: Exception) {
-                    val errorInfo = errorProcessor.getDetailedError(exception)
-                    throw errorInfo.exception
+                    val errorInfo: ErrorInfo = errorProcessor.getDetailedError(exception)
+
+                    if(errorInfo.isUserNotFound()) {
+                        Log.w("❌ User not found. Skipping the PR list search for the user.\n")
+                        return emptyList()
+                    } else {
+                        throw errorInfo.exception
+                    }
                 }
 
             val totalItemCount: Int = issueSearchResult.total_count
