@@ -117,4 +117,72 @@ class ErrorProcessorTest {
         assertThat(errorInfo.errorMessage).contains("HTTP 404")
         assertThat(errorInfo.githubError).isNull()
     }
+
+    @Test
+    fun `getDetailedError - given HttpException with JSON github errors list - returns ErrorInfo processed data with errors`() {
+        // language=JSON
+        val jsonErrorBody =
+            """
+            {
+              "message": "Validation Failed",
+              "errors": [
+                {
+                  "message": "The listed users cannot be searched either because the users do not exist or you do not have permission to view the users.",
+                  "resource": "Search",
+                  "field": "q",
+                  "code": "invalid"
+                }
+              ],
+              "documentation_url": "https://docs.github.com/v3/search/",
+              "status": "422"
+            }
+            """.trimIndent()
+        val httpException = HttpException(Response.error<Any>(422, jsonErrorBody.toResponseBody("application/json".toMediaTypeOrNull())))
+        val errorProcessor = ErrorProcessor()
+
+        val errorInfo = errorProcessor.getDetailedError(httpException)
+
+        assertThat(errorInfo).isInstanceOf(ErrorInfo::class.java)
+        assertThat(errorInfo.githubError?.message).isEqualTo("Validation Failed")
+        assertThat(errorInfo.githubError?.status).isEqualTo(422)
+        assertThat(errorInfo.githubError?.errors).isNotEmpty()
+
+        val githubErrorDetail = errorInfo.githubError?.errors?.get(0)!!
+        assertThat(
+            githubErrorDetail.message,
+        ).isEqualTo(
+            "The listed users cannot be searched either because the users do not exist or you do not have permission to view the users.",
+        )
+        assertThat(githubErrorDetail.resource).isEqualTo("Search")
+        assertThat(githubErrorDetail.field).isEqualTo("q")
+        assertThat(githubErrorDetail.code).isEqualTo("invalid")
+    }
+
+    @Test
+    fun `getDetailedError - given HttpException with JSON github error user not found - validates user not found`() {
+        // language=JSON
+        val jsonErrorBody =
+            """
+            {
+              "message": "Validation Failed",
+              "errors": [
+                {
+                  "message": "The listed users cannot be searched either because the users do not exist or you do not have permission to view the users.",
+                  "resource": "Search",
+                  "field": "q",
+                  "code": "invalid"
+                }
+              ],
+              "documentation_url": "https://docs.github.com/v3/search/",
+              "status": "422"
+            }
+            """.trimIndent()
+        val httpException = HttpException(Response.error<Any>(422, jsonErrorBody.toResponseBody("application/json".toMediaTypeOrNull())))
+        val errorProcessor = ErrorProcessor()
+
+        val errorInfo = errorProcessor.getDetailedError(httpException)
+
+        assertThat(errorInfo).isInstanceOf(ErrorInfo::class.java)
+        assertThat(ErrorProcessor.isUserMissingError(errorInfo.githubError)).isTrue()
+    }
 }

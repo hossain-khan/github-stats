@@ -21,6 +21,36 @@ class ErrorProcessor {
          * ```
          */
         private const val TOKEN_ERROR_MESSAGE = "Bad credentials"
+
+        /**
+         * Error message when search query is invalid.
+         *
+         * Sample error message.
+         * ```json
+         * {"message":"Validation Failed","errors":[{"message":"The listed users cannot be searched.","resource":"Search","field":"q","code":"invalid"}],"documentation_url":"https://docs.github.com/v3/search/","status":"422"}
+         * ```
+         */
+        private const val VALIDATION_FAILED_ERROR_MESSAGE = "Validation Failed"
+
+        /**
+         * Resource type for search error.
+         */
+        private const val RESOURCE_TYPE_SEARCH = "Search"
+
+        /**
+         * Check if user is missing in the search query.
+         */
+        fun isUserMissingError(githubError: GithubError?): Boolean {
+            if (githubError == null || githubError.message != VALIDATION_FAILED_ERROR_MESSAGE) {
+                return false
+            }
+
+            return githubError.errors.any {
+                it.resource == RESOURCE_TYPE_SEARCH &&
+                    // Yes, hardcoding the server message string to avoid any false positive
+                    it.message.contains("users cannot be searched")
+            }
+        }
     }
 
     /**
