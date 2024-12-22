@@ -8,6 +8,7 @@ plugins {
 
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
+    // https://kotlinlang.org/docs/dokka-migration.html
     id("org.jetbrains.dokka") version "2.0.0"
 
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
