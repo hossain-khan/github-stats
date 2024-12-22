@@ -72,7 +72,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.14")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.1.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
 }
 
 tasks.test {
