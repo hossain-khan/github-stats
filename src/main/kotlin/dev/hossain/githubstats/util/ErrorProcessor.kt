@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.util
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.AppConstants.BUILD_CONFIG
 import dev.hossain.githubstats.AppConstants.GITHUB_TOKEN_SETTINGS_URL
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
@@ -71,6 +72,7 @@ class ErrorProcessor {
         try {
             Moshi
                 .Builder()
+                .addLast(KotlinJsonAdapterFactory())
                 .build()
                 .adapter(GithubError::class.java)
                 .fromJson(errorContentJson)
