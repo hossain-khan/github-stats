@@ -42,10 +42,11 @@ class PrReviewerStatsService constructor(
      * NOTE: If [AppConfig.botUserIds] is defined, then those users will be excluded from the review stats.
      *
      * ```
-     * Total Reviews by Sally: 24
-     * Bob -> 14 PRs reviewed by Sally;
-     * Alice -> 8 PRs reviewed by Sally;
-     * Charlie -> 2 PRs reviewed by Sally;
+     * Total reviews by Sally: 24
+     *
+     * Sally reviewed 14 PRs made by Bob
+     * Sally reviewed 8 PRs made by Alice
+     * Sally reviewed 2 PRs made by Charlie
      * ```
      */
     suspend fun reviewerStats(prReviewerUserId: String): ReviewerReviewStats {
