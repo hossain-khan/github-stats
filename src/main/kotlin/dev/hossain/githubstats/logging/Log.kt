@@ -31,6 +31,12 @@ object Log {
      */
     const val NONE = 5
 
+    // ANSI color codes for console output
+    private const val COLOR_BLUE = "\u001B[34m"
+    private const val COLOR_GREEN = "\u001B[32m"
+    private const val COLOR_ORANGE = "\u001B[38;2;255;165;0m"
+    private const val COLOR_RESET = "\u001B[0m"
+
     fun v(msg: String): Unit = log(VERBOSE, msg)
 
     fun d(msg: String): Unit = log(DEBUG, msg)
@@ -47,15 +53,11 @@ object Log {
         logMessage: String,
     ) {
         if (logLevel >= BuildConfig.logLevel) {
-            val blue = "\u001B[34m"
-            val green = "\u001B[32m"
-            val orange = "\u001B[38;2;255;165;0m"
-            val resetColor = "\u001B[0m"
             when (logLevel) {
                 VERBOSE -> println(logMessage)
-                DEBUG -> println("${blue}$logMessage$resetColor")
-                INFO -> println("${green}$logMessage$resetColor")
-                WARNING -> println("${orange}$logMessage$resetColor")
+                DEBUG -> println("${COLOR_BLUE}$logMessage$COLOR_RESET")
+                INFO -> println("${COLOR_GREEN}$logMessage$COLOR_RESET")
+                WARNING -> println("${COLOR_ORANGE}$logMessage$COLOR_RESET")
                 NONE -> println(logMessage)
             }
         }
