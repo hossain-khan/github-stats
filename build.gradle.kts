@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
     // https://github.com/Kotlin/kotlinx.coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
 
     // https://github.com/Kotlin/kotlinx-datetime
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
@@ -71,7 +71,7 @@ dependencies {
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
     testImplementation("io.mockk:mockk:1.13.14")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.1.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
 }
 
