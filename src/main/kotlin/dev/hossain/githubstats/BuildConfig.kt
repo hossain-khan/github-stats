@@ -42,7 +42,7 @@ object BuildConfig {
     const val PROGRESS_UPDATE_SPAN = 10
 
     /**
-     * Error threshold to stop processing further if error count exceeds this limit.
+     * Error threshold to stop processing further if same error count exceeds this limit.
      */
     const val ERROR_THRESHOLD = 10
 }
