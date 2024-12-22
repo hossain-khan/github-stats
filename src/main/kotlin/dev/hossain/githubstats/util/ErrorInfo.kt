@@ -14,6 +14,14 @@ data class ErrorInfo(
 )
 
 /**
+ * Error threshold information.
+ */
+data class ErrorThreshold(
+    val exceeded: Boolean,
+    val errorMessage: String,
+)
+
+/**
  * Error response from GitHub API.
  *
  * Sample error message.
