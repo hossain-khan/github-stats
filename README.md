@@ -10,7 +10,6 @@ This project exist to explore GitHub API to get some common answer about PR revi
 #### What it is NOT
 - ❌ It is not a comprehensive GitHub statistics generator tool. Built for specific purpose.
 - ❌ It is not a modular tool that can be re-used to query GitHub APIs.
-- ❌ It does not contain CLI or easy way to run the stats-generator except via **IntelliJ IDE**.
 - ❌ Existing supported stats are not localized for different work hour or weekends. Only North America time zone supported.
 - ❌ It does not follow all industry standards, and does not strive to be performant either.
 
@@ -18,8 +17,9 @@ This project exist to explore GitHub API to get some common answer about PR revi
 #### What it is ✔️
 - ✅ It can show you PR statistics for PRs created by specific author/contributor of a repository
 - ✅ It can generate CSV for the PR stats which can be used in Google Sheets or alike to generate charts
+- ✅ It can also generate basic chart/graph using Google Chart to visual respresentation of data
 ##### Limitation
-- 🏋️ It does not collect stats in parallel to avoid GitHub API rate-limit and adds delay between API calls
+- 🏋️ It does not collect stats in parallel to avoid GitHub API rate-limit and adds delay between API calls, resulting in longer wait time for larger date span with lot of PRs.
 - 🏋️ It is **NOT** able to accurately compute PR review time due to many complexities. The review time is provided for informational purpose only.
 - 🔐 The generated API token must have access to repository and user in the orginization, otherwise all API request will fail.
 
