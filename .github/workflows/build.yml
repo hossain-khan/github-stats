@@ -29,7 +29,8 @@ jobs:
     - name: set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        # Use JDK LTS version (keep this in sync with other workflows)
+        java-version: '21'
         distribution: 'temurin'
         cache: gradle
 
