@@ -1,5 +1,7 @@
 package dev.hossain.githubstats.util
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.AppConstants.BUILD_CONFIG
 import dev.hossain.githubstats.AppConstants.GITHUB_TOKEN_SETTINGS_URL
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
@@ -24,12 +26,12 @@ class ErrorProcessor {
     /**
      * Provides exception with detailed message to debug the error.
      */
-    fun getDetailedError(exception: Exception): Exception = IllegalStateException(getErrorMessage(exception), exception)
+    fun getDetailedError(exception: Exception): ErrorInfo = getErrorInformation(exception)
 
     /**
      * Provides bit more verbose error message to help understand the error.
      */
-    private fun getErrorMessage(exception: Exception): String {
+    private fun getErrorInformation(exception: Exception): ErrorInfo {
         // Tell about HTTP Response Headers has important debug information
         // which might help user to debug failing request
         val debugGuide = if (BuildConfig.DEBUG_HTTP_REQUESTS) "" else httpResponseDebugGuide
@@ -40,14 +42,43 @@ class ErrorProcessor {
             val message: String = exception.message ?: "HTTP Error ${exception.code()}"
 
             if (error != null) {
-                val errorContent = error.string()
-                return "$message - ${errorContent}${getTokenErrorGuide(errorContent)}\n$debugGuide"
+                val errorContentJson = error.string()
+                val githubError = getGithubError(errorContentJson)
+                return ErrorInfo(
+                    errorMessage = "$message - $errorContentJson",
+                    debugGuideMessage = "${getTokenErrorGuide(errorContentJson)}\n$debugGuide",
+                    exception = IllegalStateException("$message - $errorContentJson", exception),
+                    githubError = githubError,
+                )
             }
-            return "${message}\n$debugGuide"
+            return ErrorInfo(
+                errorMessage = message,
+                debugGuideMessage = debugGuide,
+                exception = IllegalStateException(message, exception),
+            )
         } else {
-            return "${exception.message}\n$debugGuide"
+            return ErrorInfo(
+                errorMessage = exception.message ?: "Unknown error",
+                debugGuideMessage = debugGuide,
+                exception = exception,
+            )
         }
     }
+
+    /**
+     * Parse GitHub API error response.
+     */
+    private fun getGithubError(errorContentJson: String): GithubError? =
+        try {
+            Moshi
+                .Builder()
+                .addLast(KotlinJsonAdapterFactory())
+                .build()
+                .adapter(GithubError::class.java)
+                .fromJson(errorContentJson)
+        } catch (e: Exception) {
+            null
+        }
 
     private fun getTokenErrorGuide(errorMessage: String): String {
         println("Error message: $errorMessage")

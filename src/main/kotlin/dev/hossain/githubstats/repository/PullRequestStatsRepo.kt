@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.repository
 
 import dev.hossain.githubstats.PrStats
+import dev.hossain.githubstats.util.ErrorInfo
 
 /**
  * Repository for generating and providing GitHub PR stats.
@@ -16,7 +17,7 @@ interface PullRequestStatsRepo {
         ) : StatsResult()
 
         data class Failure(
-            val error: Throwable,
+            val errorInfo: ErrorInfo,
         ) : StatsResult()
     }
 

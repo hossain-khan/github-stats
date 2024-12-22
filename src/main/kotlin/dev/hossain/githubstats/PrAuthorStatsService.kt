@@ -8,7 +8,9 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.IssueSearchPagerService
 import dev.hossain.githubstats.service.SearchParams
 import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
+import dev.hossain.githubstats.util.ErrorThreshold
 import dev.hossain.githubstats.util.PrAnalysisProgress
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
@@ -24,6 +26,12 @@ class PrAuthorStatsService constructor(
     private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor,
 ) {
+    /**
+     * Keep count of error received during the process.
+     * Key: Error message, Value: Count of occurrence.
+     */
+    private val errorMap = mutableMapOf<String, Int>()
+
     /**
      * Generates stats for reviews given by different PR reviewers for specified PR [prAuthorUserId].
      *
@@ -79,9 +87,15 @@ class PrAuthorStatsService constructor(
                             botUserIds = botUserIds,
                         )
                     } catch (e: Exception) {
-                        val error = errorProcessor.getDetailedError(e)
-                        Log.w("Error getting PR#${pr.number}. Got: ${error.message}")
-                        StatsResult.Failure(error)
+                        val errorInfo = errorProcessor.getDetailedError(e)
+                        Log.w("Error getting PR#${pr.number}. Got: ${errorInfo.errorMessage}${errorInfo.debugGuideMessage}")
+                        val errorThreshold = checkErrorLimit(errorInfo)
+
+                        if (errorThreshold.exceeded) {
+                            throw RuntimeException(errorThreshold.errorMessage)
+                        }
+
+                        StatsResult.Failure(errorInfo)
                     }
                 }.filterIsInstance<StatsResult.Success>()
                 .map {
@@ -201,5 +215,19 @@ class PrAuthorStatsService constructor(
             totalPrSubmissionComments = totalPrSubmissionComments,
             totalCodeReviewComments = totalCodeReviewComments,
         )
+    }
+
+    private fun checkErrorLimit(errorInfo: ErrorInfo): ErrorThreshold {
+        errorMap[errorInfo.errorMessage] = errorMap.getOrDefault(errorInfo.errorMessage, 0) + 1
+
+        val errorCount = errorMap[errorInfo.errorMessage]!!
+        if (errorCount > BuildConfig.ERROR_THRESHOLD) {
+            Log.w("Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount")
+            return ErrorThreshold(
+                exceeded = true,
+                errorMessage = "Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount",
+            )
+        }
+        return ErrorThreshold(exceeded = false, errorMessage = "")
     }
 }

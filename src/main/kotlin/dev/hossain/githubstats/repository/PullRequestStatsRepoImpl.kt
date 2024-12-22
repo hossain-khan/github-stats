@@ -17,6 +17,7 @@ import dev.hossain.githubstats.model.timeline.filterTo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.service.TimelineEventsPagerService
+import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import dev.hossain.time.format
@@ -47,14 +48,24 @@ class PullRequestStatsRepoImpl(
         if (!pullRequest.isMerged) {
             // Skips PR stats generation if PR is not merged at all.
             Log.v("The PR#${pullRequest.number} is not merged. Skipping PR stat analysis.")
-            return StatsResult.Failure(IllegalStateException("PR has not been merged, no reason to analyze PR stats."))
+            return StatsResult.Failure(
+                ErrorInfo(
+                    errorMessage = "PR#${pullRequest.number} is not merged, no reason to analyze PR stats.",
+                    exception = IllegalStateException("PR#${pullRequest.number} is not merged."),
+                ),
+            )
         }
 
         if (pullRequest.user.login in botUserIds) {
             // Skips PR stats generation if PR is created by bot user.
             Log.i("The PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'. Skipping PR stat analysis.")
             return StatsResult.Failure(
-                IllegalStateException("PR has been created by bot user '${pullRequest.user.login}', no reason to analyze PR stats."),
+                ErrorInfo(
+                    errorMessage =
+                        "PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}', " +
+                            "no reason to analyze PR stats.",
+                    exception = IllegalStateException("PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'."),
+                ),
             )
         }
 
@@ -78,9 +89,11 @@ class PullRequestStatsRepoImpl(
         if (prReviewers.isEmpty()) {
             Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
             return StatsResult.Failure(
-                IllegalStateException(
-                    "No human reviewers found for PR#${pullRequest.number}. " +
-                        "Original reviewers: ${nonFilteredPrReviewerUsers.map { it.login }}.",
+                ErrorInfo(
+                    errorMessage =
+                        "No human reviewers found for PR#${pullRequest.number}. " +
+                            "Original reviewers: ${nonFilteredPrReviewerUsers.map { it.login }}.",
+                    exception = IllegalStateException("No human reviewers found for PR#${pullRequest.number}."),
                 ),
             )
         }

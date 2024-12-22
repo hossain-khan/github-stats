@@ -43,7 +43,7 @@ class PrStatsApplication : KoinComponent {
                         }
                     }
                     is PullRequestStatsRepo.StatsResult.Failure -> {
-                        Log.w("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.error.message}")
+                        Log.w("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.errorInfo.errorMessage}")
                     }
                 }
             }
