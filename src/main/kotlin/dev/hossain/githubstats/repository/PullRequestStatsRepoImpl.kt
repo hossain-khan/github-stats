@@ -61,7 +61,9 @@ class PullRequestStatsRepoImpl(
             Log.i("The PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'. Skipping PR stat analysis.")
             return StatsResult.Failure(
                 ErrorInfo(
-                    errorMessage = "PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}', no reason to analyze PR stats.",
+                    errorMessage =
+                        "PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}', " +
+                            "no reason to analyze PR stats.",
                     exception = IllegalStateException("PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'."),
                 ),
             )
