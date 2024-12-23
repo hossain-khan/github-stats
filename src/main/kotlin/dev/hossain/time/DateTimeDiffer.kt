@@ -74,20 +74,21 @@ object DateTimeDiffer {
                 var workingHours = Duration.ZERO
                 var previousWorkingDay =
                     when {
-                        startDateTime.isOnWorkingDay().not() -> startDateTime.nextWorkingDay().prevWorkingHour()
+                        //startDateTime.isOnWorkingDay().not() -> startDateTime.nextWorkingDay().prevWorkingHour()
                         startDateTime.isAfterWorkingHour() -> startDateTime.nextWorkingHourOrSame()
                         else -> startDateTime
                     }
                 var immediateNextWorkingDay = previousWorkingDay.nextNonWorkingHour()
 
+                // Debug date time used in the calculation - Keep it commented out in production
                 /*println("startDateTime           = ${startDateTime.format()},\n" +
                         "endDateTime             = ${endDateTime.format()},\n" +
                         "previousWorkingDay      = ${previousWorkingDay.format()},\n" +
                         "immediateNextWorkingDay = ${immediateNextWorkingDay.format()},\n" +
-                        "immediateNextWorkingDay.isBefore(endDateTime)=${immediateNextWorkingDay.isBefore(endDateTime)},\n" +
-                        "!immediateNextWorkingDay.isSameDay(endDateTime)=${!immediateNextWorkingDay.isSameDay(endDateTime)},\n" +
-                        "previousWorkingDay.isSameDay(immediateNextWorkingDay)=${previousWorkingDay.isSameDay(immediateNextWorkingDay)},\n" +
-                        "previousWorkingDay.isOnWorkingDay().not()=${previousWorkingDay.isOnWorkingDay().not()},\n" +
+                        "immediateNextWorkingDay.isBefore(endDateTime)         = ${immediateNextWorkingDay.isBefore(endDateTime)},\n" +
+                        "!immediateNextWorkingDay.isSameDay(endDateTime)       = ${!immediateNextWorkingDay.isSameDay(endDateTime)},\n" +
+                        "previousWorkingDay.isSameDay(immediateNextWorkingDay) = ${previousWorkingDay.isSameDay(immediateNextWorkingDay)},\n" +
+                        "previousWorkingDay.isOnWorkingDay().not()             = ${previousWorkingDay.isOnWorkingDay().not()},\n" +
                         "\n")*/
 
                 // Loop through the dates while `immediateNextWorkingDay` is before end date and is not same day
@@ -95,7 +96,7 @@ object DateTimeDiffer {
                     if (previousWorkingDay.isSameDay(immediateNextWorkingDay) &&
                         previousWorkingDay.isOnWorkingDay().not()
                     ) {
-                        // Skip calculating weekends
+                        // Skip calculating weekends - just move to next working day that is required to calculate working hours
                         previousWorkingDay = previousWorkingDay.nextWorkingDay().prevWorkingHour()
                         immediateNextWorkingDay = immediateNextWorkingDay.nextWorkingDay()
                         continue
@@ -118,8 +119,10 @@ object DateTimeDiffer {
     }
 
     /**
-     * Provides working day work hour duration between
-     * two working dates denoted by [startDateTime] and [endDateTime].
+     * Provides working day work hour duration between two working dates denoted by [startDateTime] and [endDateTime].
+     *
+     * NOTE: This function assumes that both [startDateTime] and [endDateTime] are on working days.
+     * If either of the date-time is not on a working day, it throws an [IllegalArgumentException].
      */
     private fun workingDuration(
         startDateTime: ZonedDateTime,
