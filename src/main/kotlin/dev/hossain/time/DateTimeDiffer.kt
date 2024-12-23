@@ -72,15 +72,11 @@ object DateTimeDiffer {
             // Loop through all dates and sums up only the working hours on working day.
             else -> {
                 var workingHours = Duration.ZERO
-                var previousWorkingDay =
-                    when {
-                        //startDateTime.isOnWorkingDay().not() -> startDateTime.nextWorkingDay().prevWorkingHour()
-                        startDateTime.isAfterWorkingHour() -> startDateTime.nextWorkingHourOrSame()
-                        else -> startDateTime
-                    }
+                var previousWorkingDay = if (startDateTime.isAfterWorkingHour()) startDateTime.nextWorkingHourOrSame() else startDateTime
                 var immediateNextWorkingDay = previousWorkingDay.nextNonWorkingHour()
 
                 // Debug date time used in the calculation - Keep it commented out in production
+
                 /*println("startDateTime           = ${startDateTime.format()},\n" +
                         "endDateTime             = ${endDateTime.format()},\n" +
                         "previousWorkingDay      = ${previousWorkingDay.format()},\n" +
@@ -97,6 +93,7 @@ object DateTimeDiffer {
                         previousWorkingDay.isOnWorkingDay().not()
                     ) {
                         // Debug date time used in the calculation - Keep it commented out in production
+
                         /*println("Skipping weekend calculations. Overriding following:\n" +
                                 "previousWorkingDay      = ${previousWorkingDay.format()} -> to -> ${previousWorkingDay.nextWorkingDay().format()} +/- start of the day\n" +
                                 "immediateNextWorkingDay = ${immediateNextWorkingDay.format()} -> to -> ${immediateNextWorkingDay.nextWorkingDay().format()}\n" +
@@ -105,11 +102,12 @@ object DateTimeDiffer {
                         // Handles the case where next working day after weekend may not have a start time
                         // that is within working hours. So, we need to adjust it to the next working hour appropriately.
                         val nextWorkingDayAfterWeekend = previousWorkingDay.nextWorkingDay()
-                        previousWorkingDay = if(nextWorkingDayAfterWeekend.isBeforeWorkingHour()) {
-                            nextWorkingDayAfterWeekend.nextWorkingHourOrSame()
-                        } else {
-                            nextWorkingDayAfterWeekend.prevWorkingHour()
-                        }
+                        previousWorkingDay =
+                            if (nextWorkingDayAfterWeekend.isBeforeWorkingHour()) {
+                                nextWorkingDayAfterWeekend.nextWorkingHourOrSame()
+                            } else {
+                                nextWorkingDayAfterWeekend.prevWorkingHour()
+                            }
 
                         // Skip calculating weekends - just move to next working day that is required to calculate working hours
                         previousWorkingDay = previousWorkingDay.nextWorkingDay().prevWorkingHour()
@@ -146,8 +144,10 @@ object DateTimeDiffer {
         // Checks if both start and end date-times are on working days.
         // Throws an IllegalArgumentException if either of the date-times is not on a working day.
         if ((startDateTime.isOnWorkingDay() && endDateTime.isOnWorkingDay()).not()) {
-            throw IllegalArgumentException("This function can only handle working day diff. " +
-                "Start: $startDateTime, End: $endDateTime - both must be on working day.")
+            throw IllegalArgumentException(
+                "This function can only handle working day diff. " +
+                    "Start: $startDateTime, End: $endDateTime - both must be on working day.",
+            )
         }
 
         val startToEndDiff = startDateTime.diffWith(endDateTime)

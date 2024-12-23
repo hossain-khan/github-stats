@@ -286,7 +286,6 @@ internal class PullRequestStatsRepoTest {
             assertThat(prApprovalTime["ShaunSHamilton"]).isEqualTo(Duration.parse("1d 8h"))
         }
 
-
     @Test
     fun `stats - given PR opened on weekend and approved by 2 reviewers - provides correct review time`() =
         runTest {
