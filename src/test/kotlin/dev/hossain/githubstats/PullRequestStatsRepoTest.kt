@@ -260,6 +260,8 @@ internal class PullRequestStatsRepoTest {
         runTest {
             // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
             // A lot of review comments by 5 people, and 2 people approved after dismissal
+            // PR was opened on weekend @ Saturday, Sep 17, 2022 at 6pm
+            // Most approval was        @ Thursday, Sept 22, 2022 at 5:30pm
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
             mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
@@ -277,6 +279,36 @@ internal class PullRequestStatsRepoTest {
             assertThat(initialResponseTime["jeremylt"]).isEqualTo(Duration.parse("2h 49m"))
             assertThat(initialResponseTime["naomi-lgbt"]).isEqualTo(Duration.parse("8h"))
             assertThat(initialResponseTime["Sboonny"]).isEqualTo(Duration.parse("1d"))
+
+            val prApprovalTime = result.stats.prApprovalTime
+            assertThat(prApprovalTime).hasSize(2)
+            assertThat(prApprovalTime["naomi-lgbt"]).isEqualTo(Duration.parse("1d 8h"))
+            assertThat(prApprovalTime["ShaunSHamilton"]).isEqualTo(Duration.parse("1d 8h"))
+        }
+
+    @Test
+    fun `stats - given PR opened on weekend and approved by 2 reviewers - provides correct review time`() =
+        runTest {
+            // PR opened on weekend and approved by 2 reviewers
+            // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/56555
+            mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-56555.json")))
+            mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-56555.json")))
+            mockWebServer.enqueue(MockResponse().setBody("[]")) // PR Review comments
+
+            val statsResult = pullRequestStatsRepo.stats(REPO_OWNER, REPO_ID, 123, emptyList())
+
+            assertThat(statsResult).isInstanceOf(StatsResult.Success::class.java)
+
+            val result = statsResult as StatsResult.Success
+            val initialResponseTime = result.stats.initialResponseTime
+            val prApprovalTime = result.stats.prApprovalTime
+            assertThat(initialResponseTime).hasSize(2)
+
+            assertThat(initialResponseTime["naomi-lgbt"]).isEqualTo(Duration.parse("8h"))
+            assertThat(initialResponseTime["gikf"]).isEqualTo(Duration.parse("20h 11m"))
+
+            assertThat(prApprovalTime["gikf"]).isEqualTo(Duration.parse("20h 11m"))
+            assertThat(prApprovalTime["naomi-lgbt"]).isEqualTo(Duration.parse("19h 53m"))
         }
 
     @Test

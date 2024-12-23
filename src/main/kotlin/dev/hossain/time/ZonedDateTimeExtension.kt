@@ -49,6 +49,18 @@ internal fun ZonedDateTime.nextWorkingDayOrSame() = this.with(TemporalsExtension
  */
 internal fun ZonedDateTime.nextWorkingHourOrSame() = this.with(TemporalsExtension.nextWorkingHourOrSame())
 
+/**
+ * Provides the next non-working hour for the current date-time.
+ * If the current date-time is already within non-working hours, it returns the same date-time.
+ *
+ * Example:
+ *  - Current Date Time: Monday 11 AM   --> Monday 5 PM (End of the day)
+ *  - Current Date Time: Saturday 11 AM --> Saturday 11 AM (Same - because on non-weekday)
+ *  - Current Date Time: Sunday 11 AM   --> Sunday 11 AM (Same - because on non-weekday)
+ *  - Current Date Time: Monday 6 PM    --> Monday 6 PM (Same - because it's after working hours)
+ *  - Current Date Time: Tuesday 8 PM   --> Tuesday 8 PM (Same - because it's after working hours)
+ *  - Current Date Time: Tuesday 6 AM   --> Tuesday 6 AM (Same - because it's before working hours)
+ */
 internal fun ZonedDateTime.nextNonWorkingHour() = this.with(TemporalsExtension.nextNonWorkingHourOrSame())
 
 /**

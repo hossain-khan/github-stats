@@ -44,5 +44,5 @@ fun main() {
 //    }
 
     // Show disclaimer about the review time being inaccurate
-    Log.i(Art.warnAboutReviewTime())
+    Log.w(Art.warnAboutReviewTime())
 }
