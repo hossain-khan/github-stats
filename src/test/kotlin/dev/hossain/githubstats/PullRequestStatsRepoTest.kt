@@ -290,7 +290,7 @@ internal class PullRequestStatsRepoTest {
     @Test
     fun `stats - given PR opened on weekend and approved by 2 reviewers - provides correct review time`() =
         runTest {
-            // A lot of review comments by 5 people, and 2 people approved after dismissal
+            // PR opened on weekend and approved by 2 reviewers
             // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/56555
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-56555.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-56555.json")))
