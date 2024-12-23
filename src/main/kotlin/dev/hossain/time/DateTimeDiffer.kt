@@ -98,9 +98,18 @@ object DateTimeDiffer {
                     ) {
                         // Debug date time used in the calculation - Keep it commented out in production
                         /*println("Skipping weekend calculations. Overriding following:\n" +
-                                "previousWorkingDay      = $previousWorkingDay to ${previousWorkingDay.nextWorkingDay().prevWorkingHour()}\n" +
-                                "immediateNextWorkingDay = $immediateNextWorkingDay to ${immediateNextWorkingDay.nextWorkingDay()}\n" +
+                                "previousWorkingDay      = ${previousWorkingDay.format()} -> to -> ${previousWorkingDay.nextWorkingDay().format()} +/- start of the day\n" +
+                                "immediateNextWorkingDay = ${immediateNextWorkingDay.format()} -> to -> ${immediateNextWorkingDay.nextWorkingDay().format()}\n" +
                                 "\n")*/
+
+                        // Handles the case where next working day after weekend may not have a start time
+                        // that is within working hours. So, we need to adjust it to the next working hour appropriately.
+                        val nextWorkingDayAfterWeekend = previousWorkingDay.nextWorkingDay()
+                        previousWorkingDay = if(nextWorkingDayAfterWeekend.isBeforeWorkingHour()) {
+                            nextWorkingDayAfterWeekend.nextWorkingHourOrSame()
+                        } else {
+                            nextWorkingDayAfterWeekend.prevWorkingHour()
+                        }
 
                         // Skip calculating weekends - just move to next working day that is required to calculate working hours
                         previousWorkingDay = previousWorkingDay.nextWorkingDay().prevWorkingHour()
