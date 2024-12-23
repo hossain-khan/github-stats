@@ -131,7 +131,8 @@ object DateTimeDiffer {
         // Checks if both start and end date-times are on working days.
         // Throws an IllegalArgumentException if either of the date-times is not on a working day.
         if ((startDateTime.isOnWorkingDay() && endDateTime.isOnWorkingDay()).not()) {
-            throw IllegalArgumentException("This function can only handle working day diff")
+            throw IllegalArgumentException("This function can only handle working day diff. " +
+                "Start: $startDateTime, End: $endDateTime - both must be on working day.")
         }
 
         val startToEndDiff = startDateTime.diffWith(endDateTime)
