@@ -1,5 +1,6 @@
 package dev.hossain.time
 
+import dev.hossain.time.UserCity.NEW_YORK
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import java.time.ZonedDateTime
@@ -9,7 +10,7 @@ import java.time.ZonedDateTime
  */
 fun Instant.toZdt(): ZonedDateTime {
     val javaInstant: java.time.Instant = this.toJavaInstant()
-    return javaInstant.atZone(Zone.city("New York"))
+    return javaInstant.atZone(Zone.city(NEW_YORK))
 }
 
 /**
