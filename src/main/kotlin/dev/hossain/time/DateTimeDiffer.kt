@@ -11,6 +11,8 @@ import kotlin.time.Duration
  */
 object DateTimeDiffer {
     /**
+     * > ⚠️ WARNING ⚠️: This is overly complex function. Do not try to decipher it 😅
+     *
      * Provides working hours between two instants on given [ZoneId].
      * It adds all the working hours between `9:00AM` and `5:00PM` excluding weekends (Saturday and Sunday).
      *
