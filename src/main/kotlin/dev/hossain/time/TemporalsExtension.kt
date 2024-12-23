@@ -117,7 +117,17 @@ object TemporalsExtension {
 
         /**
          * Adjuster that gives next end of day working hour or same if it's already non-working hour.
+         *
          * TODO - consider day too
+         *
+         * Example:
+         *  - Current Date Time: Monday 3 PM  --> Monday 5 PM (shift to after 5:00 PM)
+         *  - Current Date Time: Tuesday 10 AM --> Tuesday 5 PM (shift to after 5:00 PM)
+         *  - Current Date Time: Wednesday 6 PM --> Wednesday 6 PM (same, already non-working hour)
+         *  - Current Date Time: Thursday 8 PM --> Thursday 8 PM (same, already non-working hour)
+         *  - Current Date Time: Friday 4 PM --> Friday 5 PM (shift to after 5:00 PM)
+         *  - Current Date Time: Saturday 11 AM --> Saturday 11 AM (same, already non-working hour)
+         *  - Current Date Time: Sunday 2 PM --> Sunday 2 PM (same, already non-working hour)
          */
         NEXT_NON_WORKING_HOUR_OR_SAME {
             override fun adjustInto(temporal: Temporal): Temporal =

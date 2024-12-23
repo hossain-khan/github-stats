@@ -73,7 +73,11 @@ object DateTimeDiffer {
             else -> {
                 var workingHours = Duration.ZERO
                 var previousWorkingDay =
-                    if (startDateTime.isAfterWorkingHour()) startDateTime.nextWorkingHourOrSame() else startDateTime
+                    when {
+                        startDateTime.isOnWorkingDay().not() -> startDateTime.nextWorkingDay().prevWorkingHour()
+                        startDateTime.isAfterWorkingHour() -> startDateTime.nextWorkingHourOrSame()
+                        else -> startDateTime
+                    }
                 var immediateNextWorkingDay = previousWorkingDay.nextNonWorkingHour()
 
                 /*println("startDateTime           = ${startDateTime.format()},\n" +
@@ -81,7 +85,10 @@ object DateTimeDiffer {
                         "previousWorkingDay      = ${previousWorkingDay.format()},\n" +
                         "immediateNextWorkingDay = ${immediateNextWorkingDay.format()},\n" +
                         "immediateNextWorkingDay.isBefore(endDateTime)=${immediateNextWorkingDay.isBefore(endDateTime)},\n" +
-                        "!immediateNextWorkingDay.isSameDay(endDateTime)=${!immediateNextWorkingDay.isSameDay(endDateTime)}")*/
+                        "!immediateNextWorkingDay.isSameDay(endDateTime)=${!immediateNextWorkingDay.isSameDay(endDateTime)},\n" +
+                        "previousWorkingDay.isSameDay(immediateNextWorkingDay)=${previousWorkingDay.isSameDay(immediateNextWorkingDay)},\n" +
+                        "previousWorkingDay.isOnWorkingDay().not()=${previousWorkingDay.isOnWorkingDay().not()},\n" +
+                        "\n")*/
 
                 // Loop through the dates while `immediateNextWorkingDay` is before end date and is not same day
                 while (immediateNextWorkingDay.isBefore(endDateTime) && !immediateNextWorkingDay.isSameDay(endDateTime)) {
@@ -118,6 +125,8 @@ object DateTimeDiffer {
         startDateTime: ZonedDateTime,
         endDateTime: ZonedDateTime,
     ): Duration {
+        // Checks if both start and end date-times are on working days.
+        // Throws an IllegalArgumentException if either of the date-times is not on a working day.
         if ((startDateTime.isOnWorkingDay() && endDateTime.isOnWorkingDay()).not()) {
             throw IllegalArgumentException("This function can only handle working day diff")
         }

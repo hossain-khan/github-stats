@@ -299,7 +299,7 @@ class PullRequestStatsRepoImpl(
     }
 
     /**
-     * Evaluates actual time when PR was available for use to review by considering
+     * Evaluates actual time when PR was available for user to review by considering
      * if review was requested later from the specified [reviewer].
      * Or, if user self reviewed PR without being added, then the original time will be used.
      */
