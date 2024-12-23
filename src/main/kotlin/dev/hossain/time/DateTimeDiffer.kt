@@ -96,6 +96,12 @@ object DateTimeDiffer {
                     if (previousWorkingDay.isSameDay(immediateNextWorkingDay) &&
                         previousWorkingDay.isOnWorkingDay().not()
                     ) {
+                        // Debug date time used in the calculation - Keep it commented out in production
+                        /*println("Skipping weekend calculations. Overriding following:\n" +
+                                "previousWorkingDay      = $previousWorkingDay to ${previousWorkingDay.nextWorkingDay().prevWorkingHour()}\n" +
+                                "immediateNextWorkingDay = $immediateNextWorkingDay to ${immediateNextWorkingDay.nextWorkingDay()}\n" +
+                                "\n")*/
+
                         // Skip calculating weekends - just move to next working day that is required to calculate working hours
                         previousWorkingDay = previousWorkingDay.nextWorkingDay().prevWorkingHour()
                         immediateNextWorkingDay = immediateNextWorkingDay.nextWorkingDay()
