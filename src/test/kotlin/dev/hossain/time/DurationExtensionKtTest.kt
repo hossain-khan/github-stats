@@ -1,34 +1,29 @@
 package dev.hossain.time
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration
 
 /**
- * Contains unit tests for [DurationExtension].
+ * Contains unit tests for [Duration] extensions.
  */
 class DurationExtensionKtTest {
-    @BeforeEach
-    fun setUp() {
-    }
-
-    @AfterEach
-    fun tearDown() {
-    }
-
-    @Test
-    fun toWorkingHour() {
-    }
-
     @Test
     fun `toWorkingHour - given duration less than working hours - returns same duration`() {
-        val duration = "2h".duration()
+        val duration: Duration = "2h".duration()
 
         val result = duration.toWorkingHour()
 
         assertThat(result).isEqualTo("2h")
+    }
+
+    @Test
+    fun `toWorkingHour - given duration less than working hours - returns same duration with min`() {
+        val duration = "2h 32m".duration()
+
+        val result = duration.toWorkingHour()
+
+        assertThat(result).isEqualTo("2h 32m")
     }
 
     @Test
@@ -56,6 +51,15 @@ class DurationExtensionKtTest {
         val result = duration.toWorkingHour()
 
         assertThat(result).isEqualTo("2 days [Based on 8h on a working day]")
+    }
+
+    @Test
+    fun `toWorkingHour - given duration equal to two working days - returns two days and hours and mins`() {
+        val duration = "18h 48m".duration()
+
+        val result = duration.toWorkingHour()
+
+        assertThat(result).isEqualTo("2 days and 2h 48m [Based on 8h on a working day]")
     }
 
     @Test
