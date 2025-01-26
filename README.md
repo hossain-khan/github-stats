@@ -48,7 +48,7 @@ Here is some data generated from `freeCodeCamp` repository for `naomi-lgbt` user
 Here is example chart generated from the report as HTML output.
 
 <img width="1919" alt="Image" src="https://github.com/user-attachments/assets/39565e04-36c6-4019-873d-6b34601ab737" />
-<img width="779" alt="Image" src="https://github.com/user-attachments/assets/2ef4892f-d55c-4da9-83be-68aebaa6d803" />
+<img width="1165" alt="Image" src="https://github.com/user-attachments/assets/b72b952b-8e17-4aec-a454-628b57ac9c89" />
 
 
 <details>
@@ -195,7 +195,7 @@ Here is example chart generated from the report as HTML output.
 And this chart is user as PR reviewer, reviewing other user's PRs.
 
 <img width="1919" alt="Image" src="https://github.com/user-attachments/assets/838f94e4-b502-4347-83ac-ff5faa47412f" />
-<img width="1165" alt="Image" src="https://github.com/user-attachments/assets/b72b952b-8e17-4aec-a454-628b57ac9c89" />
+<img width="779" alt="Image" src="https://github.com/user-attachments/assets/2ef4892f-d55c-4da9-83be-68aebaa6d803" />
 
 <details>
 <summary>📊 Stats Report</summary>
