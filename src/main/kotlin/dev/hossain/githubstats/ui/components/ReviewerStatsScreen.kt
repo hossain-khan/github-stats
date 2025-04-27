@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.hossain.githubstats.ReviewStats
+import dev.hossain.githubstats.ui.util.Duration
 import dev.hossain.githubstats.ui.viewmodel.GitHubStatsViewModel
-import kotlin.time.Duration
 
 /**
  * Screen for displaying PR reviewer statistics.

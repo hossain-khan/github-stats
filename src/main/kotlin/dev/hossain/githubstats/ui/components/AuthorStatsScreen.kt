@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.hossain.githubstats.AuthorStats
+import dev.hossain.githubstats.ui.util.Duration
 import dev.hossain.githubstats.ui.viewmodel.GitHubStatsViewModel
 
 /**

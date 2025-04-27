@@ -1,6 +1,9 @@
 package dev.hossain.githubstats.ui.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Info
@@ -133,9 +136,9 @@ fun LogConsole(logMessages: List<String>) {
                         .fillMaxSize()
                         .padding(8.dp)
                 ) {
-                    items(logMessages.size) { index ->
+                    items(logMessages) { message ->
                         Text(
-                            text = logMessages[index],
+                            text = message,
                             style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier.padding(vertical = 2.dp)
                         )

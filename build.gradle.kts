@@ -6,8 +6,8 @@ plugins {
     kotlin("jvm") version "2.1.10"
     id("org.jmailen.kotlinter") version "5.0.1"
     
-    // Add Compose Multiplatform plugin
-    id("org.jetbrains.compose") version "1.5.11"
+    // Add Compose Desktop-specific plugin instead of the multiplatform one
+    id("org.jetbrains.compose") version "1.5.0"
 
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
@@ -68,7 +68,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
-    implementation("org.jetbrains.compose.components:components-splitpane:1.5.11")
+    implementation("org.jetbrains.compose.components:components-splitpane:1.5.0")
 
     //
     // =======================
