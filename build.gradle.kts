@@ -5,6 +5,9 @@ plugins {
     // https://kotlinlang.org/docs/releases.html#release-details
     kotlin("jvm") version "2.1.10"
     id("org.jmailen.kotlinter") version "5.0.1"
+    
+    // Add Compose Multiplatform plugin
+    id("org.jetbrains.compose") version "1.5.11"
 
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
@@ -21,6 +24,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 dependencies {
@@ -60,6 +64,12 @@ dependencies {
     // ASCII Progress Bar https://github.com/ctongfei/progressbar
     implementation("me.tongfei:progressbar:0.10.1")
 
+    // Compose Desktop dependencies
+    implementation(compose.desktop.currentOs)
+    implementation(compose.material3)
+    implementation(compose.materialIconsExtended)
+    implementation("org.jetbrains.compose.components:components-splitpane:1.5.11")
+
     //
     // =======================
     // Unit Test Dependencies
@@ -93,5 +103,5 @@ kotlin {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("dev.hossain.githubstats.ui.DesktopMainKt")
 }
