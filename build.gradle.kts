@@ -39,8 +39,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
 
     // https://square.github.io/retrofit/
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
+    implementation("com.squareup.retrofit2:retrofit:2.12.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.12.0")
 
     // https://github.com/JakeWharton/picnic
     implementation("com.jakewharton.picnic:picnic:0.7.0")
