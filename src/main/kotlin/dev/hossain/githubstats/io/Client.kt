@@ -16,6 +16,8 @@ import dev.hossain.githubstats.model.timeline.UnknownEvent
 import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.util.FileUtil.httpCacheDir
 import dev.hossain.githubstats.util.LocalProperties
+import java.util.Locale
+import java.util.ResourceBundle
 import okhttp3.Cache
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -111,8 +113,9 @@ object Client {
      */
     private fun getAccessToken(): String {
         val localProperties = LocalProperties()
+        val bundle = ResourceBundle.getBundle("strings", Locale.getDefault())
         return requireNotNull(localProperties.getProperty("access_token")) {
-            "GitHub access token config is required in $LOCAL_PROPERTIES_FILE"
+            String.format(bundle.getString("client_access_token_required"), LOCAL_PROPERTIES_FILE)
         }
     }
 }

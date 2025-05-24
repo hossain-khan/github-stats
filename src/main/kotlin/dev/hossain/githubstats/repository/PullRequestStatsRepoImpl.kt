@@ -18,6 +18,7 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.githubstats.util.ErrorInfo
+import dev.hossain.i18n.Resources
 import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import dev.hossain.time.format
@@ -32,6 +33,7 @@ class PullRequestStatsRepoImpl(
     private val githubApiService: GithubApiService,
     private val timelinesPager: TimelineEventsPagerService,
     private val userTimeZone: UserTimeZone,
+    private val resources: Resources,
 ) : PullRequestStatsRepo {
     /**
      * Provides Pull Request stats [PrStats] for given [prNumber].
@@ -47,24 +49,22 @@ class PullRequestStatsRepoImpl(
 
         if (!pullRequest.isMerged) {
             // Skips PR stats generation if PR is not merged at all.
-            Log.v("The PR#${pullRequest.number} is not merged. Skipping PR stat analysis.")
+            Log.v(resources.string("repo_impl_pr_not_merged_skipping", pullRequest.number))
             return StatsResult.Failure(
                 ErrorInfo(
-                    errorMessage = "PR#${pullRequest.number} is not merged, no reason to analyze PR stats.",
-                    exception = IllegalStateException("PR#${pullRequest.number} is not merged."),
+                    errorMessage = resources.string("repo_impl_error_pr_not_merged", pullRequest.number),
+                    exception = IllegalStateException(resources.string("repo_impl_error_pr_not_merged", pullRequest.number)),
                 ),
             )
         }
 
         if (pullRequest.user.login in botUserIds) {
             // Skips PR stats generation if PR is created by bot user.
-            Log.i("The PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'. Skipping PR stat analysis.")
+            Log.i(resources.string("repo_impl_pr_by_bot_skipping", pullRequest.number, pullRequest.user.login))
             return StatsResult.Failure(
                 ErrorInfo(
-                    errorMessage =
-                        "PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}', " +
-                            "no reason to analyze PR stats.",
-                    exception = IllegalStateException("PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'."),
+                    errorMessage = resources.string("repo_impl_error_pr_by_bot", pullRequest.number, pullRequest.user.login),
+                    exception = IllegalStateException(resources.string("repo_impl_error_pr_by_bot", pullRequest.number, pullRequest.user.login)),
                 ),
             )
         }
@@ -74,7 +74,7 @@ class PullRequestStatsRepoImpl(
         // API request to get all PR source code review comments associated with diffs
         val prCodeReviewComments = githubApiService.prSourceCodeReviewComments(repoOwner, repoId, prNumber)
 
-        Log.i("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
+        Log.i(resources.string("repo_impl_getting_pr_info", prNumber, prTimelineEvents.size, pullRequest.html_url))
 
         val prAvailableForReviewOn: Instant = prAvailableForReviewTime(pullRequest.prCreatedOn, prTimelineEvents)
 
@@ -87,13 +87,11 @@ class PullRequestStatsRepoImpl(
                 .toSet()
 
         if (prReviewers.isEmpty()) {
-            Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
+            Log.w(resources.string("repo_impl_no_human_reviewers_skipping", pullRequest.number))
             return StatsResult.Failure(
                 ErrorInfo(
-                    errorMessage =
-                        "No human reviewers found for PR#${pullRequest.number}. " +
-                            "Original reviewers: ${nonFilteredPrReviewerUsers.map { it.login }}.",
-                    exception = IllegalStateException("No human reviewers found for PR#${pullRequest.number}."),
+                    errorMessage = resources.string("repo_impl_error_no_human_reviewers", pullRequest.number, nonFilteredPrReviewerUsers.map { it.login }.toString()),
+                    exception = IllegalStateException(resources.string("repo_impl_no_human_reviewers_skipping", pullRequest.number)),
                 ),
             )
         }
@@ -288,8 +286,7 @@ class PullRequestStatsRepoImpl(
                     timeZoneId = userTimeZone.get(prReviewerUserId),
                 )
             Log.i(
-                "  -- Reviewed and ✔approved in `$reviewTimeInWorkingHours` by `$prReviewerUserId`. " +
-                    "PR open->merged: $openToCloseDuration",
+                resources.string("repo_impl_reviewed_and_approved", reviewTimeInWorkingHours, prReviewerUserId, openToCloseDuration),
             )
 
             reviewTimesByUser[prReviewerUserId] = reviewTimeInWorkingHours

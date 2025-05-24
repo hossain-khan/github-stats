@@ -11,6 +11,7 @@ import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.ErrorThreshold
+import dev.hossain.i18n.Resources
 import dev.hossain.githubstats.util.PrAnalysisProgress
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
@@ -25,6 +26,7 @@ class PrAuthorStatsService constructor(
     private val issueSearchPager: IssueSearchPagerService,
     private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor,
+    private val resources: Resources,
 ) {
     /**
      * Keep count of error received during the process.
@@ -88,11 +90,11 @@ class PrAuthorStatsService constructor(
                         )
                     } catch (e: Exception) {
                         val errorInfo = errorProcessor.getDetailedError(e)
-                        Log.w("Error getting PR#${pr.number}. Got: ${errorInfo.errorMessage}${errorInfo.debugGuideMessage}")
+                        Log.w(resources.string("service_error_getting_pr", pr.number, errorInfo.errorMessage, errorInfo.debugGuideMessage))
                         val errorThreshold = checkErrorLimit(errorInfo)
 
                         if (errorThreshold.exceeded) {
-                            throw RuntimeException(errorThreshold.errorMessage)
+                            throw RuntimeException(errorThreshold.errorMessage) // Error message is already formatted in checkErrorLimit
                         }
 
                         StatsResult.Failure(errorInfo)
@@ -106,16 +108,19 @@ class PrAuthorStatsService constructor(
 
         val authorPrStats = aggregatePrAuthorsPrStats(prAuthorUserId, allMergedPrsByAuthor, mergedPrsStatsList)
         Log.i(
-            "ℹ️ The author '$prAuthorUserId' has created ${authorPrStats.totalPrsCreated} PRs that successfully got merged." +
-                "\nTotal Comments Received - " +
-                "Code Review: ${authorPrStats.totalCodeReviewComments}, " +
-                "PR Comment: ${authorPrStats.totalIssueComments}, " +
-                "Review+Re-review: ${authorPrStats.totalPrSubmissionComments}",
+            resources.string(
+                "author_service_author_pr_summary",
+                prAuthorUserId,
+                authorPrStats.totalPrsCreated,
+                authorPrStats.totalCodeReviewComments,
+                authorPrStats.totalIssueComments,
+                authorPrStats.totalPrSubmissionComments,
+            ),
         )
 
         val authorReviewStats: List<AuthorReviewStats> =
             aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUserId)
-        Log.i("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
+        Log.i(resources.string("author_service_completed_loading_review_stats", authorReviewStats.size))
 
         return AuthorStats(prStats = authorPrStats, reviewStats = authorReviewStats)
     }
@@ -222,10 +227,11 @@ class PrAuthorStatsService constructor(
 
         val errorCount = errorMap[errorInfo.errorMessage]!!
         if (errorCount > BuildConfig.ERROR_THRESHOLD) {
-            Log.w("Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount")
+            val errorMessage = resources.string("service_error_threshold_exceeded_for_error", errorInfo.errorMessage, errorCount)
+            Log.w(errorMessage)
             return ErrorThreshold(
                 exceeded = true,
-                errorMessage = "Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount",
+                errorMessage = errorMessage,
             )
         }
         return ErrorThreshold(exceeded = false, errorMessage = "")

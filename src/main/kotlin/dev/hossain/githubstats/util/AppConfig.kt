@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.format.ResolverStyle
 import java.util.Locale
+import java.util.ResourceBundle
 
 /**
  * Application config loader from the [LOCAL_PROPERTIES_FILE].
@@ -18,6 +19,7 @@ import java.util.Locale
 class AppConfig constructor(
     localProperties: LocalProperties,
 ) {
+    private val bundle = ResourceBundle.getBundle("strings", Locale.getDefault())
     private val repoOwner: String = localProperties.getRepoOwner()
     private val repoId: String = localProperties.getRepoId()
     private val dateLimitAfter: String = requireValidDate(localProperties.getDateLimitAfter())
@@ -35,16 +37,13 @@ class AppConfig constructor(
      */
     private fun requireUser(authors: String?): List<String> {
         requireNotNull(authors) {
-            "Author/user list config is required in $LOCAL_PROPERTIES_FILE"
+            String.format(bundle.getString("app_config_author_list_required"), LOCAL_PROPERTIES_FILE)
         }
 
         val users = extractUserIds(authors)
 
         if (users.isEmpty()) {
-            throw IllegalArgumentException(
-                "You must provide at least one user name for generating " +
-                    "stats as PR author or reviewer.",
-            )
+            throw IllegalArgumentException(bundle.getString("app_config_at_least_one_user_required"))
         }
 
         return users
@@ -83,7 +82,7 @@ class AppConfig constructor(
      */
     private fun requireValidDate(dateText: String?): String {
         requireNotNull(dateText) {
-            "Date limit config is required in $LOCAL_PROPERTIES_FILE"
+            String.format(bundle.getString("app_config_date_limit_required"), LOCAL_PROPERTIES_FILE)
         }
         validateDate(dateText)
         return dateText
@@ -102,11 +101,11 @@ class AppConfig constructor(
             dateFormatter.parse(dateText)
         } catch (e: DateTimeParseException) {
             throw IllegalArgumentException(
-                "The date '$dateText' should be formatted like `YYYY-MM-DD`. Today is `${
-                    dateFormatter.format(
-                        LocalDate.now(),
-                    )
-                }`.",
+                String.format(
+                    bundle.getString("app_config_invalid_date_format"),
+                    dateText,
+                    dateFormatter.format(LocalDate.now()),
+                ),
             )
         }
     }

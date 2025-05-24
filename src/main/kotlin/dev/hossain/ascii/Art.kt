@@ -1,30 +1,18 @@
 package dev.hossain.ascii
 
 import dev.hossain.time.UserTimeZone
+import java.util.Locale
+import java.util.ResourceBundle
 
 /**
  * Contains some ASCII art for fun! ^_^
  */
 object Art {
+    private val bundle = ResourceBundle.getBundle("strings", Locale.getDefault())
+
     fun coffee(): String {
         // Tea/Coffee art by Elissa Potier
-        return """
-
-                        (  )   (   )  )
-                         ) (   )  (  (
-                         ( )  (    ) )
-                         _____________
-                        <_____________> ___
-                        |             |/ _ \
-                        |               | | |
-                        |               |_| |
-                     ___|             |\___/
-                    /    \___________/    \
-                    \_____________________/
-                    
-            Enjoy a cup of ☕️ while stats are being generated.
-
-            """.trimIndent()
+        return bundle.getString("art_coffee")
     }
 
     /**
@@ -46,32 +34,5 @@ object Art {
      *
      * Art source: https://www.asciiart.eu/miscellaneous/signs
      */
-    fun warnAboutReviewTime(): String =
-        """
-        
-        
-         ________________________
-        /                        \
-        |      ⚠ WARNING ⚠       |
-        |  PR review times are   |
-        |  for reference only!   |
-        |                        |
-        |  They are likely not   |
-        |  accurate due to many  |
-        |  many limitations.     |
-        \________________________/
-                 !  !
-                 !  !
-                 L_ !
-                / _)!
-               / /__L
-         _____/ (____)
-                (____)
-         _____  (____)
-              \_(____)
-                 !  !
-                 !  !
-                 \__/
-                 
-        """.trimIndent()
+    fun warnAboutReviewTime(): String = bundle.getString("art_warning_review_time")
 }

@@ -57,7 +57,7 @@ class StatsGeneratorApplication(
                 }
 
             Log.d(resources.string("stats_process_time_for_user", authorId, authorReportBuildTime.milliseconds))
-            Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+            Log.i(resources.string("pr_stats_separator"))
         }
 
         // Now that we have all author stats, leverage aggregated stats generator
@@ -88,7 +88,7 @@ class StatsGeneratorApplication(
                 }
 
             Log.d(resources.string("stats_process_time_for_user", usedId, reviewerReportBuildTime.milliseconds))
-            Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+            Log.i(resources.string("pr_stats_separator"))
         }
     }
 

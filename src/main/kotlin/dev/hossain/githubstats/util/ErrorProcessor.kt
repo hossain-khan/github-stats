@@ -6,6 +6,8 @@ import dev.hossain.githubstats.AppConstants.BUILD_CONFIG
 import dev.hossain.githubstats.AppConstants.GITHUB_TOKEN_SETTINGS_URL
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
+import java.util.Locale
+import java.util.ResourceBundle
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
@@ -14,6 +16,8 @@ import retrofit2.Response
  * A utility class to process errors and provide detailed error information using [ErrorInfo].
  */
 class ErrorProcessor {
+    private val bundle = ResourceBundle.getBundle("strings", Locale.getDefault())
+
     companion object {
         /**
          * Error message when token is invalid.
@@ -78,7 +82,7 @@ class ErrorProcessor {
         if (exception is HttpException) {
             val response: Response<*>? = exception.response()
             val error: ResponseBody? = response?.errorBody()
-            val message: String = exception.message ?: "HTTP Error ${exception.code()}"
+            val message: String = exception.message ?: String.format(bundle.getString("error_processor_http_error_X"), exception.code())
 
             if (error != null) {
                 val errorContentJson = error.string()
@@ -97,7 +101,7 @@ class ErrorProcessor {
             )
         } else {
             return ErrorInfo(
-                errorMessage = exception.message ?: "Unknown error",
+                errorMessage = exception.message ?: bundle.getString("error_processor_unknown_error"),
                 debugGuideMessage = debugGuide,
                 exception = exception,
             )
@@ -131,15 +135,11 @@ class ErrorProcessor {
     private fun getTokenErrorGuide(errorMessage: String): String {
         println("Error message: $errorMessage")
         return if (errorMessage.contains(TOKEN_ERROR_MESSAGE)) {
-            """
-            
-            
-            ------------------------------------------------------------------------------------------------
-            ⚠️ NOTE: Your token likely have expired. 
-                     You can create a new token from GitHub settings page and provide it in `[$LOCAL_PROPERTIES_FILE]`.
-                     See: $GITHUB_TOKEN_SETTINGS_URL
-            ------------------------------------------------------------------------------------------------
-            """.trimIndent()
+            String.format(
+                bundle.getString("error_processor_token_expired_note"),
+                LOCAL_PROPERTIES_FILE,
+                GITHUB_TOKEN_SETTINGS_URL,
+            )
         } else {
             ""
         }
@@ -148,15 +148,6 @@ class ErrorProcessor {
     /**
      * Debug guide message for HTTP response headers.
      */
-    private val httpResponseDebugGuide: String =
-        """
-        
-        ------------------------------------------------------------------------------------------------
-        NOTE: You can turn on HTTP request and response debugging that contains
-              HTTP response header containing important information like API rate limit.
-        
-        You can turn on this feature by opening `[$BUILD_CONFIG]` and setting `DEBUG_HTTP_REQUESTS = true`.
-        ------------------------------------------------------------------------------------------------
-        
-        """.trimIndent()
+    private val httpResponseDebugGuide: String
+        get() = String.format(bundle.getString("error_processor_http_debug_guide"), BUILD_CONFIG)
 }

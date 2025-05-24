@@ -8,6 +8,7 @@ import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.formatter.html.Template
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.FileUtil
+import dev.hossain.i18n.Resources
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.io.File
@@ -17,9 +18,9 @@ import kotlin.time.DurationUnit
  * Generates HTML based charts for the available data.
  * Currently, it uses [Google Chart](https://developers.google.com/chart) to generate simple charts.
  */
-class HtmlChartFormatter :
-    StatsFormatter,
-    KoinComponent {
+class HtmlChartFormatter(
+    private val resources: Resources,
+) : StatsFormatter, KoinComponent {
     private val appConfig: AppConfig by inject()
 
     /**
@@ -39,7 +40,7 @@ class HtmlChartFormatter :
      */
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.SHRUG}"
+            return resources.string("html_error_no_author_stats_to_format", resources.string("art_shrug"))
         }
 
         val prAuthorId = stats.reviewStats.first().prAuthorId
@@ -52,9 +53,13 @@ class HtmlChartFormatter :
                     "['${it.reviewerId} [${it.stats.size}]', ${it.stats.size}]"
                 }.joinToString()
 
-        val chartTitle =
-            "PR reviewer`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
-                "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+        val chartTitle = resources.string(
+            "html_title_reviewer_stats_for_author",
+            prAuthorId,
+            appConfig.get().repoId,
+            appConfig.get().dateLimitAfter,
+            appConfig.get().dateLimitBefore,
+        )
         val formattedPieChart =
             Template.pieChart(
                 title = chartTitle,
@@ -68,8 +73,11 @@ class HtmlChartFormatter :
         // Prepares data for bar chart generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
         val barStatsJsData: String =
-            listOf("['Reviewer', 'Total Reviewed', 'Total Commented']")
-                .plus(
+            listOf(
+                "['${resources.string("html_chart_label_reviewer")}', " +
+                    "'${resources.string("html_chart_label_total_reviewed")}', " +
+                    "'${resources.string("html_chart_label_total_commented")}']",
+            ).plus(
                     stats.reviewStats.map {
                         "['${it.reviewerId}', ${it.totalReviews}, ${it.totalComments}]"
                     },
@@ -91,16 +99,24 @@ class HtmlChartFormatter :
         @Suppress("ktlint:standard:max-line-length")
         val barStatsJsDataAggregate: String =
             listOf(
-                "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
+                "['${resources.string("html_chart_label_pr_author")}', " +
+                    "'${resources.string("html_chart_label_total_prs_created")}', " +
+                    "'${resources.string("html_chart_label_total_source_code_review_comments_received")}', " +
+                    "'${resources.string("html_chart_label_total_pr_issue_comments_received")}', " +
+                    "'${resources.string("html_chart_label_total_pr_review_submissions_received")}']",
             ).plus(
                 "['${stats.prStats.authorUserId}', ${stats.prStats.totalPrsCreated}, ${stats.prStats.totalCodeReviewComments},${stats.prStats.totalIssueComments},${stats.prStats.totalPrSubmissionComments}]",
             ).joinToString()
 
         val formattedBarChartAggregate =
             Template.barChart(
-                title =
-                    "PR authors`s stats for PRs created by `$prAuthorId` on `${appConfig.get().repoId}` repository " +
-                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
+                title = resources.string(
+                    "html_title_author_stats",
+                    prAuthorId,
+                    appConfig.get().repoId,
+                    appConfig.get().dateLimitAfter,
+                    appConfig.get().dateLimitBefore,
+                ),
                 chartData = barStatsJsDataAggregate,
                 // Multiplied by data columns
                 dataSize = 5,
@@ -109,10 +125,14 @@ class HtmlChartFormatter :
         val barChartFileAggregate = File(barChartFileNameAggregate)
         barChartFileAggregate.writeText(formattedBarChartAggregate)
 
-        return "📊 Written following charts for user: $prAuthorId. (Copy & paste file path URL in browser to preview)" +
+        val successMessage = resources.string(
+            "html_info_charts_written_for_user",
+            prAuthorId,
             "\n - file://${pieChartFile.absolutePath}" +
-            "\n - file://${barChartFileAggregate.absolutePath}" +
-            "\n - file://${barChartFile.absolutePath}"
+                "\n - file://${barChartFileAggregate.absolutePath}" +
+                "\n - file://${barChartFile.absolutePath}",
+        )
+        return successMessage
     }
 
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
@@ -121,7 +141,11 @@ class HtmlChartFormatter :
         @Suppress("ktlint:standard:max-line-length")
         val barStatsJsDataAggregate: String =
             listOf(
-                "['PR Author', 'Total PRs Created', 'Total Source Code Review Comments Received', 'Total PR Issue Comments Received', 'Total PR Review+Re-review Submissions Received']",
+                "['${resources.string("html_chart_label_pr_author")}', " +
+                    "'${resources.string("html_chart_label_total_prs_created")}', " +
+                    "'${resources.string("html_chart_label_total_source_code_review_comments_received")}', " +
+                    "'${resources.string("html_chart_label_total_pr_issue_comments_received")}', " +
+                    "'${resources.string("html_chart_label_total_pr_review_submissions_received")}']",
             ).plus(
                 aggregatedPrStats.filter { it.isEmpty().not() }.map {
                     "['${it.authorUserId}', ${it.totalPrsCreated}, ${it.totalCodeReviewComments},${it.totalIssueComments},${it.totalPrSubmissionComments}]"
@@ -130,9 +154,12 @@ class HtmlChartFormatter :
 
         val formattedBarChartAggregate =
             Template.barChart(
-                title =
-                    "Aggregated PR Stats on `${appConfig.get().repoId}` repository " +
-                        "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}.",
+                title = resources.string(
+                    "html_title_aggregated_pr_stats",
+                    appConfig.get().repoId,
+                    appConfig.get().dateLimitAfter,
+                    appConfig.get().dateLimitBefore,
+                ),
                 chartData = barStatsJsDataAggregate,
                 // Multiplied by data columns
                 dataSize = 5,
@@ -141,8 +168,7 @@ class HtmlChartFormatter :
         val barChartFileAggregate = File(barChartFileNameAggregate)
         barChartFileAggregate.writeText(formattedBarChartAggregate)
 
-        return "📊 Written following aggregated chat for repository: (Copy & paste file path URL in browser to preview)" +
-            "\n - ${barChartFileAggregate.toURI()}"
+        return resources.string("html_info_aggregated_chart_written", "\n - ${barChartFileAggregate.toURI()}")
     }
 
     /**
@@ -150,18 +176,18 @@ class HtmlChartFormatter :
      */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
-            return "⚠ ERROR: No reviewer stats to format. No charts to generate! ${Art.SHRUG}"
+            return resources.string("html_error_no_reviewer_stats_to_format", resources.string("art_shrug"))
         }
 
         val headerItem: List<String> =
             listOf(
                 "[" +
-                    "'Reviewed For different PR Authors', " +
-                    "'Total PRs Reviewed by ${stats.reviewerId} since ${appConfig.get().dateLimitAfter}', " +
-                    "'Total Source Code Review Comments', " +
-                    "'Total PR Issue Comments', " +
-                    "'Total PR Review Comments', " +
-                    "'Total All Comments Made'" +
+                    "'${resources.string("html_chart_label_reviewed_for_authors")}', " +
+                    "'${resources.string("html_chart_label_total_prs_reviewed_by_reviewer_since_date", stats.reviewerId, appConfig.get().dateLimitAfter())}', " +
+                    "'${resources.string("html_chart_label_total_code_review_comments")}', " +
+                    "'${resources.string("html_chart_label_total_pr_issue_comments")}', " +
+                    "'${resources.string("html_chart_label_total_pr_review_comments")}', " +
+                    "'${resources.string("html_chart_label_total_all_comments_made")}'" +
                     "]",
             )
 
@@ -192,7 +218,7 @@ class HtmlChartFormatter :
 
         val formattedBarChart =
             Template.barChart(
-                title = "PRs Reviewed by ${stats.reviewerId}",
+                title = resources.string("html_title_prs_reviewed_by_reviewer", stats.reviewerId),
                 chartData = barStatsJsData,
                 // Multiplied by data columns
                 dataSize = stats.reviewedForPrStats.size * 6,
@@ -207,15 +233,15 @@ class HtmlChartFormatter :
             listOf(
                 "" +
                     "[" +
-                    "'PR#', " +
-                    "'Initial Response Time (mins)'," +
-                    "'Review Time (mins)'" +
+                    "'${resources.string("html_chart_label_pr_number_short")}', " +
+                    "'${resources.string("html_chart_label_initial_response_time_mins")}'," +
+                    "'${resources.string("html_chart_label_review_time_mins")}'" +
                     "]",
             ).plus(
                 stats.reviewedPrStats.map { reviewStats ->
                     "" +
                         "[" +
-                        "'PR# ${reviewStats.pullRequest.number}', " +
+                        "'${resources.string("html_chart_label_pr_number_short")} ${reviewStats.pullRequest.number}', " +
                         "${reviewStats.initialResponseTime.toInt(DurationUnit.MINUTES)}," +
                         "${reviewStats.reviewCompletion.toInt(DurationUnit.MINUTES)}" +
                         "]"
@@ -224,7 +250,7 @@ class HtmlChartFormatter :
 
         val appPrBarChart =
             Template.barChart(
-                title = "PRs Reviewed by ${stats.reviewerId}",
+                title = resources.string("html_title_prs_reviewed_by_reviewer", stats.reviewerId),
                 chartData = userAllPrChartData,
                 dataSize = stats.reviewedPrStats.size,
             )
@@ -233,8 +259,11 @@ class HtmlChartFormatter :
         val allPrChartFile = File(allPrChartFileName)
         allPrChartFile.writeText(appPrBarChart)
 
-        return "📊 Written following charts for user: ${stats.reviewerId}. (Copy & paste file path URL in browser to preview)" +
+        return resources.string(
+            "html_info_charts_written_for_user",
+            stats.reviewerId,
             "\n - file://${reviewedForBarChartFile.absolutePath}" +
-            "\n - file://${allPrChartFile.absolutePath}"
+                "\n - file://${allPrChartFile.absolutePath}",
+        )
     }
 }

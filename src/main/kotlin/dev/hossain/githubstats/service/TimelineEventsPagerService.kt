@@ -4,6 +4,7 @@ import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.util.ErrorProcessor
+import dev.hossain.i18n.Resources
 import kotlinx.coroutines.delay
 
 /**
@@ -12,6 +13,7 @@ import kotlinx.coroutines.delay
 class TimelineEventsPagerService constructor(
     private val githubApiService: GithubApiService,
     private val errorProcessor: ErrorProcessor,
+    private val resources: Resources, // Added resources
     private val pageSize: Int = GithubApiService.DEFAULT_PAGE_SIZE,
 ) {
     /**

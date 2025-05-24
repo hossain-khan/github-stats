@@ -13,6 +13,7 @@ import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.avgMergeTime
 import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.i18n.Resources
 import dev.hossain.time.toWorkingHour
 import kotlinx.datetime.toJavaInstant
 import org.koin.core.component.KoinComponent
@@ -26,9 +27,9 @@ import kotlin.time.Duration
 /**
  * Uses text based table for console output using [Picnic](https://github.com/JakeWharton/picnic)
  */
-class PicnicTableFormatter :
-    StatsFormatter,
-    KoinComponent {
+class PicnicTableFormatter(
+    private val resources: Resources,
+) : StatsFormatter, KoinComponent {
     private val dateFormatter =
         DateTimeFormatter
             .ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -79,7 +80,7 @@ class PicnicTableFormatter :
                     ""
                 }
 
-        fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String = "$userDuration | ${userDuration.value.toWorkingHour()}"
+        fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String = "$userDuration | ${userDuration.value.toWorkingHour()}" // TODO: Localize pipe
 
         return table {
             cellStyle {
@@ -87,13 +88,13 @@ class PicnicTableFormatter :
                 paddingLeft = 1
                 paddingRight = 1
             }
-            row("Title", prStats.pullRequest.title)
-            row("PR Author", prStats.pullRequest.user.login)
-            row("URL", prStats.pullRequest.html_url)
-            row("Ready On", dateFormatter.format(prStats.prReadyOn.toJavaInstant()))
+            row(resources.string("picnic_tbl_header_title"), prStats.pullRequest.title)
+            row(resources.string("picnic_tbl_header_pr_author"), prStats.pullRequest.user.login)
+            row(resources.string("picnic_tbl_header_url"), prStats.pullRequest.html_url)
+            row(resources.string("picnic_tbl_header_ready_on"), dateFormatter.format(prStats.prReadyOn.toJavaInstant()))
             if (prStats.initialResponseTime.isNotEmpty()) {
                 row {
-                    cell("PR Initial Response Time") {
+                    cell(resources.string("picnic_tbl_header_initial_response_time")) {
                         rowSpan = prStats.initialResponseTime.size
                     }
                     cell(formatUserDuration(prStats.initialResponseTime.entries.first()))
@@ -105,7 +106,7 @@ class PicnicTableFormatter :
             }
             if (prStats.prApprovalTime.isNotEmpty()) {
                 row {
-                    cell("PR Approval Review Time") {
+                    cell(resources.string("picnic_tbl_header_approval_time")) {
                         rowSpan = prStats.prApprovalTime.size
                     }
                     cell(formatUserDuration(prStats.prApprovalTime.entries.first()))
@@ -117,7 +118,7 @@ class PicnicTableFormatter :
             }
             if (prStats.comments.isNotEmpty()) {
                 row {
-                    cell("PR Comments") {
+                    cell(resources.string("picnic_tbl_header_pr_comments")) {
                         rowSpan = prStats.comments.size
                     }
                     cell(
@@ -133,8 +134,8 @@ class PicnicTableFormatter :
                     row(formatUserPrComments(it.value))
                 }
             }
-            row("Merged On", dateFormatter.format(prStats.prMergedOn.toJavaInstant()))
-            row("Open → Merge", "${prStats.prMergedOn - prStats.prReadyOn}")
+            row(resources.string("picnic_tbl_header_merged_on"), dateFormatter.format(prStats.prMergedOn.toJavaInstant()))
+            row(resources.string("picnic_tbl_header_open_to_merge"), "${prStats.prMergedOn - prStats.prReadyOn}")
         }.toString()
     }
 
@@ -185,28 +186,41 @@ class PicnicTableFormatter :
      */
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.SHRUG}"
+            return resources.string("picnic_error_no_stats_to_format", resources.string("art_shrug"))
         }
 
         /**
          * Internal function to format PR review time and review comments count.
          */
         @Suppress("ktlint:standard:max-line-length")
-        fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String =
-            "${reviewStats.reviewCompletion} for PR#${reviewStats.pullRequest.number}" +
-                if (reviewStats.prComments.isEmpty().not()) {
-                    "\nmade ${reviewStats.prComments.codeReviewComment} code review ${reviewStats.prComments.codeReviewComment.comments()} " +
-                        "and ${reviewStats.prComments.issueComment} issue ${reviewStats.prComments.issueComment.comments()}."
-                } else {
-                    "" // When no comment metrics is available, don't show it.
-                } +
-                if (reviewStats.prComments.prReviewSubmissionComment >
-                    0
-                ) {
-                    "\nalso has reviewed PR ${reviewStats.prComments.prReviewSubmissionComment} ${reviewStats.prComments.prReviewSubmissionComment.times()}."
-                } else {
-                    ""
-                }
+        fun formatPrReviewTimeAndComments(reviewStats: ReviewStats): String {
+            val codeComments = reviewStats.prComments.codeReviewComment
+            val issueComments = reviewStats.prComments.issueComment
+            val submissionComments = reviewStats.prComments.prReviewSubmissionComment
+
+            val commentsMadeStr = if (reviewStats.prComments.isEmpty().not()) {
+                resources.string(
+                    "picnic_X_code_comments_and_Y_issue_comments",
+                    codeComments,
+                    codeComments.comments(),
+                    issueComments,
+                    issueComments.comments(),
+                )
+            } else {
+                "" // When no comment metrics is available, don't show it.
+            }
+            val reviewedPrStr = if (submissionComments > 0) {
+                resources.string("picnic_also_has_reviewed_pr_X_times", submissionComments, submissionComments.times())
+            } else {
+                ""
+            }
+
+            return resources.string(
+                "picnic_review_time_X_for_pr_Y",
+                reviewStats.reviewCompletion,
+                reviewStats.pullRequest.number,
+            ) + commentsMadeStr + reviewedPrStr
+        }
 
         val repoId = stats.reviewStats.first().repoId
         val prAuthorId = stats.reviewStats.first().prAuthorId
@@ -229,9 +243,13 @@ class PicnicTableFormatter :
                 }
                 row {
                     // Export global info for the stats
-                    val headingText =
-                        "PR reviewer's stats for PRs created by '$prAuthorId' on '$repoId' repository " +
-                            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+                    val headingText = resources.string(
+                        "picnic_header_author_stats",
+                        prAuthorId,
+                        repoId,
+                        appConfig.get().dateLimitAfter,
+                        appConfig.get().dateLimitBefore,
+                    )
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -245,14 +263,14 @@ class PicnicTableFormatter :
                     cellStyle {
                         paddingTop = 1
                     }
-                    cell("● PR reviewer stats for \"${stat.reviewerId}\"") {
+                    cell(resources.string("picnic_reviewer_stats_for_X", stat.reviewerId)) {
                         columnSpan = 2
                     }
                 }
 
-                row("Total Reviews", "${stat.totalReviews}")
+                row(resources.string("picnic_tbl_header_total_reviews"), "${stat.totalReviews}")
                 row {
-                    cell("Review Durations") {
+                    cell(resources.string("picnic_tbl_header_review_durations")) {
                         rowSpan = stat.stats.size
                     }
                     cell(formatPrReviewTimeAndComments(stat.stats.first()))
@@ -261,14 +279,14 @@ class PicnicTableFormatter :
                 stat.stats.drop(1).forEach {
                     row(formatPrReviewTimeAndComments(it))
                 }
-                row("Average Time", "${stat.average}")
+                row(resources.string("picnic_tbl_header_average_time"), "${stat.average}")
             }
 
             row {
                 cellStyle {
                     paddingTop = 2
                 }
-                cell("● Average PR Merge Time for all PRs created by '$prAuthorId'")
+                cell(resources.string("picnic_avg_pr_merge_time_for_X", prAuthorId))
                 cell("${stats.reviewStats.avgMergeTime()}")
             }
         }.toString()
@@ -308,7 +326,7 @@ class PicnicTableFormatter :
      */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No ◫ fancy tables for you! ${Art.SHRUG}"
+            return resources.string("picnic_error_no_stats_to_format", resources.string("art_shrug"))
         }
         return table {
             cellStyle {
@@ -327,9 +345,13 @@ class PicnicTableFormatter :
                     paddingTop = 2
                 }
                 row {
-                    val headingText =
-                        "Stats for all PR reviews given by '${stats.reviewerId}' on '${stats.repoId}' repository " +
-                            "between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}."
+                    val headingText = resources.string(
+                        "picnic_header_reviewer_stats",
+                        stats.reviewerId,
+                        stats.repoId,
+                        appConfig.get().dateLimitAfter,
+                        appConfig.get().dateLimitBefore,
+                    )
                     val headingSeparator = "-".repeat(headingText.length)
                     cell("$headingSeparator\n$headingText\n$headingSeparator") {
                         columnSpan = 2
@@ -337,8 +359,8 @@ class PicnicTableFormatter :
                 }
             }
 
-            row("Total Reviews", "${stats.totalReviews}")
-            row("Average Review Time", "${stats.average}")
+            row(resources.string("picnic_tbl_header_total_reviews"), "${stats.totalReviews}")
+            row(resources.string("picnic_tbl_header_average_review_time"), "${stats.average}")
 
             if (stats.reviewedForPrStats.isNotEmpty()) {
                 var itemCount = 1
@@ -347,10 +369,10 @@ class PicnicTableFormatter :
                     .associate { it.toPair() }
                     .forEach { (userId, prStats) ->
                         val count = prStats.size
-                        val statMessage = "✔ $count ${count.prs()} reviewed for '$userId'"
+                        val statMessage = resources.string("picnic_X_prs_reviewed_for_Y", count, count.prs(), userId)
                         if (itemCount == 1) {
                             row {
-                                cell("PR Authors Reviewed For") {
+                                cell(resources.string("picnic_tbl_header_pr_authors_reviewed_for")) {
                                     rowSpan = stats.reviewedForPrStats.size
                                 }
                                 cell(statMessage)
@@ -365,11 +387,11 @@ class PicnicTableFormatter :
     }
 
     /** Internal function to use plurals for PR. */
-    private fun Int.prs(): String = if (this <= 1) "PR" else "PRs"
+    private fun Int.prs(): String = if (this <= 1) resources.string("picnic_pr") else resources.string("picnic_prs")
 
     /** Internal function to use plurals for comments. */
-    private fun Int.comments(): String = if (this <= 1) "comment" else "comments"
+    private fun Int.comments(): String = if (this <= 1) resources.string("picnic_comment") else resources.string("picnic_comments")
 
     /** Internal function to use plurals for `times`. */
-    private fun Int.times(): String = if (this <= 1) "time" else "times"
+    private fun Int.times(): String = if (this <= 1) resources.string("picnic_time") else resources.string("picnic_times")
 }

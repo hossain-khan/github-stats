@@ -3,7 +3,9 @@ package dev.hossain.githubstats.util
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_SAMPLE_FILE
 import java.io.File
+import java.util.Locale
 import java.util.Properties
+import java.util.ResourceBundle
 
 /**
  * Internal class to get properties
@@ -21,8 +23,14 @@ abstract class PropertiesReader(
             if (System.getenv("IS_GITHUB_CI") == "true") {
                 properties.load(File(LOCAL_PROPERTIES_SAMPLE_FILE).inputStream())
             } else {
+                // Initialize bundle here for the exception message
+                val bundle = ResourceBundle.getBundle("strings", Locale.getDefault())
                 throw IllegalStateException(
-                    "Please create `$LOCAL_PROPERTIES_FILE` with config values. See `$LOCAL_PROPERTIES_SAMPLE_FILE`.",
+                    String.format(
+                        bundle.getString("props_reader_create_local_properties_file"),
+                        LOCAL_PROPERTIES_FILE,
+                        LOCAL_PROPERTIES_SAMPLE_FILE,
+                    ),
                 )
             }
         }
@@ -32,6 +40,8 @@ abstract class PropertiesReader(
 }
 
 class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
+    private val bundle = ResourceBundle.getBundle("strings", Locale.getDefault())
+
     companion object {
         private const val KEY_REPO_OWNER = "repository_owner"
         private const val KEY_REPO_ID = "repository_id"
@@ -43,12 +53,12 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
 
     fun getRepoOwner(): String =
         requireNotNull(getProperty(KEY_REPO_OWNER)) {
-            "Repository owner also known as Org ID config is required in $LOCAL_PROPERTIES_FILE"
+            String.format(bundle.getString("props_reader_repo_owner_required"), LOCAL_PROPERTIES_FILE)
         }
 
     fun getRepoId(): String =
         requireNotNull(getProperty(KEY_REPO_ID)) {
-            "Repository ID config is required in $LOCAL_PROPERTIES_FILE"
+            String.format(bundle.getString("props_reader_repo_id_required"), LOCAL_PROPERTIES_FILE)
         }
 
     fun getAuthors(): String? = getProperty(KEY_AUTHOR_IDS)

@@ -7,6 +7,7 @@ import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.service.GithubApiService.Companion.DEFAULT_PAGE_SIZE
 import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
+import dev.hossain.i18n.Resources
 import kotlinx.coroutines.delay
 import kotlin.math.ceil
 
@@ -16,6 +17,7 @@ import kotlin.math.ceil
 class IssueSearchPagerService constructor(
     private val githubApiService: GithubApiService,
     private val errorProcessor: ErrorProcessor,
+    private val resources: Resources,
     private val pageSize: Int = DEFAULT_PAGE_SIZE,
 ) {
     /**
@@ -37,7 +39,7 @@ class IssueSearchPagerService constructor(
                     val errorInfo: ErrorInfo = errorProcessor.getDetailedError(exception)
 
                     if (errorInfo.isUserNotFound()) {
-                        Log.w("❌ User not found. Skipping the PR list search for the user.\n")
+                        Log.w(resources.getString("issue_search_pager_user_not_found"))
                         return emptyList()
                     } else {
                         throw errorInfo.exception

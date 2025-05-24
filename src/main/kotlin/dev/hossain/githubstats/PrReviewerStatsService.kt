@@ -11,6 +11,7 @@ import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.ErrorThreshold
+import dev.hossain.i18n.Resources
 import dev.hossain.githubstats.util.PrAnalysisProgress
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
@@ -25,6 +26,7 @@ class PrReviewerStatsService constructor(
     private val issueSearchPager: IssueSearchPagerService,
     private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor,
+    private val resources: Resources,
 ) {
     /**
      * Keep count of error received during the process.
@@ -90,11 +92,12 @@ class PrReviewerStatsService constructor(
                         )
                     } catch (e: Exception) {
                         val errorInfo = errorProcessor.getDetailedError(e)
-                        println("Error getting PR#${pr.number}. Got: ${errorInfo.errorMessage}${errorInfo.debugGuideMessage}")
+                        // Use existing "service_error_getting_pr"
+                        println(resources.string("service_error_getting_pr", pr.number, errorInfo.errorMessage, errorInfo.debugGuideMessage))
                         val errorThreshold = checkErrorLimit(errorInfo)
 
                         if (errorThreshold.exceeded) {
-                            throw RuntimeException(errorThreshold.errorMessage)
+                            throw RuntimeException(errorThreshold.errorMessage) // Error message is already formatted in checkErrorLimit
                         }
 
                         StatsResult.Failure(errorInfo)
@@ -143,7 +146,7 @@ class PrReviewerStatsService constructor(
                 }
             }
 
-        Log.i("✅ Completed loading ${prStatsListReviewedByReviewer.size} PRs reviewed by '$prReviewerUserId'.")
+        Log.i(resources.string("reviewer_service_completed_loading_prs", prStatsListReviewedByReviewer.size, prReviewerUserId))
 
         // Finally build the data object that combines all related stats
         return ReviewerReviewStats(
@@ -169,10 +172,12 @@ class PrReviewerStatsService constructor(
 
         val errorCount = errorMap[errorInfo.errorMessage]!!
         if (errorCount > BuildConfig.ERROR_THRESHOLD) {
-            Log.w("Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount")
+            // Use existing "service_error_threshold_exceeded_for_error"
+            val errorMessage = resources.string("service_error_threshold_exceeded_for_error", errorInfo.errorMessage, errorCount)
+            Log.w(errorMessage)
             return ErrorThreshold(
                 exceeded = true,
-                errorMessage = "Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount",
+                errorMessage = errorMessage,
             )
         }
         return ErrorThreshold(exceeded = false, errorMessage = "")
