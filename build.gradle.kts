@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     // For build.gradle.kts (Kotlin DSL)
     // https://kotlinlang.org/docs/releases.html#release-details
-    kotlin("jvm") version "2.1.10"
+    kotlin("jvm") version "2.1.21"
     id("org.jmailen.kotlinter") version "5.1.0"
 
     // Dokka - API documentation engine for Kotlin
