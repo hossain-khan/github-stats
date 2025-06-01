@@ -2,6 +2,11 @@ package dev.hossain.githubstats
 
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
+import dev.hossain.githubstats.model.User
+import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
+import dev.hossain.githubstats.model.timeline.ReviewedEvent
+import dev.hossain.githubstats.model.timeline.TimelineEvent
+import dev.hossain.githubstats.model.timeline.filterTo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
 import dev.hossain.githubstats.service.TimelineEventsPagerService
@@ -34,6 +39,7 @@ internal class PullRequestStatsRepoTest {
         mockWebServer = MockWebServer()
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
+        Client.enableAuthInterceptor = false // Disable auth for tests
 
         pullRequestStatsRepo =
             PullRequestStatsRepoImpl(
@@ -344,7 +350,7 @@ internal class PullRequestStatsRepoTest {
             val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
             val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
 
-            val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
+            val prReviewers = prReviewers(pullRequest.user, timelineEvents)
 
             assertThat(prReviewers).hasSize(5)
             assertThat(prReviewers).doesNotContain(pullRequest.user)
@@ -360,7 +366,7 @@ internal class PullRequestStatsRepoTest {
             val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
             val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
 
-            val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
+            val prReviewers = prReviewers(pullRequest.user, timelineEvents)
 
             assertThat(prReviewers).doesNotContain(pullRequest.user)
             assertThat(prReviewers).hasSize(2)
@@ -377,17 +383,40 @@ internal class PullRequestStatsRepoTest {
             val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
             val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
 
-            val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
+            val prReviewers = prReviewers(pullRequest.user, timelineEvents)
 
             assertThat(prReviewers).doesNotContain(pullRequest.user)
             assertThat(prReviewers).hasSize(1)
             assertThat(prReviewers.map { it.login }).containsExactly("swankjesse")
         }
 
-    // region: Test Utility Functions
+    // endregion: Test Utility Functions
 
     /** Provides response for given [jsonResponseFile] path in the test resources. */
     private fun respond(jsonResponseFile: String): String =
         PullRequestStatsRepoTest::class.java.getResource("/$jsonResponseFile")!!.readText()
+
+    /**
+     * Extracts all the PR reviewers who reviewed (approved or reviewed)
+     * or has been requested to review.
+     *
+     * @param prAuthor The user who created the PR
+     * @param prTimelineEvents All the timeline events for the opened PR.
+     */
+    internal fun prReviewers(
+        prAuthor: User,
+        prTimelineEvents: List<TimelineEvent>,
+    ): Set<User> =
+        prTimelineEvents
+            .filterTo(ReviewRequestedEvent::class)
+            .map { it.actor } // User who requested the review
+            .plus(
+                prTimelineEvents.filterTo(ReviewedEvent::class).map { it.user }, // User who submitted the review
+            )
+            .plus(
+                prTimelineEvents.filterTo(ReviewRequestedEvent::class).mapNotNull { it.requested_reviewer }, // The user/team requested
+            )
+            .toSet()
+            .minus(prAuthor) // Exclude PR author from reviewers list
     // endregion: Test Utility Functions
 }

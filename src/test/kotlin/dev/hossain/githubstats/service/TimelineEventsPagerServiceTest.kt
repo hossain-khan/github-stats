@@ -26,6 +26,7 @@ internal class TimelineEventsPagerServiceTest {
         mockWebServer = MockWebServer()
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
+        Client.enableAuthInterceptor = false // Disable auth for tests
 
         timelinePagerService =
             TimelineEventsPagerService(

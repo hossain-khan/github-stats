@@ -22,7 +22,6 @@ import dev.hossain.time.DateTimeDiffer
 import dev.hossain.time.UserTimeZone
 import dev.hossain.time.format
 import kotlinx.datetime.Instant
-import org.jetbrains.annotations.TestOnly
 import kotlin.time.Duration
 
 /**
@@ -42,79 +41,38 @@ class PullRequestStatsRepoImpl(
         prNumber: Int,
         botUserIds: List<String>,
     ): StatsResult {
-        // API request to get PR information
         val pullRequest: PullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
 
-        if (!pullRequest.isMerged) {
-            // Skips PR stats generation if PR is not merged at all.
-            Log.v("The PR#${pullRequest.number} is not merged. Skipping PR stat analysis.")
-            return StatsResult.Failure(
-                ErrorInfo(
-                    errorMessage = "PR#${pullRequest.number} is not merged, no reason to analyze PR stats.",
-                    exception = IllegalStateException("PR#${pullRequest.number} is not merged."),
-                ),
-            )
-        }
+        // Validate PR for stats generation
+        validatePrForStats(pullRequest, botUserIds)?.let { return it }
 
-        if (pullRequest.user.login in botUserIds) {
-            // Skips PR stats generation if PR is created by bot user.
-            Log.i("The PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'. Skipping PR stat analysis.")
-            return StatsResult.Failure(
-                ErrorInfo(
-                    errorMessage =
-                        "PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}', " +
-                            "no reason to analyze PR stats.",
-                    exception = IllegalStateException("PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'."),
-                ),
-            )
-        }
-
-        // API request to get all timeline events for the PR
+        // Get all timeline events and code review comments for the PR
         val prTimelineEvents = timelinesPager.getAllTimelineEvents(repoOwner, repoId, prNumber)
-        // API request to get all PR source code review comments associated with diffs
         val prCodeReviewComments = githubApiService.prSourceCodeReviewComments(repoOwner, repoId, prNumber)
 
         Log.i("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
 
-        val prAvailableForReviewOn: Instant = prAvailableForReviewTime(pullRequest.prCreatedOn, prTimelineEvents)
+        val prAvailableForReviewOn = prAvailableForReviewTime(pullRequest.prCreatedOn, prTimelineEvents)
 
-        // List of users who has been requested as reviewer or reviewed the PR
-        val nonFilteredPrReviewerUsers = prReviewers(pullRequest.user, prTimelineEvents)
-        val prReviewers: Set<User> =
-            nonFilteredPrReviewerUsers
-                // Filters out the bot users from the reviewers
-                .filter { it.login !in botUserIds }
-                .toSet()
-
-        if (prReviewers.isEmpty()) {
-            Log.w("No human reviewers found for PR#${pullRequest.number}. Skipping PR stat analysis.")
-            return StatsResult.Failure(
+        // Get the set of human reviewers for the PR
+        val prReviewers = getPrReviewers(pullRequest, prTimelineEvents, botUserIds)
+            ?: return StatsResult.Failure(
                 ErrorInfo(
-                    errorMessage =
-                        "No human reviewers found for PR#${pullRequest.number}. " +
-                            "Original reviewers: ${nonFilteredPrReviewerUsers.map { it.login }}.",
+                    errorMessage = "No human reviewers found for PR#${pullRequest.number}. ",
                     exception = IllegalStateException("No human reviewers found for PR#${pullRequest.number}."),
                 ),
             )
-        }
 
-        // Builds a map of [Reviewer User -> Initial response time by either commenting, reviewing or approving PR]
-        val prInitialResponseTimeMap: Map<UserId, Duration> =
-            prInitialResponseTimeByUser(
-                prAvailableForReviewOn = prAvailableForReviewOn,
-                prReviewers = prReviewers,
-                prTimelineEvents = prTimelineEvents,
-            )
-
-        // Builds a map of [Reviewer User -> Review Time during Working Hours]
-        val prReviewCompletionMap: Map<String, Duration> =
-            prReviewTimeByUser(
+        // Calculate review metrics (initial response time and approval time)
+        val (prInitialResponseTimeMap, prReviewCompletionMap) =
+            calculateReviewMetrics(
                 pullRequest = pullRequest,
                 prAvailableForReviewOn = prAvailableForReviewOn,
                 prReviewers = prReviewers,
                 prTimelineEvents = prTimelineEvents,
             )
 
+        // Calculate comments by user
         val commentsByUser: Map<UserId, UserPrComment> =
             prCommentsCountByUser(
                 prTimelineEvents = prTimelineEvents,
@@ -133,23 +91,144 @@ class PullRequestStatsRepoImpl(
         )
     }
 
+    // region: Private helper functions for stats calculation
+    // =======================================================
+
+    /**
+     * Validates if the PR should be processed for stats.
+     * Returns [StatsResult.Failure] if validation fails, `null` otherwise.
+     */
+    private fun validatePrForStats(
+        pullRequest: PullRequest,
+        botUserIds: List<String>,
+    ): StatsResult? {
+        if (!pullRequest.isMerged) {
+            Log.v("The PR#${pullRequest.number} is not merged. Skipping PR stat analysis.")
+            return StatsResult.Failure(
+                ErrorInfo(
+                    errorMessage = "PR#${pullRequest.number} is not merged, no reason to analyze PR stats.",
+                    exception = IllegalStateException("PR#${pullRequest.number} is not merged."),
+                ),
+            )
+        }
+
+        if (pullRequest.user.login in botUserIds) {
+            Log.i("The PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'. Skipping PR stat analysis.")
+            return StatsResult.Failure(
+                ErrorInfo(
+                    errorMessage =
+                        "PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}', " +
+                            "no reason to analyze PR stats.",
+                    exception = IllegalStateException("PR#${pullRequest.number} is created by bot user '${pullRequest.user.login}'."),
+                ),
+            )
+        }
+        return null
+    }
+
+    /**
+     * Gets the set of human reviewers for the PR.
+     * Returns `null` if no human reviewers are found (logging the original reviewers).
+     */
+    private fun getPrReviewers(
+        pullRequest: PullRequest,
+        prTimelineEvents: List<TimelineEvent>,
+        botUserIds: List<String>,
+    ): Set<User>? {
+        val allReviewerUsers = extractPrReviewersFromEvents(pullRequest.user, prTimelineEvents)
+        val humanReviewers = allReviewerUsers.filter { it.login !in botUserIds }.toSet()
+
+        if (humanReviewers.isEmpty()) {
+            Log.w(
+                "No human reviewers found for PR#${pullRequest.number}. " +
+                    "Original reviewers: ${allReviewerUsers.map { it.login }}. Skipping PR stat analysis.",
+            )
+            return null
+        }
+        return humanReviewers
+    }
+
+    /**
+     * Extracts all unique users who were requested to review or have reviewed the PR, excluding the PR author.
+     */
+    private fun extractPrReviewersFromEvents(
+        prAuthor: User,
+        prTimelineEvents: List<TimelineEvent>,
+    ): Set<User> =
+        prTimelineEvents
+            .filterTo(ReviewRequestedEvent::class)
+            .map { it.actor } // User who requested the review
+            .plus(
+                prTimelineEvents.filterTo(ReviewedEvent::class).map { it.user }, // User who submitted the review
+            )
+            .plus(
+                prTimelineEvents.filterTo(ReviewRequestedEvent::class).mapNotNull { it.requested_reviewer }, // The user/team requested
+            )
+            .toSet()
+            .minus(prAuthor) // Exclude PR author from reviewers list
+
+    /**
+     * Calculates both initial response time and PR approval time for each reviewer.
+     * Iterates over the reviewers once to build both maps.
+     */
+    private fun calculateReviewMetrics(
+        pullRequest: PullRequest,
+        prAvailableForReviewOn: Instant,
+        prReviewers: Set<User>,
+        prTimelineEvents: List<TimelineEvent>,
+    ): Pair<Map<UserId, Duration>, Map<UserId, Duration>> {
+        val initialResponseTimeMap = mutableMapOf<UserId, Duration>()
+        val reviewCompletionTimeMap = mutableMapOf<UserId, Duration>()
+
+        prReviewers.forEach { reviewer ->
+            val prReviewerUserId = reviewer.login
+            val prReadyForReviewOnByUser = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
+
+            // Calculate Initial Response Time
+            firstReviewedEvent(prTimelineEvents, reviewer, prReadyForReviewOnByUser)?.let { firstEvent ->
+                val initialResponseDuration =
+                    DateTimeDiffer.diffWorkingHours(
+                        startInstant = prReadyForReviewOnByUser,
+                        endInstant = Instant.parse(firstEvent.submitted_at),
+                        timeZoneId = userTimeZone.get(prReviewerUserId),
+                    )
+                initialResponseTimeMap[prReviewerUserId] = initialResponseDuration
+                Log.d(
+                    "  -- First Responded[${firstEvent.state.name.lowercase()}] in `$initialResponseDuration` by `$prReviewerUserId`.",
+                )
+                Log.v(
+                    "     -- 🔍👀 Initial response event: $firstEvent. PR available on ${prAvailableForReviewOn.format()}," +
+                        "ready for reviewer on ${prReadyForReviewOnByUser.format()} " +
+                        "and event on ${Instant.parse(firstEvent.submitted_at).format()}",
+                )
+            }
+
+            // Calculate Review Completion Time (Approval Time)
+            if (isApprovedByReviewer(reviewer, prTimelineEvents)) {
+                val approvedEvent = findPrApprovedEventByUser(reviewer, prTimelineEvents)
+                val approvalDuration =
+                    DateTimeDiffer.diffWorkingHours(
+                        startInstant = prReadyForReviewOnByUser,
+                        endInstant = Instant.parse(approvedEvent.submitted_at),
+                        timeZoneId = userTimeZone.get(prReviewerUserId),
+                    )
+                reviewCompletionTimeMap[prReviewerUserId] = approvalDuration
+
+                // Log the original open to merge duration for context
+                val openToCloseDuration = pullRequest.prMergedOn!! - prAvailableForReviewOn
+                Log.i(
+                    "  -- Reviewed and ✔approved in `$approvalDuration` by `$prReviewerUserId`. " +
+                        "PR open->merged: $openToCloseDuration",
+                )
+            }
+        }
+
+        return Pair(initialResponseTimeMap, reviewCompletionTimeMap)
+    }
+
     /**
      * Provides stats for users and total number of comments made in the PR
      * by analyzing all timeline events and PR review comments.
-     *
-     * > NOTE:
-     * > Pull request review comments are comments on a portion of the unified diff made during a pull request review.
-     * > Commit comments and issue comments are different from pull request review comments.
-     *
-     * Example snapshot of a map.
-     * ```
-     * swankjesse -> (issueComment=3, codeReviewComment=3, prReviewComment=7)
-     * jjshanks -> (issueComment=1, codeReviewComment=0, prReviewComment=0)
-     * yschimke -> (issueComment=9, codeReviewComment=21, prReviewComment=2)
-     * mjpitz -> (issueComment=10, codeReviewComment=7, prReviewComment=1)
-     * ```
-     *
-     * @return Map of `user-id -> count of various type of comments made`. See [UserPrComment].
      */
     private fun prCommentsCountByUser(
         prTimelineEvents: List<TimelineEvent>,
@@ -159,143 +238,37 @@ class PullRequestStatsRepoImpl(
         val codeReviewCommentsByUser = mutableMapOf<UserId, Int>()
         val reviewedEventByUser = mutableMapOf<UserId, Int>()
 
-        // Collect all comments made on the PR issue itself, without referencing any line-of-code.
         prTimelineEvents
             .filterTo(CommentedEvent::class)
             .forEach { commentedEvent ->
-                val commentsCount: Int? = issueCommentsByUser[commentedEvent.user.login]
-                if (commentsCount != null) {
-                    issueCommentsByUser[commentedEvent.user.login] = commentsCount + 1
-                } else {
-                    issueCommentsByUser[commentedEvent.user.login] = 1
-                }
+                issueCommentsByUser[commentedEvent.user.login] =
+                    (issueCommentsByUser[commentedEvent.user.login] ?: 0) + 1
             }
 
-        // Collect all the reviewed comments that are comments or changes requested
         prTimelineEvents
             .filterTo(ReviewedEvent::class)
             .filter { it.state == ReviewState.COMMENTED || it.state == ReviewState.CHANGE_REQUESTED }
             .forEach { reviewedEvent ->
-                val reviewedCount: Int? = reviewedEventByUser[reviewedEvent.user.login]
-                if (reviewedCount != null) {
-                    reviewedEventByUser[reviewedEvent.user.login] = reviewedCount + 1
-                } else {
-                    reviewedEventByUser[reviewedEvent.user.login] = 1
-                }
+                reviewedEventByUser[reviewedEvent.user.login] =
+                    (reviewedEventByUser[reviewedEvent.user.login] ?: 0) + 1
             }
 
-        // Collect all code review comment made on line-of-code from diff
         prCodeReviewComments.forEach { codeReviewComment ->
-            val commentsCount: Int? = codeReviewCommentsByUser[codeReviewComment.user.login]
-            if (commentsCount != null) {
-                codeReviewCommentsByUser[codeReviewComment.user.login] = commentsCount + 1
-            } else {
-                codeReviewCommentsByUser[codeReviewComment.user.login] = 1
-            }
+            codeReviewCommentsByUser[codeReviewComment.user.login] =
+                (codeReviewCommentsByUser[codeReviewComment.user.login] ?: 0) + 1
         }
 
-        val prUserCommentsMap =
-            (issueCommentsByUser.keys + codeReviewCommentsByUser.keys + reviewedEventByUser.keys)
-                .associateWith { userId ->
-                    UserPrComment(
-                        user = userId,
-                        issueComment = issueCommentsByUser[userId] ?: 0,
-                        codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
-                        prReviewSubmissionComment = reviewedEventByUser[userId] ?: 0,
-                    )
-                }
+        val allCommenters = issueCommentsByUser.keys + codeReviewCommentsByUser.keys + reviewedEventByUser.keys
 
-        return prUserCommentsMap
-    }
-
-    /**
-     * Provides initial response time by user for the pull request.
-     * The initial response time indicates the time it took for reviewer to first respond to PR
-     * by either commenting on the changes, reviewing and asking for change or approving the PR.
-     */
-    private fun prInitialResponseTimeByUser(
-        prAvailableForReviewOn: Instant,
-        prReviewers: Set<User>,
-        prTimelineEvents: List<TimelineEvent>,
-    ): Map<UserId, Duration> {
-        val initialResponseTime = mutableMapOf<UserId, Duration>()
-
-        prReviewers.forEach { reviewer: User ->
-            val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
-
-            // If user hasn't reviewed the PR after the PR was ready, then skip the user stats
-            val firstReviewedEvent: ReviewedEvent = firstReviewedEvent(prTimelineEvents, reviewer, prReadyForReviewOn) ?: return@forEach
-
-            val prReviewerUserId = reviewer.login
-
-            // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
-            val reviewTimeInWorkingHours =
-                DateTimeDiffer.diffWorkingHours(
-                    startInstant = prReadyForReviewOn,
-                    endInstant = Instant.parse(firstReviewedEvent.submitted_at),
-                    timeZoneId = userTimeZone.get(prReviewerUserId),
+        return allCommenters
+            .associateWith { userId ->
+                UserPrComment(
+                    user = userId,
+                    issueComment = issueCommentsByUser[userId] ?: 0,
+                    codeReviewComment = codeReviewCommentsByUser[userId] ?: 0,
+                    prReviewSubmissionComment = reviewedEventByUser[userId] ?: 0,
                 )
-            Log.d(
-                "  -- First Responded[${firstReviewedEvent.state.name.lowercase()}] in `$reviewTimeInWorkingHours` by `$prReviewerUserId`.",
-            )
-            Log.v(
-                "     -- 🔍👀 Initial response event: $firstReviewedEvent. PR available on ${prAvailableForReviewOn.format()}," +
-                    "ready for reviewer on ${prReadyForReviewOn.format()} " +
-                    "and event on ${Instant.parse(firstReviewedEvent.submitted_at).format()}",
-            )
-
-            initialResponseTime[prReviewerUserId] = reviewTimeInWorkingHours
-        }
-
-        return initialResponseTime
-    }
-
-    /**
-     * Provides the time required to approve the PR.
-     *
-     * NOTE: Future improvement, should provide both metrics:
-     * - Time to first review
-     * - Turn around time to approve
-     */
-    private fun prReviewTimeByUser(
-        pullRequest: PullRequest,
-        prAvailableForReviewOn: Instant,
-        prReviewers: Set<User>,
-        prTimelineEvents: List<TimelineEvent>,
-    ): Map<UserId, Duration> {
-        val reviewTimesByUser = mutableMapOf<UserId, Duration>()
-
-        prReviewers.forEach { reviewer ->
-            // Find out if user has approved the PR, if not, do not include in stats
-            if (!isApprovedByReviewer(reviewer, prTimelineEvents)) {
-                // This ensures that `ReviewedEvent` by the reviewer exists in the timeline used later in the loop
-                return@forEach
             }
-
-            val prReviewerUserId = reviewer.login
-            val prReadyForReviewOn = evaluatePrReadyForReviewByUser(reviewer, prAvailableForReviewOn, prTimelineEvents)
-
-            val prApprovedByReviewerEvent: ReviewedEvent = findPrApprovedEventByUser(reviewer, prTimelineEvents)
-
-            // Calculates PR open to merge duration (without considering any working hours)
-            val openToCloseDuration = pullRequest.prMergedOn!! - prAvailableForReviewOn
-
-            // Calculates the PR review time in working hour by the reviewer on their time-zone (if configured)
-            val reviewTimeInWorkingHours =
-                DateTimeDiffer.diffWorkingHours(
-                    startInstant = prReadyForReviewOn,
-                    endInstant = Instant.parse(prApprovedByReviewerEvent.submitted_at),
-                    timeZoneId = userTimeZone.get(prReviewerUserId),
-                )
-            Log.i(
-                "  -- Reviewed and ✔approved in `$reviewTimeInWorkingHours` by `$prReviewerUserId`. " +
-                    "PR open->merged: $openToCloseDuration",
-            )
-
-            reviewTimesByUser[prReviewerUserId] = reviewTimeInWorkingHours
-        }
-
-        return reviewTimesByUser
     }
 
     /**
@@ -308,7 +281,6 @@ class PullRequestStatsRepoImpl(
         prAvailableForReviewOn: Instant,
         prTimelineEvents: List<TimelineEvent>,
     ): Instant {
-        // Find out if user has been requested to review later
         val reviewRequestedEvent: ReviewRequestedEvent? =
             prTimelineEvents
                 .filterTo(ReviewRequestedEvent::class)
@@ -319,22 +291,20 @@ class PullRequestStatsRepoImpl(
                 .filterTo(ReviewedEvent::class)
                 .find { it.user == reviewer }
 
+        // If user was requested to review AFTER they already submitted a review,
+        // consider the PR available from the initial PR available time for that user.
         if (reviewRequestedEvent != null && reviewedByUserEvent != null) {
-            // This is an edge case where user as reviewed PR and then was requested to review later
             if (Instant.parse(reviewRequestedEvent.created_at) > Instant.parse(reviewedByUserEvent.submitted_at)) {
                 return prAvailableForReviewOn
             }
         }
 
-        // Determines PR readiness time for reviewer if review was requested later for the user
+        // Determines PR readiness time for reviewer: if review was requested later for the user, use that time.
         return reviewRequestedEvent?.created_at?.let { Instant.parse(it) } ?: prAvailableForReviewOn
     }
 
     /**
      * Checks if the PR was approved by the [reviewer] by analyzing the [prTimelineEvents].
-     *
-     * @param reviewer The user who reviewed the PR.
-     * @param prTimelineEvents All the timeline events for the opened PR.
      */
     private fun isApprovedByReviewer(
         reviewer: User,
@@ -347,13 +317,7 @@ class PullRequestStatsRepoImpl(
     /**
      * Finds the first reviewed event with [ReviewState.APPROVED] state
      * for the user to know when user has finished reviewing the PR.
-     *
-     *
-     * _NOTE: The [isApprovedByReviewer] must be checked before using this, else [NullPointerException] may be thrown._
-     *
-     * @param reviewer The user who reviewed the PR.
-     * @param prTimelineEvents All the timeline events for the opened PR.
-     * @see isApprovedByReviewer
+     * NOTE: The [isApprovedByReviewer] must be checked before using this.
      */
     private fun findPrApprovedEventByUser(
         reviewer: User,
@@ -364,26 +328,6 @@ class PullRequestStatsRepoImpl(
             .find { it.user == reviewer && it.state == ReviewState.APPROVED }!!
 
     /**
-     * Extracts all the PR reviewers who reviewed (approved or reviewed)
-     * or has been requested to review.
-     *
-     * @param prAuthor The user who created the PR
-     * @param prTimelineEvents All the timeline events for the opened PR.
-     */
-    @TestOnly
-    internal fun prReviewers(
-        prAuthor: User,
-        prTimelineEvents: List<TimelineEvent>,
-    ): Set<User> =
-        prTimelineEvents
-            .filterTo(ReviewRequestedEvent::class)
-            .map { it.actor }
-            .plus(
-                prTimelineEvents.filterTo(ReviewedEvent::class).map { it.user },
-            ).toSet()
-            .minus(prAuthor)
-
-    /**
      * Provides date-time when the PR was actually available for review
      * by considering PR creation time and ready for review event time.
      */
@@ -391,20 +335,13 @@ class PullRequestStatsRepoImpl(
         prCreatedOn: Instant,
         prTimelineEvents: List<TimelineEvent>,
     ): Instant {
-        val wasDraftPr: Boolean = prTimelineEvents.any { it.eventType == ReadyForReviewEvent.TYPE }
-
-        if (wasDraftPr) {
-            val readyForReview =
-                prTimelineEvents.find { it.eventType == ReadyForReviewEvent.TYPE }!! as ReadyForReviewEvent
-            return Instant.parse(readyForReview.created_at)
-        }
-
-        return prCreatedOn
+        val readyForReviewEvent = prTimelineEvents.filterIsInstance<ReadyForReviewEvent>().firstOrNull()
+        return readyForReviewEvent?.created_at?.let { Instant.parse(it) } ?: prCreatedOn
     }
 
     /**
-     * Finds the first reviewed event by the [reviewer] after the PR was opened
-     * for review to know when user has finished reviewing the PR.
+     * Finds the first reviewed event by the [reviewer] after the PR was ready for their review.
+     * This includes any type of review action (approved, commented, requested changes).
      */
     private fun firstReviewedEvent(
         prTimelineEvents: List<TimelineEvent>,
@@ -413,16 +350,12 @@ class PullRequestStatsRepoImpl(
     ): ReviewedEvent? =
         prTimelineEvents
             .filterTo(ReviewedEvent::class)
-            // Finds first event (TODO: Check if the result is sorted, if not sort it)
-            .find { reviewedEvent ->
-                reviewedEvent.user == reviewer &&
-                    // Sometimes, users can review before the PR is ready for review.
-                    // In that case, ignore any reviews before it was ready for review.
-                    prReadyForReviewOn < Instant.parse(reviewedEvent.submitted_at) &&
-                    listOf(
-                        ReviewState.APPROVED,
-                        ReviewState.CHANGE_REQUESTED,
-                        ReviewState.COMMENTED,
-                    ).any { it == reviewedEvent.state }
+            .filter {
+                it.user == reviewer &&
+                    Instant.parse(it.submitted_at) >= prReadyForReviewOn &&
+                    (it.state == ReviewState.APPROVED || it.state == ReviewState.CHANGE_REQUESTED || it.state == ReviewState.COMMENTED)
             }
+            .minByOrNull { Instant.parse(it.submitted_at) } // Get the earliest review event
 }
+// endregion: Private helper functions for stats calculation
+// =======================================================

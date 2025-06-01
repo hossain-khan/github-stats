@@ -33,6 +33,7 @@ object Client {
     // Test backdoor to allow setting base URL using mock server
     // By default, it's set to GitHub API base URL.
     internal var baseUrl: HttpUrl = "https://api.github.com/".toHttpUrlOrNull()!!
+    internal var enableAuthInterceptor: Boolean = true // Flag to control auth header
 
     // JSON serialization using Moshi
     private val moshi =
@@ -77,8 +78,10 @@ object Client {
                     .newBuilder()
                     .header("User-Agent", "Kotlin-Cli")
                     .header("Accept", "application/vnd.github.v3+json")
-                    // https://docs.github.com/en/rest/overview/other-authentication-methods
-                    .header("Authorization", "Bearer ${getAccessToken()}")
+            if (enableAuthInterceptor) {
+                // https://docs.github.com/en/rest/overview/other-authentication-methods
+                requestBuilder.header("Authorization", "Bearer ${getAccessToken()}")
+            }
 
             chain.proceed(requestBuilder.build())
         }
