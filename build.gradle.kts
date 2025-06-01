@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     // For build.gradle.kts (Kotlin DSL)
     // https://kotlinlang.org/docs/releases.html#release-details
-    kotlin("jvm") version "2.1.10"
-    id("org.jmailen.kotlinter") version "5.0.1"
+    kotlin("jvm") version "2.1.21"
+    id("org.jmailen.kotlinter") version "5.1.0"
 
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
@@ -39,8 +39,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
 
     // https://square.github.io/retrofit/
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-moshi:3.0.0")
 
     // https://github.com/JakeWharton/picnic
     implementation("com.jakewharton.picnic:picnic:0.7.0")
@@ -70,10 +70,10 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
     // MockK - https://mockk.io/ : don't use 1.13.8 due to
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
-    testImplementation("io.mockk:mockk:1.13.17")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.1.10")
+    testImplementation("io.mockk:mockk:1.14.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.1.21")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.0")
 }
 
 tasks.test {
