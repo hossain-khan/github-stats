@@ -32,8 +32,8 @@ object Zone {
         )
 
     /**
-     * Provides [ZoneId] based on known [cityName] defined in [UserCity].
-     * @throws NullPointerException if [cityName] is not in [cities]
+     * Provides [ZoneId] based on known [userCity] defined in [UserCity].
+     * @throws NullPointerException if [userCity] is not in [cities]
      */
-    fun city(cityName: String): ZoneId = requireNotNull(cities[cityName]) { "Please add $cityName to Zone.cities map first." }
+    fun city(userCity: UserCity): ZoneId = requireNotNull(cities[userCity]) { "Please add ${userCity.cityName} to Zone.cities map first." }
 }
