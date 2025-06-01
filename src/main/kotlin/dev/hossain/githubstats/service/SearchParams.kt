@@ -1,7 +1,7 @@
 package dev.hossain.githubstats.service
 
-import java.net.URLEncoder.encode
-import kotlin.text.Charsets.UTF_8
+import java.net.URLEncoder
+import kotlin.text.Charsets
 
 /**
  * Convenience class to search for PRs that are merged.
@@ -9,21 +9,21 @@ import kotlin.text.Charsets.UTF_8
  * See [Search API](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)
  * and [Search Syntax](https://docs.github.com/en/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax)
  */
-class SearchParams constructor(
-    private val repoOwner: String,
-    private val repoId: String,
-    private val author: String? = null,
-    private val reviewer: String? = null,
+data class SearchParams(
+    val repoOwner: String,
+    val repoId: String,
+    val author: String? = null,
+    val reviewer: String? = null,
     /**
      * Lower bound of date to limit older PRs from showing.
      * Format: YYYY-MM-DD
      */
-    private val dateAfter: String,
+    val dateAfter: String,
     /**
      * Upper bound of date to limit anything beyond [dateBefore].
      * Format: YYYY-MM-DD
      */
-    private val dateBefore: String,
+    val dateBefore: String,
 ) {
     /**
      * Provides search query for the [GithubApiService.searchIssues] API.
@@ -35,39 +35,32 @@ class SearchParams constructor(
      * - `is:pr+is:closed+is:merged+author:swankjesse+created:2022-01-01..2022-03-01`
      */
     fun toQuery(): String {
-        val query = StringBuilder()
-
         // Builds query based on params passed on.
-        query
-            .append(encode("is:closed", UTF_8))
-            .append("+")
-            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-based-on-whether-a-pull-request-is-merged-or-unmerged
-            .append(encode("is:pr", UTF_8))
-            .append("+")
-            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-based-on-whether-a-pull-request-is-merged-or-unmerged
-            .append(encode("is:merged", UTF_8))
-            .append("+")
-            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-within-a-users-or-organizations-repositories
-            .append(encode("repo:$repoOwner/$repoId", UTF_8))
-            .append("+")
-            // Searches issue between dates
-            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
-            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
-            .append(encode("created:$dateAfter..$dateBefore", UTF_8))
+        // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-based-on-whether-a-pull-request-is-merged-or-unmerged
+        // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-within-a-users-or-organizations-repositories
+        // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-when-an-issue-or-pull-request-was-created-or-last-updated
+        var query = "${"is:closed".encodeUrl()}+" +
+            "${"is:pr".encodeUrl()}+" +
+            "${"is:merged".encodeUrl()}+" +
+            "${"repo:$repoOwner/$repoId".encodeUrl()}+" +
+            "created:$dateAfter..$dateBefore".encodeUrl()
 
         if (author != null) {
-            query
-                .append("+")
-                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-author
-                .append(encode("author:$author", UTF_8))
+            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-author
+            query += "+${"author:$author".encodeUrl()}"
         }
         if (reviewer != null) {
-            query
-                .append("+")
-                // reviewed-by:USERNAME
-                // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-pull-request-review-status-and-reviewer
-                .append(encode("reviewed-by:$reviewer", UTF_8))
+            // reviewed-by:USERNAME
+            // https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests#search-by-pull-request-review-status-and-reviewer
+            query += "+${"reviewed-by:$reviewer".encodeUrl()}"
         }
-        return query.toString()
+        return query
     }
+}
+
+/**
+ * Extension function to URL encode a string using UTF-8 charset.
+ */
+private fun String.encodeUrl(): String {
+    return URLEncoder.encode(this, Charsets.UTF_8.name())
 }
