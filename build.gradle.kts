@@ -4,7 +4,7 @@ plugins {
     // For build.gradle.kts (Kotlin DSL)
     // https://kotlinlang.org/docs/releases.html#release-details
     kotlin("jvm") version "2.1.21"
-    id("org.jmailen.kotlinter") version "5.1.0"
+    id("org.jmailen.kotlinter") version "5.1.1"
 
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
