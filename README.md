@@ -4,12 +4,51 @@ Playground for exploring Github API and collect some PR review stats for differe
 > 🚧 Initial work done (see limitations) 🚧  
 > 👷‍♂️ Ready for experimental use!
 
+## 📦 Usage Options
+
+This project can be used in three ways:
+
+1. **🖥️ As a Command Line Application** - Run directly from this repository
+2. **📚 As a Standalone Library JAR** - Include the fat JAR in your project
+3. **🔧 As a Library Dependency** - Use the library JAR with explicit dependencies
+
+### Quick Start - Library Usage 🚀
+
+```kotlin
+import dev.hossain.githubstats.GitHubStatsConfig
+import dev.hossain.githubstats.GitHubStatsLibrary
+
+val config = GitHubStatsConfig(
+    githubToken = "your_github_token_here",
+    repoOwner = "freeCodeCamp",
+    repoName = "freeCodeCamp",
+    userIds = listOf("naomi-lgbt")
+)
+
+val library = GitHubStatsLibrary()
+library.initialize(config)
+val results = library.generateAllStats()
+library.shutdown()
+```
+
+📋 **[Complete Library Usage Guide →](LIBRARY_USAGE.md)**
+
+### Build Library JARs 🏗️
+
+```bash
+./gradlew build
+```
+
+Generates:
+- `build/libs/github-stats-1.0-SNAPSHOT.jar` - Library JAR  
+- `build/libs/github-stats-standalone-1.0-SNAPSHOT.jar` - Fat JAR (standalone executable)
+
 ### Background
 This project exist to explore GitHub API to get some common answer about PR review time by different reviewers.
 
 #### What it is NOT
 - ❌ It is not a comprehensive GitHub statistics generator tool. Built for specific purpose.
-- ❌ It is not a modular tool that can be re-used to query GitHub APIs.
+- ✅ **NEW: It can now be used as a standalone library outside this repository**
 - ❌ Existing supported stats are not localized for different work hour or weekends. Only North America time zone supported.
 - ❌ It does not follow all industry standards, and does not strive to be performant either.
 
@@ -18,6 +57,8 @@ This project exist to explore GitHub API to get some common answer about PR revi
 - ✅ It can show you PR statistics for PRs created by specific author/contributor of a repository
 - ✅ It can generate CSV for the PR stats which can be used in Google Sheets or alike to generate charts
 - ✅ It can also generate basic chart/graph using Google Chart to visualize the PR stats
+- ✅ **NEW: Available as a standalone library JAR for use in external projects**
+- ✅ **NEW: Provides programmatic API for custom integrations**
 ##### Limitation
 - 🏋️ It does not collect stats in parallel to avoid GitHub API rate-limit and adds delay between API calls, resulting in longer wait time for larger date span with lot of PRs.
 - 🏋️ It is **NOT** able to accurately compute PR review time due to many complexities. The review time is provided for informational purpose only.
