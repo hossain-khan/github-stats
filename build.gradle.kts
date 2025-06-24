@@ -13,6 +13,9 @@ plugins {
 
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
     // id("com.google.devtools.ksp") version "1.9.20-1.0.6" // Not needed yet.
+    
+    // Support for library usage
+    `java-library`
     application
 }
 
@@ -81,10 +84,9 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    /**
-     * https://kotlinlang.org/docs/compiler-reference.html#jvm-target-version
-     */
-    kotlinOptions.jvmTarget = "17"
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }
 
 kotlin {
@@ -94,4 +96,21 @@ kotlin {
 
 application {
     mainClass.set("MainKt")
+}
+
+// Configure fat JAR for standalone usage
+tasks.register<Jar>("fatJar") {
+    archiveBaseName = "${project.name}-standalone"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    from(sourceSets.main.get().output)
+}
+
+tasks {
+    build {
+        dependsOn("fatJar")
+    }
 }
