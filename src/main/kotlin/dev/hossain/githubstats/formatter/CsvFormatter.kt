@@ -10,6 +10,7 @@ import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.FileUtil
 import dev.hossain.githubstats.util.LocalProperties
+import dev.hossain.i18n.Resources
 import dev.hossain.time.toWorkingHour
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -20,15 +21,16 @@ class CsvFormatter :
     KoinComponent {
     private val props: LocalProperties by inject()
     private val appConfig: AppConfig by inject()
+    private val resources: Resources by inject()
 
-    override fun formatSinglePrStats(prStats: PrStats): String = "Individual PR stats is not supported for CSV export."
+    override fun formatSinglePrStats(prStats: PrStats): String = resources.string("csv_formatter_individual_pr_stats_not_supported")
 
     /**
      * Formats PR review stats for list of users that reviewed specific user's PRs.
      */
     override fun formatAuthorStats(stats: AuthorStats): String {
         if (stats.reviewStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.SHRUG}"
+            return resources.string("csv_formatter_error_no_stats", Art.SHRUG)
         }
 
         // Create multiple CSV file per author for better visualization
@@ -36,7 +38,13 @@ class CsvFormatter :
         val prAuthorId = stats.reviewStats.first().prAuthorId
 
         // Write combine review count by reviewer
-        val combinedReportHeaderRow = listOf(listOf("Reviewer", "Total PR Reviewed for $prAuthorId since ${props.getDateLimitAfter()}"))
+        val combinedReportHeaderRow =
+            listOf(
+                listOf(
+                    resources.string("csv_formatter_header_reviewer"),
+                    resources.string("csv_formatter_header_total_pr_reviewed", prAuthorId, props.getDateLimitAfter()),
+                ),
+            )
 
         val combinedReportFileName = FileUtil.allReviewersForAuthorFile(prAuthorId)
         csvWriter().writeAll(combinedReportHeaderRow, combinedReportFileName)
@@ -54,15 +62,15 @@ class CsvFormatter :
             val fileName = FileUtil.reviewedForAuthorCsvFile(stat)
             val headerItem: List<String> =
                 listOf(
-                    "Reviewer",
-                    "PR Number",
-                    "Review time (mins)",
-                    "Initial Response time (mins)",
-                    "Code Review Comments",
-                    "PR Issue Comments",
-                    "PR Review Comments",
-                    "Total Comments",
-                    "PR URL",
+                    resources.string("csv_formatter_header_reviewer"),
+                    resources.string("csv_formatter_header_pr_number"),
+                    resources.string("csv_formatter_header_review_time_mins"),
+                    resources.string("csv_formatter_header_initial_response_time_mins"),
+                    resources.string("csv_formatter_header_code_review_comments"),
+                    resources.string("csv_formatter_header_pr_issue_comments"),
+                    resources.string("csv_formatter_header_pr_review_comments"),
+                    resources.string("csv_formatter_header_total_comments"),
+                    resources.string("csv_formatter_header_pr_url"),
                 )
 
             csvWriter().open(fileName) {
@@ -94,12 +102,12 @@ class CsvFormatter :
 
             filesCreated.add(fileName)
         }
-        return "Generated following files: \n${filesCreated.joinToString()} and $combinedReportFileName"
+        return resources.string("csv_formatter_generated_files", filesCreated.joinToString(), combinedReportFileName)
     }
 
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
         if (aggregatedPrStats.isEmpty()) {
-            return "⚠ ERROR: No aggregated stats to format. No CSV files for you! ${Art.SHRUG}"
+            return resources.string("csv_formatter_error_no_stats", Art.SHRUG)
         }
 
         // Generate aggregated PR review stats
@@ -108,19 +116,19 @@ class CsvFormatter :
         val targetFileName = FileUtil.repositoryAggregatedPrStatsByAuthorFilename()
         val headerItem: List<String> =
             listOf(
-                "Stats Date Range",
-                "PR Author ID (created by)",
-                "Total PRs Created by Author",
-                "Total Source Code Review Comments",
-                "Total PR Issue Comments (not associated with code)",
-                "Total PR Review Submission comments (reviewed or request change)",
+                resources.string("csv_formatter_header_stats_date_range"),
+                resources.string("csv_formatter_header_pr_author_id"),
+                resources.string("csv_formatter_header_total_prs_created_by_author"),
+                resources.string("csv_formatter_header_total_source_code_review_comments"),
+                resources.string("csv_formatter_header_total_pr_issue_comments"),
+                resources.string("csv_formatter_header_total_pr_review_submission_comments"),
             )
         csvWriter().open(targetFileName) {
             writeRow(headerItem)
 
             aggregatedPrStats.filter { it.isEmpty().not() }.forEach {
                 writeRow(
-                    "Between ${appConfig.get().dateLimitAfter} and ${appConfig.get().dateLimitBefore}",
+                    resources.string("csv_formatter_date_range", appConfig.get().dateLimitAfter, appConfig.get().dateLimitBefore),
                     it.authorUserId,
                     it.totalPrsCreated,
                     it.totalCodeReviewComments,
@@ -130,7 +138,7 @@ class CsvFormatter :
             }
         }
 
-        return "Generated following files: \n$targetFileName"
+        return resources.string("csv_formatter_generated_files_single", targetFileName)
     }
 
     /**
@@ -138,7 +146,7 @@ class CsvFormatter :
      */
     override fun formatReviewerStats(stats: ReviewerReviewStats): String {
         if (stats.reviewedPrStats.isEmpty()) {
-            return "⚠ ERROR: No stats to format. No CSV files for you! ${Art.SHRUG}"
+            return resources.string("csv_formatter_error_no_stats", Art.SHRUG)
         }
 
         // Generate two different CSV
@@ -148,13 +156,13 @@ class CsvFormatter :
         val reviewedForFile = FileUtil.prReviewedForCombinedFilename(stats.reviewerId)
         val headerItem: List<String> =
             listOf(
-                "Reviewed For different PR Authors",
-                "Total PRs Reviewed by ${stats.reviewerId} since ${props.getDateLimitAfter()}",
-                "Total Code Review Comments",
-                "Total PR Issue Comments",
-                "Total PR Review Comments",
-                "Total All Comments Made",
-                "PR# List",
+                resources.string("csv_formatter_header_reviewed_for_authors"),
+                resources.string("csv_formatter_header_total_prs_reviewed_by_reviewer", stats.reviewerId, props.getDateLimitAfter()),
+                resources.string("csv_formatter_header_code_review_comments"),
+                resources.string("csv_formatter_header_pr_issue_comments"),
+                resources.string("csv_formatter_header_pr_review_comments"),
+                resources.string("csv_formatter_header_total_all_comments_made"),
+                resources.string("csv_formatter_header_pr_list"),
             )
         csvWriter().open(reviewedForFile) {
             writeRow(headerItem)
@@ -182,21 +190,21 @@ class CsvFormatter :
         csvWriter().open(reviewerPrStatsFile) {
             writeRow(
                 listOf(
-                    "PR#",
-                    "Review Time",
-                    "Review Time (working days)",
-                    "Review Time (mins)",
-                    "Initial Response Time (working days)",
-                    "Initial Response Time (mins)",
-                    "Code Review Comments",
-                    "PR Issue Comments",
-                    "PR Review Comments",
-                    "Total Comments",
-                    "PR Ready On",
-                    "PR Merged On",
-                    "Ready->Merge",
-                    "PR Author",
-                    "PR URL",
+                    resources.string("csv_formatter_header_pr_shorthand"),
+                    resources.string("csv_formatter_header_review_time"),
+                    resources.string("csv_formatter_header_review_time_working_days"),
+                    resources.string("csv_formatter_header_review_time_mins"),
+                    resources.string("csv_formatter_header_initial_response_time_working_days"),
+                    resources.string("csv_formatter_header_initial_response_time_mins"),
+                    resources.string("csv_formatter_header_code_review_comments"),
+                    resources.string("csv_formatter_header_pr_issue_comments"),
+                    resources.string("csv_formatter_header_pr_review_comments"),
+                    resources.string("csv_formatter_header_total_comments"),
+                    resources.string("csv_formatter_header_pr_ready_on"),
+                    resources.string("csv_formatter_header_pr_merged_on"),
+                    resources.string("csv_formatter_header_ready_merge"),
+                    resources.string("csv_formatter_header_pr_author"),
+                    resources.string("csv_formatter_header_pr_url"),
                 ),
             )
             stats.reviewedPrStats.forEach { reviewStats: ReviewStats ->
@@ -220,6 +228,6 @@ class CsvFormatter :
             }
         }
 
-        return "Written '$reviewedForFile' and '$reviewerPrStatsFile'."
+        return resources.string("csv_formatter_written_files", reviewedForFile, reviewerPrStatsFile)
     }
 }

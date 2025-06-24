@@ -4,6 +4,7 @@ import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.githubstats.util.ErrorProcessor
+import dev.hossain.i18n.Resources
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.system.measureTimeMillis
@@ -17,10 +18,11 @@ class PrStatsApplication : KoinComponent {
     private val appConfig: AppConfig by inject()
     private val formatters: List<StatsFormatter> = getKoin().getAll()
     private val errorProcessor: ErrorProcessor by inject()
+    private val resources: Resources by inject()
 
     suspend fun generatePrStats(prNumber: Int) {
         val (repoOwner, repoId, _, botUserIds) = appConfig.get()
-        Log.i("■ Building stats for PR#`$prNumber`.\n")
+        Log.i(resources.string("pr_stats_building_for_pr", prNumber))
         val authorReportBuildTime =
             measureTimeMillis {
                 val statsResult: PullRequestStatsRepo.StatsResult =
@@ -43,13 +45,13 @@ class PrStatsApplication : KoinComponent {
                         }
                     }
                     is PullRequestStatsRepo.StatsResult.Failure -> {
-                        Log.w("⚠️ Failed to generate PR stats for PR#`$prNumber`. Error Message: ${statsResult.errorInfo.errorMessage}")
+                        Log.w(resources.string("pr_stats_failed_to_generate", prNumber, statsResult.errorInfo.errorMessage))
                     }
                 }
             }
 
-        Log.d("\nⓘ Stats generation for PR#`$prNumber` took ${authorReportBuildTime.milliseconds}")
+        Log.d(resources.string("pr_stats_generation_time", prNumber, authorReportBuildTime.milliseconds))
 
-        Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
+        Log.i(resources.string("pr_stats_separator"))
     }
 }
