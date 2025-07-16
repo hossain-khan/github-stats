@@ -6,14 +6,19 @@ import dev.hossain.githubstats.AppConstants.BUILD_CONFIG
 import dev.hossain.githubstats.AppConstants.GITHUB_TOKEN_SETTINGS_URL
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.i18n.Resources
 import okhttp3.ResponseBody
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import retrofit2.HttpException
 import retrofit2.Response
 
 /**
  * A utility class to process errors and provide detailed error information using [ErrorInfo].
  */
-class ErrorProcessor {
+class ErrorProcessor : KoinComponent {
+    private val resources: Resources by inject()
+
     companion object {
         /**
          * Error message when token is invalid.
@@ -129,17 +134,9 @@ class ErrorProcessor {
      * @return A guide message if the error message contains token error, an empty string otherwise.
      */
     private fun getTokenErrorGuide(errorMessage: String): String {
-        println("Error message: $errorMessage")
+        println(resources.string("error_message_debug", errorMessage))
         return if (errorMessage.contains(TOKEN_ERROR_MESSAGE)) {
-            """
-            
-            
-            ------------------------------------------------------------------------------------------------
-            ⚠️ NOTE: Your token likely have expired. 
-                     You can create a new token from GitHub settings page and provide it in `[$LOCAL_PROPERTIES_FILE]`.
-                     See: $GITHUB_TOKEN_SETTINGS_URL
-            ------------------------------------------------------------------------------------------------
-            """.trimIndent()
+            resources.string("error_token_expired_guide", LOCAL_PROPERTIES_FILE, GITHUB_TOKEN_SETTINGS_URL)
         } else {
             ""
         }
@@ -148,15 +145,6 @@ class ErrorProcessor {
     /**
      * Debug guide message for HTTP response headers.
      */
-    private val httpResponseDebugGuide: String =
-        """
-        
-        ------------------------------------------------------------------------------------------------
-        NOTE: You can turn on HTTP request and response debugging that contains
-              HTTP response header containing important information like API rate limit.
-        
-        You can turn on this feature by opening `[$BUILD_CONFIG]` and setting `DEBUG_HTTP_REQUESTS = true`.
-        ------------------------------------------------------------------------------------------------
-        
-        """.trimIndent()
+    private val httpResponseDebugGuide: String
+        get() = resources.string("error_http_debug_guide", BUILD_CONFIG)
 }
