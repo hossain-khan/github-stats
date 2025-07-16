@@ -14,7 +14,6 @@ import retrofit2.Response
  * A utility class to process errors and provide detailed error information using [ErrorInfo].
  */
 class ErrorProcessor {
-
     companion object {
         /**
          * Error message when token is invalid.
