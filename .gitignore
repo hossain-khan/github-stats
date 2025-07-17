@@ -19,6 +19,9 @@ local.properties
 http-cache/*
 !http-cache/README.md
 
+# SQLDelight generated files
+build/generated/sqldelight/
+
 # All generate github stats reports
 REPORTS-*
 

@@ -39,6 +39,12 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         private const val KEY_BOT_USERS = "bot_users"
         private const val KEY_DATE_LIMIT_AFTER = "date_limit_after"
         private const val KEY_DATE_LIMIT_BEFORE = "date_limit_before"
+
+        // Database cache configuration keys
+        private const val KEY_DB_CACHE_URL = "db_cache_url"
+        private const val KEY_DB_CACHE_USERNAME = "db_cache_username"
+        private const val KEY_DB_CACHE_PASSWORD = "db_cache_password"
+        private const val KEY_DB_CACHE_EXPIRATION_HOURS = "db_cache_expiration_hours"
     }
 
     fun getRepoOwner(): String =
@@ -58,4 +64,36 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
     fun getDateLimitAfter(): String? = getProperty(KEY_DATE_LIMIT_AFTER)
 
     fun getDateLimitBefore(): String? = getProperty(KEY_DATE_LIMIT_BEFORE)
+
+    /**
+     * Gets database cache URL for PostgreSQL connection.
+     * Returns null if database caching is not configured.
+     */
+    fun getDbCacheUrl(): String? = getProperty(KEY_DB_CACHE_URL)
+
+    /**
+     * Gets database cache username for PostgreSQL connection.
+     * Returns null if database caching is not configured.
+     */
+    fun getDbCacheUsername(): String? = getProperty(KEY_DB_CACHE_USERNAME)
+
+    /**
+     * Gets database cache password for PostgreSQL connection.
+     * Returns null if database caching is not configured.
+     */
+    fun getDbCachePassword(): String? = getProperty(KEY_DB_CACHE_PASSWORD)
+
+    /**
+     * Gets database cache expiration time in hours.
+     * Defaults to 24 hours if not specified.
+     */
+    fun getDbCacheExpirationHours(): Long = getProperty(KEY_DB_CACHE_EXPIRATION_HOURS)?.toLongOrNull() ?: 24L
+
+    /**
+     * Checks if database caching is configured by verifying required properties are present.
+     */
+    fun isDatabaseCacheEnabled(): Boolean =
+        !getDbCacheUrl().isNullOrBlank() &&
+            !getDbCacheUsername().isNullOrBlank() &&
+            !getDbCachePassword().isNullOrBlank()
 }
