@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
  * Tests for database cache related functionality.
  */
 class DatabaseCacheTest {
-
     @Test
     fun `database manager returns null when caching is disabled`() {
         // Given
@@ -62,7 +61,7 @@ class DatabaseCacheTest {
     fun `cache service can be constructed with database`() {
         // This test demonstrates the cache service API structure
         // In a real implementation, this would use an actual database instance
-        
+
         // For now, we verify that the classes are properly structured
         assertThat(CacheStats::class.java).isNotNull()
         assertThat(DatabaseCacheService::class.java).isNotNull()
