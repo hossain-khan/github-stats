@@ -7,7 +7,7 @@ import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.cache.DatabaseCacheInterceptor
 import dev.hossain.githubstats.cache.DatabaseCacheService
-import dev.hossain.githubstats.cache.SimpleDatabaseManager
+import dev.hossain.githubstats.cache.DatabaseManager
 import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
@@ -110,7 +110,7 @@ object Client {
     private fun setupDatabaseCaching(builder: OkHttpClient.Builder) {
         try {
             if (localProperties.isDatabaseCacheEnabled()) {
-                val database = SimpleDatabaseManager.initializeDatabase(localProperties)
+                val database = DatabaseManager.initializeDatabase(localProperties)
                 if (database != null) {
                     val cacheService =
                         DatabaseCacheService(
