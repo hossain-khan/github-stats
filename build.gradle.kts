@@ -15,7 +15,7 @@ plugins {
 
     // SQLDelight plugin for database code generation
     // https://sqldelight.github.io/sqldelight/2.1.0/
-    id("app.cash.sqldelight") version "2.0.2"
+    id("app.cash.sqldelight") version "2.1.0"
 
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
     // id("com.google.devtools.ksp") version "1.9.20-1.0.6" // Not needed yet.
@@ -68,9 +68,9 @@ dependencies {
 
     // SQLDelight for database operations and PostgreSQL driver
     // https://sqldelight.github.io/sqldelight/2.1.0/
-    implementation("app.cash.sqldelight:runtime:2.0.2")
-    implementation("app.cash.sqldelight:coroutines-extensions:2.0.2")
-    implementation("app.cash.sqldelight:jdbc-driver:2.0.2")
+    implementation("app.cash.sqldelight:runtime:2.1.0")
+    implementation("app.cash.sqldelight:coroutines-extensions:2.1.0")
+    implementation("app.cash.sqldelight:jdbc-driver:2.1.0")
     implementation("org.postgresql:postgresql:42.7.4")
 
     //
@@ -115,7 +115,7 @@ sqldelight {
     databases {
         create("GitHubStatsDatabase") {
             packageName.set("dev.hossain.githubstats.cache.database")
-            dialect("app.cash.sqldelight:postgresql-dialect:2.0.2")
+            dialect("app.cash.sqldelight:postgresql-dialect:2.1.0")
             deriveSchemaFromMigrations.set(true)
         }
     }
