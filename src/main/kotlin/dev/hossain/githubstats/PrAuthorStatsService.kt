@@ -12,7 +12,10 @@ import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.ErrorThreshold
 import dev.hossain.githubstats.util.PrAnalysisProgress
+import dev.hossain.i18n.Resources
 import kotlinx.coroutines.delay
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import kotlin.time.Duration
 
 /**
@@ -25,7 +28,9 @@ class PrAuthorStatsService constructor(
     private val issueSearchPager: IssueSearchPagerService,
     private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor,
-) {
+) : KoinComponent {
+    private val resources: Resources by inject()
+
     /**
      * Keep count of error received during the process.
      * Key: Error message, Value: Count of occurrence.
@@ -88,7 +93,7 @@ class PrAuthorStatsService constructor(
                         )
                     } catch (e: Exception) {
                         val errorInfo = errorProcessor.getDetailedError(e)
-                        Log.w("Error getting PR#${pr.number}. Got: ${errorInfo.errorMessage}${errorInfo.debugGuideMessage}")
+                        Log.w(resources.string("error_author_pr_fetch", pr.number, errorInfo.errorMessage, errorInfo.debugGuideMessage))
                         val errorThreshold = checkErrorLimit(errorInfo)
 
                         if (errorThreshold.exceeded) {
@@ -115,7 +120,7 @@ class PrAuthorStatsService constructor(
 
         val authorReviewStats: List<AuthorReviewStats> =
             aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUserId)
-        Log.i("✅ Completed loading PR review stats from ${authorReviewStats.size} reviewers.")
+        Log.i(resources.string("success_author_pr_loading_complete", authorReviewStats.size))
 
         return AuthorStats(prStats = authorPrStats, reviewStats = authorReviewStats)
     }
@@ -222,10 +227,10 @@ class PrAuthorStatsService constructor(
 
         val errorCount = errorMap[errorInfo.errorMessage]!!
         if (errorCount > BuildConfig.ERROR_THRESHOLD) {
-            Log.w("Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount")
+            Log.w(resources.string("error_threshold_exceeded", errorInfo.errorMessage, errorCount))
             return ErrorThreshold(
                 exceeded = true,
-                errorMessage = "Error threshold exceeded for error: ${errorInfo.errorMessage}. Error count: $errorCount",
+                errorMessage = resources.string("error_threshold_exceeded", errorInfo.errorMessage, errorCount),
             )
         }
         return ErrorThreshold(exceeded = false, errorMessage = "")

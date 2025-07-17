@@ -13,6 +13,7 @@ import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.avgMergeTime
 import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.i18n.Resources
 import dev.hossain.time.toWorkingHour
 import kotlinx.datetime.toJavaInstant
 import org.koin.core.component.KoinComponent
@@ -29,6 +30,7 @@ import kotlin.time.Duration
 class PicnicTableFormatter :
     StatsFormatter,
     KoinComponent {
+    private val resources: Resources by inject()
     private val dateFormatter =
         DateTimeFormatter
             .ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -70,16 +72,26 @@ class PicnicTableFormatter :
      */
     override fun formatSinglePrStats(prStats: PrStats): String {
         fun formatUserPrComments(userPrComment: UserPrComment) =
-            "${userPrComment.user} made total ${userPrComment.allComments} ${userPrComment.allComments.comments()}.\n" +
-                "Code Review Comments = ${userPrComment.codeReviewComment}, " +
-                "Issue Comments = ${userPrComment.issueComment}" +
+            resources.string(
+                "comment_format_user_total",
+                userPrComment.user,
+                userPrComment.allComments,
+                userPrComment.allComments.comments(),
+            ) +
+                resources.string("comment_format_code_review", userPrComment.codeReviewComment) +
+                resources.string("comment_format_issue_comments", userPrComment.issueComment) +
                 if (userPrComment.prReviewSubmissionComment > 0) {
-                    "\nHas reviewed PR ${userPrComment.prReviewSubmissionComment} ${userPrComment.prReviewSubmissionComment.times()}."
+                    resources.string(
+                        "comment_format_pr_review",
+                        userPrComment.prReviewSubmissionComment,
+                        userPrComment.prReviewSubmissionComment.times(),
+                    )
                 } else {
                     ""
                 }
 
-        fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String = "$userDuration | ${userDuration.value.toWorkingHour()}"
+        fun formatUserDuration(userDuration: Map.Entry<UserId, Duration>): String =
+            resources.string("comment_format_user_duration", userDuration, userDuration.value.toWorkingHour())
 
         return table {
             cellStyle {
@@ -87,13 +99,13 @@ class PicnicTableFormatter :
                 paddingLeft = 1
                 paddingRight = 1
             }
-            row("Title", prStats.pullRequest.title)
-            row("PR Author", prStats.pullRequest.user.login)
-            row("URL", prStats.pullRequest.html_url)
-            row("Ready On", dateFormatter.format(prStats.prReadyOn.toJavaInstant()))
+            row(resources.string("table_header_title"), prStats.pullRequest.title)
+            row(resources.string("table_header_pr_author"), prStats.pullRequest.user.login)
+            row(resources.string("table_header_url"), prStats.pullRequest.html_url)
+            row(resources.string("table_header_ready_on"), dateFormatter.format(prStats.prReadyOn.toJavaInstant()))
             if (prStats.initialResponseTime.isNotEmpty()) {
                 row {
-                    cell("PR Initial Response Time") {
+                    cell(resources.string("table_header_pr_initial_response_time")) {
                         rowSpan = prStats.initialResponseTime.size
                     }
                     cell(formatUserDuration(prStats.initialResponseTime.entries.first()))
@@ -105,7 +117,7 @@ class PicnicTableFormatter :
             }
             if (prStats.prApprovalTime.isNotEmpty()) {
                 row {
-                    cell("PR Approval Review Time") {
+                    cell(resources.string("table_header_pr_approval_review_time")) {
                         rowSpan = prStats.prApprovalTime.size
                     }
                     cell(formatUserDuration(prStats.prApprovalTime.entries.first()))
@@ -117,7 +129,7 @@ class PicnicTableFormatter :
             }
             if (prStats.comments.isNotEmpty()) {
                 row {
-                    cell("PR Comments") {
+                    cell(resources.string("table_header_pr_comments")) {
                         rowSpan = prStats.comments.size
                     }
                     cell(
@@ -133,8 +145,8 @@ class PicnicTableFormatter :
                     row(formatUserPrComments(it.value))
                 }
             }
-            row("Merged On", dateFormatter.format(prStats.prMergedOn.toJavaInstant()))
-            row("Open → Merge", "${prStats.prMergedOn - prStats.prReadyOn}")
+            row(resources.string("table_header_merged_on"), dateFormatter.format(prStats.prMergedOn.toJavaInstant()))
+            row(resources.string("table_header_open_to_merge"), "${prStats.prMergedOn - prStats.prReadyOn}")
         }.toString()
     }
 
