@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
 
 plugins {
     // For build.gradle.kts (Kotlin DSL)
@@ -115,5 +116,14 @@ sqldelight {
             dialect("app.cash.sqldelight:postgresql-dialect:2.0.2")
             deriveSchemaFromMigrations.set(true)
         }
+    }
+}
+
+// Exclude generated files from kotlinter checks
+// https://github.com/jeremymailen/kotlinter-gradle/issues/242#issuecomment-2720690736
+tasks.withType<ConfigurableKtLintTask>().configureEach {
+    val buildDirectory = layout.buildDirectory
+    exclude {
+        it.file.startsWith(buildDirectory.get().asFile)
     }
 }
