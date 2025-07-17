@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
 
@@ -92,16 +93,17 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType<KotlinCompile> {
-    /**
-     * https://kotlinlang.org/docs/compiler-reference.html#jvm-target-version
-     */
-    kotlinOptions.jvmTarget = "17"
-}
-
 kotlin {
     // https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
     jvmToolchain(17)
+
+    compilerOptions {
+        /**
+         * - https://kotlinlang.org/docs/compiler-reference.html#jvm-target-version
+         * - https://kotlinlang.org/docs/gradle-compiler-options.html#target-the-jvm
+         */
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 application {
