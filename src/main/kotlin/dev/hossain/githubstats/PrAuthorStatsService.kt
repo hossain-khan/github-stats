@@ -93,7 +93,7 @@ class PrAuthorStatsService constructor(
                         )
                     } catch (e: Exception) {
                         val errorInfo = errorProcessor.getDetailedError(e)
-                        Log.w(resources.string("error_author_pr_warning", pr.number, errorInfo.errorMessage, errorInfo.debugGuideMessage))
+                        Log.w(resources.string("error_author_pr_fetch", pr.number, errorInfo.errorMessage, errorInfo.debugGuideMessage))
                         val errorThreshold = checkErrorLimit(errorInfo)
 
                         if (errorThreshold.exceeded) {
@@ -120,7 +120,7 @@ class PrAuthorStatsService constructor(
 
         val authorReviewStats: List<AuthorReviewStats> =
             aggregatePrAuthorReviewStats(mergedPrsStatsList, repoId, prAuthorUserId)
-        Log.i(resources.string("error_author_pr_loading_complete", authorReviewStats.size))
+        Log.i(resources.string("success_author_pr_loading_complete", authorReviewStats.size))
 
         return AuthorStats(prStats = authorPrStats, reviewStats = authorReviewStats)
     }

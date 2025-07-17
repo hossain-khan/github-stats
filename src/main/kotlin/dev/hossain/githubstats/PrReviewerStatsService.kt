@@ -148,7 +148,7 @@ class PrReviewerStatsService constructor(
                 }
             }
 
-        Log.i(resources.string("error_pr_loading_complete", prStatsListReviewedByReviewer.size, prReviewerUserId))
+        Log.i(resources.string("success_pr_loading_complete", prStatsListReviewedByReviewer.size, prReviewerUserId))
 
         // Finally build the data object that combines all related stats
         return ReviewerReviewStats(
