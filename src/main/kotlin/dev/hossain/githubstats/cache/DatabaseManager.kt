@@ -49,8 +49,16 @@ object DatabaseManager {
 
             val driver = dataSource.asJdbcDriver()
 
-            // Apply schema migrations
-            GitHubStatsDatabase.Schema.create(driver)
+            // Apply schema creation - ensure database tables exist
+            try {
+                Log.d("Creating database schema...")
+                GitHubStatsDatabase.Schema.create(driver)
+                Log.d("Database schema created successfully")
+            } catch (e: Exception) {
+                Log.w("Schema creation failed, attempting manual table creation: ${e.message}")
+                // Fallback: manually create the table if schema creation fails
+                createTablesManually(driver)
+            }
 
             // Create database instance
             val dbInstance = GitHubStatsDatabase(driver)
@@ -115,4 +123,35 @@ object DatabaseManager {
      * Checks if database caching is available and initialized.
      */
     fun isDatabaseAvailable(): Boolean = database != null
+
+    /**
+     * Manually creates the required database tables if schema creation fails.
+     * This is a fallback method for when SQLDelight's automatic schema creation doesn't work.
+     */
+    private fun createTablesManually(driver: app.cash.sqldelight.db.SqlDriver) {
+        val createTableSql =
+            """
+            CREATE TABLE IF NOT EXISTS response_cache (
+              id SERIAL PRIMARY KEY,
+              cache_key TEXT NOT NULL UNIQUE,
+              response_data JSONB NOT NULL,
+              created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+              expires_at TIMESTAMP WITH TIME ZONE,
+              request_url TEXT NOT NULL,
+              http_status INTEGER NOT NULL DEFAULT 200
+            );
+            
+            CREATE INDEX IF NOT EXISTS idx_response_cache_key ON response_cache(cache_key);
+            CREATE INDEX IF NOT EXISTS idx_response_cache_expires ON response_cache(expires_at);
+            CREATE INDEX IF NOT EXISTS idx_response_cache_url ON response_cache(request_url);
+            """.trimIndent()
+
+        try {
+            driver.execute(null, createTableSql, 0)
+            Log.d("Database tables created manually")
+        } catch (ex: Exception) {
+            Log.w("Failed to create database tables manually: ${ex.message}")
+            throw ex
+        }
+    }
 }
