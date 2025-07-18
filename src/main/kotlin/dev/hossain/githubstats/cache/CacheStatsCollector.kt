@@ -14,7 +14,7 @@ class CacheStatsCollector : CacheStatsService {
     private val databaseCacheMissesCounter = AtomicLong(0)
     private val okHttpCacheHitsCounter = AtomicLong(0)
     private val networkRequestsCounter = AtomicLong(0)
-    
+
     // For tracking PR-level cache status
     private val prCacheStatus = AtomicReference(PrCacheStatus())
 
@@ -68,7 +68,10 @@ class CacheStatsCollector : CacheStatsService {
     /**
      * Updates the PR cache status based on the URL pattern and cache result.
      */
-    private fun updatePrCacheStatus(url: String, status: String) {
+    private fun updatePrCacheStatus(
+        url: String,
+        status: String,
+    ) {
         prCacheStatus.updateAndGet { current ->
             when {
                 url.contains("/pulls/") && url.contains("/comments") -> {

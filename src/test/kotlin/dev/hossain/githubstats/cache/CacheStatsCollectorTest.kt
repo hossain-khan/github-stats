@@ -86,4 +86,52 @@ class CacheStatsCollectorTest {
         assertEquals(50.0, stats.networkRequestRate, 0.1)
         assertEquals(50.0, stats.overallCacheHitRate, 0.1) // Only database hits count as cache hits
     }
+
+    @Test
+    fun `test PR cache status tracking and summary generation`() {
+        val collector = CacheStatsCollector()
+
+        // Test URLs from the issue examples
+        val prInfoUrl = "https://api.github.com/repos/square/okhttp/pulls/8796"
+        val timelineUrl = "https://api.github.com/repos/square/okhttp/issues/8796/timeline?page=1&per_page=100"
+        val commentsUrl = "https://api.github.com/repos/square/okhttp/pulls/8796/comments?page=1&per_page=100"
+
+        // Simulate the cache hit scenario from the issue
+        collector.recordDatabaseCacheHit(prInfoUrl)
+        collector.recordDatabaseCacheMiss(timelineUrl)
+        collector.recordDatabaseCacheHit(commentsUrl)
+
+        // Get the summary and verify it matches expected format
+        val summary = collector.getPrCacheStatusAndReset()
+        assertEquals("Database cache status (PR info: HIT, Timeline: MISS, Comments: HIT)", summary)
+
+        // Test that reset worked - next call should return null
+        val summaryAfterReset = collector.getPrCacheStatusAndReset()
+        assertEquals(null, summaryAfterReset)
+
+        // Test partial coverage (only PR info)
+        collector.recordDatabaseCacheHit(prInfoUrl)
+        val partialSummary = collector.getPrCacheStatusAndReset()
+        assertEquals("Database cache status (PR info: HIT)", partialSummary)
+
+        // Test all miss scenario
+        collector.recordDatabaseCacheMiss(prInfoUrl)
+        collector.recordDatabaseCacheMiss(timelineUrl)
+        collector.recordDatabaseCacheMiss(commentsUrl)
+        val allMissSummary = collector.getPrCacheStatusAndReset()
+        assertEquals("Database cache status (PR info: MISS, Timeline: MISS, Comments: MISS)", allMissSummary)
+    }
+
+    @Test
+    fun `test PR cache status with non-relevant URLs`() {
+        val collector = CacheStatsCollector()
+
+        // URLs that don't match our patterns
+        collector.recordDatabaseCacheHit("https://api.github.com/repos/square/okhttp")
+        collector.recordDatabaseCacheHit("https://api.github.com/user")
+
+        // Should return null since no relevant URLs were tracked
+        val summary = collector.getPrCacheStatusAndReset()
+        assertEquals(null, summary)
+    }
 }

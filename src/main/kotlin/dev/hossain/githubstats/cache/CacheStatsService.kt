@@ -57,9 +57,9 @@ interface CacheStatsService {
  * Represents the status of cache for different types of PR requests.
  */
 data class PrCacheStatus(
-    val prInfo: String? = null,      // HIT, MISS, or null if not requested
-    val timeline: String? = null,    // HIT, MISS, or null if not requested  
-    val comments: String? = null,    // HIT, MISS, or null if not requested
+    val prInfo: String? = null, // HIT, MISS, or null if not requested
+    val timeline: String? = null, // HIT, MISS, or null if not requested
+    val comments: String? = null, // HIT, MISS, or null if not requested
 ) {
     /**
      * Formats the cache status as a summary string.
@@ -70,7 +70,7 @@ data class PrCacheStatus(
         prInfo?.let { parts.add("PR info: $it") }
         timeline?.let { parts.add("Timeline: $it") }
         comments?.let { parts.add("Comments: $it") }
-        
+
         return if (parts.isNotEmpty()) {
             "Database cache status (${parts.joinToString(", ")})"
         } else {
