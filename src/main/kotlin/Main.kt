@@ -4,7 +4,6 @@ import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.di.appModule
 import dev.hossain.githubstats.logging.Log
 import kotlinx.coroutines.runBlocking
-import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.java.KoinJavaComponent.inject
 
