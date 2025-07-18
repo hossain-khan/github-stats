@@ -4,6 +4,9 @@ import StatsGeneratorApplication
 import dev.hossain.githubstats.AppConstants
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
+import dev.hossain.githubstats.cache.CacheStatsCollector
+import dev.hossain.githubstats.cache.CacheStatsFormatter
+import dev.hossain.githubstats.cache.CacheStatsService
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.HtmlChartFormatter
@@ -36,8 +39,13 @@ import java.util.ResourceBundle
  */
 val appModule =
     module {
+        // Cache statistics service for tracking cache performance
+        single<CacheStatsService> { CacheStatsCollector() }
+        single { CacheStatsFormatter() }
+
         // Network and local services for stat generation
-        single { Client.githubApiService }
+        single { Client(cacheStatsService = get()) }
+        single { get<Client>().githubApiService }
         single<PullRequestStatsRepo> {
             PullRequestStatsRepoImpl(
                 githubApiService = get(),
@@ -83,6 +91,8 @@ val appModule =
                 resources = get(),
                 appConfig = get(),
                 formatters = getAll(),
+                cacheStatsService = get(),
+                cacheStatsFormatter = get(),
             )
         }
 

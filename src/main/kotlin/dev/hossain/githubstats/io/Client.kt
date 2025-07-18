@@ -5,9 +5,12 @@ import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.cache.CacheStatsCollector
+import dev.hossain.githubstats.cache.CacheStatsService
 import dev.hossain.githubstats.cache.DatabaseCacheInterceptor
 import dev.hossain.githubstats.cache.DatabaseCacheService
 import dev.hossain.githubstats.cache.DatabaseManager
+import dev.hossain.githubstats.cache.OkHttpCacheStatsInterceptor
 import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
@@ -31,13 +34,43 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  * GitHub API client with Retrofit service to make API requests.
  * Supports both OkHttp caching and optional database-based response caching.
  */
-object Client {
+class Client(
+    private val cacheStatsService: CacheStatsService?,
+) {
     private val localProperties = LocalProperties()
     private val httpClient = okHttpClient()
 
     // Test backdoor to allow setting base URL using mock server
     // By default, it's set to GitHub API base URL.
     internal var baseUrl: HttpUrl = "https://api.github.com/".toHttpUrlOrNull()!!
+
+    companion object {
+        // Backward compatibility for tests - provides static access
+        private var testInstance: Client? = null
+
+        /**
+         * For test backward compatibility - allows setting base URL for mock server.
+         */
+        var baseUrl: HttpUrl
+            get() = testInstance?.baseUrl ?: "https://api.github.com/".toHttpUrlOrNull()!!
+            set(value) {
+                if (testInstance == null) {
+                    testInstance = Client(null)
+                }
+                testInstance?.baseUrl = value
+            }
+
+        /**
+         * For test backward compatibility - provides access to GitHub API service.
+         */
+        val githubApiService: GithubApiService
+            get() {
+                if (testInstance == null) {
+                    testInstance = Client(null)
+                }
+                return testInstance!!.githubApiService
+            }
+    }
 
     // JSON serialization using Moshi
     private val moshi =
@@ -76,7 +109,14 @@ object Client {
         }
 
         // Add database cache interceptor if database caching is enabled
+        // This must come BEFORE OkHttpCacheStatsInterceptor to avoid double-counting
         setupDatabaseCaching(builder)
+
+        // Add cache statistics interceptor if provided
+        // This tracks OkHttp cache hits/misses for requests that weren't served by database cache
+        cacheStatsService?.let { statsService ->
+            builder.addInterceptor(OkHttpCacheStatsInterceptor(statsService))
+        }
 
         // Sets up global header for the GitHub API requests
         builder.addInterceptor { chain ->
@@ -117,7 +157,11 @@ object Client {
                             database = database,
                             expirationHours = localProperties.getDbCacheExpirationHours(),
                         )
-                    val cacheInterceptor = DatabaseCacheInterceptor(cacheService)
+                    val cacheInterceptor =
+                        DatabaseCacheInterceptor(
+                            cacheService = cacheService,
+                            cacheStatsService = cacheStatsService ?: CacheStatsCollector(), // Fallback if not injected
+                        )
                     builder.addInterceptor(cacheInterceptor)
                 }
             }

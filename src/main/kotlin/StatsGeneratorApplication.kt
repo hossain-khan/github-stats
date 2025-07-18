@@ -3,6 +3,8 @@ import dev.hossain.githubstats.AuthorPrStats
 import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
+import dev.hossain.githubstats.cache.CacheStatsFormatter
+import dev.hossain.githubstats.cache.CacheStatsService
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.util.AppConfig
@@ -31,6 +33,14 @@ class StatsGeneratorApplication(
      * @see StatsFormatter
      */
     private val formatters: List<StatsFormatter>,
+    /**
+     * Cache statistics service for tracking cache performance.
+     */
+    private val cacheStatsService: CacheStatsService,
+    /**
+     * Formatter for cache performance statistics.
+     */
+    private val cacheStatsFormatter: CacheStatsFormatter,
 ) : KoinComponent {
     /**
      * Generates stats for user as PR author
@@ -41,6 +51,9 @@ class StatsGeneratorApplication(
      */
     suspend fun generateAuthorStats() {
         printCurrentAppConfigs()
+
+        // Reset cache statistics at the beginning of the session
+        cacheStatsService.reset()
 
         val allAuthorStats = mutableListOf<AuthorStats>()
         // For each of the users, generates stats for all the PRs created by the user
@@ -65,6 +78,9 @@ class StatsGeneratorApplication(
         formatters.forEach {
             println(it.formatAllAuthorStats(aggregatedPrStats))
         }
+
+        // Display cache performance statistics at the end
+        displayCacheStatistics()
     }
 
     /**
@@ -76,6 +92,10 @@ class StatsGeneratorApplication(
      */
     suspend fun generateReviewerStats() {
         printCurrentAppConfigs()
+
+        // Reset cache statistics at the beginning of the session
+        cacheStatsService.reset()
+
         // For each user, generates stats for all the PRs reviewed by the user
         appConfig.get().userIds.forEach { usedId ->
             val reviewerReportBuildTime =
@@ -90,6 +110,9 @@ class StatsGeneratorApplication(
             Log.d(resources.string("stats_process_time_for_user", usedId, reviewerReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
+
+        // Display cache performance statistics at the end
+        displayCacheStatistics()
     }
 
     /**
@@ -97,5 +120,17 @@ class StatsGeneratorApplication(
      */
     private fun printCurrentAppConfigs() {
         Log.i(resources.string("app_config_snapshot", LOCAL_PROPERTIES_FILE, appConfig.get()))
+    }
+
+    /**
+     * Displays cache performance statistics at the end of stats generation.
+     */
+    private fun displayCacheStatistics() {
+        try {
+            val cacheStats = cacheStatsService.getStats()
+            cacheStatsFormatter.logCacheStats(cacheStats)
+        } catch (e: Exception) {
+            Log.w("Failed to display cache statistics: ${e.message}")
+        }
     }
 }

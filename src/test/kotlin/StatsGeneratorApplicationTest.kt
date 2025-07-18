@@ -4,6 +4,8 @@ import dev.hossain.githubstats.AuthorStats
 import dev.hossain.githubstats.PrAuthorStatsService
 import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.ReviewerReviewStats
+import dev.hossain.githubstats.cache.CacheStatsFormatter
+import dev.hossain.githubstats.cache.CacheStatsService
 import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.util.AppConfig
 import dev.hossain.i18n.Resources
@@ -25,6 +27,8 @@ class StatsGeneratorApplicationTest {
     private val resources: Resources = mockk(relaxed = true)
     private val appConfig: AppConfig = mockk(relaxed = true)
     private val formatters: List<StatsFormatter> = listOf(mockk(relaxed = true))
+    private val cacheStatsService: CacheStatsService = mockk(relaxed = true)
+    private val cacheStatsFormatter: CacheStatsFormatter = mockk(relaxed = true)
 
     private lateinit var statsGeneratorApplication: StatsGeneratorApplication
 
@@ -37,6 +41,8 @@ class StatsGeneratorApplicationTest {
                 resources,
                 appConfig,
                 formatters,
+                cacheStatsService,
+                cacheStatsFormatter,
             )
     }
 
