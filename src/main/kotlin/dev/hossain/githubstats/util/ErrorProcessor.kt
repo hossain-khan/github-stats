@@ -41,6 +41,11 @@ class ErrorProcessor {
         private const val RESOURCE_TYPE_SEARCH = "Search"
 
         /**
+         * Error message prefix when API rate limit is exceeded.
+         */
+        private const val RATE_LIMIT_ERROR_MESSAGE = "API rate limit exceeded"
+
+        /**
          * Check if user is missing in the search query.
          */
         fun isUserMissingError(githubError: GithubError?): Boolean {
@@ -54,6 +59,11 @@ class ErrorProcessor {
                     it.message.contains("users cannot be searched")
             }
         }
+
+        /**
+         * Check if the error is due to API rate limit being exceeded.
+         */
+        fun isRateLimitError(githubError: GithubError?) = githubError?.message?.contains(RATE_LIMIT_ERROR_MESSAGE) == true
     }
 
     /**

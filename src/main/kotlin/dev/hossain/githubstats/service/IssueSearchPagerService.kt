@@ -1,13 +1,12 @@
 package dev.hossain.githubstats.service
 
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.service.GithubApiService.Companion.DEFAULT_PAGE_SIZE
 import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
-import kotlinx.coroutines.delay
+import dev.hossain.githubstats.util.RateLimitHandler
 import kotlin.math.ceil
 
 /**
@@ -16,6 +15,7 @@ import kotlin.math.ceil
 class IssueSearchPagerService constructor(
     private val githubApiService: GithubApiService,
     private val errorProcessor: ErrorProcessor,
+    private val rateLimitHandler: RateLimitHandler = RateLimitHandler(),
     private val pageSize: Int = DEFAULT_PAGE_SIZE,
 ) {
     /**
@@ -28,10 +28,15 @@ class IssueSearchPagerService constructor(
         do {
             val issueSearchResult: IssueSearchResult =
                 try {
-                    githubApiService.searchIssues(
-                        searchQuery = searchQuery,
-                        page = pageNumber,
-                        size = pageSize,
+                    rateLimitHandler.executeWithRateLimit(
+                        apiCall = {
+                            githubApiService.searchIssues(
+                                searchQuery = searchQuery,
+                                page = pageNumber,
+                                size = pageSize,
+                            )
+                        },
+                        errorProcessor = errorProcessor,
                     )
                 } catch (exception: Exception) {
                     val errorInfo: ErrorInfo = errorProcessor.getDetailedError(exception)
@@ -52,7 +57,6 @@ class IssueSearchPagerService constructor(
             Log.d("Loaded ${issueSearchResult.items.size} of total $totalItemCount merged PRs (Page#$pageNumber)")
 
             pageNumber++
-            delay(BuildConfig.API_REQUEST_DELAY_MS)
         } while (pageNumber <= maxPageNeeded)
 
         return allSearchedIssues

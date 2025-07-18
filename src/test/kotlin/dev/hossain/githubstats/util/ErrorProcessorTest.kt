@@ -185,4 +185,29 @@ class ErrorProcessorTest {
         assertThat(errorInfo).isInstanceOf(ErrorInfo::class.java)
         assertThat(ErrorProcessor.isUserMissingError(errorInfo.githubError)).isTrue()
     }
+
+    @Test
+    fun `getDetailedError - given HttpException with rate limit error - validates rate limit error`() {
+        // language=JSON
+        val jsonErrorBody =
+            """
+            {
+              "message": "API rate limit exceeded for user ID 99822. If you reach out to GitHub Support for help, please include the request ID CF05:4DFD1:19AA6E5:33F8C4B:687A2E8E and timestamp 2025-07-18 11:22:54 UTC.",
+              "documentation_url": "https://docs.github.com/rest/overview/rate-limits-for-the-rest-api",
+              "status": "403"
+            }
+            """.trimIndent()
+        val httpException = HttpException(Response.error<Any>(403, jsonErrorBody.toResponseBody("application/json".toMediaTypeOrNull())))
+        val errorProcessor = ErrorProcessor()
+
+        val errorInfo = errorProcessor.getDetailedError(httpException)
+
+        assertThat(errorInfo).isInstanceOf(ErrorInfo::class.java)
+        assertThat(errorInfo.errorMessage).contains("HTTP 403")
+        assertThat(errorInfo.errorMessage).contains("API rate limit exceeded")
+        assertThat(errorInfo.githubError?.message).contains("API rate limit exceeded")
+        assertThat(errorInfo.githubError?.status).isEqualTo(403)
+        assertThat(ErrorProcessor.isRateLimitError(errorInfo.githubError)).isTrue()
+        assertThat(errorInfo.isRateLimitError()).isTrue()
+    }
 }

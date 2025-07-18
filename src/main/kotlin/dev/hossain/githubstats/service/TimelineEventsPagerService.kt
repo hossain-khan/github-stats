@@ -1,10 +1,9 @@
 package dev.hossain.githubstats.service
 
-import dev.hossain.githubstats.BuildConfig
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.util.ErrorProcessor
-import kotlinx.coroutines.delay
+import dev.hossain.githubstats.util.RateLimitHandler
 
 /**
  * Collects all [TimelineEvent] for a pull request if max allowed per page is exceeded.
@@ -12,6 +11,7 @@ import kotlinx.coroutines.delay
 class TimelineEventsPagerService constructor(
     private val githubApiService: GithubApiService,
     private val errorProcessor: ErrorProcessor,
+    private val rateLimitHandler: RateLimitHandler = RateLimitHandler(),
     private val pageSize: Int = GithubApiService.DEFAULT_PAGE_SIZE,
 ) {
     /**
@@ -28,11 +28,16 @@ class TimelineEventsPagerService constructor(
         do {
             val timelineEvents =
                 try {
-                    githubApiService.timelineEvents(
-                        owner = repoOwner,
-                        repo = repoId,
-                        issue = prNumber,
-                        page = pageNumber,
+                    rateLimitHandler.executeWithRateLimit(
+                        apiCall = {
+                            githubApiService.timelineEvents(
+                                owner = repoOwner,
+                                repo = repoId,
+                                issue = prNumber,
+                                page = pageNumber,
+                            )
+                        },
+                        errorProcessor = errorProcessor,
                     )
                 } catch (exception: Exception) {
                     val errorInfo = errorProcessor.getDetailedError(exception)
@@ -49,8 +54,6 @@ class TimelineEventsPagerService constructor(
             }
 
             pageNumber++
-
-            delay(BuildConfig.API_REQUEST_DELAY_MS)
         } while (nextPageRequestNeeded)
 
         return allTimelineEvents

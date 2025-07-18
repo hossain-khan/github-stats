@@ -13,6 +13,8 @@ data class ErrorInfo(
     val githubError: GithubError? = null,
 ) {
     fun isUserNotFound(): Boolean = ErrorProcessor.isUserMissingError(githubError)
+
+    fun isRateLimitError(): Boolean = ErrorProcessor.isRateLimitError(githubError)
 }
 
 /**

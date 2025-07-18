@@ -12,6 +12,7 @@ import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.githubstats.util.ErrorThreshold
 import dev.hossain.githubstats.util.PrAnalysisProgress
+import dev.hossain.githubstats.util.RateLimitHandler
 import dev.hossain.i18n.Resources
 import kotlinx.coroutines.delay
 import org.koin.core.component.KoinComponent
@@ -28,6 +29,7 @@ class PrAuthorStatsService constructor(
     private val issueSearchPager: IssueSearchPagerService,
     private val appConfig: AppConfig,
     private val errorProcessor: ErrorProcessor,
+    private val rateLimitHandler: RateLimitHandler = RateLimitHandler(),
 ) : KoinComponent {
     private val resources: Resources by inject()
 
@@ -81,8 +83,8 @@ class PrAuthorStatsService constructor(
                 .mapIndexed { index, pr ->
                     progress.publish(index)
 
-                    // ⏰ Slight delay to avoid GitHub API rate-limit
-                    delay(BuildConfig.API_REQUEST_DELAY_MS)
+                    // Use smart rate limiting with minimum delay between requests
+                    delay(rateLimitHandler.calculateDelay(null))
 
                     try {
                         pullRequestStatsRepo.stats(
