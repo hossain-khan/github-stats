@@ -31,13 +31,13 @@ class DatabaseCacheInterceptor(
             // Try to serve from database cache first
             val cachedResponse = runBlocking { cacheService.getCachedResponse(url) }
             if (cachedResponse != null) {
-                Log.d("DatabaseCacheInterceptor: Serving from database cache: $url")
-                cacheStatsService.recordDatabaseCacheHit()
+                Log.v("DatabaseCacheInterceptor: Serving from database cache: $url")
+                cacheStatsService.recordDatabaseCacheHit(url)
                 return createCachedResponse(request, cachedResponse)
             }
 
             // Cache miss - record it and proceed with network request
-            cacheStatsService.recordDatabaseCacheMiss()
+            cacheStatsService.recordDatabaseCacheMiss(url)
             val response = chain.proceed(request)
 
             // Cache successful responses

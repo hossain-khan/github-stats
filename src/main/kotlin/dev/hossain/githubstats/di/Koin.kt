@@ -51,6 +51,7 @@ val appModule =
                 githubApiService = get(),
                 timelinesPager = get(),
                 userTimeZone = get(),
+                cacheStatsService = get(),
             )
         }
         factory {

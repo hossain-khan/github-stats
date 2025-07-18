@@ -3,6 +3,7 @@ package dev.hossain.githubstats.repository
 import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
+import dev.hossain.githubstats.cache.CacheStatsService
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.PullRequest
@@ -32,6 +33,7 @@ class PullRequestStatsRepoImpl(
     private val githubApiService: GithubApiService,
     private val timelinesPager: TimelineEventsPagerService,
     private val userTimeZone: UserTimeZone,
+    private val cacheStatsService: CacheStatsService,
 ) : PullRequestStatsRepo {
     /**
      * Provides Pull Request stats [PrStats] for given [prNumber].
@@ -73,6 +75,11 @@ class PullRequestStatsRepoImpl(
         val prTimelineEvents = timelinesPager.getAllTimelineEvents(repoOwner, repoId, prNumber)
         // API request to get all PR source code review comments associated with diffs
         val prCodeReviewComments = githubApiService.prSourceCodeReviewComments(repoOwner, repoId, prNumber)
+
+        // Log cache status summary for this PR analysis
+        cacheStatsService.getPrCacheStatusAndReset()?.let { cacheStatus ->
+            Log.d(cacheStatus)
+        }
 
         Log.i("\n- Getting PR#$prNumber info. Analyzing ${prTimelineEvents.size} events from the PR. (URL: ${pullRequest.html_url})")
 

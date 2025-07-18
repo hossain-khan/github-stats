@@ -30,10 +30,10 @@ class DatabaseCacheService(
                 val cachedData = database.responseCacheQueries.getCachedResponse(cacheKey).executeAsOneOrNull()
 
                 cachedData?.let {
-                    Log.d("DatabaseCache: Cache HIT for URL: $url")
+                    Log.v("DatabaseCache: Cache HIT for URL: $url")
                     it.response_data
                 } ?: run {
-                    Log.d("DatabaseCache: Cache MISS for URL: $url")
+                    Log.v("DatabaseCache: Cache MISS for URL: $url")
                     null
                 }
             } catch (e: Exception) {
@@ -66,7 +66,7 @@ class DatabaseCacheService(
                 expires_at = expiresAt,
             )
 
-            Log.d("DatabaseCache: Cached response for URL: $url (expires: $expiresAt)")
+            Log.v("DatabaseCache: Cached response for URL: $url (expires: $expiresAt)")
         } catch (e: Exception) {
             Log.w("DatabaseCache: Error caching response for $url: ${e.message}")
         }
