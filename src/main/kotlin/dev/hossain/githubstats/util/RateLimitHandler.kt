@@ -47,6 +47,16 @@ class RateLimitHandler {
          * GitHub rate limit header for total limit.
          */
         private const val HEADER_RATE_LIMIT_LIMIT = "X-RateLimit-Limit"
+
+        /**
+         * Maximum delay to spread requests when low on rate limit (1 minute).
+         */
+        private const val MAX_SPREAD_DELAY_MS = 60000L
+
+        /**
+         * Default GitHub rate limit if header is missing (per hour).
+         */
+        private const val DEFAULT_RATE_LIMIT = 5000
     }
 
     /**
@@ -63,7 +73,7 @@ class RateLimitHandler {
 
         val remaining = lastResponse.headers()[HEADER_RATE_LIMIT_REMAINING]?.toIntOrNull() ?: return MIN_REQUEST_DELAY_MS
         val resetTime = lastResponse.headers()[HEADER_RATE_LIMIT_RESET]?.toLongOrNull()
-        val limit = lastResponse.headers()[HEADER_RATE_LIMIT_LIMIT]?.toIntOrNull() ?: 5000
+        val limit = lastResponse.headers()[HEADER_RATE_LIMIT_LIMIT]?.toIntOrNull() ?: DEFAULT_RATE_LIMIT
 
         // If we have plenty of requests remaining, use minimum delay
         if (remaining > limit * 0.1) { // More than 10% remaining
@@ -78,7 +88,7 @@ class RateLimitHandler {
             if (timeUntilReset > 0 && remaining > 0) {
                 // Spread remaining requests over time until reset
                 val delayMs = (timeUntilReset * 1000L) / remaining
-                return max(MIN_REQUEST_DELAY_MS, min(delayMs, 60000L)) // Cap at 1 minute
+                return max(MIN_REQUEST_DELAY_MS, min(delayMs, MAX_SPREAD_DELAY_MS)) // Cap at 1 minute
             }
         }
 
