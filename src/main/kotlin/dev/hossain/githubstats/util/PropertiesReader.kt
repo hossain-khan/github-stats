@@ -107,19 +107,20 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
 
     /**
      * Validates that the database URL follows the PostgreSQL JDBC format.
-     * Expected format: jdbc:postgresql://host:port/database
+     * Expected format: jdbc:postgresql://host[:port]/database
+     * Port is optional and defaults to 5432 if not specified.
      */
     private fun validatePostgreSqlUrl(url: String) {
         val postgresUrlPattern =
             Regex(
-                "^jdbc:postgresql://[a-zA-Z0-9.-]+:[0-9]+/[a-zA-Z0-9_]+$",
+                "^jdbc:postgresql://[a-zA-Z0-9.-]+(?::[0-9]+)?/[a-zA-Z0-9_]+$",
             )
 
         if (!postgresUrlPattern.matches(url)) {
             throw IllegalArgumentException(
                 "Invalid PostgreSQL JDBC URL format: '$url'. " +
-                    "Expected format: jdbc:postgresql://host:port/database " +
-                    "(e.g., jdbc:postgresql://localhost:5432/github_stats_cache)",
+                    "Expected format: jdbc:postgresql://host[:port]/database " +
+                    "(e.g., jdbc:postgresql://localhost:5432/github_stats_cache or jdbc:postgresql://host.com/database)",
             )
         }
     }
