@@ -72,7 +72,7 @@ data class PrCacheStatus(
         comments?.let { parts.add("Comments: $it") }
 
         return if (parts.isNotEmpty()) {
-            "Database cache status (${parts.joinToString(", ")})"
+            "💾 Database usage cache status for APIs (${parts.joinToString(", ")})"
         } else {
             null
         }
