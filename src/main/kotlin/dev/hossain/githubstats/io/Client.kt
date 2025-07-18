@@ -44,6 +44,34 @@ class Client(
     // By default, it's set to GitHub API base URL.
     internal var baseUrl: HttpUrl = "https://api.github.com/".toHttpUrlOrNull()!!
 
+    companion object {
+        // Backward compatibility for tests - provides static access
+        private var testInstance: Client? = null
+
+        /**
+         * For test backward compatibility - allows setting base URL for mock server.
+         */
+        var baseUrl: HttpUrl
+            get() = testInstance?.baseUrl ?: "https://api.github.com/".toHttpUrlOrNull()!!
+            set(value) {
+                if (testInstance == null) {
+                    testInstance = Client(null)
+                }
+                testInstance?.baseUrl = value
+            }
+
+        /**
+         * For test backward compatibility - provides access to GitHub API service.
+         */
+        val githubApiService: GithubApiService
+            get() {
+                if (testInstance == null) {
+                    testInstance = Client(null)
+                }
+                return testInstance!!.githubApiService
+            }
+    }
+
     // JSON serialization using Moshi
     private val moshi =
         Moshi
