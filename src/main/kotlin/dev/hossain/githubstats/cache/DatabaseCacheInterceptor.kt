@@ -16,6 +16,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
  */
 class DatabaseCacheInterceptor(
     private val cacheService: DatabaseCacheService,
+    private val cacheStatsService: CacheStatsService,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -31,10 +32,12 @@ class DatabaseCacheInterceptor(
             val cachedResponse = runBlocking { cacheService.getCachedResponse(url) }
             if (cachedResponse != null) {
                 Log.d("DatabaseCacheInterceptor: Serving from database cache: $url")
+                cacheStatsService.recordDatabaseCacheHit()
                 return createCachedResponse(request, cachedResponse)
             }
 
-            // Cache miss - proceed with network request
+            // Cache miss - record it and proceed with network request
+            cacheStatsService.recordDatabaseCacheMiss()
             val response = chain.proceed(request)
 
             // Cache successful responses

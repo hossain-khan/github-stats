@@ -5,9 +5,12 @@ import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.cache.CacheStatsCollector
+import dev.hossain.githubstats.cache.CacheStatsService
 import dev.hossain.githubstats.cache.DatabaseCacheInterceptor
 import dev.hossain.githubstats.cache.DatabaseCacheService
 import dev.hossain.githubstats.cache.DatabaseManager
+import dev.hossain.githubstats.cache.OkHttpCacheStatsInterceptor
 import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
@@ -31,7 +34,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  * GitHub API client with Retrofit service to make API requests.
  * Supports both OkHttp caching and optional database-based response caching.
  */
-object Client {
+class Client(
+    private val cacheStatsService: CacheStatsService?,
+) {
     private val localProperties = LocalProperties()
     private val httpClient = okHttpClient()
 
@@ -73,6 +78,11 @@ object Client {
         if (BuildConfig.DEBUG_HTTP_REQUESTS) {
             // Only add HTTP logs for debug builds
             builder.addInterceptor(logging)
+        }
+
+        // Add cache statistics interceptor if provided
+        cacheStatsService?.let { statsService ->
+            builder.addInterceptor(OkHttpCacheStatsInterceptor(statsService))
         }
 
         // Add database cache interceptor if database caching is enabled
@@ -117,7 +127,11 @@ object Client {
                             database = database,
                             expirationHours = localProperties.getDbCacheExpirationHours(),
                         )
-                    val cacheInterceptor = DatabaseCacheInterceptor(cacheService)
+                    val cacheInterceptor =
+                        DatabaseCacheInterceptor(
+                            cacheService = cacheService,
+                            cacheStatsService = cacheStatsService ?: CacheStatsCollector(), // Fallback if not injected
+                        )
                     builder.addInterceptor(cacheInterceptor)
                 }
             }
