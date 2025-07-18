@@ -1,6 +1,7 @@
 package dev.hossain.githubstats
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.cache.CacheStatsCollector
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
@@ -44,6 +45,7 @@ internal class PullRequestStatsRepoTest {
                         errorProcessor = ErrorProcessor(),
                     ),
                 userTimeZone = UserTimeZone(),
+                cacheStatsService = CacheStatsCollector(),
             )
     }
 

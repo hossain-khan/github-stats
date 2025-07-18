@@ -18,6 +18,16 @@ interface CacheStatsService {
     fun recordDatabaseCacheMiss()
 
     /**
+     * Records a database cache hit for a specific request type.
+     */
+    fun recordDatabaseCacheHit(url: String)
+
+    /**
+     * Records a database cache miss for a specific request type.
+     */
+    fun recordDatabaseCacheMiss(url: String)
+
+    /**
      * Records an OkHttp cache hit (response served from OkHttp's file cache).
      */
     fun recordOkHttpCacheHit()
@@ -33,9 +43,40 @@ interface CacheStatsService {
     fun getStats(): CachePerformanceStats
 
     /**
+     * Gets the cache status summary for PR-level requests and resets the tracking.
+     */
+    fun getPrCacheStatusAndReset(): String?
+
+    /**
      * Resets all cache statistics counters.
      */
     fun reset()
+}
+
+/**
+ * Represents the status of cache for different types of PR requests.
+ */
+data class PrCacheStatus(
+    val prInfo: String? = null, // HIT, MISS, or null if not requested
+    val timeline: String? = null, // HIT, MISS, or null if not requested
+    val comments: String? = null, // HIT, MISS, or null if not requested
+) {
+    /**
+     * Formats the cache status as a summary string.
+     * Returns null if no cache-relevant requests were made.
+     */
+    fun toSummaryString(): String? {
+        val parts = mutableListOf<String>()
+        prInfo?.let { parts.add("PR info: $it") }
+        timeline?.let { parts.add("Timeline: $it") }
+        comments?.let { parts.add("Comments: $it") }
+
+        return if (parts.isNotEmpty()) {
+            "Database cache status (${parts.joinToString(", ")})"
+        } else {
+            null
+        }
+    }
 }
 
 /**
