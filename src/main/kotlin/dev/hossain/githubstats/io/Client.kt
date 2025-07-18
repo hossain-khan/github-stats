@@ -108,13 +108,15 @@ class Client(
             builder.addInterceptor(logging)
         }
 
+        // Add database cache interceptor if database caching is enabled
+        // This must come BEFORE OkHttpCacheStatsInterceptor to avoid double-counting
+        setupDatabaseCaching(builder)
+
         // Add cache statistics interceptor if provided
+        // This tracks OkHttp cache hits/misses for requests that weren't served by database cache
         cacheStatsService?.let { statsService ->
             builder.addInterceptor(OkHttpCacheStatsInterceptor(statsService))
         }
-
-        // Add database cache interceptor if database caching is enabled
-        setupDatabaseCaching(builder)
 
         // Sets up global header for the GitHub API requests
         builder.addInterceptor { chain ->
