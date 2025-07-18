@@ -5,6 +5,9 @@ import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.AppConstants.LOCAL_PROPERTIES_FILE
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.cache.DatabaseCacheInterceptor
+import dev.hossain.githubstats.cache.DatabaseCacheService
+import dev.hossain.githubstats.cache.DatabaseManager
 import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.CommentedEvent
 import dev.hossain.githubstats.model.timeline.MergedEvent
@@ -26,8 +29,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * GitHub API client with Retrofit service to make API requests.
+ * Supports both OkHttp caching and optional database-based response caching.
  */
 object Client {
+    private val localProperties = LocalProperties()
     private val httpClient = okHttpClient()
 
     // Test backdoor to allow setting base URL using mock server
@@ -54,6 +59,7 @@ object Client {
 
     /**
      * Builds OkHttp client with caching and debugging based on configuration.
+     * Integrates both HTTP file caching and optional database-based JSON response caching.
      */
     private fun okHttpClient(): OkHttpClient {
         val logging =
@@ -68,6 +74,9 @@ object Client {
             // Only add HTTP logs for debug builds
             builder.addInterceptor(logging)
         }
+
+        // Add database cache interceptor if database caching is enabled
+        setupDatabaseCaching(builder)
 
         // Sets up global header for the GitHub API requests
         builder.addInterceptor { chain ->
@@ -94,6 +103,30 @@ object Client {
         return builder.build()
     }
 
+    /**
+     * Sets up database-based response caching if configured in local properties.
+     * This provides persistent caching of JSON responses alongside OkHttp caching.
+     */
+    private fun setupDatabaseCaching(builder: OkHttpClient.Builder) {
+        try {
+            if (localProperties.isDatabaseCacheEnabled()) {
+                val database = DatabaseManager.initializeDatabase(localProperties)
+                if (database != null) {
+                    val cacheService =
+                        DatabaseCacheService(
+                            database = database,
+                            expirationHours = localProperties.getDbCacheExpirationHours(),
+                        )
+                    val cacheInterceptor = DatabaseCacheInterceptor(cacheService)
+                    builder.addInterceptor(cacheInterceptor)
+                }
+            }
+        } catch (e: Exception) {
+            // Log warning but don't fail the application if database caching setup fails
+            System.err.println("Warning: Failed to setup database caching, continuing with HTTP caching only: ${e.message}")
+        }
+    }
+
     val githubApiService: GithubApiService by lazy {
         val retrofit =
             Retrofit
@@ -109,10 +142,8 @@ object Client {
     /**
      * Provides access token from `[LOCAL_PROPERTIES_FILE]` config file.
      */
-    private fun getAccessToken(): String {
-        val localProperties = LocalProperties()
-        return requireNotNull(localProperties.getProperty("access_token")) {
+    private fun getAccessToken(): String =
+        requireNotNull(localProperties.getProperty("access_token")) {
             "GitHub access token config is required in $LOCAL_PROPERTIES_FILE"
         }
-    }
 }

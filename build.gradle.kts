@@ -1,4 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
 
 plugins {
     // For build.gradle.kts (Kotlin DSL)
@@ -10,6 +12,10 @@ plugins {
     // https://github.com/Kotlin/dokka
     // https://kotlinlang.org/docs/dokka-migration.html
     id("org.jetbrains.dokka") version "2.0.0"
+
+    // SQLDelight plugin for database code generation
+    // https://sqldelight.github.io/sqldelight/2.1.0/
+    id("app.cash.sqldelight") version "2.1.0"
 
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
     // id("com.google.devtools.ksp") version "1.9.20-1.0.6" // Not needed yet.
@@ -60,6 +66,13 @@ dependencies {
     // ASCII Progress Bar https://github.com/ctongfei/progressbar
     implementation("me.tongfei:progressbar:0.10.1")
 
+    // SQLDelight for database operations and PostgreSQL driver
+    // https://sqldelight.github.io/sqldelight/2.1.0/
+    implementation("app.cash.sqldelight:runtime:2.1.0")
+    implementation("app.cash.sqldelight:coroutines-extensions:2.1.0")
+    implementation("app.cash.sqldelight:jdbc-driver:2.1.0")
+    implementation("org.postgresql:postgresql:42.7.4")
+
     //
     // =======================
     // Unit Test Dependencies
@@ -80,18 +93,39 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.withType<KotlinCompile> {
-    /**
-     * https://kotlinlang.org/docs/compiler-reference.html#jvm-target-version
-     */
-    kotlinOptions.jvmTarget = "17"
-}
-
 kotlin {
     // https://kotlinlang.org/docs/gradle-configure-project.html#gradle-java-toolchains-support
     jvmToolchain(17)
+
+    compilerOptions {
+        /**
+         * - https://kotlinlang.org/docs/compiler-reference.html#jvm-target-version
+         * - https://kotlinlang.org/docs/gradle-compiler-options.html#target-the-jvm
+         */
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 application {
     mainClass.set("MainKt")
+}
+
+// SQLDelight configuration for PostgreSQL
+sqldelight {
+    databases {
+        create("GitHubStatsDatabase") {
+            packageName.set("dev.hossain.githubstats.cache.database")
+            dialect("app.cash.sqldelight:postgresql-dialect:2.1.0")
+            // deriveSchemaFromMigrations.set(true) // Remove this for direct .sq files
+        }
+    }
+}
+
+// Exclude generated files from kotlinter checks
+// https://github.com/jeremymailen/kotlinter-gradle/issues/242#issuecomment-2720690736
+tasks.withType<ConfigurableKtLintTask>().configureEach {
+    val buildDirectory = layout.buildDirectory
+    exclude {
+        it.file.startsWith(buildDirectory.get().asFile)
+    }
 }
