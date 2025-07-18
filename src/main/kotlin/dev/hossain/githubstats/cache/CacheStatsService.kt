@@ -49,8 +49,10 @@ data class CachePerformanceStats(
 ) {
     /**
      * Total number of requests processed.
+     * Note: databaseCacheMisses are not included as they represent the same requests
+     * that are later handled by either okHttpCacheHits or networkRequests.
      */
-    val totalRequests: Long get() = databaseCacheHits + databaseCacheMisses + okHttpCacheHits + networkRequests
+    val totalRequests: Long get() = databaseCacheHits + okHttpCacheHits + networkRequests
 
     /**
      * Database cache hit rate as a percentage.
