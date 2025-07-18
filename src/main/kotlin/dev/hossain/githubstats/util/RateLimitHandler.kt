@@ -35,18 +35,21 @@ class RateLimitHandler {
 
         /**
          * GitHub rate limit header for remaining requests.
+         * GitHub returns this header in lowercase: x-ratelimit-remaining
          */
-        private const val HEADER_RATE_LIMIT_REMAINING = "X-RateLimit-Remaining"
+        private const val HEADER_RATE_LIMIT_REMAINING = "x-ratelimit-remaining"
 
         /**
          * GitHub rate limit header for reset time (Unix timestamp).
+         * GitHub returns this header in lowercase: x-ratelimit-reset
          */
-        private const val HEADER_RATE_LIMIT_RESET = "X-RateLimit-Reset"
+        private const val HEADER_RATE_LIMIT_RESET = "x-ratelimit-reset"
 
         /**
          * GitHub rate limit header for total limit.
+         * GitHub returns this header in lowercase: x-ratelimit-limit
          */
-        private const val HEADER_RATE_LIMIT_LIMIT = "X-RateLimit-Limit"
+        private const val HEADER_RATE_LIMIT_LIMIT = "x-ratelimit-limit"
 
         /**
          * Maximum delay to spread requests when low on rate limit (1 minute).
@@ -161,6 +164,9 @@ class RateLimitHandler {
                 } else if (lastResponse != null) {
                     val requestDelay = calculateDelay(lastResponse)
                     delay(requestDelay)
+                } else {
+                    // Use minimum delay when no previous response is available
+                    delay(MIN_REQUEST_DELAY_MS)
                 }
 
                 return apiCall()

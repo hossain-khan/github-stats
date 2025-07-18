@@ -171,4 +171,24 @@ class RateLimitHandlerTest {
 
         assertThat(isRateLimit).isFalse()
     }
+
+    @Test
+    fun `calculateDelay - given response with lowercase headers - returns calculated delay`() {
+        val resetTime = Instant.now().epochSecond + 3600 // 1 hour from now
+        val headers =
+            Headers
+                .Builder()
+                .add("x-ratelimit-remaining", "100") // lowercase as GitHub actually returns
+                .add("x-ratelimit-limit", "5000")    // lowercase as GitHub actually returns
+                .add("x-ratelimit-reset", resetTime.toString()) // lowercase as GitHub actually returns
+                .build()
+        val response = Response.success("", headers)
+
+        val delay = rateLimitHandler.calculateDelay(response)
+
+        // If this test fails, it means header case sensitivity is an issue
+        // Should calculate delay to spread remaining requests over time (not return min delay of 1000L)
+        assertThat(delay).isGreaterThan(1000L)
+        assertThat(delay).isLessThan(60000L) // Should be capped at 1 minute
+    }
 }

@@ -85,15 +85,17 @@ class PrReviewerStatsService constructor(
                 .mapIndexed { index, pr ->
                     progress.publish(index)
 
-                    // Use smart rate limiting with minimum delay between requests
-                    delay(rateLimitHandler.calculateDelay(null))
-
                     try {
-                        pullRequestStatsRepo.stats(
-                            repoOwner = repoOwner,
-                            repoId = repoId,
-                            prNumber = pr.number,
-                            botUserIds = botUserIds,
+                        rateLimitHandler.executeWithRateLimit(
+                            apiCall = {
+                                pullRequestStatsRepo.stats(
+                                    repoOwner = repoOwner,
+                                    repoId = repoId,
+                                    prNumber = pr.number,
+                                    botUserIds = botUserIds,
+                                )
+                            },
+                            errorProcessor = errorProcessor,
                         )
                     } catch (e: Exception) {
                         val errorInfo = errorProcessor.getDetailedError(e)

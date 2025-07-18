@@ -38,9 +38,9 @@ class RateLimitHandlerIntegrationTest {
         val abundantHeaders =
             Headers
                 .Builder()
-                .add("X-RateLimit-Remaining", "4000")
-                .add("X-RateLimit-Limit", "5000")
-                .add("X-RateLimit-Reset", "${System.currentTimeMillis() / 1000 + 3600}")
+                .add("x-ratelimit-remaining", "4000") // Updated to lowercase
+                .add("x-ratelimit-limit", "5000")     // Updated to lowercase  
+                .add("x-ratelimit-reset", "${System.currentTimeMillis() / 1000 + 3600}") // Updated to lowercase
                 .build()
         val abundantResponse = Response.success("", abundantHeaders)
 
@@ -51,9 +51,9 @@ class RateLimitHandlerIntegrationTest {
         val lowHeaders =
             Headers
                 .Builder()
-                .add("X-RateLimit-Remaining", "50")
-                .add("X-RateLimit-Limit", "5000")
-                .add("X-RateLimit-Reset", "${System.currentTimeMillis() / 1000 + 1800}") // 30 minutes
+                .add("x-ratelimit-remaining", "50")  // Updated to lowercase
+                .add("x-ratelimit-limit", "5000")    // Updated to lowercase
+                .add("x-ratelimit-reset", "${System.currentTimeMillis() / 1000 + 1800}") // Updated to lowercase
                 .build()
         val lowResponse = Response.success("", lowHeaders)
 
