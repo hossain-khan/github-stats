@@ -60,6 +60,26 @@ class PropertiesReaderTest {
     }
 
     @Test
+    fun `getDbCacheUrl accepts valid URLs without explicit ports`() {
+        val validUrls =
+            listOf(
+                "jdbc:postgresql://ep-falling-fire-ae78lnzi-pooler.c-2.us-east-2.aws.neon.tech/neondb",
+                "jdbc:postgresql://localhost/github_stats_cache",
+                "jdbc:postgresql://db.example.com/my_database",
+                "jdbc:postgresql://some-host.local/test_db",
+            )
+
+        validUrls.forEach { validUrl ->
+            // Given
+            val propertiesFile = createPropertiesFile("db_cache_url=$validUrl")
+            val localProperties = TestLocalProperties(propertiesFile.absolutePath)
+
+            // When & Then
+            assertThat(localProperties.getDbCacheUrl()).isEqualTo(validUrl)
+        }
+    }
+
+    @Test
     fun `getDbCacheUrl throws exception for invalid URL - wrong database type`() {
         // Given
         val invalidUrl = "jdbc:mysql://localhost:3306/github_stats_cache"
@@ -72,7 +92,7 @@ class PropertiesReaderTest {
                 localProperties.getDbCacheUrl()
             }
         assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-        assertThat(exception.message).contains("jdbc:postgresql://host:port/database")
+        assertThat(exception.message).contains("jdbc:postgresql://host[:port]/database")
     }
 
     @Test
@@ -91,9 +111,9 @@ class PropertiesReaderTest {
     }
 
     @Test
-    fun `getDbCacheUrl throws exception for invalid URL - missing port`() {
+    fun `getDbCacheUrl throws exception for invalid URL - missing database path separator`() {
         // Given
-        val invalidUrl = "jdbc:postgresql://localhost/github_stats_cache"
+        val invalidUrl = "jdbc:postgresql://localhost:5432"
         val propertiesFile = createPropertiesFile("db_cache_url=$invalidUrl")
         val localProperties = TestLocalProperties(propertiesFile.absolutePath)
 
@@ -207,14 +227,14 @@ class PropertiesReaderTest {
         private fun validatePostgreSqlUrl(url: String) {
             val postgresUrlPattern =
                 Regex(
-                    "^jdbc:postgresql://[a-zA-Z0-9.-]+:[0-9]+/[a-zA-Z0-9_]+$",
+                    "^jdbc:postgresql://[a-zA-Z0-9.-]+(?::[0-9]+)?/[a-zA-Z0-9_]+$",
                 )
 
             if (!postgresUrlPattern.matches(url)) {
                 throw IllegalArgumentException(
                     "Invalid PostgreSQL JDBC URL format: '$url'. " +
-                        "Expected format: jdbc:postgresql://host:port/database " +
-                        "(e.g., jdbc:postgresql://localhost:5432/github_stats_cache)",
+                        "Expected format: jdbc:postgresql://host[:port]/database " +
+                        "(e.g., jdbc:postgresql://localhost:5432/github_stats_cache or jdbc:postgresql://host.com/database)",
                 )
             }
         }
