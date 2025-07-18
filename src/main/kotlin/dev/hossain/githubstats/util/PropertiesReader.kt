@@ -67,9 +67,17 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
 
     /**
      * Gets database cache URL for PostgreSQL connection.
+     * For example: `jdbc:postgresql://some.example.com:5432/github_stats_cache`
      * Returns null if database caching is not configured.
+     * @throws IllegalArgumentException if the URL format is invalid
      */
-    fun getDbCacheUrl(): String? = getProperty(KEY_DB_CACHE_URL)
+    fun getDbCacheUrl(): String? {
+        val url = getProperty(KEY_DB_CACHE_URL)
+        if (url != null) {
+            validatePostgreSqlUrl(url)
+        }
+        return url
+    }
 
     /**
      * Gets database cache username for PostgreSQL connection.
@@ -96,4 +104,23 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         !getDbCacheUrl().isNullOrBlank() &&
             !getDbCacheUsername().isNullOrBlank() &&
             !getDbCachePassword().isNullOrBlank()
+
+    /**
+     * Validates that the database URL follows the PostgreSQL JDBC format.
+     * Expected format: jdbc:postgresql://host:port/database
+     */
+    private fun validatePostgreSqlUrl(url: String) {
+        val postgresUrlPattern =
+            Regex(
+                "^jdbc:postgresql://[a-zA-Z0-9.-]+:[0-9]+/[a-zA-Z0-9_]+$",
+            )
+
+        if (!postgresUrlPattern.matches(url)) {
+            throw IllegalArgumentException(
+                "Invalid PostgreSQL JDBC URL format: '$url'. " +
+                    "Expected format: jdbc:postgresql://host:port/database " +
+                    "(e.g., jdbc:postgresql://localhost:5432/github_stats_cache)",
+            )
+        }
+    }
 }
