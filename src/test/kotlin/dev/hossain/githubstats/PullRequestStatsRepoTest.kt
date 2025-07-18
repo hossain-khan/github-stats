@@ -7,6 +7,7 @@ import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
 import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.githubstats.util.ErrorProcessor
+import dev.hossain.githubstats.util.RateLimitHandler
 import dev.hossain.time.UserTimeZone
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
@@ -43,6 +44,7 @@ internal class PullRequestStatsRepoTest {
                     TimelineEventsPagerService(
                         githubApiService = Client.githubApiService,
                         errorProcessor = ErrorProcessor(),
+                        rateLimitHandler = RateLimitHandler(),
                     ),
                 userTimeZone = UserTimeZone(),
                 cacheStatsService = CacheStatsCollector(),

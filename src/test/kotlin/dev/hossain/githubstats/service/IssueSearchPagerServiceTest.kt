@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.util.ErrorProcessor
+import dev.hossain.githubstats.util.RateLimitHandler
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -31,6 +32,7 @@ internal class IssueSearchPagerServiceTest {
             IssueSearchPagerService(
                 githubApiService = Client.githubApiService,
                 errorProcessor = ErrorProcessor(),
+                rateLimitHandler = RateLimitHandler(),
             )
     }
 
