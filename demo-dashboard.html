@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Stats Dashboard - okhttp</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+        .section-header {
+            border-left: 4px solid #007bff;
+            padding-left: 15px;
+            margin: 30px 0 20px 0;
+        }
+        .stats-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#overview">📊 GitHub Stats Report</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="#overview">Overview</a>
+                <a class="nav-link" href="#aggregated">Aggregated</a>
+                <a class="nav-link" href="#authors">Authors</a>
+                <a class="nav-link" href="#reviewers">Reviewers</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <!-- Header -->
+        <section id="overview">
+            <div class="row">
+                <div class="col-12">
+                    <div class="jumbotron bg-light p-4 rounded stats-card">
+                        <h1 class="display-6">GitHub Stats Dashboard - okhttp</h1>
+                        <p class="lead">Repository: <strong>okhttp</strong></p>
+                        <p class="lead">Date Range: <strong>2025-07-01 to 2025-07-31</strong></p>
+                        <hr class="my-4">
+                        <p>This dashboard aggregates all PR statistics and provides comprehensive insights into pull request activity, review patterns, and contributor performance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="aggregated" class="my-5">
+            <div class="section-header">
+                <h2>📈 Aggregated Repository Statistics</h2>
+                <p class="text-muted">Overall statistics for all contributors in the repository</p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card stats-card">
+                        <div class="card-body">
+                            
+        <div class="chart-title">PR Statistics by Author - okhttp Repository</div>
+        <div class="chart-container">
+            <canvas id="aggregatedStatsChart"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('aggregatedStatsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["swankjesse","yschimke","JakeWharton","oldergod"],
+                    datasets: [{
+    label: "Total PRs Created",
+    data: [3,10,0,2],
+    backgroundColor: "#36A2EB",
+    borderColor: "#36A2EB",
+    borderWidth: 1
+},{
+    label: "Code Review Comments",
+    data: [2,14,0,8],
+    backgroundColor: "#FF6384",
+    borderColor: "#FF6384",
+    borderWidth: 1
+},{
+    label: "Issue Comments",
+    data: [1,3,0,2],
+    backgroundColor: "#FFCE56",
+    borderColor: "#FFCE56",
+    borderWidth: 1
+},{
+    label: "Review Submissions",
+    data: [1,7,0,5],
+    backgroundColor: "#4BC0C0",
+    borderColor: "#4BC0C0",
+    borderWidth: 1
+}]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'PR Statistics by Author - okhttp Repository'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+        <section id="authors" class="my-5">
+            <div class="section-header">
+                <h2>👥 PR Author Statistics</h2>
+                <p class="text-muted">Individual statistics for each PR author</p>
+            </div>
+            <div class="row">
+                
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card stats-card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">📝 Author: swankjesse</h5>
+                </div>
+                <div class="card-body">
+                    
+        
+        <div class="chart-title">Reviewer Distribution for swankjesse</div>
+        <div class="chart-container">
+            <canvas id="authorPieChart0"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('authorPieChart0').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["JakeWharton","oldergod","yschimke"],
+                    datasets: [{
+                        data: [1,1,0],
+                        backgroundColor: ["#FF6384","#36A2EB","#FFCE56"],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Reviewer Distribution for swankjesse'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <hr>
+        
+        <div class="chart-title">Review Activity for swankjesse</div>
+        <div class="chart-container">
+            <canvas id="authorBarChart0"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('authorBarChart0').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["JakeWharton","oldergod","yschimke"],
+                    datasets: [{
+    label: "Total Reviews",
+    data: [1,1,0],
+    backgroundColor: "#36A2EB",
+    borderColor: "#36A2EB",
+    borderWidth: 1
+},{
+    label: "Total Comments",
+    data: [3,2,0],
+    backgroundColor: "#FF6384",
+    borderColor: "#FF6384",
+    borderWidth: 1
+}]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Review Activity for swankjesse'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <div class="mt-3">
+            <h6>Summary:</h6>
+            <ul class="list-unstyled">
+                <li><strong>Total PRs:</strong> 3</li>
+                <li><strong>Avg Review Time:</strong> 2.3 hours</li>
+                <li><strong>Active Reviewers:</strong> 3</li>
+            </ul>
+        </div>
+    
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card stats-card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">📝 Author: yschimke</h5>
+                </div>
+                <div class="card-body">
+                    
+        
+        <div class="chart-title">Reviewer Distribution for yschimke</div>
+        <div class="chart-container">
+            <canvas id="authorPieChart1"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('authorPieChart1').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["JakeWharton","oldergod","yschimke"],
+                    datasets: [{
+                        data: [1,0,3],
+                        backgroundColor: ["#FF6384","#36A2EB","#FFCE56"],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Reviewer Distribution for yschimke'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <hr>
+        
+        <div class="chart-title">Review Activity for yschimke</div>
+        <div class="chart-container">
+            <canvas id="authorBarChart1"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('authorBarChart1').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["JakeWharton","oldergod","yschimke"],
+                    datasets: [{
+    label: "Total Reviews",
+    data: [1,0,3],
+    backgroundColor: "#36A2EB",
+    borderColor: "#36A2EB",
+    borderWidth: 1
+},{
+    label: "Total Comments",
+    data: [5,0,8],
+    backgroundColor: "#FF6384",
+    borderColor: "#FF6384",
+    borderWidth: 1
+}]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Review Activity for yschimke'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <div class="mt-3">
+            <h6>Summary:</h6>
+            <ul class="list-unstyled">
+                <li><strong>Total PRs:</strong> 10</li>
+                <li><strong>Avg Review Time:</strong> 1.8 hours</li>
+                <li><strong>Active Reviewers:</strong> 3</li>
+            </ul>
+        </div>
+    
+                </div>
+            </div>
+        </div>
+        
+            </div>
+        </section>
+        
+
+        <section id="reviewers" class="my-5">
+            <div class="section-header">
+                <h2>🔍 PR Reviewer Statistics</h2>
+                <p class="text-muted">Individual statistics for each PR reviewer</p>
+            </div>
+            <div class="row">
+                
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card stats-card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">🔍 Reviewer: JakeWharton</h5>
+                </div>
+                <div class="card-body">
+                    
+        
+        <div class="chart-title">PRs Reviewed by Author</div>
+        <div class="chart-container">
+            <canvas id="reviewerAuthorChart0"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('reviewerAuthorChart0').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["swankjesse","yschimke","other-authors"],
+                    datasets: [{
+    label: "PRs Reviewed",
+    data: [1,1,1],
+    backgroundColor: "#4BC0C0",
+    borderColor: "#4BC0C0",
+    borderWidth: 1
+}]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'PRs Reviewed by Author'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <hr>
+        
+        <div class="chart-title">Review Times (Recent PRs)</div>
+        <div class="chart-container">
+            <canvas id="reviewerTimesChart0"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('reviewerTimesChart0').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["PR #8929","PR #8923","PR #8898","PR #8902","PR #8915"],
+                    datasets: [{
+    label: "Initial Response (mins)",
+    data: [0,0,0,15,30],
+    backgroundColor: "#FFCE56",
+    borderColor: "#FFCE56",
+    borderWidth: 1
+},{
+    label: "Review Completion (mins)",
+    data: [0,0,0,60,45],
+    backgroundColor: "#9966FF",
+    borderColor: "#9966FF",
+    borderWidth: 1
+}]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Review Times (Recent PRs)'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <div class="mt-3">
+            <h6>Summary:</h6>
+            <ul class="list-unstyled">
+                <li><strong>Total Reviews:</strong> 3</li>
+                <li><strong>Avg Response Time:</strong> 0 mins</li>
+                <li><strong>Authors Helped:</strong> 3</li>
+            </ul>
+        </div>
+    
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card stats-card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">🔍 Reviewer: oldergod</h5>
+                </div>
+                <div class="card-body">
+                    
+        
+        <div class="chart-title">PRs Reviewed by Author</div>
+        <div class="chart-container">
+            <canvas id="reviewerAuthorChart1"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('reviewerAuthorChart1').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["swankjesse","yschimke","other-authors"],
+                    datasets: [{
+    label: "PRs Reviewed",
+    data: [1,0,2],
+    backgroundColor: "#4BC0C0",
+    borderColor: "#4BC0C0",
+    borderWidth: 1
+}]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'PRs Reviewed by Author'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <hr>
+        
+        <div class="chart-title">Review Times (Recent PRs)</div>
+        <div class="chart-container">
+            <canvas id="reviewerTimesChart1"></canvas>
+        </div>
+        <script>
+        (function() {
+            const ctx = document.getElementById('reviewerTimesChart1').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["PR #8929","PR #8923","PR #8898","PR #8902","PR #8915"],
+                    datasets: [{
+    label: "Initial Response (mins)",
+    data: [0,0,0,15,30],
+    backgroundColor: "#FFCE56",
+    borderColor: "#FFCE56",
+    borderWidth: 1
+},{
+    label: "Review Completion (mins)",
+    data: [0,0,0,60,45],
+    backgroundColor: "#9966FF",
+    borderColor: "#9966FF",
+    borderWidth: 1
+}]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Review Times (Recent PRs)'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })();
+        </script>
+        
+        <div class="mt-3">
+            <h6>Summary:</h6>
+            <ul class="list-unstyled">
+                <li><strong>Total Reviews:</strong> 3</li>
+                <li><strong>Avg Response Time:</strong> 22.5 mins</li>
+                <li><strong>Authors Helped:</strong> 3</li>
+            </ul>
+        </div>
+    
+                </div>
+            </div>
+        </div>
+        
+            </div>
+        </section>
+        
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
