@@ -44,6 +44,12 @@ Here is some data generated from `freeCodeCamp` repository for `naomi-lgbt` user
 
 <img width="497" alt="Generate files" src="https://github.com/user-attachments/assets/1accc59c-0185-4b3a-9eec-712ae050ea62" />
 
+### Agregated Dashboard
+
+Added new HTML exporter that cobines different reports into single page. See `REPORTS-[reponame]-DASHBOARD.html`
+
+<img width="3712" height="6706" alt="Image" src="https://github.com/user-attachments/assets/c31a532c-d4cc-4084-96c3-d1869b815308" />
+
 ### Stats as PR Author
 Here is example chart generated from the report as HTML output.
 
