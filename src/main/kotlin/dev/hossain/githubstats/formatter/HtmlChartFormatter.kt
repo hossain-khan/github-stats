@@ -16,11 +16,17 @@ import kotlin.time.DurationUnit
 /**
  * Generates HTML based charts for the available data.
  * Currently, it uses [Google Chart](https://developers.google.com/chart) to generate simple charts.
+ * Also supports generating aggregated Bootstrap-based reports using Chart.js.
  */
 class HtmlChartFormatter :
     StatsFormatter,
     KoinComponent {
     private val appConfig: AppConfig by inject()
+
+    // Collect data for aggregated report
+    private val aggregatedReportGenerator = AggregatedHtmlReportGenerator()
+    private val collectedAuthorStats = mutableListOf<AuthorStats>()
+    private val collectedReviewerStats = mutableListOf<ReviewerReviewStats>()
 
     /**
      * Formats PR review stats for a specific single PR.
@@ -41,6 +47,9 @@ class HtmlChartFormatter :
         if (stats.reviewStats.isEmpty()) {
             return "⚠ ERROR: No author stats to format. No charts to generate! ${Art.SHRUG}"
         }
+
+        // Collect for aggregated report
+        collectedAuthorStats.add(stats)
 
         val prAuthorId = stats.reviewStats.first().prAuthorId
 
@@ -116,6 +125,20 @@ class HtmlChartFormatter :
     }
 
     override fun formatAllAuthorStats(aggregatedPrStats: List<AuthorPrStats>): String {
+        // Generate the new aggregated Bootstrap-based report
+        aggregatedReportGenerator.collectStats(
+            aggregatedPrStats = aggregatedPrStats,
+            allAuthorStats = collectedAuthorStats,
+            allReviewerStats = collectedReviewerStats,
+        )
+
+        val aggregatedReportMessage =
+            try {
+                aggregatedReportGenerator.generateAggregatedReport()
+            } catch (e: Exception) {
+                "⚠️ Failed to generate aggregated report: ${e.message}"
+            }
+
         // Prepares data for bar chart with all author PR's aggregate data generation
         // https://developers.google.com/chart/interactive/docs/gallery/barchart
         @Suppress("ktlint:standard:max-line-length")
@@ -141,8 +164,9 @@ class HtmlChartFormatter :
         val barChartFileAggregate = File(barChartFileNameAggregate)
         barChartFileAggregate.writeText(formattedBarChartAggregate)
 
-        return "📊 Written following aggregated chat for repository: (Copy & paste file path URL in browser to preview)" +
-            "\n - ${barChartFileAggregate.toURI()}"
+        return "📊 Written following aggregated charts for repository: (Copy & paste file path URL in browser to preview)" +
+            "\n - ${barChartFileAggregate.toURI()}" +
+            "\n\n🎉 NEW: $aggregatedReportMessage"
     }
 
     /**
@@ -152,6 +176,9 @@ class HtmlChartFormatter :
         if (stats.reviewedPrStats.isEmpty() || stats.reviewedForPrStats.isEmpty()) {
             return "⚠ ERROR: No reviewer stats to format. No charts to generate! ${Art.SHRUG}"
         }
+
+        // Collect for aggregated report
+        collectedReviewerStats.add(stats)
 
         val headerItem: List<String> =
             listOf(
