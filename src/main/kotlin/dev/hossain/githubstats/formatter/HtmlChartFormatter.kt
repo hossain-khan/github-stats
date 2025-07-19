@@ -24,7 +24,7 @@ class HtmlChartFormatter :
     private val appConfig: AppConfig by inject()
 
     // Collect data for aggregated report
-    private val aggregatedReportGenerator = AggregatedHtmlReportGenerator()
+    private val aggregatedReportGenerator = AggregatedHtmlReportGenerator(appConfig)
     private val collectedAuthorStats = mutableListOf<AuthorStats>()
     private val collectedReviewerStats = mutableListOf<ReviewerReviewStats>()
 

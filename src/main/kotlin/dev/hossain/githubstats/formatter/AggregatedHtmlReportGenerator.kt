@@ -6,8 +6,6 @@ import dev.hossain.githubstats.ReviewerReviewStats
 import dev.hossain.githubstats.formatter.html.BootstrapTemplate
 import dev.hossain.githubstats.formatter.html.ChartDataset
 import dev.hossain.githubstats.util.AppConfig
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import java.io.File
 import kotlin.time.DurationUnit
 
@@ -15,9 +13,9 @@ import kotlin.time.DurationUnit
  * Generates aggregated HTML reports using Bootstrap and Chart.js instead of scattered individual files.
  * This creates a single static site that consolidates all PR statistics.
  */
-class AggregatedHtmlReportGenerator : KoinComponent {
-    private val appConfig: AppConfig by inject()
-
+class AggregatedHtmlReportGenerator(
+    private val appConfig: AppConfig,
+) {
     private var aggregatedStats: List<AuthorPrStats> = emptyList()
     private var authorStats: List<AuthorStats> = emptyList()
     private var reviewerStats: List<ReviewerReviewStats> = emptyList()

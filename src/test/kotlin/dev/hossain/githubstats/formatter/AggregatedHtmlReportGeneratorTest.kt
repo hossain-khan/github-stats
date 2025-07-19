@@ -1,14 +1,31 @@
 package dev.hossain.githubstats.formatter
 
 import dev.hossain.githubstats.AuthorPrStats
+import dev.hossain.githubstats.util.AppConfig
+import dev.hossain.githubstats.util.Config
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
 
 class AggregatedHtmlReportGeneratorTest {
+    private val mockAppConfig =
+        mockk<AppConfig> {
+            every { get() } returns
+                Config(
+                    repoOwner = "testowner",
+                    repoId = "testrepo",
+                    userIds = listOf("testuser1", "testuser2"),
+                    botUserIds = emptyList(),
+                    dateLimitAfter = "2024-01-01",
+                    dateLimitBefore = "2024-12-31",
+                )
+        }
+
     @Test
     fun `generateAggregatedReport - creates valid HTML with Bootstrap and Chart_js`() {
         // This is a basic test to ensure the HTML structure is valid
-        val generator = AggregatedHtmlReportGenerator()
+        val generator = AggregatedHtmlReportGenerator(mockAppConfig)
 
         val sampleStats =
             listOf(
@@ -41,7 +58,7 @@ class AggregatedHtmlReportGeneratorTest {
 
     @Test
     fun `collectStats - handles empty data gracefully`() {
-        val generator = AggregatedHtmlReportGenerator()
+        val generator = AggregatedHtmlReportGenerator(mockAppConfig)
 
         // Should not throw exception with empty data
         generator.collectStats(aggregatedPrStats = emptyList())
