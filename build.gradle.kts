@@ -34,7 +34,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 
     // https://github.com/Kotlin/kotlinx-datetime
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1-0.6.x-compat")
 
     // https://square.github.io/okhttp/
     // define a BOM and its version
