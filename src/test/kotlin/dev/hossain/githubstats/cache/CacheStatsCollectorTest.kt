@@ -103,7 +103,7 @@ class CacheStatsCollectorTest {
 
         // Get the summary and verify it matches expected format
         val summary = collector.getPrCacheStatusAndReset()
-        assertEquals("Database cache status (PR info: HIT, Timeline: MISS, Comments: HIT)", summary)
+        assertEquals("💾 Database usage cache status for APIs (PR info: HIT, Timeline: MISS, Comments: HIT)", summary)
 
         // Test that reset worked - next call should return null
         val summaryAfterReset = collector.getPrCacheStatusAndReset()
@@ -112,14 +112,14 @@ class CacheStatsCollectorTest {
         // Test partial coverage (only PR info)
         collector.recordDatabaseCacheHit(prInfoUrl)
         val partialSummary = collector.getPrCacheStatusAndReset()
-        assertEquals("Database cache status (PR info: HIT)", partialSummary)
+        assertEquals("💾 Database usage cache status for APIs (PR info: HIT)", partialSummary)
 
         // Test all miss scenario
         collector.recordDatabaseCacheMiss(prInfoUrl)
         collector.recordDatabaseCacheMiss(timelineUrl)
         collector.recordDatabaseCacheMiss(commentsUrl)
         val allMissSummary = collector.getPrCacheStatusAndReset()
-        assertEquals("Database cache status (PR info: MISS, Timeline: MISS, Comments: MISS)", allMissSummary)
+        assertEquals("💾 Database usage cache status for APIs (PR info: MISS, Timeline: MISS, Comments: MISS)", allMissSummary)
     }
 
     @Test
