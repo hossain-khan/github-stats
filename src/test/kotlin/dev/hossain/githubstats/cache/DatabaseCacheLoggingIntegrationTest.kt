@@ -33,7 +33,7 @@ class DatabaseCacheLoggingIntegrationTest {
         // Verify summary generation
         val summary = cacheStatsCollector.getPrCacheStatusAndReset()
         assertTrue(summary != null, "Summary should not be null")
-        assertTrue(summary.contains("Database cache status"), "Summary should contain the expected prefix")
+        assertTrue(summary.contains("💾 Database usage cache status for APIs"), "Summary should contain the expected prefix")
         assertTrue(summary.contains("PR info: HIT"), "Summary should contain PR info status")
         assertTrue(summary.contains("Timeline: MISS"), "Summary should contain Timeline status")
         assertTrue(summary.contains("Comments: HIT"), "Summary should contain Comments status")
@@ -50,7 +50,7 @@ class DatabaseCacheLoggingIntegrationTest {
         cacheStatsCollector.recordDatabaseCacheHit(commentsUrl)
 
         val allHitsSummary = cacheStatsCollector.getPrCacheStatusAndReset()
-        assertTrue(allHitsSummary == "Database cache status (PR info: HIT, Timeline: HIT, Comments: HIT)")
+        assertTrue(allHitsSummary == "💾 Database usage cache status for APIs (PR info: HIT, Timeline: HIT, Comments: HIT)")
 
         println("✅ All hits summary: $allHitsSummary")
 
@@ -60,7 +60,7 @@ class DatabaseCacheLoggingIntegrationTest {
         cacheStatsCollector.recordDatabaseCacheMiss(commentsUrl)
 
         val allMissesSummary = cacheStatsCollector.getPrCacheStatusAndReset()
-        assertTrue(allMissesSummary == "Database cache status (PR info: MISS, Timeline: MISS, Comments: MISS)")
+        assertTrue(allMissesSummary == "💾 Database usage cache status for APIs (PR info: MISS, Timeline: MISS, Comments: MISS)")
 
         println("✅ All misses summary: $allMissesSummary")
 
@@ -68,7 +68,7 @@ class DatabaseCacheLoggingIntegrationTest {
         cacheStatsCollector.recordDatabaseCacheHit(prInfoUrl)
 
         val partialSummary = cacheStatsCollector.getPrCacheStatusAndReset()
-        assertTrue(partialSummary == "Database cache status (PR info: HIT)")
+        assertTrue(partialSummary == "💾 Database usage cache status for APIs (PR info: HIT)")
 
         println("✅ Partial summary: $partialSummary")
 
