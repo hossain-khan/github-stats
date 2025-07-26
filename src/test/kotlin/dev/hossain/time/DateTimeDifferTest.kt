@@ -126,50 +126,14 @@ internal class DateTimeDifferTest {
         assertThat(diffWorkingHours).isEqualTo("8h".duration())
     }
 
-    /**
-     * PR Ready for Review @ 2022-09-13T12:11:30Z
-     *
-     * UNIX Time [ms]
-     * 1663071090000
-     * W3C-DTF Date
-     * 2022-09-13T08:11:30-04:00
-     * ISO8601 Date
-     * 20220913T081130-0400
-     * ISO8601 Date (Extend)
-     * 2022-09-13T08:11:30-04:00
-     * ISO8601 Date (Week)
-     * 2022-W37-2T08:11:30-04:00
-     * ISO8601 Date (Ordinal)
-     * 2022-256T08:11:30-04:00
-     * RFC2822 Date
-     * Tue, 13 Sep 2022 08:11:30 EDT
-     * ctime Date
-     * Tue Sep 13 08:11:30 2022
-     *
-     *
-     * Review Submitted @ 2022-09-13T13:07:11Z
-     *
-     * UNIX Time [ms]
-     * 1663074431000
-     * W3C-DTF Date
-     * 2022-09-13T09:07:11-04:00
-     * ISO8601 Date
-     * 20220913T090711-0400
-     * ISO8601 Date (Extend)
-     * 2022-09-13T09:07:11-04:00
-     * ISO8601 Date (Week)
-     * 2022-W37-2T09:07:11-04:00
-     * ISO8601 Date (Ordinal)
-     * 2022-256T09:07:11-04:00
-     * RFC2822 Date
-     * Tue, 13 Sep 2022 09:07:11 EDT
-     * ctime Date
-     * Tue Sep 13 09:07:11 2022
-     */
     @Test
     fun `diff - given start time is before working hour and end time during work hour - provides diff of working hour only`() {
-        val startTime: Instant = Instant.parse("2022-09-13T12:11:30Z") // Tue, 13 Sep 2022 8:11 am
-        val endTime: Instant = Instant.parse("2022-09-13T13:07:11Z") // Tue, 13 Sep 2022 9:07 am
+        // Test case based on a real scenario:
+        // PR Ready for Review: Tue, 13 Sep 2022 08:11:30 EDT (America/Toronto) which is 2022-09-13T12:11:30Z
+        // Review Submitted:    Tue, 13 Sep 2022 09:07:11 EDT (America/Toronto) which is 2022-09-13T13:07:11Z
+        // Expected duration: 7 minutes (since working hours start at 9 AM EDT, review was submitted at 9:07 AM EDT)
+        val startTime: Instant = Instant.parse("2022-09-13T12:11:30Z") // Tue, 13 Sep 2022 8:11 am EDT
+        val endTime: Instant = Instant.parse("2022-09-13T13:07:11Z") // Tue, 13 Sep 2022 9:07 am EDT
 
         val diffWorkingHours = DateTimeDiffer.diffWorkingHours(startTime, endTime, zoneId)
 
@@ -381,10 +345,6 @@ internal class DateTimeDifferTest {
 
     @Test
     fun `diffWorkingHours - given start time is in weekend and end time is few days later - provides diff of working hour only`() {
-        // This function can only handle working day diff - both must be on working day.
-        // Start: 2024-10-06T17:00:03-04:00[America/New_York]
-        // End: 2024-10-07T17:15:03-04:00[America/New_York]
-
         val startTime: Instant = Instant.parse("2024-10-06T17:00:03-04:00") // Sunday, Oct 6, 2024, 5:00:03 p.m.
         val endTime: Instant = Instant.parse("2024-10-07T17:15:03-04:00") // Monday, Oct 7, 2024, 5:15:03 p.m.
 
