@@ -61,7 +61,7 @@ dependencies {
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.10.0") //for JVM platform
 
     // Koin Core features - https://insert-koin.io/
-    implementation("io.insert-koin:koin-core:4.1.0")
+    implementation("io.insert-koin:koin-core:4.1.1")
 
     // ASCII Progress Bar https://github.com/ctongfei/progressbar
     implementation("me.tongfei:progressbar:0.10.1")
