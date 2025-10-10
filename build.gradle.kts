@@ -38,7 +38,7 @@ dependencies {
 
     // https://square.github.io/okhttp/
     // define a BOM and its version
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.1.0"))
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.2.1"))
 
     // define any required OkHttp artifacts without version
     implementation("com.squareup.okhttp3:okhttp")
@@ -80,7 +80,7 @@ dependencies {
     //
     testImplementation(kotlin("test"))
     testImplementation("com.google.truth:truth:1.4.5")
-    testImplementation("com.squareup.okhttp3:mockwebserver:5.1.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:5.2.1")
     // MockK - https://mockk.io/ : don't use 1.13.8 due to
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
     testImplementation("io.mockk:mockk:1.14.6")
