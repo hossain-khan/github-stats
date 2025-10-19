@@ -11,7 +11,7 @@ plugins {
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
     // https://kotlinlang.org/docs/dokka-migration.html
-    id("org.jetbrains.dokka") version "2.0.0"
+    id("org.jetbrains.dokka") version "2.1.0"
 
     // SQLDelight plugin for database code generation
     // https://sqldelight.github.io/sqldelight/2.1.0/
