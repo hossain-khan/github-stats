@@ -84,7 +84,7 @@ dependencies {
     // MockK - https://mockk.io/ : don't use 1.13.8 due to
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
     testImplementation("io.mockk:mockk:1.14.6")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.2.20")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.2.21")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.14.0")
 }
