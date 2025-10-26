@@ -5,7 +5,7 @@ import org.jmailen.gradle.kotlinter.tasks.ConfigurableKtLintTask
 plugins {
     // For build.gradle.kts (Kotlin DSL)
     // https://kotlinlang.org/docs/releases.html#release-details
-    kotlin("jvm") version "2.2.20"
+    kotlin("jvm") version "2.2.21"
     id("org.jmailen.kotlinter") version "5.2.0"
 
     // Dokka - API documentation engine for Kotlin
