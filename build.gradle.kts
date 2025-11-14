@@ -15,7 +15,7 @@ plugins {
 
     // SQLDelight plugin for database code generation
     // https://sqldelight.github.io/sqldelight/2.1.0/
-    id("app.cash.sqldelight") version "2.1.0"
+    id("app.cash.sqldelight") version "2.2.1"
 
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
     // id("com.google.devtools.ksp") version "1.9.20-1.0.6" // Not needed yet.
