@@ -115,7 +115,7 @@ sqldelight {
     databases {
         create("GitHubStatsDatabase") {
             packageName.set("dev.hossain.githubstats.cache.database")
-            dialect("app.cash.sqldelight:postgresql-dialect:2.1.0")
+            dialect("app.cash.sqldelight:postgresql-dialect:2.2.1")
             // deriveSchemaFromMigrations.set(true) // Remove this for direct .sq files
         }
     }
