@@ -80,12 +80,15 @@ class CacheStatsFormatter {
                 stats.overallCacheHitRate >= 80 -> {
                     appendLine("✅ Excellent cache performance! Most requests are being served from cache.")
                 }
+
                 stats.overallCacheHitRate >= 60 -> {
                     appendLine("✅ Good cache performance. Consider optimizing cache expiration settings.")
                 }
+
                 stats.overallCacheHitRate >= 40 -> {
                     appendLine("⚠️  Moderate cache performance. Many requests are hitting the network.")
                 }
+
                 else -> {
                     appendLine("⚠️  Low cache performance. Consider reviewing cache configuration.")
                 }

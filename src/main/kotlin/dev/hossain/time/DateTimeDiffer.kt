@@ -163,8 +163,10 @@ object DateTimeDiffer {
             // Alternatively, check if both of the start and end time is outside working hours
             (startDateTime.isWithinWorkingHour() || endDateTime.isWithinWorkingHour()).not() -> {
                 return if ((startDateTime.isBeforeWorkingHour() && endDateTime.isBeforeWorkingHour()) ||
-                    startDateTime.isAfterWorkingHour() &&
-                    endDateTime.isAfterWorkingHour()
+                    (
+                        startDateTime.isAfterWorkingHour() &&
+                            endDateTime.isAfterWorkingHour()
+                    )
                 ) {
                     // Both start and end time was before/after working hour. Make the diff almost zero.
                     Duration.ZERO // Kudos, you get bonus point
