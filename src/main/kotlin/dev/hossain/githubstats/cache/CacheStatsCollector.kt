@@ -77,13 +77,18 @@ class CacheStatsCollector : CacheStatsService {
                 url.contains("/pulls/") && url.contains("/comments") -> {
                     current.copy(comments = status)
                 }
+
                 url.contains("/issues/") && url.contains("/timeline") -> {
                     current.copy(timeline = status)
                 }
+
                 url.contains("/pulls/") && !url.contains("/comments") -> {
                     current.copy(prInfo = status)
                 }
-                else -> current
+
+                else -> {
+                    current
+                }
             }
         }
     }
