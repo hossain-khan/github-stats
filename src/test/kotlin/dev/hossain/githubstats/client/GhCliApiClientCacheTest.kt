@@ -124,9 +124,11 @@ class GhCliApiClientCacheTest {
 
             // Verify cache was checked
             coVerify(exactly = 1) {
-                mockDatabaseCache.getCachedResponse(match { url ->
-                    url.contains("/repos/owner/repo/pulls/123")
-                })
+                mockDatabaseCache.getCachedResponse(
+                    match { url ->
+                        url.contains("/repos/owner/repo/pulls/123")
+                    },
+                )
             }
 
             // Verify cache hit was recorded
