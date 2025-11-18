@@ -137,7 +137,9 @@ object TemporalsExtension {
                         temporal.plus(17 - hour.toLong(), ChronoUnit.HOURS)
                     }
 
-                    else -> temporal
+                    else -> {
+                        temporal
+                    }
                 }
         },
 
@@ -156,12 +158,18 @@ object TemporalsExtension {
         NEXT_WORKING_HOUR_OR_SAME {
             override fun adjustInto(temporal: Temporal): Temporal =
                 when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
-                    in 0..8 -> temporal.plus((9 - hour).toLong(), ChronoUnit.HOURS)
+                    in 0..8 -> {
+                        temporal.plus((9 - hour).toLong(), ChronoUnit.HOURS)
+                    }
+
                     in 17..23 -> {
                         // Set the temporal to next day @ 9:00am
                         temporal.plus((24 - hour + 9).toLong(), ChronoUnit.HOURS)
                     }
-                    else -> temporal
+
+                    else -> {
+                        temporal
+                    }
                 }
         },
 
@@ -180,10 +188,12 @@ object TemporalsExtension {
         PREV_WORKING_HOUR {
             override fun adjustInto(temporal: Temporal): Temporal =
                 when (val hour = temporal[ChronoField.HOUR_OF_DAY]) {
-                    in 9..17 ->
+                    in 9..17 -> {
                         temporal
                             .minus((hour - 9).toLong(), ChronoUnit.HOURS)
                             .minus(temporal[ChronoField.MINUTE_OF_HOUR].toLong(), ChronoUnit.MINUTES)
+                    }
+
                     in 0..8 -> {
                         // Set time to end of the day on previous day
                         temporal
@@ -198,7 +208,9 @@ object TemporalsExtension {
                             .minus(temporal[ChronoField.MINUTE_OF_HOUR].toLong(), ChronoUnit.MINUTES)
                     }
 
-                    else -> temporal
+                    else -> {
+                        temporal
+                    }
                 }
         },
 
