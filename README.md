@@ -26,6 +26,24 @@ This project exist to explore GitHub API to get some common answer about PR revi
 ## Setup 🛠
 See [SETUP](SETUP.md) for details on how to setup the project using IntelliJ IDEA.
 
+### Quick Start
+```bash
+# 1. Clone the repository
+git clone https://github.com/hossain-khan/github-stats.git
+cd github-stats
+
+# 2. Initialize local.properties with automatic date setup
+./local-prop-init.sh
+
+# 3. Edit local.properties and add your:
+#    - GitHub access token
+#    - Repository details
+#    - Author list
+
+# 4. Run the stats generator
+./gradlew run
+```
+
 ### Run App 📊
 After configuration comlete, you can run the app in either ways: 
 

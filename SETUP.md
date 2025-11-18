@@ -39,6 +39,24 @@ Once project is synced using gradle, you should see the project load like follow
 <img width="800" src="https://user-images.githubusercontent.com/99822/197039976-0fa4e15f-e3c1-4dbc-892f-572e15da3a6a.png">
 
 ### Setup `local.properties`
+
+#### Option 1: Using the initialization script (Recommended)
+Run the provided script to automatically create `local.properties` with date ranges set:
+```bash
+./local-prop-init.sh
+```
+This will:
+- Copy `local_sample.properties` to `local.properties`
+- Set `date_limit_after` to one month ago
+- Set `date_limit_before` to today's date
+
+Then update the following required values in `local.properties`:
+- `access_token` - Generate a **[token](https://github.com/settings/tokens)** 
+- `repository_owner` - Your GitHub org/user name
+- `repository_id` - Your repository name
+- `authors` - Comma-separated list of GitHub user IDs
+
+#### Option 2: Manual setup
 Rename the provided [`local_sample.properties`](https://github.com/hossain-khan/github-stats/blob/main/local_sample.properties) to `local.properties`.
 
 <img width="800" src="https://user-images.githubusercontent.com/99822/197039882-33108a1f-64d0-4848-bfbb-de3555f449b0.png">
