@@ -37,9 +37,13 @@ echo "  date_limit_before = $TODAY"
 echo
 
 # Copy the file and update only the main date configuration (not commented examples)
-# This uses awk to only replace the first occurrence of each date field
+# This uses awk to skip the sample header, replace dates, and keep everything else
 awk -v after="$ONE_MONTH_AGO" -v before="$TODAY" '
 {
+    # Skip the sample file header lines (first 3 lines)
+    if (NR <= 3) {
+        next
+    }
     # Only replace the first occurrence of date_limit_after (not commented lines)
     if (!after_replaced && /^date_limit_after=/ && !/^#/) {
         print "date_limit_after=" after
