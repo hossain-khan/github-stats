@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.service
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.client.RetrofitApiClient
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.util.ErrorProcessor
@@ -29,7 +30,7 @@ internal class TimelineEventsPagerServiceTest {
 
         timelinePagerService =
             TimelineEventsPagerService(
-                githubApiService = Client.githubApiService,
+                apiClient = RetrofitApiClient(Client.githubApiService),
                 errorProcessor = ErrorProcessor(),
             )
     }

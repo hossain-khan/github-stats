@@ -4,6 +4,7 @@ import dev.hossain.githubstats.PrStats
 import dev.hossain.githubstats.UserId
 import dev.hossain.githubstats.UserPrComment
 import dev.hossain.githubstats.cache.CacheStatsService
+import dev.hossain.githubstats.client.GitHubApiClient
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.PullRequest
@@ -16,7 +17,6 @@ import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.model.timeline.filterTo
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
-import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.time.DateTimeDiffer
@@ -27,10 +27,10 @@ import org.jetbrains.annotations.TestOnly
 import kotlin.time.Duration
 
 /**
- * Creates PR stats using combination of data from the PR using [githubApiService].
+ * Creates PR stats using combination of data from the PR using [apiClient].
  */
 class PullRequestStatsRepoImpl(
-    private val githubApiService: GithubApiService,
+    private val apiClient: GitHubApiClient,
     private val timelinesPager: TimelineEventsPagerService,
     private val userTimeZone: UserTimeZone,
     private val cacheStatsService: CacheStatsService,
@@ -45,7 +45,7 @@ class PullRequestStatsRepoImpl(
         botUserIds: List<String>,
     ): StatsResult {
         // API request to get PR information
-        val pullRequest: PullRequest = githubApiService.pullRequest(repoOwner, repoId, prNumber)
+        val pullRequest: PullRequest = apiClient.pullRequest(repoOwner, repoId, prNumber)
 
         if (!pullRequest.isMerged) {
             // Skips PR stats generation if PR is not merged at all.
@@ -74,7 +74,7 @@ class PullRequestStatsRepoImpl(
         // API request to get all timeline events for the PR
         val prTimelineEvents = timelinesPager.getAllTimelineEvents(repoOwner, repoId, prNumber)
         // API request to get all PR source code review comments associated with diffs
-        val prCodeReviewComments = githubApiService.prSourceCodeReviewComments(repoOwner, repoId, prNumber)
+        val prCodeReviewComments = apiClient.prSourceCodeReviewComments(repoOwner, repoId, prNumber)
 
         // Log cache status summary for this PR analysis
         cacheStatsService.getPrCacheStatusAndReset()?.let { cacheStatus ->

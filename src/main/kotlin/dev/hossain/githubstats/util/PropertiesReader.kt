@@ -33,6 +33,7 @@ abstract class PropertiesReader(
 
 class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
     companion object {
+        private const val KEY_API_CLIENT_TYPE = "api_client_type"
         private const val KEY_REPO_OWNER = "repository_owner"
         private const val KEY_REPO_ID = "repository_id"
         private const val KEY_AUTHOR_IDS = "authors"
@@ -46,6 +47,12 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         private const val KEY_DB_CACHE_PASSWORD = "db_cache_password"
         private const val KEY_DB_CACHE_EXPIRATION_HOURS = "db_cache_expiration_hours"
     }
+
+    /**
+     * Gets the API client type configuration.
+     * Defaults to RETROFIT if not specified.
+     */
+    fun getApiClientType(): String = getProperty(KEY_API_CLIENT_TYPE) ?: "RETROFIT"
 
     fun getRepoOwner(): String =
         requireNotNull(getProperty(KEY_REPO_OWNER)) {

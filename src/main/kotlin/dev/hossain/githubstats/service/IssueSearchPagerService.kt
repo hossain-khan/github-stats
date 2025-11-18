@@ -1,10 +1,11 @@
 package dev.hossain.githubstats.service
 
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.client.GitHubApiClient
+import dev.hossain.githubstats.client.GitHubApiClient.Companion.DEFAULT_PAGE_SIZE
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.model.IssueSearchResult
-import dev.hossain.githubstats.service.GithubApiService.Companion.DEFAULT_PAGE_SIZE
 import dev.hossain.githubstats.util.ErrorInfo
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.delay
@@ -14,12 +15,12 @@ import kotlin.math.ceil
  * GitHub issue search with paging support.
  */
 class IssueSearchPagerService constructor(
-    private val githubApiService: GithubApiService,
+    private val apiClient: GitHubApiClient,
     private val errorProcessor: ErrorProcessor,
     private val pageSize: Int = DEFAULT_PAGE_SIZE,
 ) {
     /**
-     * Does the search API call using [GithubApiService.searchIssues] and pages to collect all results.
+     * Does the search API call using [GitHubApiClient.searchIssues] and pages to collect all results.
      */
     suspend fun searchIssues(searchQuery: String): List<Issue> {
         val allSearchedIssues = mutableListOf<Issue>()
@@ -28,7 +29,7 @@ class IssueSearchPagerService constructor(
         do {
             val issueSearchResult: IssueSearchResult =
                 try {
-                    githubApiService.searchIssues(
+                    apiClient.searchIssues(
                         searchQuery = searchQuery,
                         page = pageNumber,
                         size = pageSize,

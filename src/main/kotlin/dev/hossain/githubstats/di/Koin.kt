@@ -7,6 +7,9 @@ import dev.hossain.githubstats.PrReviewerStatsService
 import dev.hossain.githubstats.cache.CacheStatsCollector
 import dev.hossain.githubstats.cache.CacheStatsFormatter
 import dev.hossain.githubstats.cache.CacheStatsService
+import dev.hossain.githubstats.client.ApiClientType
+import dev.hossain.githubstats.client.GitHubApiClient
+import dev.hossain.githubstats.client.GitHubApiClientFactory
 import dev.hossain.githubstats.formatter.CsvFormatter
 import dev.hossain.githubstats.formatter.FileWriterFormatter
 import dev.hossain.githubstats.formatter.HtmlChartFormatter
@@ -15,6 +18,7 @@ import dev.hossain.githubstats.formatter.StatsFormatter
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.repository.PullRequestStatsRepo
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
+import dev.hossain.githubstats.service.GithubApiService
 import dev.hossain.githubstats.service.IssueSearchPagerService
 import dev.hossain.githubstats.service.TimelineEventsPagerService
 import dev.hossain.githubstats.util.AppConfig
@@ -43,12 +47,17 @@ val appModule =
         single<CacheStatsService> { CacheStatsCollector() }
         single { CacheStatsFormatter() }
 
-        // Network and local services for stat generation
-        single { Client(cacheStatsService = get()) }
-        single { get<Client>().githubApiService }
+        // GitHub API Client - creates appropriate implementation based on configuration
+        single<GitHubApiClient> {
+            val localProperties: LocalProperties = get()
+            val clientType = ApiClientType.fromString(localProperties.getApiClientType())
+            GitHubApiClientFactory.create(clientType, cacheStatsService = get())
+        }
+
+        // Repository and services using the abstracted API client
         single<PullRequestStatsRepo> {
             PullRequestStatsRepoImpl(
-                githubApiService = get(),
+                apiClient = get(),
                 timelinesPager = get(),
                 userTimeZone = get(),
                 cacheStatsService = get(),
@@ -56,13 +65,13 @@ val appModule =
         }
         factory {
             IssueSearchPagerService(
-                githubApiService = get(),
+                apiClient = get(),
                 errorProcessor = get(),
             )
         }
         factory {
             TimelineEventsPagerService(
-                githubApiService = get(),
+                apiClient = get(),
                 errorProcessor = get(),
             )
         }

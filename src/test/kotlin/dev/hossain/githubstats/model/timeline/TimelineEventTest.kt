@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.model.timeline
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.client.RetrofitApiClient
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.User
 import kotlinx.coroutines.test.runTest
@@ -16,12 +17,14 @@ import org.junit.jupiter.api.Test
 internal class TimelineEventTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
+    private lateinit var apiClient: RetrofitApiClient
 
     @BeforeEach
     fun setUp() {
         mockWebServer = MockWebServer()
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
+        apiClient = RetrofitApiClient(Client.githubApiService)
     }
 
     @AfterEach
@@ -34,7 +37,7 @@ internal class TimelineEventTest {
         runTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = apiClient.timelineEvents("X", "Y", 1)
 
             val commentedEvents: List<CommentedEvent> = timelineEvents.filterTo(CommentedEvent::class)
             assertThat(commentedEvents).hasSize(24)
@@ -45,7 +48,7 @@ internal class TimelineEventTest {
         runTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = apiClient.timelineEvents("X", "Y", 1)
 
             val commentedEvents: List<ReviewedEvent> = timelineEvents.filterTo(ReviewedEvent::class)
             assertThat(commentedEvents).hasSize(20)
@@ -56,7 +59,7 @@ internal class TimelineEventTest {
         runTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = apiClient.timelineEvents("X", "Y", 1)
 
             val commentedEvents: List<ClosedEvent> = timelineEvents.filterTo(ClosedEvent::class)
             assertThat(commentedEvents).hasSize(1)
@@ -67,7 +70,7 @@ internal class TimelineEventTest {
         runTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = apiClient.timelineEvents("X", "Y", 1)
 
             val commentedEvents: List<MergedEvent> = timelineEvents.filterTo(MergedEvent::class)
             assertThat(commentedEvents).hasSize(1)
@@ -78,7 +81,7 @@ internal class TimelineEventTest {
         runTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-56555.json")))
 
-            val timelineEvents: List<TimelineEvent> = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val timelineEvents: List<TimelineEvent> = apiClient.timelineEvents("X", "Y", 1)
 
             val reviewedEvents: List<ReviewedEvent> = timelineEvents.filterTo(ReviewedEvent::class)
             assertThat(reviewedEvents).hasSize(3)
