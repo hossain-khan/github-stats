@@ -3,6 +3,8 @@ package dev.hossain.githubstats.client
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dev.hossain.githubstats.cache.CacheStatsService
+import dev.hossain.githubstats.cache.DatabaseCacheService
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.IssueSearchResult
@@ -18,22 +20,39 @@ import java.io.InputStreamReader
  * Implementation of [GitHubApiClient] using GitHub CLI (`gh` command).
  * This implementation shells out to the `gh api` command to make API requests.
  *
+ * Supports optional caching through:
+ * - Database cache (PostgreSQL) for persistent caching across sessions
+ * - Cache statistics tracking for performance monitoring
+ *
  * Prerequisites:
  * - GitHub CLI must be installed (`brew install gh` on macOS)
  * - User must be authenticated (`gh auth login`)
+ *
+ * @param moshi JSON serialization/deserialization engine
+ * @param databaseCacheService Optional database cache service for persistent caching
+ * @param cacheStatsService Optional service for tracking cache performance metrics
  *
  * @see <a href="https://cli.github.com/">GitHub CLI</a>
  * @see <a href="https://cli.github.com/manual/gh_api">gh api documentation</a>
  */
 class GhCliApiClient(
     private val moshi: Moshi = createMoshi(),
+    private val databaseCacheService: DatabaseCacheService? = null,
+    private val cacheStatsService: CacheStatsService? = null,
 ) : GitHubApiClient {
     private var requestCount = 0
     private var totalRequestTime = 0L
     private var totalResponseBytes = 0L
+    private var cacheHits = 0
+    private var cacheMisses = 0
 
     init {
-        Log.i("GhCliApiClient initialized - using GitHub CLI for API requests")
+        val cacheStatus =
+            when {
+                databaseCacheService != null -> "with database caching"
+                else -> "without caching"
+            }
+        Log.i("GhCliApiClient initialized - using GitHub CLI for API requests $cacheStatus")
     }
 
     companion object {
@@ -173,6 +192,7 @@ class GhCliApiClient(
 
     /**
      * Executes a GitHub API request using `gh api` command and parses the JSON response.
+     * Checks cache first if database caching is enabled.
      */
     private suspend fun <T> executeGhApi(
         endpoint: String,
@@ -186,17 +206,40 @@ class GhCliApiClient(
             Log.d("[$requestId] GH CLI API Request: $endpoint")
             Log.v("[$requestId] Parameters: $params")
 
-            val command = buildGhApiCommand(endpoint, params)
-            Log.v("[$requestId] Command: ${command.joinToString(" ")}")
+            // Try to get from cache first
+            val cacheKey = generateCacheKey(endpoint, params)
+            val cachedResponse = databaseCacheService?.getCachedResponse(cacheKey)
 
+            val jsonResponse: String
             val startTime = System.currentTimeMillis()
-            val jsonResponse = executeCommand(command, requestId)
-            val duration = System.currentTimeMillis() - startTime
 
-            totalRequestTime += duration
-            totalResponseBytes += jsonResponse.length
+            if (cachedResponse != null) {
+                // Cache hit
+                jsonResponse = cachedResponse
+                cacheHits++
+                cacheStatsService?.recordDatabaseCacheHit(cacheKey)
+                val duration = System.currentTimeMillis() - startTime
+                Log.d("[$requestId] Response from cache in ${duration}ms (${jsonResponse.length} bytes)")
+            } else {
+                // Cache miss - execute command
+                cacheMisses++
+                cacheStatsService?.recordDatabaseCacheMiss(cacheKey)
 
-            Log.d("[$requestId] Response received in ${duration}ms (${jsonResponse.length} bytes)")
+                val command = buildGhApiCommand(endpoint, params)
+                Log.v("[$requestId] Command: ${command.joinToString(" ")}")
+
+                jsonResponse = executeCommand(command, requestId)
+                val duration = System.currentTimeMillis() - startTime
+
+                totalRequestTime += duration
+                totalResponseBytes += jsonResponse.length
+
+                Log.d("[$requestId] Response received in ${duration}ms (${jsonResponse.length} bytes)")
+
+                // Store in cache if enabled
+                databaseCacheService?.cacheResponse(cacheKey, jsonResponse)
+            }
+
             val preview = jsonResponse.take(LOG_RESPONSE_PREVIEW_LENGTH)
             val suffix = if (jsonResponse.length > LOG_RESPONSE_PREVIEW_LENGTH) "..." else ""
             Log.v("[$requestId] Response preview: $preview$suffix")
@@ -208,6 +251,7 @@ class GhCliApiClient(
 
     /**
      * Executes a GitHub API request that returns a list/array.
+     * Checks cache first if database caching is enabled.
      */
     private suspend fun <T> executeGhApiList(
         endpoint: String,
@@ -221,17 +265,40 @@ class GhCliApiClient(
             Log.d("[$requestId] GH CLI API List Request: $endpoint")
             Log.v("[$requestId] Parameters: $params")
 
-            val command = buildGhApiCommand(endpoint, params)
-            Log.v("[$requestId] Command: ${command.joinToString(" ")}")
+            // Try to get from cache first
+            val cacheKey = generateCacheKey(endpoint, params)
+            val cachedResponse = databaseCacheService?.getCachedResponse(cacheKey)
 
+            val jsonResponse: String
             val startTime = System.currentTimeMillis()
-            val jsonResponse = executeCommand(command, requestId)
-            val duration = System.currentTimeMillis() - startTime
 
-            totalRequestTime += duration
-            totalResponseBytes += jsonResponse.length
+            if (cachedResponse != null) {
+                // Cache hit
+                jsonResponse = cachedResponse
+                cacheHits++
+                cacheStatsService?.recordDatabaseCacheHit(cacheKey)
+                val duration = System.currentTimeMillis() - startTime
+                Log.d("[$requestId] List response from cache in ${duration}ms (${jsonResponse.length} bytes)")
+            } else {
+                // Cache miss - execute command
+                cacheMisses++
+                cacheStatsService?.recordDatabaseCacheMiss(cacheKey)
 
-            Log.d("[$requestId] List response received in ${duration}ms (${jsonResponse.length} bytes)")
+                val command = buildGhApiCommand(endpoint, params)
+                Log.v("[$requestId] Command: ${command.joinToString(" ")}")
+
+                jsonResponse = executeCommand(command, requestId)
+                val duration = System.currentTimeMillis() - startTime
+
+                totalRequestTime += duration
+                totalResponseBytes += jsonResponse.length
+
+                Log.d("[$requestId] List response received in ${duration}ms (${jsonResponse.length} bytes)")
+
+                // Store in cache if enabled
+                databaseCacheService?.cacheResponse(cacheKey, jsonResponse)
+            }
+
             val preview = jsonResponse.take(LOG_RESPONSE_PREVIEW_LENGTH)
             val suffix = if (jsonResponse.length > LOG_RESPONSE_PREVIEW_LENGTH) "..." else ""
             Log.v("[$requestId] Response preview: $preview$suffix")
@@ -254,10 +321,16 @@ class GhCliApiClient(
         val avgTime = if (requestCount > 0) totalRequestTime / requestCount else 0
         val avgBytes = if (requestCount > 0) totalResponseBytes / requestCount else 0
         val totalMB = totalResponseBytes / (1024.0 * 1024.0)
+        val cacheHitRate = if (requestCount > 0) (cacheHits * 100.0) / requestCount else 0.0
 
         return buildString {
             appendLine("GH CLI API Client Statistics:")
             appendLine("  Total Requests: $requestCount")
+            if (cacheHits > 0 || cacheMisses > 0) {
+                appendLine("  Cache Hits: $cacheHits")
+                appendLine("  Cache Misses: $cacheMisses")
+                appendLine("  Cache Hit Rate: ${"%.1f".format(cacheHitRate)}%")
+            }
             appendLine("  Total Time: ${totalRequestTime}ms")
             appendLine("  Average Time: $avgTime ms per request")
             appendLine("  Total Data: ${"%.2f".format(totalMB)} MB")
@@ -270,6 +343,23 @@ class GhCliApiClient(
      */
     fun logStatistics() {
         Log.i(getRequestStatistics())
+    }
+
+    /**
+     * Generates a cache key for the given endpoint and parameters.
+     * Uses the same format as GitHub API URLs for consistency with DatabaseCacheService.
+     */
+    private fun generateCacheKey(
+        endpoint: String,
+        params: Map<String, String>,
+    ): String {
+        val baseUrl = "https://api.github.com$endpoint"
+        return if (params.isEmpty()) {
+            baseUrl
+        } else {
+            val queryString = params.entries.joinToString("&") { "${it.key}=${it.value}" }
+            "$baseUrl?$queryString"
+        }
     }
 
     /**
