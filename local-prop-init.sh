@@ -36,12 +36,26 @@ echo "  date_limit_after = $ONE_MONTH_AGO"
 echo "  date_limit_before = $TODAY"
 echo
 
-# Copy and update the file
-sed -e "s/^date_limit_after=.*$/date_limit_after=$ONE_MONTH_AGO/" \
-    -e "s/^date_limit_before=.*$/date_limit_before=$TODAY/" \
-    -e "s/^#date_limit_after=.*$/date_limit_after=$ONE_MONTH_AGO/" \
-    -e "s/^#date_limit_before=.*$/date_limit_before=$TODAY/" \
-    "$SAMPLE_FILE" > "$LOCAL_FILE"
+# Copy the file and update only the main date configuration (not commented examples)
+# This uses awk to only replace the first occurrence of each date field
+awk -v after="$ONE_MONTH_AGO" -v before="$TODAY" '
+{
+    # Only replace the first occurrence of date_limit_after (not commented lines)
+    if (!after_replaced && /^date_limit_after=/ && !/^#/) {
+        print "date_limit_after=" after
+        after_replaced = 1
+        next
+    }
+    # Only replace the first occurrence of date_limit_before (not commented lines)
+    if (!before_replaced && /^date_limit_before=/ && !/^#/) {
+        print "date_limit_before=" before
+        before_replaced = 1
+        next
+    }
+    # Print all other lines as-is
+    print
+}
+' "$SAMPLE_FILE" > "$LOCAL_FILE"
 
 echo "✓ local.properties created successfully!"
 echo
