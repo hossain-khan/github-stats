@@ -182,22 +182,24 @@ class GhCliApiClient(
         withContext(Dispatchers.IO) {
             requestCount++
             val requestId = requestCount
-            
+
             Log.d("[$requestId] GH CLI API Request: $endpoint")
             Log.v("[$requestId] Parameters: $params")
-            
+
             val command = buildGhApiCommand(endpoint, params)
             Log.v("[$requestId] Command: ${command.joinToString(" ")}")
-            
+
             val startTime = System.currentTimeMillis()
             val jsonResponse = executeCommand(command, requestId)
             val duration = System.currentTimeMillis() - startTime
-            
+
             totalRequestTime += duration
             totalResponseBytes += jsonResponse.length
-            
+
             Log.d("[$requestId] Response received in ${duration}ms (${jsonResponse.length} bytes)")
-            Log.v("[$requestId] Response preview: ${jsonResponse.take(LOG_RESPONSE_PREVIEW_LENGTH)}${if (jsonResponse.length > LOG_RESPONSE_PREVIEW_LENGTH) "..." else ""}")
+            val preview = jsonResponse.take(LOG_RESPONSE_PREVIEW_LENGTH)
+            val suffix = if (jsonResponse.length > LOG_RESPONSE_PREVIEW_LENGTH) "..." else ""
+            Log.v("[$requestId] Response preview: $preview$suffix")
 
             val adapter = moshi.adapter(responseType)
             adapter.fromJson(jsonResponse)
@@ -215,28 +217,31 @@ class GhCliApiClient(
         withContext(Dispatchers.IO) {
             requestCount++
             val requestId = requestCount
-            
+
             Log.d("[$requestId] GH CLI API List Request: $endpoint")
             Log.v("[$requestId] Parameters: $params")
-            
+
             val command = buildGhApiCommand(endpoint, params)
             Log.v("[$requestId] Command: ${command.joinToString(" ")}")
-            
+
             val startTime = System.currentTimeMillis()
             val jsonResponse = executeCommand(command, requestId)
             val duration = System.currentTimeMillis() - startTime
-            
+
             totalRequestTime += duration
             totalResponseBytes += jsonResponse.length
-            
+
             Log.d("[$requestId] List response received in ${duration}ms (${jsonResponse.length} bytes)")
-            Log.v("[$requestId] Response preview: ${jsonResponse.take(LOG_RESPONSE_PREVIEW_LENGTH)}${if (jsonResponse.length > LOG_RESPONSE_PREVIEW_LENGTH) "..." else ""}")
+            val preview = jsonResponse.take(LOG_RESPONSE_PREVIEW_LENGTH)
+            val suffix = if (jsonResponse.length > LOG_RESPONSE_PREVIEW_LENGTH) "..." else ""
+            Log.v("[$requestId] Response preview: $preview$suffix")
 
             val listType = Types.newParameterizedType(List::class.java, responseType)
             val adapter = moshi.adapter<List<T>>(listType)
-            val result = adapter.fromJson(jsonResponse)
-                ?: throw IllegalStateException("Failed to parse list response for $endpoint")
-            
+            val result =
+                adapter.fromJson(jsonResponse)
+                    ?: throw IllegalStateException("Failed to parse list response for $endpoint")
+
             Log.d("[$requestId] Parsed ${result.size} items from response")
             result
         }
@@ -249,14 +254,14 @@ class GhCliApiClient(
         val avgTime = if (requestCount > 0) totalRequestTime / requestCount else 0
         val avgBytes = if (requestCount > 0) totalResponseBytes / requestCount else 0
         val totalMB = totalResponseBytes / (1024.0 * 1024.0)
-        
+
         return buildString {
             appendLine("GH CLI API Client Statistics:")
             appendLine("  Total Requests: $requestCount")
             appendLine("  Total Time: ${totalRequestTime}ms")
-            appendLine("  Average Time: ${avgTime}ms per request")
+            appendLine("  Average Time: $avgTime ms per request")
             appendLine("  Total Data: ${"%.2f".format(totalMB)} MB")
-            appendLine("  Average Size: ${avgBytes} bytes per response")
+            appendLine("  Average Size: $avgBytes bytes per response")
         }
     }
 
@@ -286,7 +291,7 @@ class GhCliApiClient(
 
     /**
      * Executes a shell command and returns the output as a string.
-     * 
+     *
      * @param command The command to execute
      * @param requestId Optional request ID for logging correlation
      */
@@ -295,10 +300,10 @@ class GhCliApiClient(
         requestId: Int? = null,
     ): String {
         val logPrefix = if (requestId != null) "[$requestId] " else ""
-        
+
         Log.v("${logPrefix}Starting process execution...")
         val processStartTime = System.currentTimeMillis()
-        
+
         val process =
             ProcessBuilder(command)
                 .redirectErrorStream(true)
