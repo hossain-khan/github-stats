@@ -1,7 +1,7 @@
 import dev.hossain.ascii.Art
+import dev.hossain.githubstats.client.GitHubApiClient
 import dev.hossain.githubstats.di.appModule
 import dev.hossain.githubstats.logging.Log
-import dev.hossain.githubstats.service.GithubApiService
 import kotlinx.coroutines.runBlocking
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.java.KoinJavaComponent.inject
@@ -20,9 +20,9 @@ fun main() {
     // ℹ️ Example code block to show top contributors from specified repository.
     // =========================================================================
     runBlocking {
-        val githubApiService: GithubApiService by inject(GithubApiService::class.java)
+        val apiClient: GitHubApiClient by inject(GitHubApiClient::class.java)
         // Sample parameter to get top contributors from https://github.com/square/okhttp
-        val contributors = githubApiService.topContributors(owner = "square", repo = "okhttp")
+        val contributors = apiClient.topContributors(owner = "square", repo = "okhttp")
 
         println("Here are top contributors: ${contributors.map { it.login }}")
     }
@@ -36,12 +36,12 @@ fun main() {
 //    }
 
     // =========================================================================
-    // ℹ️ Example code block to test single GitHub API from GithubApiService.
+    // ℹ️ Example code block to test single GitHub API from GitHubApiClient.
     // =========================================================================
 //    runBlocking {
-//        val githubApiService: GithubApiService by inject(GithubApiService::class.java)
+//        val apiClient: GitHubApiClient by inject(GitHubApiClient::class.java)
 //        // Sample parameter to get PR review comments from https://github.com/square/okhttp/pull/7415
-//        val prReviewComments = githubApiService
+//        val prReviewComments = apiClient
 //            .prSourceCodeReviewComments(owner = "square", repo = "okhttp", prNumber = 7415)
 //        println("The PR has ${prReviewComments.size} review comments")
 //    }

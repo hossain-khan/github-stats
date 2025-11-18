@@ -2,6 +2,7 @@ package dev.hossain.githubstats
 
 import com.google.common.truth.Truth.assertThat
 import dev.hossain.githubstats.cache.CacheStatsCollector
+import dev.hossain.githubstats.client.RetrofitApiClient
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.repository.PullRequestStatsRepo.StatsResult
 import dev.hossain.githubstats.repository.PullRequestStatsRepoImpl
@@ -24,6 +25,7 @@ internal class PullRequestStatsRepoTest {
     // https://github.com/square/okhttp/tree/master/mockwebserver
     private lateinit var mockWebServer: MockWebServer
     private lateinit var pullRequestStatsRepo: PullRequestStatsRepoImpl
+    private lateinit var apiClient: RetrofitApiClient
 
     private companion object {
         const val REPO_OWNER = "owner"
@@ -36,12 +38,14 @@ internal class PullRequestStatsRepoTest {
         mockWebServer.start(60000)
         Client.baseUrl = mockWebServer.url("/")
 
+        apiClient = RetrofitApiClient(Client.githubApiService)
+
         pullRequestStatsRepo =
             PullRequestStatsRepoImpl(
-                githubApiService = Client.githubApiService,
+                apiClient = apiClient,
                 timelinesPager =
                     TimelineEventsPagerService(
-                        githubApiService = Client.githubApiService,
+                        apiClient = apiClient,
                         errorProcessor = ErrorProcessor(),
                     ),
                 userTimeZone = UserTimeZone(),
@@ -343,8 +347,8 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
 
-            val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
-            val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val pullRequest = apiClient.pullRequest("X", "Y", 1)
+            val timelineEvents = apiClient.timelineEvents("X", "Y", 1)
 
             val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
 
@@ -359,8 +363,8 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-3873.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-3873.json")))
 
-            val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
-            val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val pullRequest = apiClient.pullRequest("X", "Y", 1)
+            val timelineEvents = apiClient.timelineEvents("X", "Y", 1)
 
             val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
 
@@ -376,8 +380,8 @@ internal class PullRequestStatsRepoTest {
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-7458.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-7458.json")))
 
-            val pullRequest = Client.githubApiService.pullRequest("X", "Y", 1)
-            val timelineEvents = Client.githubApiService.timelineEvents("X", "Y", 1)
+            val pullRequest = apiClient.pullRequest("X", "Y", 1)
+            val timelineEvents = apiClient.timelineEvents("X", "Y", 1)
 
             val prReviewers = pullRequestStatsRepo.prReviewers(pullRequest.user, timelineEvents)
 

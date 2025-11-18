@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.service
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.client.RetrofitApiClient
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.Issue
 import dev.hossain.githubstats.util.ErrorProcessor
@@ -29,7 +30,7 @@ internal class IssueSearchPagerServiceTest {
 
         issueSearchPager =
             IssueSearchPagerService(
-                githubApiService = Client.githubApiService,
+                apiClient = RetrofitApiClient(Client.githubApiService),
                 errorProcessor = ErrorProcessor(),
             )
     }
@@ -83,7 +84,7 @@ internal class IssueSearchPagerServiceTest {
             // Re-initializes the pager to reduce page size for testing
             issueSearchPager =
                 IssueSearchPagerService(
-                    githubApiService = Client.githubApiService,
+                    apiClient = RetrofitApiClient(Client.githubApiService),
                     errorProcessor = ErrorProcessor(),
                     // sets the page size low based on unit test
                     pageSize = 10,

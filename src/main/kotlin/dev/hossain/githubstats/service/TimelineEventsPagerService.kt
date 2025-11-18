@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.service
 
 import dev.hossain.githubstats.BuildConfig
+import dev.hossain.githubstats.client.GitHubApiClient
 import dev.hossain.githubstats.logging.Log
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.util.ErrorProcessor
@@ -10,9 +11,9 @@ import kotlinx.coroutines.delay
  * Collects all [TimelineEvent] for a pull request if max allowed per page is exceeded.
  */
 class TimelineEventsPagerService constructor(
-    private val githubApiService: GithubApiService,
+    private val apiClient: GitHubApiClient,
     private val errorProcessor: ErrorProcessor,
-    private val pageSize: Int = GithubApiService.DEFAULT_PAGE_SIZE,
+    private val pageSize: Int = GitHubApiClient.DEFAULT_PAGE_SIZE,
 ) {
     /**
      * Provides all timeline events for [prNumber] by requesting multiple API requests if necessary.
@@ -28,7 +29,7 @@ class TimelineEventsPagerService constructor(
         do {
             val timelineEvents =
                 try {
-                    githubApiService.timelineEvents(
+                    apiClient.timelineEvents(
                         owner = repoOwner,
                         repo = repoId,
                         issue = prNumber,
