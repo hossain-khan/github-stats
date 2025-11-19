@@ -68,12 +68,12 @@ internal class IssueSearchPagerServiceTest : BaseApiMockTest() {
             mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-2.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("search-issue-freeCodeCamp-naomi-lgbt-page-3.json")))
 
-            // Re-initializes the pager to reduce page size for testing
+            // Re-initializes the pager with smaller page size to trigger pagination
             issueSearchPager =
                 IssueSearchPagerService(
                     apiClient = RetrofitApiClient(Client.githubApiService),
                     errorProcessor = ErrorProcessor(),
-                    // sets the page size low based on unit test
+                    // Use smaller page size to test pagination with multiple pages
                     pageSize = 10,
                 )
 
