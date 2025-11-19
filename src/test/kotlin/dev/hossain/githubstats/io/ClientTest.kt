@@ -15,7 +15,6 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 /**
  * Tests [GithubApiService] APIs.
@@ -142,7 +141,7 @@ internal class ClientTest : BaseApiMockTest() {
             mockWebServer.enqueue(MockResponse().setBody("[]"))
 
             val timelineEvents = apiClient.timelineEvents("X", "Y", 1)
-            assertEquals(true, timelineEvents.isEmpty())
+            assertThat(timelineEvents).isEmpty()
         }
 
     @Test
