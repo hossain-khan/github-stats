@@ -10,28 +10,33 @@ import java.util.Properties
  */
 abstract class PropertiesReader(
     fileName: String,
+    private val testMode: Boolean = false,
 ) {
-    private val properties = Properties()
+    protected val properties = Properties()
 
     init {
-        val propertiesFile = File(fileName)
-        if (propertiesFile.exists()) {
-            properties.load(propertiesFile.inputStream())
-        } else {
-            if (System.getenv("IS_GITHUB_CI") == "true") {
-                properties.load(File(LOCAL_PROPERTIES_SAMPLE_FILE).inputStream())
+        if (!testMode) {
+            val propertiesFile = File(fileName)
+            if (propertiesFile.exists()) {
+                properties.load(propertiesFile.inputStream())
             } else {
-                throw IllegalStateException(
-                    "Please create `$LOCAL_PROPERTIES_FILE` with config values. See `$LOCAL_PROPERTIES_SAMPLE_FILE`.",
-                )
+                if (System.getenv("IS_GITHUB_CI") == "true") {
+                    properties.load(File(LOCAL_PROPERTIES_SAMPLE_FILE).inputStream())
+                } else {
+                    throw IllegalStateException(
+                        "Please create `$LOCAL_PROPERTIES_FILE` with config values. See `$LOCAL_PROPERTIES_SAMPLE_FILE`.",
+                    )
+                }
             }
         }
     }
 
-    fun getProperty(key: String): String? = properties.getProperty(key)
+    open fun getProperty(key: String): String? = properties.getProperty(key)
 }
 
-class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
+open class LocalProperties(
+    testMode: Boolean = false,
+) : PropertiesReader(LOCAL_PROPERTIES_FILE, testMode) {
     companion object {
         private const val KEY_API_CLIENT_TYPE = "api_client_type"
         private const val KEY_REPO_OWNER = "repository_owner"
@@ -107,7 +112,7 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
     /**
      * Checks if database caching is configured by verifying required properties are present.
      */
-    fun isDatabaseCacheEnabled(): Boolean =
+    open fun isDatabaseCacheEnabled(): Boolean =
         !getDbCacheUrl().isNullOrBlank() &&
             !getDbCacheUsername().isNullOrBlank() &&
             !getDbCachePassword().isNullOrBlank()

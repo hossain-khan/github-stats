@@ -36,8 +36,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  */
 class Client(
     private val cacheStatsService: CacheStatsService?,
+    private val localProperties: LocalProperties? = null,
 ) {
-    private val localProperties = LocalProperties()
+    private val properties: LocalProperties by lazy {
+        localProperties ?: LocalProperties()
+    }
     private val httpClient = okHttpClient()
 
     // Test backdoor to allow setting base URL using mock server
@@ -49,13 +52,26 @@ class Client(
         private var testInstance: Client? = null
 
         /**
+         * Mock LocalProperties for tests that don't need actual property file.
+         */
+        private class MockLocalProperties : LocalProperties(testMode = true) {
+            init {
+                // Set mock properties for tests
+                properties.setProperty("access_token", "mock-token-for-tests")
+            }
+
+            override fun isDatabaseCacheEnabled(): Boolean = false
+        }
+
+        /**
          * For test backward compatibility - allows setting base URL for mock server.
          */
         var baseUrl: HttpUrl
             get() = testInstance?.baseUrl ?: "https://api.github.com/".toHttpUrlOrNull()!!
             set(value) {
                 if (testInstance == null) {
-                    testInstance = Client(null)
+                    // Create test instance with mock properties to avoid file loading
+                    testInstance = Client(cacheStatsService = null, localProperties = MockLocalProperties())
                 }
                 testInstance?.baseUrl = value
             }
@@ -66,7 +82,8 @@ class Client(
         val githubApiService: GithubApiService
             get() {
                 if (testInstance == null) {
-                    testInstance = Client(null)
+                    // Create test instance with mock properties to avoid file loading
+                    testInstance = Client(cacheStatsService = null, localProperties = MockLocalProperties())
                 }
                 return testInstance!!.githubApiService
             }
@@ -149,13 +166,13 @@ class Client(
      */
     private fun setupDatabaseCaching(builder: OkHttpClient.Builder) {
         try {
-            if (localProperties.isDatabaseCacheEnabled()) {
-                val database = DatabaseManager.initializeDatabase(localProperties)
+            if (properties.isDatabaseCacheEnabled()) {
+                val database = DatabaseManager.initializeDatabase(properties)
                 if (database != null) {
                     val cacheService =
                         DatabaseCacheService(
                             database = database,
-                            expirationHours = localProperties.getDbCacheExpirationHours(),
+                            expirationHours = properties.getDbCacheExpirationHours(),
                         )
                     val cacheInterceptor =
                         DatabaseCacheInterceptor(
@@ -187,7 +204,7 @@ class Client(
      * Provides access token from `[LOCAL_PROPERTIES_FILE]` config file.
      */
     private fun getAccessToken(): String =
-        requireNotNull(localProperties.getProperty("access_token")) {
+        requireNotNull(properties.getProperty("access_token")) {
             "GitHub access token config is required in $LOCAL_PROPERTIES_FILE"
         }
 }
