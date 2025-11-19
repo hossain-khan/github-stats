@@ -11,8 +11,6 @@ import dev.hossain.githubstats.util.ErrorProcessor
 import dev.hossain.time.UserTimeZone
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration
@@ -21,9 +19,7 @@ import kotlin.time.Duration
  * Tests Pull Request stats calculator [PullRequestStatsRepoImpl].
  */
 @Suppress("ktlint:standard:max-line-length")
-internal class PullRequestStatsRepoTest {
-    // https://github.com/square/okhttp/tree/master/mockwebserver
-    private lateinit var mockWebServer: MockWebServer
+internal class PullRequestStatsRepoTest : BaseApiMockTest() {
     private lateinit var pullRequestStatsRepo: PullRequestStatsRepoImpl
     private lateinit var apiClient: RetrofitApiClient
 
@@ -34,10 +30,6 @@ internal class PullRequestStatsRepoTest {
 
     @BeforeEach
     fun setUp() {
-        mockWebServer = MockWebServer()
-        mockWebServer.start(60000)
-        Client.baseUrl = mockWebServer.url("/")
-
         apiClient = RetrofitApiClient(Client.githubApiService)
 
         pullRequestStatsRepo =
@@ -51,11 +43,6 @@ internal class PullRequestStatsRepoTest {
                 userTimeZone = UserTimeZone(),
                 cacheStatsService = CacheStatsCollector(),
             )
-    }
-
-    @AfterEach
-    fun tearDown() {
-        mockWebServer.shutdown()
     }
 
     @Test
@@ -389,11 +376,4 @@ internal class PullRequestStatsRepoTest {
             assertThat(prReviewers).hasSize(1)
             assertThat(prReviewers.map { it.login }).containsExactly("swankjesse")
         }
-
-    // region: Test Utility Functions
-
-    /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String): String =
-        PullRequestStatsRepoTest::class.java.getResource("/$jsonResponseFile")!!.readText()
-    // endregion: Test Utility Functions
 }

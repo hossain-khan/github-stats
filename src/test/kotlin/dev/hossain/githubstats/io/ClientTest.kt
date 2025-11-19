@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.io
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.BaseApiMockTest
 import dev.hossain.githubstats.client.RetrofitApiClient
 import dev.hossain.githubstats.model.timeline.ClosedEvent
 import dev.hossain.githubstats.model.timeline.CommentedEvent
@@ -12,8 +13,6 @@ import dev.hossain.githubstats.model.timeline.ReviewedEvent.ReviewState
 import dev.hossain.githubstats.service.GithubApiService
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -21,22 +20,12 @@ import kotlin.test.assertEquals
 /**
  * Tests [GithubApiService] APIs.
  */
-internal class ClientTest {
-    // https://github.com/square/okhttp/tree/master/mockwebserver
-    private lateinit var mockWebServer: MockWebServer
+internal class ClientTest : BaseApiMockTest() {
     private lateinit var apiClient: RetrofitApiClient
 
     @BeforeEach
     fun setUp() {
-        mockWebServer = MockWebServer()
-        mockWebServer.start(60000)
-        Client.baseUrl = mockWebServer.url("/")
         apiClient = RetrofitApiClient(Client.githubApiService)
-    }
-
-    @AfterEach
-    fun tearDown() {
-        mockWebServer.shutdown()
     }
 
     @Test
@@ -175,10 +164,4 @@ internal class ClientTest {
 
             assertThat(comments.size).isEqualTo(4)
         }
-
-    // region: Test Utility Functions
-
-    /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String): String = ClientTest::class.java.getResource("/$jsonResponseFile")!!.readText()
-    // endregion: Test Utility Functions
 }

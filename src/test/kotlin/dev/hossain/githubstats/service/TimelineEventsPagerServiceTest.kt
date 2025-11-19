@@ -1,14 +1,13 @@
 package dev.hossain.githubstats.service
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.BaseApiMockTest
 import dev.hossain.githubstats.client.RetrofitApiClient
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.timeline.TimelineEvent
 import dev.hossain.githubstats.util.ErrorProcessor
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
@@ -16,28 +15,16 @@ import kotlin.test.assertFailsWith
 /**
  * Tests [TimelineEventsPagerService] paging.
  */
-internal class TimelineEventsPagerServiceTest {
-    // https://github.com/square/okhttp/tree/master/mockwebserver
-    private lateinit var mockWebServer: MockWebServer
-
+internal class TimelineEventsPagerServiceTest : BaseApiMockTest() {
     private lateinit var timelinePagerService: TimelineEventsPagerService
 
     @BeforeEach
     fun setUp() {
-        mockWebServer = MockWebServer()
-        mockWebServer.start(60000)
-        Client.baseUrl = mockWebServer.url("/")
-
         timelinePagerService =
             TimelineEventsPagerService(
                 apiClient = RetrofitApiClient(Client.githubApiService),
                 errorProcessor = ErrorProcessor(),
             )
-    }
-
-    @AfterEach
-    fun tearDown() {
-        mockWebServer.shutdown()
     }
 
     @Test
@@ -84,11 +71,4 @@ internal class TimelineEventsPagerServiceTest {
 
             assertThat(timelineEvents).hasSize(195)
         }
-
-    // region: Test Utility Functions
-
-    /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String): String =
-        requireNotNull(TimelineEventsPagerServiceTest::class.java.getResource("/$jsonResponseFile")).readText()
-    // endregion: Test Utility Functions
 }

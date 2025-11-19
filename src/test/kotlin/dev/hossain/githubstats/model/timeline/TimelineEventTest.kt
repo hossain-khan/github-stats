@@ -1,35 +1,24 @@
 package dev.hossain.githubstats.model.timeline
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.BaseApiMockTest
 import dev.hossain.githubstats.client.RetrofitApiClient
 import dev.hossain.githubstats.io.Client
 import dev.hossain.githubstats.model.User
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 /**
  * Tests [TimelineEvent] and related extension function.
  */
-internal class TimelineEventTest {
-    // https://github.com/square/okhttp/tree/master/mockwebserver
-    private lateinit var mockWebServer: MockWebServer
+internal class TimelineEventTest : BaseApiMockTest() {
     private lateinit var apiClient: RetrofitApiClient
 
     @BeforeEach
     fun setUp() {
-        mockWebServer = MockWebServer()
-        mockWebServer.start(60000)
-        Client.baseUrl = mockWebServer.url("/")
         apiClient = RetrofitApiClient(Client.githubApiService)
-    }
-
-    @AfterEach
-    fun tearDown() {
-        mockWebServer.shutdown()
     }
 
     @Test
@@ -106,10 +95,4 @@ internal class TimelineEventTest {
                 ),
             )
         }
-
-    // region: Test Utility Functions
-
-    /** Provides response for given [jsonResponseFile] path in the test resources. */
-    private fun respond(jsonResponseFile: String): String = TimelineEventTest::class.java.getResource("/$jsonResponseFile")!!.readText()
-    // endregion: Test Utility Functions
 }
