@@ -23,12 +23,14 @@ import kotlin.test.assertNotNull
  */
 class ApiClientParityTest {
     private lateinit var mockWebServer: MockWebServer
+    private lateinit var retrofitClient: RetrofitApiClient
 
     @BeforeEach
     fun setUp() {
         mockWebServer = MockWebServer()
-        mockWebServer.start(60001)
+        mockWebServer.start(60000) // Use same port as other tests
         Client.baseUrl = mockWebServer.url("/")
+        retrofitClient = RetrofitApiClient(Client.githubApiService)
     }
 
     @AfterEach
@@ -46,7 +48,7 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-okhttp-7458.json")))
-            val client = createClient(clientType)
+            val client = getClient(clientType)
 
             // Act
             val result = client.pullRequest("square", "okhttp", 7458)
@@ -71,7 +73,7 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody("[]")) // Empty list response
-            val client = createClient(clientType)
+            val client = getClient(clientType)
 
             // Act
             val result = client.pullRequests("owner", "repo", prState = "closed")
@@ -91,7 +93,7 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-7458.json")))
-            val client = createClient(clientType)
+            val client = getClient(clientType)
 
             // Act
             val result = client.timelineEvents("square", "okhttp", 7458)
@@ -116,7 +118,7 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-num-comments-freeCodeCamp-45530.json")))
-            val client = createClient(clientType)
+            val client = getClient(clientType)
 
             // Act
             val result = client.prSourceCodeReviewComments("freeCodeCamp", "freeCodeCamp", 45530)
@@ -142,7 +144,7 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody(respond("search-prs-freeCodeCamp-DanielRosa74-47511.json")))
-            val client = createClient(clientType)
+            val client = getClient(clientType)
 
             // Act
             val result = client.searchIssues("is:pr repo:freeCodeCamp/freeCodeCamp author:DanielRosa74")
@@ -168,7 +170,7 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody(respond("contributors-okhttp.json")))
-            val client = createClient(clientType)
+            val client = getClient(clientType)
 
             // Act
             val result = client.topContributors("square", "okhttp", itemPerPage = 10)
@@ -188,7 +190,6 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody("[]"))
-            val retrofitClient = createClient(ApiClientType.RETROFIT)
 
             // Act & Assert - Test that pagination parameters are accepted
             val result = retrofitClient.pullRequests("owner", "repo", page = 2, size = 50)
@@ -205,7 +206,6 @@ class ApiClientParityTest {
         runTest {
             // Arrange
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-okhttp-7458.json")))
-            val retrofitClient = createClient(ApiClientType.RETROFIT)
 
             // Act
             val result = retrofitClient.timelineEvents("square", "okhttp", 7458)
@@ -222,13 +222,13 @@ class ApiClientParityTest {
     // region: Test Utilities
 
     /**
-     * Creates a client instance for the specified type.
-     * For GH_CLI, this would require additional mocking of shell commands.
+     * Returns the appropriate client instance for testing.
+     * For RETROFIT, returns the pre-configured client with mock server.
      */
-    private fun createClient(clientType: ApiClientType): GitHubApiClient =
+    private fun getClient(clientType: ApiClientType): GitHubApiClient =
         when (clientType) {
             ApiClientType.RETROFIT -> {
-                RetrofitApiClient(Client.githubApiService)
+                retrofitClient
             }
 
             ApiClientType.GH_CLI -> {
