@@ -161,13 +161,14 @@ val appModule =
         // ========================================================================================
         // Application Coordinator - Orchestrates stats generation for all users
         // ========================================================================================
+        // Injects all registered StatsFormatter implementations using getAll()
         single {
             StatsGeneratorApplication(
                 prReviewerStatsService = get(),
                 prAuthorStatsService = get(),
                 resources = get(),
                 appConfig = get(),
-                formatters = getAll(), // Injects all registered StatsFormatter implementations
+                formatters = getAll(),
                 cacheStatsService = get(),
                 cacheStatsFormatter = get(),
             )
