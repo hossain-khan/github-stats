@@ -167,7 +167,7 @@ val appModule =
                 prAuthorStatsService = get(),
                 resources = get(),
                 appConfig = get(),
-                formatters = getAll(), // Injects ALL registered StatsFormatter implementations
+                formatters = getAll(), // Injects all registered StatsFormatter implementations
                 cacheStatsService = get(),
                 cacheStatsFormatter = get(),
             )
