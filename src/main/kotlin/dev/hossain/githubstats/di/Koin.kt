@@ -37,24 +37,78 @@ import java.util.Locale
 import java.util.ResourceBundle
 
 /**
- * Application module setup for dependency injection using Koin.
+ * Koin dependency injection module that configures all application dependencies.
  *
- * See https://insert-koin.io/docs/reference/koin-core/dsl for more info.
+ * ## What is Koin?
+ * Koin is a lightweight dependency injection framework for Kotlin. It allows us to:
+ * - Define dependencies in one central location
+ * - Automatically resolve and inject dependencies where needed
+ * - Manage object lifecycles (singletons vs new instances)
+ *
+ * ## Dependency Scopes
+ * This module uses two main scopes:
+ *
+ * ### `single { }`
+ * Creates a **singleton** - only one instance exists for the entire application lifetime.
+ * Used for stateful services, repositories, and shared resources.
+ * Example: `single<CacheStatsService> { CacheStatsCollector() }`
+ *
+ * ### `factory { }`
+ * Creates a **new instance** every time it's requested.
+ * Used for stateless services or when each caller needs a fresh instance.
+ * Example: `factory { IssueSearchPagerService(...) }`
+ *
+ * ## How It Works
+ * Dependencies are resolved automatically using `get()` function:
+ * ```kotlin
+ * factory {
+ *     PrReviewerStatsService(
+ *         pullRequestStatsRepo = get(), // Koin automatically provides the PullRequestStatsRepo instance
+ *         issueSearchPager = get(),
+ *         ...
+ *     )
+ * }
+ * ```
+ *
+ * ## Usage in Application
+ * Initialize Koin in `Main.kt`:
+ * ```kotlin
+ * startKoin {
+ *     modules(appModule)
+ * }
+ * ```
+ *
+ * Inject dependencies in classes:
+ * ```kotlin
+ * class MyService : KoinComponent {
+ *     private val repository: PullRequestStatsRepo by inject()
+ * }
+ * ```
+ *
+ * @see <a href="https://insert-koin.io/docs/reference/koin-core/dsl">Koin DSL Documentation</a>
  */
 val appModule =
     module {
-        // Cache statistics service for tracking cache performance
+        // ========================================================================================
+        // Cache Statistics - Tracks HTTP cache hit/miss rates and performance metrics
+        // ========================================================================================
         single<CacheStatsService> { CacheStatsCollector() }
         single { CacheStatsFormatter() }
 
-        // GitHub API Client - creates appropriate implementation based on configuration
+        // ========================================================================================
+        // GitHub API Client - Main interface for interacting with GitHub
+        // ========================================================================================
+        // Creates appropriate API client implementation (Retrofit or GitHub CLI) based on config
         single<GitHubApiClient> {
             val localProperties: LocalProperties = get()
             val clientType = ApiClientType.fromString(localProperties.getApiClientType())
             GitHubApiClientFactory.create(clientType, cacheStatsService = get())
         }
 
-        // Repository and services using the abstracted API client
+        // ========================================================================================
+        // Core Services - Business logic for PR statistics and data processing
+        // ========================================================================================
+        // Repository for pull request statistics - handles data fetching and transformation
         single<PullRequestStatsRepo> {
             PullRequestStatsRepoImpl(
                 apiClient = get(),
@@ -63,18 +117,24 @@ val appModule =
                 cacheStatsService = get(),
             )
         }
+
+        // Pagination service for GitHub issue search - handles paginated API responses
         factory {
             IssueSearchPagerService(
                 apiClient = get(),
                 errorProcessor = get(),
             )
         }
+
+        // Pagination service for PR timeline events (reviews, comments, etc.)
         factory {
             TimelineEventsPagerService(
                 apiClient = get(),
                 errorProcessor = get(),
             )
         }
+
+        // Service for generating statistics about PR reviewers (who reviewed what)
         factory {
             PrReviewerStatsService(
                 pullRequestStatsRepo = get(),
@@ -83,6 +143,8 @@ val appModule =
                 errorProcessor = get(),
             )
         }
+
+        // Service for generating statistics about PR authors (who created what)
         factory {
             PrAuthorStatsService(
                 pullRequestStatsRepo = get(),
@@ -91,9 +153,15 @@ val appModule =
                 errorProcessor = get(),
             )
         }
+
+        // Utility services for error handling and timezone management
         single { ErrorProcessor() }
         single { UserTimeZone() }
 
+        // ========================================================================================
+        // Application Coordinator - Orchestrates stats generation for all users
+        // ========================================================================================
+        // Injects all registered StatsFormatter implementations using getAll()
         single {
             StatsGeneratorApplication(
                 prReviewerStatsService = get(),
@@ -106,22 +174,32 @@ val appModule =
             )
         }
 
-        // Localization
+        // ========================================================================================
+        // Internationalization (i18n) - Localized strings and resources
+        // ========================================================================================
         single { ResourceBundle.getBundle("strings", Locale.getDefault()) }
         factory { ResourcesImpl(resourceBundle = get()) } bind Resources::class
 
-        // Config to load local properties
+        // ========================================================================================
+        // Configuration - Application settings and property management
+        // ========================================================================================
         factory { AppConfig(localProperties = get()) }
         factory { LocalProperties() }
         single<PropertiesReader> { LocalProperties() }
 
-        // Binds all the different stats formatters
-        single { PicnicTableFormatter() } bind StatsFormatter::class
-        single { CsvFormatter() } bind StatsFormatter::class
-        single { FileWriterFormatter(PicnicTableFormatter()) } bind StatsFormatter::class
-        single { HtmlChartFormatter() } bind StatsFormatter::class
+        // ========================================================================================
+        // Stats Formatters - Multiple output formats for generated statistics
+        // ========================================================================================
+        // Each formatter is bound to StatsFormatter interface so they can be injected as a list
+        // using getAll() - see StatsGeneratorApplication above
+        single { PicnicTableFormatter() } bind StatsFormatter::class // ASCII table format
+        single { CsvFormatter() } bind StatsFormatter::class // CSV file format
+        single { FileWriterFormatter(PicnicTableFormatter()) } bind StatsFormatter::class // ASCII to file writer
+        single { HtmlChartFormatter() } bind StatsFormatter::class // HTML with Google Charts
 
-        // Progress Bar
+        // ========================================================================================
+        // UI Components - Console progress indicators
+        // ========================================================================================
         factory {
             ProgressBarBuilder()
                 .setTaskName(AppConstants.PROGRESS_LABEL)
