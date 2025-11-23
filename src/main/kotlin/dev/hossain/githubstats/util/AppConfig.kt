@@ -18,6 +18,13 @@ import java.util.Locale
 class AppConfig constructor(
     localProperties: LocalProperties,
 ) {
+    companion object {
+        private val DATE_FORMATTER: DateTimeFormatter =
+            DateTimeFormatter
+                .ofPattern("uuuu-MM-dd", Locale.US)
+                .withResolverStyle(ResolverStyle.STRICT)
+    }
+
     private val repoOwner: String = localProperties.getRepoOwner()
     private val repoId: String = localProperties.getRepoId()
     private val dateLimitAfter: String = requireValidDate(localProperties.getDateLimitAfter())
@@ -68,13 +75,8 @@ class AppConfig constructor(
      * or defaults to today's date.
      */
     private fun requiredValidDateOrDefault(dateText: String?): String {
-        val dateFormatter: DateTimeFormatter =
-            DateTimeFormatter
-                .ofPattern("uuuu-MM-dd", Locale.US)
-                .withResolverStyle(ResolverStyle.STRICT)
-
         if (dateText.isNullOrBlank()) {
-            val todayDate = dateFormatter.format(LocalDate.now())
+            val todayDate = DATE_FORMATTER.format(LocalDate.now())
             validateDate(todayDate)
             return todayDate
         }
@@ -97,17 +99,12 @@ class AppConfig constructor(
      * Validates date format defined in the [LOCAL_PROPERTIES_FILE] config.
      */
     private fun validateDate(dateText: String) {
-        val dateFormatter: DateTimeFormatter =
-            DateTimeFormatter
-                .ofPattern("uuuu-MM-dd", Locale.US)
-                .withResolverStyle(ResolverStyle.STRICT)
-
         try {
-            dateFormatter.parse(dateText)
+            DATE_FORMATTER.parse(dateText)
         } catch (e: DateTimeParseException) {
             throw IllegalArgumentException(
                 "The date '$dateText' should be formatted like `YYYY-MM-DD`. Today is `${
-                    dateFormatter.format(
+                    DATE_FORMATTER.format(
                         LocalDate.now(),
                     )
                 }`.",
@@ -122,13 +119,8 @@ class AppConfig constructor(
         dateLimitAfter: String,
         dateLimitBefore: String,
     ) {
-        val dateFormatter: DateTimeFormatter =
-            DateTimeFormatter
-                .ofPattern("uuuu-MM-dd", Locale.US)
-                .withResolverStyle(ResolverStyle.STRICT)
-
-        val afterDate = LocalDate.parse(dateLimitAfter, dateFormatter)
-        val beforeDate = LocalDate.parse(dateLimitBefore, dateFormatter)
+        val afterDate = LocalDate.parse(dateLimitAfter, DATE_FORMATTER)
+        val beforeDate = LocalDate.parse(dateLimitBefore, DATE_FORMATTER)
 
         if (afterDate.isAfter(beforeDate)) {
             throw IllegalArgumentException(
