@@ -25,6 +25,10 @@ class AppConfig constructor(
     private val prAuthorUserIds: List<String> = requireUser(localProperties.getAuthors())
     private val botUserIds: List<String> = localProperties.getBotUsers()?.let { extractUserIds(it) } ?: emptyList()
 
+    init {
+        validateDateRange(dateLimitAfter, dateLimitBefore)
+    }
+
     /**
      * Provides all available config values from [LOCAL_PROPERTIES_FILE].
      */
@@ -107,6 +111,29 @@ class AppConfig constructor(
                         LocalDate.now(),
                     )
                 }`.",
+            )
+        }
+    }
+
+    /**
+     * Validates that the date range is valid by ensuring [dateLimitAfter] is before or equal to [dateLimitBefore].
+     */
+    private fun validateDateRange(
+        dateLimitAfter: String,
+        dateLimitBefore: String,
+    ) {
+        val dateFormatter: DateTimeFormatter =
+            DateTimeFormatter
+                .ofPattern("uuuu-MM-dd", Locale.US)
+                .withResolverStyle(ResolverStyle.STRICT)
+
+        val afterDate = LocalDate.parse(dateLimitAfter, dateFormatter)
+        val beforeDate = LocalDate.parse(dateLimitBefore, dateFormatter)
+
+        if (afterDate.isAfter(beforeDate)) {
+            throw IllegalArgumentException(
+                "Invalid date range: 'date_limit_after' ($dateLimitAfter) must be before or equal to " +
+                    "'date_limit_before' ($dateLimitBefore) in $LOCAL_PROPERTIES_FILE",
             )
         }
     }
