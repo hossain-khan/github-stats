@@ -390,12 +390,13 @@ class GhCliApiClient(
         endpoint: String,
         params: Map<String, String>,
     ): List<String> {
-        val endpointWithParams = if (params.isEmpty()) {
-            endpoint
-        } else {
-            val queryString = params.entries.joinToString("&") { "${it.key}=${it.value}" }
-            "$endpoint?$queryString"
-        }
+        val endpointWithParams =
+            if (params.isEmpty()) {
+                endpoint
+            } else {
+                val queryString = params.entries.joinToString("&") { "${it.key}=${it.value}" }
+                "$endpoint?$queryString"
+            }
 
         return listOf(GH_COMMAND, "api", endpointWithParams, "--method", "GET")
     }
