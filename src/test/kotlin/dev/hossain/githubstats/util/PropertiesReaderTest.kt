@@ -1,6 +1,7 @@
 package dev.hossain.githubstats.util
 
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.AppConstants
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
@@ -205,7 +206,7 @@ class PropertiesReaderTest {
     }
 
     @Test
-    fun `getGhCliTimeoutSeconds returns default 30 when property is not set`() {
+    fun `getGhCliTimeoutSeconds returns default 10 when property is not set`() {
         // Given
         val propertiesFile = createPropertiesFile("")
         val localProperties = TestLocalProperties(propertiesFile.absolutePath)
@@ -214,7 +215,7 @@ class PropertiesReaderTest {
         val result = localProperties.getGhCliTimeoutSeconds()
 
         // Then
-        assertThat(result).isEqualTo(30L)
+        assertThat(result).isEqualTo(10L)
     }
 
     @Test
@@ -240,7 +241,7 @@ class PropertiesReaderTest {
         val result = localProperties.getGhCliTimeoutSeconds()
 
         // Then - Should fall back to default
-        assertThat(result).isEqualTo(30L)
+        assertThat(result).isEqualTo(10L)
     }
 
     @Test
@@ -289,7 +290,9 @@ class PropertiesReaderTest {
             return url
         }
 
-        fun getGhCliTimeoutSeconds(): Long = getProperty("gh_cli_timeout_seconds")?.toLongOrNull() ?: 30L
+        fun getGhCliTimeoutSeconds(): Long =
+            getProperty("gh_cli_timeout_seconds")?.toLongOrNull()
+                ?: AppConstants.GH_CLI_DEFAULT_TIMEOUT_SECONDS
 
         private fun validatePostgreSqlUrl(url: String) {
             val postgresUrlPattern =
