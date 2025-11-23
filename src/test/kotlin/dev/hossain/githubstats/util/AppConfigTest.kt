@@ -126,4 +126,109 @@ class AppConfigTest {
             appConfig.get()
         }
     }
+
+    @Test
+    fun `validateDateRange should throw exception when date_limit_after is after date_limit_before`() {
+        every { localProperties.getRepoOwner() } returns "owner"
+        every { localProperties.getRepoId() } returns "id"
+        every { localProperties.getAuthors() } returns "author1,author2"
+        every { localProperties.getDateLimitAfter() } returns "2025-06-01"
+        every { localProperties.getDateLimitBefore() } returns "2024-07-30"
+
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                appConfig = AppConfig(localProperties)
+            }
+
+        assertEquals(
+            "Invalid date range: 'date_limit_after' (2025-06-01) must be before or equal to " +
+                "'date_limit_before' (2024-07-30) in local.properties",
+            exception.message,
+        )
+    }
+
+    @Test
+    fun `validateDateRange should throw exception when dates are far apart with after being later`() {
+        every { localProperties.getRepoOwner() } returns "owner"
+        every { localProperties.getRepoId() } returns "id"
+        every { localProperties.getAuthors() } returns "author1,author2"
+        every { localProperties.getDateLimitAfter() } returns "2026-12-31"
+        every { localProperties.getDateLimitBefore() } returns "2022-01-01"
+
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                appConfig = AppConfig(localProperties)
+            }
+
+        assertEquals(
+            "Invalid date range: 'date_limit_after' (2026-12-31) must be before or equal to " +
+                "'date_limit_before' (2022-01-01) in local.properties",
+            exception.message,
+        )
+    }
+
+    @Test
+    fun `validateDateRange should succeed when date_limit_after equals date_limit_before`() {
+        every { localProperties.getRepoOwner() } returns "owner"
+        every { localProperties.getRepoId() } returns "id"
+        every { localProperties.getAuthors() } returns "author1,author2"
+        every { localProperties.getDateLimitAfter() } returns "2024-06-01"
+        every { localProperties.getDateLimitBefore() } returns "2024-06-01"
+
+        appConfig = AppConfig(localProperties)
+        val config = appConfig.get()
+
+        assertEquals("2024-06-01", config.dateLimitAfter)
+        assertEquals("2024-06-01", config.dateLimitBefore)
+    }
+
+    @Test
+    fun `validateDateRange should succeed when date_limit_after is before date_limit_before`() {
+        every { localProperties.getRepoOwner() } returns "owner"
+        every { localProperties.getRepoId() } returns "id"
+        every { localProperties.getAuthors() } returns "author1,author2"
+        every { localProperties.getDateLimitAfter() } returns "2024-01-01"
+        every { localProperties.getDateLimitBefore() } returns "2024-12-31"
+
+        appConfig = AppConfig(localProperties)
+        val config = appConfig.get()
+
+        assertEquals("2024-01-01", config.dateLimitAfter)
+        assertEquals("2024-12-31", config.dateLimitBefore)
+    }
+
+    @Test
+    fun `validateDateRange should succeed when date_limit_after is one day before date_limit_before`() {
+        every { localProperties.getRepoOwner() } returns "owner"
+        every { localProperties.getRepoId() } returns "id"
+        every { localProperties.getAuthors() } returns "author1,author2"
+        every { localProperties.getDateLimitAfter() } returns "2024-06-01"
+        every { localProperties.getDateLimitBefore() } returns "2024-06-02"
+
+        appConfig = AppConfig(localProperties)
+        val config = appConfig.get()
+
+        assertEquals("2024-06-01", config.dateLimitAfter)
+        assertEquals("2024-06-02", config.dateLimitBefore)
+    }
+
+    @Test
+    fun `validateDateRange should throw exception when date_limit_after is one day after date_limit_before`() {
+        every { localProperties.getRepoOwner() } returns "owner"
+        every { localProperties.getRepoId() } returns "id"
+        every { localProperties.getAuthors() } returns "author1,author2"
+        every { localProperties.getDateLimitAfter() } returns "2024-06-02"
+        every { localProperties.getDateLimitBefore() } returns "2024-06-01"
+
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                appConfig = AppConfig(localProperties)
+            }
+
+        assertEquals(
+            "Invalid date range: 'date_limit_after' (2024-06-02) must be before or equal to " +
+                "'date_limit_before' (2024-06-01) in local.properties",
+            exception.message,
+        )
+    }
 }
