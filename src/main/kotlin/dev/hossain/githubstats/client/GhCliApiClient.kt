@@ -364,19 +364,20 @@ class GhCliApiClient(
 
     /**
      * Builds the `gh api` command with parameters.
+     * For GET requests, query parameters are appended directly to the endpoint URL.
      */
     private fun buildGhApiCommand(
         endpoint: String,
         params: Map<String, String>,
     ): List<String> {
-        val command = mutableListOf(GH_COMMAND, "api", endpoint, "--method", "GET")
-
-        params.forEach { (key, value) ->
-            command.add("-F")
-            command.add("$key=$value")
+        val endpointWithParams = if (params.isEmpty()) {
+            endpoint
+        } else {
+            val queryString = params.entries.joinToString("&") { "${it.key}=${it.value}" }
+            "$endpoint?$queryString"
         }
 
-        return command
+        return listOf(GH_COMMAND, "api", endpointWithParams, "--method", "GET")
     }
 
     /**
