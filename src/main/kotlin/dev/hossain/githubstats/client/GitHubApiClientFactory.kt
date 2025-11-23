@@ -40,9 +40,14 @@ object GitHubApiClientFactory {
                 // Setup database cache if enabled
                 val databaseCacheService = setupDatabaseCacheForGhCli()
 
+                // Get timeout configuration
+                val localProperties = LocalProperties()
+                val timeoutSeconds = localProperties.getGhCliTimeoutSeconds()
+
                 GhCliApiClient(
                     databaseCacheService = databaseCacheService,
                     cacheStatsService = cacheStatsService,
+                    commandTimeoutSeconds = timeoutSeconds,
                 )
             }
         }

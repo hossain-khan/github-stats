@@ -31,4 +31,10 @@ object AppConstants {
      * GitHub token settings URL to direct user to create a new token.
      */
     const val GITHUB_TOKEN_SETTINGS_URL = "https://github.com/settings/tokens"
+
+    /**
+     * Default timeout in seconds for GH CLI command execution.
+     * This prevents indefinite hangs when GH CLI is unresponsive or network issues occur.
+     */
+    const val GH_CLI_DEFAULT_TIMEOUT_SECONDS = 10L
 }
