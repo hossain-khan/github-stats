@@ -2,6 +2,7 @@ package dev.hossain.githubstats.client
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.hossain.githubstats.cache.CacheStatsService
 import dev.hossain.githubstats.cache.DatabaseCacheService
@@ -10,7 +11,14 @@ import dev.hossain.githubstats.model.CodeReviewComment
 import dev.hossain.githubstats.model.IssueSearchResult
 import dev.hossain.githubstats.model.PullRequest
 import dev.hossain.githubstats.model.User
+import dev.hossain.githubstats.model.timeline.ClosedEvent
+import dev.hossain.githubstats.model.timeline.CommentedEvent
+import dev.hossain.githubstats.model.timeline.MergedEvent
+import dev.hossain.githubstats.model.timeline.ReadyForReviewEvent
+import dev.hossain.githubstats.model.timeline.ReviewRequestedEvent
+import dev.hossain.githubstats.model.timeline.ReviewedEvent
 import dev.hossain.githubstats.model.timeline.TimelineEvent
+import dev.hossain.githubstats.model.timeline.UnknownEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -62,7 +70,19 @@ class GhCliApiClient(
         private fun createMoshi(): Moshi =
             Moshi
                 .Builder()
-                .addLast(KotlinJsonAdapterFactory())
+                .add(
+                    // Configure polymorphic adapter for TimelineEvent interface
+                    // https://github.com/square/moshi/blob/master/moshi-adapters/src/main/java/com/squareup/moshi/adapters/PolymorphicJsonAdapterFactory.kt
+                    PolymorphicJsonAdapterFactory
+                        .of(TimelineEvent::class.java, "event")
+                        .withSubtype(ClosedEvent::class.java, ClosedEvent.TYPE)
+                        .withSubtype(CommentedEvent::class.java, CommentedEvent.TYPE)
+                        .withSubtype(MergedEvent::class.java, MergedEvent.TYPE)
+                        .withSubtype(ReadyForReviewEvent::class.java, ReadyForReviewEvent.TYPE)
+                        .withSubtype(ReviewRequestedEvent::class.java, ReviewRequestedEvent.TYPE)
+                        .withSubtype(ReviewedEvent::class.java, ReviewedEvent.TYPE)
+                        .withDefaultValue(UnknownEvent()),
+                ).addLast(KotlinJsonAdapterFactory())
                 .build()
 
         /**
@@ -364,19 +384,21 @@ class GhCliApiClient(
 
     /**
      * Builds the `gh api` command with parameters.
+     * For GET requests, query parameters are appended directly to the endpoint URL.
      */
     private fun buildGhApiCommand(
         endpoint: String,
         params: Map<String, String>,
     ): List<String> {
-        val command = mutableListOf(GH_COMMAND, "api", endpoint, "--method", "GET")
+        val endpointWithParams =
+            if (params.isEmpty()) {
+                endpoint
+            } else {
+                val queryString = params.entries.joinToString("&") { "${it.key}=${it.value}" }
+                "$endpoint?$queryString"
+            }
 
-        params.forEach { (key, value) ->
-            command.add("-F")
-            command.add("$key=$value")
-        }
-
-        return command
+        return listOf(GH_COMMAND, "api", endpointWithParams, "--method", "GET")
     }
 
     /**
