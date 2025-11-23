@@ -192,9 +192,9 @@ val appModule =
         // ========================================================================================
         // Each formatter is bound to StatsFormatter interface so they can be injected as a list
         // using getAll() - see StatsGeneratorApplication above
-        single { PicnicTableFormatter() } bind StatsFormatter::class // ASCII table output
-        single { CsvFormatter() } bind StatsFormatter::class // CSV file output
-        single { FileWriterFormatter(PicnicTableFormatter()) } bind StatsFormatter::class // Writes ASCII to file
+        single { PicnicTableFormatter() } bind StatsFormatter::class // ASCII table format
+        single { CsvFormatter() } bind StatsFormatter::class // CSV file format
+        single { FileWriterFormatter(PicnicTableFormatter()) } bind StatsFormatter::class // ASCII to file writer
         single { HtmlChartFormatter() } bind StatsFormatter::class // HTML with Google Charts
 
         // ========================================================================================
