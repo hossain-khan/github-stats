@@ -46,6 +46,9 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         private const val KEY_DB_CACHE_USERNAME = "db_cache_username"
         private const val KEY_DB_CACHE_PASSWORD = "db_cache_password"
         private const val KEY_DB_CACHE_EXPIRATION_HOURS = "db_cache_expiration_hours"
+
+        // GH CLI configuration keys
+        private const val KEY_GH_CLI_TIMEOUT_SECONDS = "gh_cli_timeout_seconds"
     }
 
     /**
@@ -111,6 +114,13 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         !getDbCacheUrl().isNullOrBlank() &&
             !getDbCacheUsername().isNullOrBlank() &&
             !getDbCachePassword().isNullOrBlank()
+
+    /**
+     * Gets GH CLI command timeout in seconds.
+     * Defaults to 30 seconds if not specified.
+     * Used to prevent indefinite hangs when executing gh CLI commands.
+     */
+    fun getGhCliTimeoutSeconds(): Long = getProperty(KEY_GH_CLI_TIMEOUT_SECONDS)?.toLongOrNull() ?: 30L
 
     /**
      * Validates that the database URL follows the PostgreSQL JDBC format.

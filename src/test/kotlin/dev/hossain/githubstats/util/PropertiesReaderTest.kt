@@ -204,6 +204,71 @@ class PropertiesReaderTest {
         }
     }
 
+    @Test
+    fun `getGhCliTimeoutSeconds returns default 30 when property is not set`() {
+        // Given
+        val propertiesFile = createPropertiesFile("")
+        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
+
+        // When
+        val result = localProperties.getGhCliTimeoutSeconds()
+
+        // Then
+        assertThat(result).isEqualTo(30L)
+    }
+
+    @Test
+    fun `getGhCliTimeoutSeconds returns configured value when property is set`() {
+        // Given
+        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=60")
+        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
+
+        // When
+        val result = localProperties.getGhCliTimeoutSeconds()
+
+        // Then
+        assertThat(result).isEqualTo(60L)
+    }
+
+    @Test
+    fun `getGhCliTimeoutSeconds returns default when property is invalid`() {
+        // Given
+        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=invalid")
+        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
+
+        // When
+        val result = localProperties.getGhCliTimeoutSeconds()
+
+        // Then - Should fall back to default
+        assertThat(result).isEqualTo(30L)
+    }
+
+    @Test
+    fun `getGhCliTimeoutSeconds accepts zero timeout`() {
+        // Given
+        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=0")
+        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
+
+        // When
+        val result = localProperties.getGhCliTimeoutSeconds()
+
+        // Then
+        assertThat(result).isEqualTo(0L)
+    }
+
+    @Test
+    fun `getGhCliTimeoutSeconds accepts large timeout values`() {
+        // Given
+        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=3600")
+        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
+
+        // When
+        val result = localProperties.getGhCliTimeoutSeconds()
+
+        // Then
+        assertThat(result).isEqualTo(3600L)
+    }
+
     private fun createPropertiesFile(content: String): File {
         val file = tempDir.resolve("test.properties").toFile()
         file.writeText(content)
@@ -223,6 +288,8 @@ class PropertiesReaderTest {
             }
             return url
         }
+
+        fun getGhCliTimeoutSeconds(): Long = getProperty("gh_cli_timeout_seconds")?.toLongOrNull() ?: 30L
 
         private fun validatePostgreSqlUrl(url: String) {
             val postgresUrlPattern =

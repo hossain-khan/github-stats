@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.concurrent.TimeUnit
 
 /**
  * Implementation of [GitHubApiClient] using GitHub CLI (`gh` command).
@@ -39,6 +40,7 @@ import java.io.InputStreamReader
  * @param moshi JSON serialization/deserialization engine
  * @param databaseCacheService Optional database cache service for persistent caching
  * @param cacheStatsService Optional service for tracking cache performance metrics
+ * @param commandTimeoutSeconds Timeout in seconds for gh CLI command execution (default: 30)
  *
  * @see <a href="https://cli.github.com/">GitHub CLI</a>
  * @see <a href="https://cli.github.com/manual/gh_api">gh api documentation</a>
@@ -47,6 +49,7 @@ class GhCliApiClient(
     private val moshi: Moshi = createMoshi(),
     private val databaseCacheService: DatabaseCacheService? = null,
     private val cacheStatsService: CacheStatsService? = null,
+    private val commandTimeoutSeconds: Long = 30L,
 ) : GitHubApiClient {
     private var requestCount = 0
     private var totalRequestTime = 0L
@@ -60,7 +63,7 @@ class GhCliApiClient(
                 databaseCacheService != null -> "with database caching"
                 else -> "without caching"
             }
-        Log.i("GhCliApiClient initialized - using GitHub CLI for API requests $cacheStatus")
+        Log.i("GhCliApiClient initialized - using GitHub CLI for API requests $cacheStatus (timeout: ${commandTimeoutSeconds}s)")
     }
 
     companion object {
@@ -406,6 +409,7 @@ class GhCliApiClient(
      *
      * @param command The command to execute
      * @param requestId Optional request ID for logging correlation
+     * @throws RuntimeException if command times out or fails
      */
     private fun executeCommand(
         command: List<String>,
@@ -426,9 +430,19 @@ class GhCliApiClient(
                 reader.readText()
             }
 
-        val exitCode = process.waitFor()
+        val completed = process.waitFor(commandTimeoutSeconds, TimeUnit.SECONDS)
         val processTime = System.currentTimeMillis() - processStartTime
 
+        if (!completed) {
+            process.destroyForcibly()
+            Log.w("${logPrefix}gh command timed out after ${commandTimeoutSeconds}s")
+            Log.w("${logPrefix}Command: ${command.joinToString(" ")}")
+            throw RuntimeException(
+                "gh command timed out after $commandTimeoutSeconds seconds: ${command.joinToString(" ")}",
+            )
+        }
+
+        val exitCode = process.exitValue()
         Log.v("${logPrefix}Process completed in ${processTime}ms with exit code: $exitCode")
 
         if (exitCode != 0) {
