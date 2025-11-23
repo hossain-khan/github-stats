@@ -1,3 +1,5 @@
+[![Gradle CI](https://github.com/hossain-khan/github-stats/actions/workflows/build.yml/badge.svg)](https://github.com/hossain-khan/github-stats/actions/workflows/build.yml)
+
 # GitHub Stats 📈
 Playground for exploring Github API and collect some PR review stats for different users/contributors.
 
