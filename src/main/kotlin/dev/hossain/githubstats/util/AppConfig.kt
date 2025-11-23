@@ -18,12 +18,23 @@ import java.util.Locale
 class AppConfig constructor(
     localProperties: LocalProperties,
 ) {
+    companion object {
+        private val DATE_FORMATTER: DateTimeFormatter =
+            DateTimeFormatter
+                .ofPattern("uuuu-MM-dd", Locale.US)
+                .withResolverStyle(ResolverStyle.STRICT)
+    }
+
     private val repoOwner: String = localProperties.getRepoOwner()
     private val repoId: String = localProperties.getRepoId()
     private val dateLimitAfter: String = requireValidDate(localProperties.getDateLimitAfter())
     private val dateLimitBefore: String = requiredValidDateOrDefault(localProperties.getDateLimitBefore())
     private val prAuthorUserIds: List<String> = requireUser(localProperties.getAuthors())
     private val botUserIds: List<String> = localProperties.getBotUsers()?.let { extractUserIds(it) } ?: emptyList()
+
+    init {
+        validateDateRange(dateLimitAfter, dateLimitBefore)
+    }
 
     /**
      * Provides all available config values from [LOCAL_PROPERTIES_FILE].
@@ -64,13 +75,8 @@ class AppConfig constructor(
      * or defaults to today's date.
      */
     private fun requiredValidDateOrDefault(dateText: String?): String {
-        val dateFormatter: DateTimeFormatter =
-            DateTimeFormatter
-                .ofPattern("uuuu-MM-dd", Locale.US)
-                .withResolverStyle(ResolverStyle.STRICT)
-
         if (dateText.isNullOrBlank()) {
-            val todayDate = dateFormatter.format(LocalDate.now())
+            val todayDate = DATE_FORMATTER.format(LocalDate.now())
             validateDate(todayDate)
             return todayDate
         }
@@ -93,20 +99,33 @@ class AppConfig constructor(
      * Validates date format defined in the [LOCAL_PROPERTIES_FILE] config.
      */
     private fun validateDate(dateText: String) {
-        val dateFormatter: DateTimeFormatter =
-            DateTimeFormatter
-                .ofPattern("uuuu-MM-dd", Locale.US)
-                .withResolverStyle(ResolverStyle.STRICT)
-
         try {
-            dateFormatter.parse(dateText)
+            DATE_FORMATTER.parse(dateText)
         } catch (e: DateTimeParseException) {
             throw IllegalArgumentException(
                 "The date '$dateText' should be formatted like `YYYY-MM-DD`. Today is `${
-                    dateFormatter.format(
+                    DATE_FORMATTER.format(
                         LocalDate.now(),
                     )
                 }`.",
+            )
+        }
+    }
+
+    /**
+     * Validates that the date range is valid by ensuring [dateLimitAfter] is before or equal to [dateLimitBefore].
+     */
+    private fun validateDateRange(
+        dateLimitAfter: String,
+        dateLimitBefore: String,
+    ) {
+        val afterDate = LocalDate.parse(dateLimitAfter, DATE_FORMATTER)
+        val beforeDate = LocalDate.parse(dateLimitBefore, DATE_FORMATTER)
+
+        if (afterDate.isAfter(beforeDate)) {
+            throw IllegalArgumentException(
+                "Invalid date range: 'date_limit_after' ($dateLimitAfter) must be before or equal to " +
+                    "'date_limit_before' ($dateLimitBefore) in $LOCAL_PROPERTIES_FILE",
             )
         }
     }
