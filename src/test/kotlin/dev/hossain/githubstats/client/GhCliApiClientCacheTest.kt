@@ -49,18 +49,8 @@ class GhCliApiClientCacheTest {
         assertThat(client).isNotNull()
     }
 
-    @Test
-    fun `cache key generation - simple endpoint - generates correct URL`() {
-        // Note: This is an internal method test through behavior verification
-        client =
-            GhCliApiClient(
-                databaseCacheService = mockDatabaseCache,
-                cacheStatsService = mockCacheStats,
-            )
-
-        // The cache key should be like: https://api.github.com/repos/owner/repo/pulls/123
-        // We verify this by checking the cache lookup call
-    }
+    // Cache key generation is implicitly tested through other tests (e.g., cache integration tests)
+    // that verify the cache lookup URL matches expected patterns.
 
     @Test
     fun `getRequestStatistics - with cache hits - includes cache metrics`() {

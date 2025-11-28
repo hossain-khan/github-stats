@@ -189,10 +189,9 @@ internal class PullRequestStatsRepoTest {
             assertThat(calculateStats).isInstanceOf(StatsResult.Failure::class.java)
         }
 
-    @Test
-    fun `stats - given pr was draft - provides time taken after pr was ready for review`() =
-        runTest {
-        }
+    // TODO: Implement test for draft PR scenario when test data is available
+    // Test should verify that review time is calculated from when PR was marked ready for review,
+    // not from when PR was created as a draft.
 
     @Test
     fun `stats - given no assigned reviewer added - provides metrics based on approval event`() =
@@ -320,7 +319,7 @@ internal class PullRequestStatsRepoTest {
     @Test
     fun `stats - given pr was reviewed earlier and then later approved by same reviewer - provides stats for initial response and review time accordingly`() =
         runTest {
-            // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
+            // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/48266
             // The reviewer `RandellDawson` has requested change first and later approved
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-48266.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-48266.json")))
@@ -343,7 +342,7 @@ internal class PullRequestStatsRepoTest {
     @Test
     fun `prReviewers - given pr has multiple reviewers - calculates all reviewer user-ids`() =
         runTest {
-            // Uses data from https://github.com/opensearch-project/OpenSearch/pull/4515
+            // Uses data from https://github.com/freeCodeCamp/freeCodeCamp/pull/47550
             mockWebServer.enqueue(MockResponse().setBody(respond("pulls-freeCodeCamp-47550.json")))
             mockWebServer.enqueue(MockResponse().setBody(respond("timeline-freeCodeCamp-47550.json")))
 

@@ -2,9 +2,12 @@ package dev.hossain.githubstats.logging
 
 import dev.hossain.githubstats.BuildConfig
 import org.junit.jupiter.api.Test
+import kotlin.test.assertTrue
 
 /**
- * Test to demonstrate the logging level changes for database cache.
+ * Demonstration test for logging level behavior.
+ * The actual logging level logic is tested in [LogTest].
+ * This test serves as a visual demonstration when running tests locally.
  */
 class LoggingLevelTest {
     @Test
@@ -33,6 +36,9 @@ class LoggingLevelTest {
             Log.v("This VERBOSE message should NOT appear at INFO level")
             Log.d("This DEBUG message should NOT appear at INFO level")
             Log.i("This INFO message should appear at INFO level")
+
+            // Verify logging level changes are respected
+            assertTrue(BuildConfig.logLevel == Log.INFO, "Log level should be set to INFO")
         } finally {
             // Restore original log level
             BuildConfig.logLevel = originalLogLevel
