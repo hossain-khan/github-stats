@@ -36,21 +36,24 @@ class GitHubApiClientFactoryTest {
 
     @Test
     fun `create - with GH_CLI type when gh not available - throws IllegalStateException`() {
-        // Note: This test may pass or fail depending on whether gh CLI is installed
-        // In CI environments without gh CLI, it should throw
-        // In local environments with gh CLI, it will create the client
+        // Note: This test may pass or fail depending on whether gh CLI is installed and authenticated
+        // In CI environments without gh CLI, it should throw for installation
+        // In environments with gh CLI but not authenticated, it should throw for authentication
+        // In local environments with gh CLI authenticated, it will create the client
 
         try {
             // Act
             val client = GitHubApiClientFactory.create(ApiClientType.GH_CLI)
 
-            // If we get here, gh CLI is available
+            // If we get here, gh CLI is available and authenticated
             assertThat(client).isNotNull()
             assertThat(client).isInstanceOf(GhCliApiClient::class.java)
         } catch (e: IllegalStateException) {
-            // If gh CLI is not available, we expect this exception
-            assertThat(e.message).contains("GitHub CLI is not installed")
-            assertThat(e.message).contains("brew install gh")
+            // If gh CLI is not available or not authenticated, we expect this exception
+            val message = e.message ?: ""
+            val isNotInstalledError = message.contains("GitHub CLI is not installed") && message.contains("brew install gh")
+            val isNotAuthenticatedError = message.contains("GitHub CLI is not authenticated") && message.contains("gh auth login")
+            assertThat(isNotInstalledError || isNotAuthenticatedError).isTrue()
         }
     }
 
@@ -136,13 +139,14 @@ class GitHubApiClientFactoryTest {
         assertThat(retrofitClient1).isInstanceOf(RetrofitApiClient::class.java)
         assertThat(retrofitClient2).isInstanceOf(RetrofitApiClient::class.java)
 
-        // Test GH_CLI only if available
+        // Test GH_CLI only if available and authenticated
         try {
             val ghCliClient = GitHubApiClientFactory.create(ApiClientType.GH_CLI)
             assertThat(ghCliClient).isInstanceOf(GhCliApiClient::class.java)
         } catch (e: IllegalStateException) {
-            // GH CLI not available, which is fine for this test
-            assertThat(e.message).contains("GitHub CLI is not installed")
+            // GH CLI not available or not authenticated, which is fine for this test
+            val message = e.message ?: ""
+            assertThat(message.contains("GitHub CLI is not installed") || message.contains("GitHub CLI is not authenticated")).isTrue()
         }
     }
 
@@ -156,17 +160,77 @@ class GitHubApiClientFactoryTest {
     }
 
     @Test
-    fun `factory error message - when gh not available - provides helpful information`() {
-        // This test verifies the error message quality
+    fun `isGhCliInstalled - returns boolean - does not throw exception`() {
+        // Act
+        val isInstalled = GhCliApiClient.isGhCliInstalled()
+
+        // Assert - Should return either true or false without throwing
+        assertNotNull(isInstalled)
+    }
+
+    @Test
+    fun `isGhCliAuthenticated - returns boolean - does not throw exception`() {
+        // Act
+        val isAuthenticated = GhCliApiClient.isGhCliAuthenticated()
+
+        // Assert - Should return either true or false without throwing
+        assertNotNull(isAuthenticated)
+    }
+
+    @Test
+    fun `isGhCliAvailable - returns true only when both installed and authenticated`() {
+        // This test validates that isGhCliAvailable() properly combines installation and authentication checks
+        val isInstalled = GhCliApiClient.isGhCliInstalled()
+        val isAuthenticated = GhCliApiClient.isGhCliAuthenticated()
+        val isAvailable = GhCliApiClient.isGhCliAvailable()
+
+        // If not installed, should not be available (regardless of auth status)
+        if (!isInstalled) {
+            assertThat(isAvailable).isFalse()
+        }
+
+        // If installed but not authenticated, should not be available
+        if (isInstalled && !isAuthenticated) {
+            assertThat(isAvailable).isFalse()
+        }
+
+        // If both installed and authenticated, should be available
+        if (isInstalled && isAuthenticated) {
+            assertThat(isAvailable).isTrue()
+        }
+    }
+
+    @Test
+    fun `factory error message - when gh not installed - provides installation information`() {
+        // This test verifies the error message quality for installation
         // It may pass without error if gh CLI is installed
 
-        try {
-            GitHubApiClientFactory.create(ApiClientType.GH_CLI)
-        } catch (e: IllegalStateException) {
+        if (!GhCliApiClient.isGhCliInstalled()) {
+            val exception =
+                assertThrows<IllegalStateException> {
+                    GitHubApiClientFactory.create(ApiClientType.GH_CLI)
+                }
             // Verify error message is helpful
-            assertThat(e.message).contains("GitHub CLI")
-            assertThat(e.message).contains("install")
-            assertThat(e.message).contains("https://cli.github.com")
+            assertThat(exception.message).contains("GitHub CLI is not installed")
+            assertThat(exception.message).contains("Install")
+            assertThat(exception.message).contains("https://cli.github.com")
+        }
+    }
+
+    @Test
+    fun `factory error message - when gh not authenticated - provides authentication information`() {
+        // This test verifies the error message quality for authentication
+        // It only runs if gh CLI is installed but not authenticated
+
+        if (GhCliApiClient.isGhCliInstalled() && !GhCliApiClient.isGhCliAuthenticated()) {
+            val exception =
+                assertThrows<IllegalStateException> {
+                    GitHubApiClientFactory.create(ApiClientType.GH_CLI)
+                }
+            // Verify error message is helpful
+            assertThat(exception.message).contains("GitHub CLI is not authenticated")
+            assertThat(exception.message).contains("Authenticate")
+            assertThat(exception.message).contains("gh auth login")
         }
     }
 }

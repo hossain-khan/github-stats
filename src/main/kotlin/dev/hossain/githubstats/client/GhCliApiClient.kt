@@ -92,16 +92,42 @@ class GhCliApiClient(
         /**
          * Checks if GitHub CLI is installed and available.
          */
-        fun isGhCliAvailable(): Boolean =
+        fun isGhCliInstalled(): Boolean =
             try {
                 val process = ProcessBuilder("which", GH_COMMAND).start()
-                val isAvailable = process.waitFor() == 0
-                Log.d("GitHub CLI availability check: ${if (isAvailable) "available" else "not found"}")
-                isAvailable
+                val isInstalled = process.waitFor() == 0
+                Log.d("GitHub CLI installation check: ${if (isInstalled) "installed" else "not found"}")
+                isInstalled
             } catch (e: Exception) {
-                Log.w("GitHub CLI availability check failed: ${e.message}")
+                Log.w("GitHub CLI installation check failed: ${e.message}")
                 false
             }
+
+        /**
+         * Checks if GitHub CLI is authenticated with a valid session.
+         * Runs `gh auth status` to verify authentication.
+         */
+        fun isGhCliAuthenticated(): Boolean =
+            try {
+                val process = ProcessBuilder(GH_COMMAND, "auth", "status").start()
+                val isAuthenticated = process.waitFor() == 0
+                Log.d("GitHub CLI authentication check: ${if (isAuthenticated) "authenticated" else "not authenticated"}")
+                isAuthenticated
+            } catch (e: Exception) {
+                Log.w("GitHub CLI authentication check failed: ${e.message}")
+                false
+            }
+
+        /**
+         * Checks if GitHub CLI is installed and authenticated.
+         * Both conditions must be met for the GH CLI client to work.
+         */
+        fun isGhCliAvailable(): Boolean {
+            if (!isGhCliInstalled()) {
+                return false
+            }
+            return isGhCliAuthenticated()
+        }
     }
 
     override suspend fun pullRequest(
