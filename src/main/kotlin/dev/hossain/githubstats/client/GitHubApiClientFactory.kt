@@ -32,8 +32,9 @@ object GitHubApiClientFactory {
             ApiClientType.GH_CLI -> {
                 if (!GhCliApiClient.isGhCliAvailable()) {
                     throw IllegalStateException(
-                        "GitHub CLI is not installed or not available in PATH. " +
-                            "Install it with: brew install gh (macOS) or see https://cli.github.com/",
+                        "GitHub CLI is not installed or not authenticated.\n" +
+                            "Install: brew install gh (macOS) or see https://cli.github.com/\n" +
+                            "Authenticate: gh auth login",
                     )
                 }
 

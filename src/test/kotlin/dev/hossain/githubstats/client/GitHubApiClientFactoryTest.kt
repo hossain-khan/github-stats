@@ -158,15 +158,18 @@ class GitHubApiClientFactoryTest {
     @Test
     fun `factory error message - when gh not available - provides helpful information`() {
         // This test verifies the error message quality
-        // It may pass without error if gh CLI is installed
+        // It may pass without error if gh CLI is installed and authenticated
 
         try {
             GitHubApiClientFactory.create(ApiClientType.GH_CLI)
         } catch (e: IllegalStateException) {
-            // Verify error message is helpful
+            // Verify error message is helpful and includes both installation and authentication guidance
             assertThat(e.message).contains("GitHub CLI")
-            assertThat(e.message).contains("install")
+            assertThat(e.message).containsMatch("(not installed|not authenticated)")
+            assertThat(e.message).contains("Install:")
             assertThat(e.message).contains("https://cli.github.com")
+            assertThat(e.message).contains("Authenticate:")
+            assertThat(e.message).contains("gh auth login")
         }
     }
 }
