@@ -28,6 +28,13 @@ This project exist to explore GitHub API to get some common answer about PR revi
 ## Setup 🛠
 See [SETUP](SETUP.md) for details on how to setup the project using IntelliJ IDEA.
 
+### API Client Options
+This project supports two API client implementations:
+- **Retrofit/OkHttp** (default) - Faster with built-in HTTP caching, requires GitHub token
+- **GitHub CLI** - Uses `gh` command, simpler setup with existing CLI authentication
+
+See [API Clients Guide](docs/API_CLIENTS.md) for detailed comparison, setup instructions, and best practices.
+
 ### Quick Start
 ```bash
 # 1. Clone the repository
