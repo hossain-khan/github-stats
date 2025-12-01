@@ -51,7 +51,8 @@ This will:
 - Set `date_limit_before` to today's date
 
 Then update the following required values in `local.properties`:
-- `access_token` - Generate a **[token](https://github.com/settings/tokens)** 
+- `api_client_type` - Choose `RETROFIT` (default) or `GH_CLI`. See [API Clients Guide](docs/API_CLIENTS.md) for details.
+- `access_token` - Generate a **[token](https://github.com/settings/tokens)** (only required for `RETROFIT`)
 - `repository_owner` - Your GitHub org/user name
 - `repository_id` - Your repository name
 - `authors` - Comma-separated list of GitHub user IDs
