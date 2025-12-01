@@ -283,6 +283,12 @@ IS_GITHUB_CI=true ./gradlew build
 - `docs/GH_CLI_CACHING.md` - GitHub CLI caching documentation
 - `docs/GH_CLI_LOGGING.md` - GitHub CLI logging documentation
 
+### Release Process
+When creating a new release, remember to:
+1. **Update the version in `build.gradle.kts`**: Change the `version` property (line 26) to match the new release tag (e.g., `version = "1.10"` for release `v1.10`).
+2. This version is used by Dokka to generate the API documentation deployed to GitHub Pages at https://hossain-khan.github.io/github-stats/
+3. If the version is not updated, the docs page will show an outdated version number.
+
 ## Trust These Instructions
 
 These instructions have been validated by running all commands and examining the actual codebase. Only search for additional information if:
