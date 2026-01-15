@@ -64,7 +64,7 @@ dependencies {
     implementation("io.insert-koin:koin-core:4.1.1")
 
     // ASCII Progress Bar https://github.com/ctongfei/progressbar
-    implementation("me.tongfei:progressbar:0.10.1")
+    implementation("me.tongfei:progressbar:0.10.2")
 
     // SQLDelight for database operations and PostgreSQL driver
     // https://sqldelight.github.io/sqldelight/2.1.0/
