@@ -71,7 +71,7 @@ dependencies {
     implementation("app.cash.sqldelight:runtime:2.2.1")
     implementation("app.cash.sqldelight:coroutines-extensions:2.2.1")
     implementation("app.cash.sqldelight:jdbc-driver:2.2.1")
-    implementation("org.postgresql:postgresql:42.7.8")
+    implementation("org.postgresql:postgresql:42.7.9")
 
     //
     // =======================
