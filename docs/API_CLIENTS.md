@@ -34,7 +34,7 @@ The default implementation uses [Retrofit](https://square.github.io/retrofit/) w
 | Advantage | Description |
 |-----------|-------------|
 | ✅ **Built-in HTTP Caching** | OkHttp automatically caches responses based on HTTP headers, reducing duplicate API calls |
-| ✅ **Database Cache Support** | Optional PostgreSQL caching for persistent storage across runs |
+| ✅ **Database Cache Support** | Optional PostgreSQL caching for persistent storage across runs (shared with GH_CLI) |
 | ✅ **Better Performance** | Direct HTTP connections with connection pooling (~145ms avg response time) |
 | ✅ **Rich Debugging** | HTTP interceptors provide detailed request/response logging |
 | ✅ **Type-safe API Calls** | Retrofit's annotation-based interface ensures compile-time safety |
@@ -81,6 +81,7 @@ For persistent caching across runs:
 db_cache_url=jdbc:postgresql://localhost:5432/github_stats_cache
 db_cache_username=your_username
 db_cache_password=your_password
+# Cache expiration time in hours (default: 24 hours if not specified)
 db_cache_expiration_hours=168
 ```
 
@@ -107,6 +108,7 @@ An alternative implementation that uses the official [GitHub CLI](https://cli.gi
 | ✅ **Official Tool** | Uses GitHub's official CLI |
 | ✅ **Fewer Dependencies** | Only needs Moshi for JSON parsing |
 | ✅ **Lower Memory Usage** | Process-based execution uses less memory |
+| ✅ **Database Cache Support** | Optional PostgreSQL caching (same as Retrofit) |
 
 ### Disadvantages
 
@@ -172,6 +174,7 @@ To improve performance with persistent caching:
 db_cache_url=jdbc:postgresql://localhost:5432/github_stats_cache
 db_cache_username=your_username
 db_cache_password=your_password
+# Cache expiration time in hours (default: 24 hours if not specified)
 db_cache_expiration_hours=168
 ```
 
@@ -226,14 +229,16 @@ db_cache_expiration_hours=168
 
 2. **Database Cache (Optional)**
    - Persistent across application restarts
-   - Configurable expiration (default: 168 hours)
-   - Shared across multiple runs
+   - Configurable expiration (default: 24 hours if not set, 168 hours recommended)
+   - Can be shared across multiple runs
+   - Must be explicitly configured in local.properties
 
 ### GH CLI Caching
 
-1. **Database Cache (Recommended)**
+1. **Database Cache (Optional, Highly Recommended)**
    - Compensates for lack of HTTP caching
    - Same configuration as Retrofit
+   - Provides significant performance improvement
    - See [GH CLI Caching Guide](GH_CLI_CACHING.md) for details
 
 ### Cache Expiration Guidelines
@@ -241,7 +246,7 @@ db_cache_expiration_hours=168
 | Data Type | Recommended TTL | Reason |
 |-----------|-----------------|--------|
 | Old/closed PRs | 168 hours (7 days) | Data rarely changes |
-| Recent/open PRs | 24 hours | Active development |
+| Recent/open PRs | 24 hours (code default) | Active development |
 | High-frequency analysis | 4-8 hours | Fresh data needed |
 
 ---

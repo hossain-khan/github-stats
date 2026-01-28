@@ -12,7 +12,7 @@ This project exist to explore GitHub API to get some common answer about PR revi
 #### What it is NOT
 - ❌ It is not a comprehensive GitHub statistics generator tool. Built for specific purpose.
 - ❌ It is not a modular tool that can be re-used to query GitHub APIs.
-- ❌ Existing supported stats are not localized for different work hour or weekends. Only North America time zone supported.
+- ❌ Existing supported stats are not localized for different work hour or weekends. Supports North American timezones (and limited other cities).
 - ❌ It does not follow all industry standards, and does not strive to be performant either.
 
 
@@ -73,7 +73,7 @@ Here is some data generated from `freeCodeCamp` repository for `naomi-lgbt` user
 
 ### Agregated Dashboard
 
-Added new HTML exporter that cobines different reports into single page. See `REPORTS-[reponame]-DASHBOARD.html`
+The application generates an aggregated HTML dashboard that combines different reports into a single page. See `REPORTS-[reponame]-AGGREGATED/REPORT_-_aggregated-pr-stats-for-all-authors.html`
 
 <img width="3712" height="6706" alt="Image" src="https://github.com/user-attachments/assets/c31a532c-d4cc-4084-96c3-d1869b815308" />
 

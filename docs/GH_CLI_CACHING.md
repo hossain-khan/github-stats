@@ -25,6 +25,7 @@ Add these properties to your `local.properties` file:
 db_cache_url=jdbc:postgresql://localhost:5432/github_stats_cache
 db_cache_username=your_username
 db_cache_password=your_password
+# Cache expiration time in hours (default: 24 hours if not specified)
 db_cache_expiration_hours=24
 ```
 
@@ -35,7 +36,7 @@ db_cache_expiration_hours=24
 | `db_cache_url` | PostgreSQL JDBC connection URL | Required for caching |
 | `db_cache_username` | Database username | Required for caching |
 | `db_cache_password` | Database password | Required for caching |
-| `db_cache_expiration_hours` | Cache expiration time in hours | 24 hours |
+| `db_cache_expiration_hours` | Cache expiration time in hours | 24 hours (code default) |
 
 If database cache properties are not configured, GhCliApiClient will work without caching (direct API calls).
 
@@ -206,8 +207,8 @@ WHERE created_at < NOW() - INTERVAL '7 days';
 
 1. **Enable Database Caching**: Always configure database cache for production use
 2. **Set Appropriate Expiration**: Balance freshness vs cache hit rate
-   - Stable data (old PRs): 168 hours (7 days)
-   - Recent data: 24 hours (default)
+   - Stable data (old PRs): 168 hours (7 days) - as suggested in local_sample.properties
+   - Recent data: 24 hours (code default if not configured)
    - Active development: 4-8 hours
 3. **Monitor Cache Hit Rate**: Aim for >50% hit rate for repeated analyses
 4. **Share Cache**: Multiple runs can benefit from shared PostgreSQL cache

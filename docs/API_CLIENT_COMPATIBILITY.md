@@ -51,9 +51,9 @@ Both implementations are designed to be interchangeable through the `GitHubApiCl
 | Feature | Retrofit | GH CLI | Notes |
 |---------|----------|--------|-------|
 | HTTP Cache | ✅ Built-in | ❌ Not available | Retrofit uses OkHttp cache |
-| Database Cache | ❌ Not used | ✅ Optional (PostgreSQL) | Can be enabled via config |
+| Database Cache | ✅ Optional (PostgreSQL) | ✅ Optional (PostgreSQL) | Both support persistent DB caching |
 | Cache Statistics | ✅ Via interceptor | ✅ Via service | Both track hits/misses |
-| Cache Expiration | HTTP headers | Configurable hours | Different mechanisms |
+| Cache Expiration | HTTP headers + DB config | DB configurable hours | Different mechanisms |
 
 ### Error Handling
 

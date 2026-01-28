@@ -31,7 +31,7 @@ object BuildConfig {
     const val API_REQUEST_DELAY_MS: Long = 200L
 
     /**
-     * HTTP requests are cached locally to re-used responses that has not changed.
+     * HTTP requests are cached locally to reuse responses without refetching.
      * Configuration for max size on disk to cache response files.
      */
     const val HTTP_CACHE_SIZE: Long = 100L * 1024L * 1024L // 100 MB
