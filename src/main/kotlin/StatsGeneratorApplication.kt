@@ -97,17 +97,17 @@ class StatsGeneratorApplication(
         cacheStatsService.reset()
 
         // For each user, generates stats for all the PRs reviewed by the user
-        appConfig.get().userIds.forEach { usedId ->
+        appConfig.get().userIds.forEach { userId ->
             val reviewerReportBuildTime =
                 measureTimeMillis {
-                    println(resources.string("status_building_reviewer_pr_stats", usedId))
-                    val prReviewerReviewStats = prReviewerStatsService.reviewerStats(prReviewerUserId = usedId)
+                    println(resources.string("status_building_reviewer_pr_stats", userId))
+                    val prReviewerReviewStats = prReviewerStatsService.reviewerStats(prReviewerUserId = userId)
                     formatters.forEach {
-                        println(it.formatReviewerStats(prReviewerReviewStats))
+                        it.formatReviewerStats(prReviewerReviewStats)
                     }
                 }
 
-            Log.d(resources.string("stats_process_time_for_user", usedId, reviewerReportBuildTime.milliseconds))
+            Log.d(resources.string("stats_process_time_for_user", userId, reviewerReportBuildTime.milliseconds))
             Log.i("\n─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n")
         }
 
