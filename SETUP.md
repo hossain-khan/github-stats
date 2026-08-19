@@ -56,6 +56,7 @@ Then update the following required values in `local.properties`:
 - `repository_owner` - Your GitHub org/user name
 - `repository_id` - Your repository name
 - `authors` - Comma-separated list of GitHub user IDs
+- `db_cache_type` *(Optional)* - Database caching is enabled by default with `SQLITE` (`github-stats-cache.db`), requiring zero setup. You can also configure `POSTGRESQL` or `NONE` to disable.
 
 #### Option 2: Manual setup
 Rename the provided [`local_sample.properties`](https://github.com/hossain-khan/github-stats/blob/main/local_sample.properties) to `local.properties`.
@@ -81,8 +82,16 @@ You can also use following gradle command to run the stats generator
 > See troubleshooting section if you encounter issue.
 
 ### Preview Stats
-Once the generator app finishes running, you will see report in the project root directory that contains both `ASCII` and `CSV` report.  
-Here is sample snapshot of reports from different repositories:
+Once the generator app finishes running, you will see generated reports in the project root directory:
+
+1. **Executive Repository Dashboard (`REPORTS-[repo]-DASHBOARD.html`)**:
+   - High-level executive KPI metrics, interactive Chart.js visualizations, live searchable contributor tables, and built-in light/dark theme switcher.
+2. **Author & Reviewer Analytics Hubs (`REPORTS-[repo]-[user]/`)**:
+   - Contributor profiles with avatars, turnaround speed metrics, reviewer distribution charts, and PR inspection tables.
+3. **ASCII & CSV Reports**:
+   - Formatted terminal tables (`.txt`) and spreadsheet-ready CSV files (`.csv`) for data analysis.
+
+Here is a sample snapshot of generated report files from different repositories:
 
 <img width="400" alt="Generated files and folders" src="https://user-images.githubusercontent.com/99822/198861052-a4362440-d09c-4e06-aac0-e344b519299c.png">
 
