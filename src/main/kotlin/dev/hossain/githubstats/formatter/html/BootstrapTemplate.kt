@@ -1,204 +1,253 @@
 package dev.hossain.githubstats.formatter.html
 
 /**
- * Bootstrap-based HTML templates with Chart.js integration for aggregated reports.
+ * Modern Bootstrap 5 & Chart.js templates for executive dashboards and reports.
  */
 object BootstrapTemplate {
     /**
-     * Generates a complete Bootstrap-based HTML page with all aggregated charts
+     * Generates a complete executive dashboard HTML page.
      */
     fun aggregatedReport(
         title: String,
         repoId: String,
         dateRange: String,
         sectionsHtml: String,
+        kpiCardsHtml: String = "",
+        tablesHtml: String = "",
     ): String =
-        """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$title</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-    
-    <!-- Custom CSS -->
-    <style>
-        .chart-container {
-            position: relative;
-            height: 400px;
-            margin: 20px 0;
-        }
-        .section-header {
-            border-left: 4px solid #007bff;
-            padding-left: 15px;
-            margin: 30px 0 20px 0;
-        }
-        .stats-card {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .chart-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#overview">📊 GitHub Stats Report</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="#overview">Overview</a>
-                <a class="nav-link" href="#aggregated">Aggregated</a>
-                <a class="nav-link" href="#authors">Authors</a>
-                <a class="nav-link" href="#reviewers">Reviewers</a>
-            </div>
-        </div>
-    </nav>
+        """
+        <!DOCTYPE html>
+        <html lang="en" data-bs-theme="light">
+        <head>
+            ${DashboardTheme.headAssets(title)}
+        </head>
+        <body>
+            <!-- Modern Top Navigation Bar -->
+            <nav class="navbar navbar-expand-lg app-navbar">
+                <div class="container-fluid px-lg-4">
+                    <a class="navbar-brand" href="#overview">
+                        <i class="bi bi-bar-chart-line-fill text-primary"></i>
+                        <span>GitHub Stats</span>
+                        <span class="brand-badge">$repoId</span>
+                    </a>
+                    
+                    <div class="d-flex align-items-center gap-3 ms-auto">
+                        <div class="d-none d-md-flex align-items-center text-muted small me-2">
+                            <i class="bi bi-calendar3 me-2"></i> $dateRange
+                        </div>
+                        
+                        <ul class="nav nav-pills nav-pills-modern d-none d-lg-flex me-2">
+                            <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#aggregated">Repository</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#authors">Authors</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#reviewers">Reviewers</a></li>
+                        </ul>
 
-    <div class="container my-4">
-        <!-- Header -->
-        <section id="overview">
-            <div class="row">
-                <div class="col-12">
-                    <div class="jumbotron bg-light p-4 rounded stats-card">
-                        <h1 class="display-6">$title</h1>
-                        <p class="lead">Repository: <strong>$repoId</strong></p>
-                        <p class="lead">Date Range: <strong>$dateRange</strong></p>
-                        <hr class="my-4">
-                        <p>This dashboard aggregates all PR statistics and provides comprehensive insights into pull request activity, review patterns, and contributor performance.</p>
+                        <!-- Light/Dark Mode Switcher -->
+                        <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                            <i class="bi bi-moon-stars-fill text-primary" id="themeToggleIcon"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
-        </section>
+            </nav>
 
-        $sectionsHtml
-    </div>
+            <main class="container-fluid px-lg-4 py-4">
+                <!-- Overview Header / Executive Hero -->
+                <section id="overview" class="mb-4">
+                    <div class="dash-card p-4">
+                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <span class="badge badge-subtle badge-blue"><i class="bi bi-git me-1"></i>Repository Analytics</span>
+                                    <span class="badge badge-subtle badge-purple"><i class="bi bi-calendar-range me-1"></i>$dateRange</span>
+                                </div>
+                                <h1 class="h3 fw-bold text-heading mb-1">$title</h1>
+                                <p class="text-muted mb-0">Comprehensive pull request velocity, code review participation, and collaboration insights.</p>
+                            </div>
+                        </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>"""
+                        ${if (kpiCardsHtml.isNotBlank()) kpiCardsHtml else ""}
+                    </div>
+                </section>
+
+                $sectionsHtml
+
+                ${if (tablesHtml.isNotBlank()) tablesHtml else ""}
+            </main>
+
+            <footer class="dash-footer text-center">
+                <div class="container">
+                    <p class="mb-0">Generated by <strong>GitHub Stats</strong> • Open-source PR Analytics & Metrics</p>
+                </div>
+            </footer>
+
+            ${DashboardTheme.sharedScripts()}
+        </body>
+        </html>
+        """.trimIndent()
 
     /**
-     * Creates a section for aggregated repository stats
+     * Creates a grid of KPI summary metric cards.
+     */
+    fun kpiGrid(cards: List<String>): String =
+        """
+        <div class="row g-3">
+            ${cards.joinToString("\n")}
+        </div>
+        """.trimIndent()
+
+    /**
+     * Creates an individual modern KPI metric card.
+     */
+    fun kpiCard(
+        label: String,
+        value: String,
+        icon: String,
+        colorClass: String = "kpi-icon-blue",
+        subtitle: String = "",
+    ): String =
+        """
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="kpi-card h-100">
+                <div class="kpi-icon-wrapper $colorClass">
+                    <i class="bi $icon"></i>
+                </div>
+                <div>
+                    <div class="kpi-label">$label</div>
+                    <div class="kpi-value">$value</div>
+                    ${if (subtitle.isNotBlank()) "<div class=\"text-muted small mt-1\">$subtitle</div>" else ""}
+                </div>
+            </div>
+        </div>
+        """.trimIndent()
+
+    /**
+     * Creates a section for aggregated repository stats.
      */
     fun aggregatedSection(chartHtml: String): String =
         """
-        <section id="aggregated" class="my-5">
-            <div class="section-header">
-                <h2>📈 Aggregated Repository Statistics</h2>
-                <p class="text-muted">Overall statistics for all contributors in the repository</p>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card stats-card">
-                        <div class="card-body">
-                            $chartHtml
-                        </div>
-                    </div>
+        <section id="aggregated" class="mb-4">
+            <div class="dash-card">
+                <div class="card-header-clean">
+                    <h2 class="card-title-clean">
+                        <i class="bi bi-graph-up-arrow text-primary"></i>
+                        <span>Aggregated Contributor Activity</span>
+                    </h2>
+                </div>
+                <div class="p-4">
+                    $chartHtml
                 </div>
             </div>
         </section>
-        """
+        """.trimIndent()
 
     /**
-     * Creates a section for individual author stats
+     * Creates a section for individual author stats.
      */
     fun authorsSection(authorsHtml: String): String =
         """
-        <section id="authors" class="my-5">
-            <div class="section-header">
-                <h2>👥 PR Author Statistics</h2>
-                <p class="text-muted">Individual statistics for each PR author</p>
+        <section id="authors" class="mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h4 fw-bold text-heading mb-0">
+                    <i class="bi bi-person-workspace text-primary me-2"></i>PR Author Analytics
+                </h2>
             </div>
-            <div class="row">
+            <div class="row g-4">
                 $authorsHtml
             </div>
         </section>
-        """
+        """.trimIndent()
 
     /**
-     * Creates a section for individual reviewer stats
+     * Creates a section for individual reviewer stats.
      */
     fun reviewersSection(reviewersHtml: String): String =
         """
-        <section id="reviewers" class="my-5">
-            <div class="section-header">
-                <h2>🔍 PR Reviewer Statistics</h2>
-                <p class="text-muted">Individual statistics for each PR reviewer</p>
+        <section id="reviewers" class="mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h4 fw-bold text-heading mb-0">
+                    <i class="bi bi-search-heart text-purple me-2"></i>PR Reviewer Analytics
+                </h2>
             </div>
-            <div class="row">
+            <div class="row g-4">
                 $reviewersHtml
             </div>
         </section>
-        """
+        """.trimIndent()
 
     /**
-     * Creates a Chart.js bar chart
+     * Creates a Chart.js bar chart.
      */
     fun chartJsBarChart(
         canvasId: String,
         title: String,
         labels: List<String>,
         datasets: List<ChartDataset>,
+        horizontal: Boolean = false,
     ): String {
         val labelsJs = labels.joinToString(",") { "\"$it\"" }
         val datasetsJs = datasets.joinToString(",") { it.toJs() }
+        val indexAxis = if (horizontal) "indexAxis: 'y'," else ""
 
         return """
-        <div class="chart-title">$title</div>
-        <div class="chart-container">
-            <canvas id="$canvasId"></canvas>
-        </div>
-        <script>
-        (function() {
-            const ctx = document.getElementById('$canvasId').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: [$labelsJs],
-                    datasets: [$datasetsJs]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: '$title'
-                        },
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        }
+            <div class="chart-container-fluid">
+                <canvas id="$canvasId"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('$canvasId').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [$labelsJs],
+                        datasets: [$datasetsJs]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                    options: {
+                        $indexAxis
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: ${title.isNotBlank()},
+                                text: '$title',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
                         }
                     }
-                }
-            });
-        })();
-        </script>
-        """
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+            """.trimIndent()
     }
 
     /**
-     * Creates a Chart.js pie chart
+     * Creates a Chart.js pie or doughnut chart.
      */
     fun chartJsPieChart(
         canvasId: String,
@@ -206,94 +255,108 @@ object BootstrapTemplate {
         labels: List<String>,
         data: List<Number>,
         backgroundColor: List<String>? = null,
+        isDoughnut: Boolean = true,
     ): String {
         val labelsJs = labels.joinToString(",") { "\"$it\"" }
         val dataJs = data.joinToString(",")
-        val backgroundColorJs =
-            backgroundColor?.joinToString(",") { "\"$it\"" }
-                ?: generateDefaultColors(data.size).joinToString(",") { "\"$it\"" }
+        val colorsList = backgroundColor ?: generateDefaultColors(data.size)
+        val backgroundColorJs = colorsList.joinToString(",") { "\"$it\"" }
+        val chartType = if (isDoughnut) "doughnut" else "pie"
 
         return """
-        <div class="chart-title">$title</div>
-        <div class="chart-container">
-            <canvas id="$canvasId"></canvas>
-        </div>
-        <script>
-        (function() {
-            const ctx = document.getElementById('$canvasId').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: [$labelsJs],
-                    datasets: [{
-                        data: [$dataJs],
-                        backgroundColor: [$backgroundColorJs],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: '$title'
+            <div class="chart-container-fluid" style="min-height: 280px;">
+                <canvas id="$canvasId"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('$canvasId').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: '$chartType',
+                    data: {
+                        labels: [$labelsJs],
+                        datasets: [{
+                            data: [$dataJs],
+                            backgroundColor: [$backgroundColorJs],
+                            borderWidth: 2,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: ${title.isNotBlank()},
+                                text: '$title',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 12
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8
+                            }
                         },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        }
+                        cutout: '${if (isDoughnut) "65%" else "0%"}'
                     }
-                }
-            });
-        })();
-        </script>
-        """
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+            """.trimIndent()
     }
 
     /**
-     * Generates default colors for charts
-     */
-    private fun generateDefaultColors(count: Int): List<String> {
-        val colors =
-            listOf(
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56",
-                "#4BC0C0",
-                "#9966FF",
-                "#FF9F40",
-                "#FF6384",
-                "#C9CBCF",
-                "#4BC0C0",
-                "#FF6384",
-            )
-        return (0 until count).map { colors[it % colors.size] }
-    }
-
-    /**
-     * Creates a card for individual author/reviewer
+     * Generates a modern card for an individual author or reviewer on the dashboard.
      */
     fun statsCard(
         title: String,
         content: String,
     ): String =
         """
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card stats-card h-100">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0">$title</h5>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean">$title</h3>
                 </div>
-                <div class="card-body">
+                <div class="p-4">
                     $content
                 </div>
             </div>
         </div>
-        """
+        """.trimIndent()
+
+    /**
+     * Default sleek color palette.
+     */
+    private fun generateDefaultColors(count: Int): List<String> {
+        val colors =
+            listOf(
+                "#3b82f6", // Blue
+                "#8b5cf6", // Purple
+                "#10b981", // Emerald
+                "#f59e0b", // Amber
+                "#f43f5e", // Rose
+                "#06b6d4", // Cyan
+                "#6366f1", // Indigo
+                "#ec4899", // Pink
+                "#14b8a6", // Teal
+                "#64748b", // Slate
+            )
+        return (0 until count).map { colors[it % colors.size] }
+    }
 }
 
 /**
- * Represents a Chart.js dataset
+ * Represents a Chart.js dataset with modern styling.
  */
 data class ChartDataset(
     val label: String,
@@ -303,7 +366,7 @@ data class ChartDataset(
 ) {
     fun toJs(): String {
         val dataJs = data.joinToString(",")
-        val bg = backgroundColor ?: "#36A2EB"
+        val bg = backgroundColor ?: "#3b82f6"
         val border = borderColor ?: bg
 
         return """
@@ -312,7 +375,8 @@ data class ChartDataset(
                 data: [$dataJs],
                 backgroundColor: "$bg",
                 borderColor: "$border",
-                borderWidth: 1
+                borderWidth: 1,
+                borderRadius: 6
             }
             """.trimIndent()
     }
