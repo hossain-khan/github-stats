@@ -17,6 +17,10 @@ plugins {
     // https://sqldelight.github.io/sqldelight/2.1.0/
     id("app.cash.sqldelight") version "2.2.1"
 
+    // Kotlinx Kover - Code coverage tool for Kotlin
+    // https://github.com/Kotlin/kotlinx-kover
+    id("org.jetbrains.kotlinx.kover") version "0.9.9"
+
     // https://kotlinlang.org/docs/ksp-quickstart.html#use-your-own-processor-in-a-project
     // id("com.google.devtools.ksp") version "1.9.20-1.0.6" // Not needed yet.
     application
@@ -127,5 +131,19 @@ tasks.withType<ConfigurableKtLintTask>().configureEach {
     val buildDirectory = layout.buildDirectory
     exclude {
         it.file.startsWith(buildDirectory.get().asFile)
+    }
+}
+
+// Kotlinx Kover configuration
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    // Exclude generated SQLDelight database classes
+                    "dev.hossain.githubstats.cache.database.*",
+                )
+            }
+        }
     }
 }
