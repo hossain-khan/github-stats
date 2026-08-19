@@ -67,12 +67,12 @@ Here is an quick overview of how stats generation works.
 
 
 ## Sample
-Here is some data generated from `freeCodeCamp` repository for `naomi-lgbt` user. See 📊 [demo](https://hossain-khan.github.io/github-stats/demo-report/)
+Here is some data generated from `freeCodeCamp` repository. See 📊 [demo](https://hossain-khan.github.io/github-stats/demo-report/).
 
 <img width="497" alt="Generate files" src="https://github.com/user-attachments/assets/1accc59c-0185-4b3a-9eec-712ae050ea62" />
 
 | Dashboard - Light | Dashboard - Dark | 
-| -------- | ---------- |
+| :---: | :---: |
 | <img width="3840" height="12246" alt="Screenshot 2026-08-19 at 15-46-13 freeCodeCamp Analytics Dashboard" src="https://github.com/user-attachments/assets/97116f5d-7006-4246-bc71-755fd8435a85" /> | <img width="3840" height="12246" alt="Screenshot 2026-08-19 at 15-47-06 freeCodeCamp Analytics Dashboard" src="https://github.com/user-attachments/assets/27c16bf3-1c2f-4ea1-b571-506c83c53949" /> |
 | - | - |
 | **PR Author - Light** | **PR Author - Dark** | 
@@ -80,16 +80,6 @@ Here is some data generated from `freeCodeCamp` repository for `naomi-lgbt` user
 | - | - |
 | **Reviewer - Light** | **Reviewer - Dark** | 
 | <img width="3840" height="3192" alt="Screenshot 2026-08-19 at 15-49-23 Reviewer Analytics - DanielRosa74 (freeCodeCamp)" src="https://github.com/user-attachments/assets/7b136d9e-812b-4a47-9703-429010339cad" /> | <img width="3840" height="3192" alt="Screenshot 2026-08-19 at 15-49-16 Reviewer Analytics - DanielRosa74 (freeCodeCamp)" src="https://github.com/user-attachments/assets/bde02d24-d109-433b-8cd4-7bbfe19b5608" /> |
-
-
-
-### Agregated Dashboard
-
-
-### Stats as PR Author
-
-
-### Stats as PR Reviewer
 
 
 ## References
