@@ -73,6 +73,19 @@ class DatabaseCacheTest {
     }
 
     @Test
+    fun `local properties defaults to SQLITE database cache type`() {
+        val defaultProperties = mockk<LocalProperties>()
+        every { defaultProperties.getProperty("db_cache_type") } returns null
+        every { defaultProperties.getDbCacheUrl() } returns null
+        every { defaultProperties.getDbCacheSqliteFile() } returns "github-stats-cache.db"
+        every { defaultProperties.getDbCacheType() } answers { callOriginal() }
+        every { defaultProperties.isDatabaseCacheEnabled() } answers { callOriginal() }
+
+        assertThat(defaultProperties.getDbCacheType()).isEqualTo(DatabaseType.SQLITE)
+        assertThat(defaultProperties.isDatabaseCacheEnabled()).isTrue()
+    }
+
+    @Test
     fun `sqlite database cache service stores and retrieves cached responses`() =
         runBlocking {
             val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
