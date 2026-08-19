@@ -31,20 +31,21 @@ See [SETUP](SETUP.md) for details on how to setup the project using IntelliJ IDE
 ### API Client Options
 This project supports two API client implementations:
 - **Retrofit/OkHttp** (default) - Faster with built-in HTTP caching, requires GitHub token
-- **GitHub CLI** - Uses `gh` command, simpler setup with existing CLI authentication
+- **GitHub CLI** - Uses **`gh`** command, simpler setup with existing CLI authentication
 
 See [API Clients Guide](docs/API_CLIENTS.md) for detailed comparison, setup instructions, and best practices.
 
-### Quick Start
+### Quick Start ▶️
+
 ```bash
 # 1. Clone the repository
 git clone https://github.com/hossain-khan/github-stats.git
 cd github-stats
 
-# 2. Initialize local.properties with automatic date setup
+# 2. Initialize `local.properties` with automatic date setup
 ./local-prop-init.sh
 
-# 3. Edit local.properties and add your:
+# 3. Edit `local.properties` and add your:
 #    - GitHub access token
 #    - Repository details
 #    - Author list
@@ -52,12 +53,6 @@ cd github-stats
 # 4. Run the stats generator
 ./gradlew run
 ```
-
-### Run App 📊
-After configuration comlete, you can run the app in either ways: 
-
-1. Run the app from IntelliJ ▶️ [Main.kt](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/Main.kt)
-2. Run the app from terminal using **`./gradlew run`** command
 
 ## How
 The program collects all the related data to user's via different GitHub APIs and compiles releavant data into stats. Those stats are then run through [StatsFormatter](https://github.com/hossain-khan/github-stats/blob/main/src/main/kotlin/dev/hossain/githubstats/formatter/StatsFormatter.kt) to generate files.  
