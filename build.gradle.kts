@@ -27,7 +27,7 @@ plugins {
 }
 
 group = "dev.hossain.githubstats"
-version = "1.9"
+version = "1.10"
 
 repositories {
     mavenCentral()
