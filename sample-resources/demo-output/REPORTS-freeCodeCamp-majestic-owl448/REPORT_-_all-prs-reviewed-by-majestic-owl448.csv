@@ -1,0 +1,613 @@
+PR#,Review Time,Review Time (working days),Review Time (mins),Initial Response Time (working days),Initial Response Time (mins),Code Review Comments,PR Issue Comments,PR Review Comments,Total Comments,PR Ready On,PR Merged On,Ready->Merge,PR Author,PR URL
+69615,4h 7m 49s,4h 7m 49s,247,4h 7m 49s,247,0,0,0,0,2026-08-19T14:30:17Z,2026-08-19T18:38:08Z,4h 7m 51s,Aman739-code,https://github.com/freeCodeCamp/freeCodeCamp/pull/69615
+69613,0s,0s,0,0s,0,0,0,0,0,2026-08-19T09:01:03Z,2026-08-19T10:40:53Z,1h 39m 50s,Abhi-kumar23,https://github.com/freeCodeCamp/freeCodeCamp/pull/69613
+69605,0s,0s,0,0s,0,0,0,0,0,2026-08-18T22:00:36Z,2026-08-19T10:03:37Z,12h 3m 1s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/69605
+69601,5h,5h,300,5h,300,0,0,0,0,2026-08-18T16:41:39Z,2026-08-18T21:03:08Z,4h 21m 29s,Kunal241207,https://github.com/freeCodeCamp/freeCodeCamp/pull/69601
+69599,2h 49m 12s,2h 49m 12s,169,2h 49m 12s,169,0,0,0,0,2026-08-18T15:46:10Z,2026-08-18T18:49:51Z,3h 3m 41s,Dazzanova,https://github.com/freeCodeCamp/freeCodeCamp/pull/69599
+69585,1h 27m,1h 27m,87,1h 27m,87,0,0,0,0,2026-08-18T10:07:17Z,2026-08-18T15:44:10Z,5h 36m 53s,dev-sriramp,https://github.com/freeCodeCamp/freeCodeCamp/pull/69585
+69582,2h,2h,120,2h,120,0,0,0,0,2026-08-17T19:37:50Z,2026-08-18T07:24:48Z,11h 46m 58s,caio-bittencourt,https://github.com/freeCodeCamp/freeCodeCamp/pull/69582
+69581,3h,3h,180,3h,180,0,0,0,0,2026-08-17T18:58:50Z,2026-08-18T08:13:30Z,13h 14m 40s,AnandKumar-001,https://github.com/freeCodeCamp/freeCodeCamp/pull/69581
+69573,4h,4h,240,4h,240,0,0,0,0,2026-08-17T17:30:10Z,2026-08-18T07:07:15Z,13h 37m 5s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/69573
+69572,4h,4h,240,4h,240,0,0,0,0,2026-08-17T17:22:59Z,2026-08-18T07:32:12Z,14h 9m 13s,Aman739-code,https://github.com/freeCodeCamp/freeCodeCamp/pull/69572
+69570,12h 59m,1 day and 4h 59m [Based on 8h on a working day],779,6h 14m 36s,374,6,1,3,10,2026-08-17T14:28:36Z,2026-08-18T18:59:21Z,1d 4h 30m 45s,BaconMan1168,https://github.com/freeCodeCamp/freeCodeCamp/pull/69570
+69569,6h 8m 3s,6h 8m 3s,368,6h 8m 3s,368,0,0,0,0,2026-08-17T14:28:25Z,2026-08-17T21:13:55Z,6h 45m 30s,BaconMan1168,https://github.com/freeCodeCamp/freeCodeCamp/pull/69569
+69552,0s,0s,0,0s,0,0,0,0,0,2026-08-16T14:40:56Z,2026-08-17T11:33:11Z,20h 52m 15s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/69552
+69522,2h 34m 50s,2h 34m 50s,154,2h 34m 50s,154,0,1,0,1,2026-08-13T13:46:11Z,2026-08-13T16:56:35Z,3h 10m 24s,subodh-77,https://github.com/freeCodeCamp/freeCodeCamp/pull/69522
+69520,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-08-13T10:47:51Z,2026-08-17T08:30:34Z,3d 21h 42m 43s,wunianze666-netizen,https://github.com/freeCodeCamp/freeCodeCamp/pull/69520
+69518,8h 41m,1 day and 41m [Based on 8h on a working day],521,1 day and 41m [Based on 8h on a working day],521,0,0,0,0,2026-08-13T19:21:48Z,2026-08-14T13:41:55Z,18h 20m 7s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/69518
+69515,16h,2 days [Based on 8h on a working day],960,2 days [Based on 8h on a working day],960,0,0,0,0,2026-08-12T22:25:46Z,2026-08-17T11:44:08Z,4d 13h 18m 22s,jacobptnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/69515
+69511,5h,5h,300,5m 37s,5,1,0,1,2,2026-08-12T16:36:50Z,2026-08-13T07:59:57Z,15h 23m 7s,d4-dhiraj,https://github.com/freeCodeCamp/freeCodeCamp/pull/69511
+69506,12h 20m,1 day and 4h 20m [Based on 8h on a working day],740,1 day and 49m [Based on 8h on a working day],529,6,0,4,10,2026-08-12T15:59:46Z,2026-08-13T19:21:02Z,1d 3h 21m 16s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/69506
+69502,8m 39s,8m 39s,8,8m 39s,8,0,0,0,0,2026-08-12T15:34:49Z,2026-08-12T16:14:58Z,40m 9s,Dario-DC,https://github.com/freeCodeCamp/freeCodeCamp/pull/69502
+69501,3m 53s,3m 53s,3,3m 53s,3,0,0,0,0,2026-08-12T13:36:50Z,2026-08-12T14:21:03Z,44m 13s,MahyarCode,https://github.com/freeCodeCamp/freeCodeCamp/pull/69501
+69483,7h,7h,420,7h,420,0,2,0,2,2026-08-11T14:28:50Z,2026-08-12T10:26:22Z,19h 57m 32s,fuentez145,https://github.com/freeCodeCamp/freeCodeCamp/pull/69483
+69481,30m 7s,30m 7s,30,30m 7s,30,0,0,0,0,2026-08-11T14:22:25Z,2026-08-11T15:16:57Z,54m 32s,arjun2075,https://github.com/freeCodeCamp/freeCodeCamp/pull/69481
+69464,2h 45m,2h 45m,165,2h 45m,165,0,0,0,0,2026-08-10T12:07:55Z,2026-08-10T15:46:30Z,3h 38m 35s,waleed-akram,https://github.com/freeCodeCamp/freeCodeCamp/pull/69464
+69463,1h 6m,1h 6m,66,1h 6m,66,0,0,0,0,2026-08-10T11:50:58Z,2026-08-10T14:06:40Z,2h 15m 42s,SachaKefif,https://github.com/freeCodeCamp/freeCodeCamp/pull/69463
+69449,0s,0s,0,0s,0,0,0,0,0,2026-08-09T15:09:29Z,2026-08-10T07:15:01Z,16h 5m 32s,saikiranrayabarapu,https://github.com/freeCodeCamp/freeCodeCamp/pull/69449
+69410,5h 15m,5h 15m,315,5h 15m,315,0,0,0,0,2026-08-07T17:01:08Z,2026-08-10T14:15:43Z,2d 21h 14m 35s,Naman-bh,https://github.com/freeCodeCamp/freeCodeCamp/pull/69410
+69405,1h 4m 21s,1h 4m 21s,64,1h 4m 21s,64,0,0,0,0,2026-08-07T15:11:22Z,2026-08-07T16:15:46Z,1h 4m 24s,KesleyDavid,https://github.com/freeCodeCamp/freeCodeCamp/pull/69405
+69404,1h 35m 25s,1h 35m 25s,95,1h 35m 25s,95,0,0,0,0,2026-08-07T14:26:00Z,2026-08-07T16:01:36Z,1h 35m 36s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/69404
+69402,2h 46m,2h 46m,166,2h 46m,166,0,0,0,0,2026-08-07T11:38:45Z,2026-08-07T15:47:07Z,4h 8m 22s,gideonadeti,https://github.com/freeCodeCamp/freeCodeCamp/pull/69402
+69388,2h 23m,2h 23m,143,2h 23m,143,0,0,0,0,2026-08-07T07:27:46Z,2026-08-07T15:23:45Z,7h 55m 59s,SudhamshuH,https://github.com/freeCodeCamp/freeCodeCamp/pull/69388
+69386,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-08-07T05:46:53Z,2026-08-10T07:51:21Z,3d 2h 4m 28s,jeffrinkdev,https://github.com/freeCodeCamp/freeCodeCamp/pull/69386
+69380,1d 10h 51m,4 days and 2h 51m [Based on 8h on a working day],2091,3h 58m,238,2,0,1,3,2026-08-06T20:54:31Z,2026-08-13T14:51:17Z,6d 17h 56m 46s,typovrak,https://github.com/freeCodeCamp/freeCodeCamp/pull/69380
+69377,6h 43m,6h 43m,403,3h,180,1,0,1,2,2026-08-06T18:58:00Z,2026-08-07T16:44:30Z,21h 46m 30s,MkhalFadel,https://github.com/freeCodeCamp/freeCodeCamp/pull/69377
+69372,6h,6h,360,6h,360,1,0,1,2,2026-08-06T15:34:49Z,2026-08-07T09:27:45Z,17h 52m 56s,priyansh3010,https://github.com/freeCodeCamp/freeCodeCamp/pull/69372
+69368,7h,7h,420,1h 12m 10s,72,2,0,2,4,2026-08-06T14:46:39Z,2026-08-07T08:10:55Z,17h 24m 16s,Webmekanic,https://github.com/freeCodeCamp/freeCodeCamp/pull/69368
+69364,2h 52m,2h 52m,172,2h 52m,172,0,0,0,0,2026-08-06T12:54:08Z,2026-08-06T15:52:19Z,2h 58m 11s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/69364
+69363,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,2,0,1,3,2026-08-06T12:49:17Z,2026-08-10T08:08:22Z,3d 19h 19m 5s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/69363
+69362,2h 17m,2h 17m,137,2h 17m,137,0,0,0,0,2026-08-06T12:39:57Z,2026-08-06T15:17:20Z,2h 37m 23s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/69362
+69360,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-08-06T11:54:55Z,2026-08-07T08:13:23Z,20h 18m 28s,SudhamshuH,https://github.com/freeCodeCamp/freeCodeCamp/pull/69360
+69358,2h 22m,2h 22m,142,2h 4m,124,1,0,1,2,2026-08-06T09:18:12Z,2026-08-06T15:52:38Z,6h 34m 26s,SudhamshuH,https://github.com/freeCodeCamp/freeCodeCamp/pull/69358
+69355,1h 40m,1h 40m,100,1h 22m,82,0,0,1,1,2026-08-06T06:25:08Z,2026-08-06T14:40:08Z,8h 15m,Priyesh1311421,https://github.com/freeCodeCamp/freeCodeCamp/pull/69355
+69354,0s,0s,0,0s,0,0,0,0,0,2026-08-06T04:39:33Z,2026-08-06T06:58:10Z,2h 18m 37s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/69354
+69351,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,10,0,3,13,2026-08-11T11:26:09Z,2026-08-13T09:34:16Z,1d 22h 8m 7s,ShaunSHamilton,https://github.com/freeCodeCamp/freeCodeCamp/pull/69351
+69284,1h 10m 4s,1h 10m 4s,70,1h 10m 4s,70,0,0,0,0,2026-08-05T16:34:24Z,2026-08-05T18:23:27Z,1h 49m 3s,Rikka-8964,https://github.com/freeCodeCamp/freeCodeCamp/pull/69284
+69277,0s,0s,0,0s,0,0,0,0,0,2026-08-05T07:38:14Z,2026-08-05T10:23:53Z,2h 45m 39s,SnehaAN144,https://github.com/freeCodeCamp/freeCodeCamp/pull/69277
+69269,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-08-04T13:47:24Z,2026-08-05T07:08:16Z,17h 20m 52s,MkhalFadel,https://github.com/freeCodeCamp/freeCodeCamp/pull/69269
+69265,10h 36m,1 day and 2h 36m [Based on 8h on a working day],636,0s,0,3,0,3,6,2026-08-04T06:34:36Z,2026-08-05T15:50:01Z,1d 9h 15m 25s,Kunal241207,https://github.com/freeCodeCamp/freeCodeCamp/pull/69265
+69257,20m 17s,20m 17s,20,13m 16s,13,1,1,1,3,2026-08-03T16:23:24Z,2026-08-03T17:23:59Z,1h 0m 35s,mannoz369,https://github.com/freeCodeCamp/freeCodeCamp/pull/69257
+69253,7h,7h,420,2h 20m 23s,140,2,0,1,3,2026-08-03T14:22:19Z,2026-08-04T06:02:16Z,15h 39m 57s,nguyenduybao1,https://github.com/freeCodeCamp/freeCodeCamp/pull/69253
+69248,3h 31m,3h 31m,211,29m,29,2,0,2,4,2026-08-03T12:08:41Z,2026-08-03T17:11:40Z,5h 2m 59s,masroorhosseini,https://github.com/freeCodeCamp/freeCodeCamp/pull/69248
+69247,29m,29m,29,29m,29,0,0,0,0,2026-08-03T11:17:42Z,2026-08-03T14:05:36Z,2h 47m 54s,4ktLuffy,https://github.com/freeCodeCamp/freeCodeCamp/pull/69247
+69238,0s,0s,0,0s,0,0,0,0,0,2026-08-03T09:35:33Z,2026-08-03T10:19:28Z,43m 55s,Siripb2,https://github.com/freeCodeCamp/freeCodeCamp/pull/69238
+69217,0s,0s,0,0s,0,0,0,0,0,2026-08-02T23:26:12Z,2026-08-03T07:44:08Z,8h 17m 56s,abdulwaarith0,https://github.com/freeCodeCamp/freeCodeCamp/pull/69217
+69212,0s,0s,0,0s,0,2,0,1,3,2026-08-02T19:00:50Z,2026-08-03T08:16:46Z,13h 15m 56s,caio-bittencourt,https://github.com/freeCodeCamp/freeCodeCamp/pull/69212
+69211,0s,0s,0,0s,0,0,0,0,0,2026-08-02T18:50:08Z,2026-08-03T07:20:25Z,12h 30m 17s,lyeba19,https://github.com/freeCodeCamp/freeCodeCamp/pull/69211
+69209,0s,0s,0,0s,0,0,1,0,1,2026-08-02T13:59:05Z,2026-08-03T06:49:09Z,16h 50m 4s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/69209
+69208,0s,0s,0,0s,0,2,0,2,4,2026-08-02T13:49:08Z,2026-08-03T06:27:04Z,16h 37m 56s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/69208
+69207,0s,0s,0,0s,0,1,0,1,2,2026-08-02T13:45:40Z,2026-08-03T09:19:31Z,19h 33m 51s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/69207
+69204,0s,0s,0,0s,0,0,0,0,0,2026-08-02T12:14:07Z,2026-08-03T07:34:34Z,19h 20m 27s,MkhalFadel,https://github.com/freeCodeCamp/freeCodeCamp/pull/69204
+69200,0s,0s,0,0s,0,0,0,0,0,2026-08-02T10:09:38Z,2026-08-03T06:48:32Z,20h 38m 54s,siuu07,https://github.com/freeCodeCamp/freeCodeCamp/pull/69200
+69199,0s,0s,0,0s,0,0,0,0,0,2026-08-02T09:36:18Z,2026-08-02T10:24:53Z,48m 35s,NitheshNaik,https://github.com/freeCodeCamp/freeCodeCamp/pull/69199
+69189,0s,0s,0,0s,0,0,0,0,0,2026-08-01T19:28:48Z,2026-08-02T06:44:02Z,11h 15m 14s,SujayBWJ,https://github.com/freeCodeCamp/freeCodeCamp/pull/69189
+69188,0s,0s,0,0s,0,0,0,1,1,2026-08-01T17:23:13Z,2026-08-03T07:38:10Z,1d 14h 14m 57s,enamulhasan01,https://github.com/freeCodeCamp/freeCodeCamp/pull/69188
+69184,0s,0s,0,0s,0,0,0,0,0,2026-08-01T13:27:42Z,2026-08-01T14:58:07Z,1h 30m 25s,mohamedmastouri-hue,https://github.com/freeCodeCamp/freeCodeCamp/pull/69184
+69178,0s,0s,0,0s,0,0,0,0,0,2026-08-01T11:31:12Z,2026-08-01T21:32:35Z,10h 1m 23s,MeiSiristhebest,https://github.com/freeCodeCamp/freeCodeCamp/pull/69178
+69172,0s,0s,0,0s,0,0,0,0,0,2026-08-01T08:35:40Z,2026-08-01T09:32:50Z,57m 10s,d3vpool,https://github.com/freeCodeCamp/freeCodeCamp/pull/69172
+69163,0s,0s,0,0s,0,0,0,0,0,2026-07-31T21:38:41Z,2026-08-01T07:23:44Z,9h 45m 3s,anjupathak03,https://github.com/freeCodeCamp/freeCodeCamp/pull/69163
+69162,0s,0s,0,0s,0,0,0,0,0,2026-07-31T21:07:06Z,2026-08-01T07:00:11Z,9h 53m 5s,benpaul2002,https://github.com/freeCodeCamp/freeCodeCamp/pull/69162
+69159,3h,3h,180,3h,180,0,1,0,1,2026-07-31T18:41:52Z,2026-08-01T07:59:19Z,13h 17m 27s,TheRodzz,https://github.com/freeCodeCamp/freeCodeCamp/pull/69159
+69144,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,1,1,2,4,2026-07-31T09:56:29Z,2026-08-03T10:45:51Z,3d 0h 49m 22s,vinniit-23,https://github.com/freeCodeCamp/freeCodeCamp/pull/69144
+69140,0s,0s,0,0s,0,0,0,0,0,2026-07-31T07:27:16Z,2026-07-31T08:25:20Z,58m 4s,Nishant9764,https://github.com/freeCodeCamp/freeCodeCamp/pull/69140
+69138,2h,2h,120,2h,120,0,0,0,0,2026-07-30T19:35:27Z,2026-07-31T07:24:15Z,11h 48m 48s,Jamwilltim,https://github.com/freeCodeCamp/freeCodeCamp/pull/69138
+69135,4h,4h,240,4h,240,0,0,0,0,2026-07-30T17:51:50Z,2026-07-31T07:26:21Z,13h 34m 31s,prateek-dagar,https://github.com/freeCodeCamp/freeCodeCamp/pull/69135
+69134,10h 47m,1 day and 2h 47m [Based on 8h on a working day],647,1h 26m 18s,86,9,2,7,18,2026-07-30T15:47:17Z,2026-07-31T18:26:07Z,1d 2h 38m 50s,rohit-h11,https://github.com/freeCodeCamp/freeCodeCamp/pull/69134
+69132,15h,1 day and 7h [Based on 8h on a working day],900,1 day and 4h 3m [Based on 8h on a working day],723,6,0,1,7,2026-07-30T14:05:52Z,2026-08-02T10:56:47Z,2d 20h 50m 55s,Er-SarthakBansal,https://github.com/freeCodeCamp/freeCodeCamp/pull/69132
+69130,4h 23m,4h 23m,263,4h 23m,263,0,0,0,0,2026-07-30T12:56:03Z,2026-07-30T17:23:18Z,4h 27m 15s,rohit-h11,https://github.com/freeCodeCamp/freeCodeCamp/pull/69130
+69127,4h 8m,4h 8m,248,4h 8m,248,0,0,0,0,2026-07-30T10:25:58Z,2026-07-30T17:47:40Z,7h 21m 42s,bhavana-mb,https://github.com/freeCodeCamp/freeCodeCamp/pull/69127
+69125,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-30T10:03:23Z,2026-08-03T07:36:55Z,3d 21h 33m 32s,eng-abdelrahman-sharaf,https://github.com/freeCodeCamp/freeCodeCamp/pull/69125
+69114,5h,5h,300,5h,300,0,0,0,0,2026-07-29T16:32:24Z,2026-07-30T07:34:42Z,15h 2m 18s,priyaaa405,https://github.com/freeCodeCamp/freeCodeCamp/pull/69114
+69112,46m 55s,46m 55s,46,13m 25s,13,3,0,1,4,2026-07-29T15:19:33Z,2026-07-29T16:46:46Z,1h 27m 13s,ladanhamoud,https://github.com/freeCodeCamp/freeCodeCamp/pull/69112
+69111,1h 20m 11s,1h 20m 11s,80,57m 6s,57,5,3,3,11,2026-07-29T15:02:47Z,2026-07-29T17:17:26Z,2h 14m 39s,Vendetaaaa,https://github.com/freeCodeCamp/freeCodeCamp/pull/69111
+69107,0s,0s,0,0s,0,0,0,0,0,2026-07-29T10:00:00Z,2026-07-29T10:44:12Z,44m 12s,dishamittalnitb,https://github.com/freeCodeCamp/freeCodeCamp/pull/69107
+69106,8h,1 day [Based on 8h on a working day],480,0s,0,4,1,3,8,2026-07-29T09:54:50Z,2026-07-30T10:27:23Z,1d 0h 32m 33s,TheSeydiCharyyev,https://github.com/freeCodeCamp/freeCodeCamp/pull/69106
+69101,0s,0s,0,0s,0,0,0,0,0,2026-07-29T07:43:30Z,2026-07-29T09:05:24Z,1h 21m 54s,Anavyarai,https://github.com/freeCodeCamp/freeCodeCamp/pull/69101
+69100,0s,0s,0,0s,0,0,0,0,0,2026-07-29T06:13:13Z,2026-07-29T09:18:17Z,3h 5m 4s,Aimwee,https://github.com/freeCodeCamp/freeCodeCamp/pull/69100
+69099,1h 53m,1h 53m,113,0s,0,1,0,2,3,2026-07-28T21:23:21Z,2026-07-29T15:30:31Z,18h 7m 10s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/69099
+69097,3d 21h 58m,11 days and 5h 58m [Based on 8h on a working day],5638,11 days and 5h 58m [Based on 8h on a working day],5638,0,0,0,0,2026-07-28T18:34:05Z,2026-08-13T15:58:46Z,15d 21h 24m 41s,eva-lng,https://github.com/freeCodeCamp/freeCodeCamp/pull/69097
+69096,1d 2h 40m,3 days and 2h 40m [Based on 8h on a working day],1600,1 day [Based on 8h on a working day],480,11,1,3,15,2026-07-28T13:14:24Z,2026-07-31T15:44:18Z,3d 2h 29m 54s,TEE0207,https://github.com/freeCodeCamp/freeCodeCamp/pull/69096
+69095,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,1,0,1,2,2026-07-28T12:22:54Z,2026-07-29T10:03:58Z,21h 41m 4s,waleed-akram,https://github.com/freeCodeCamp/freeCodeCamp/pull/69095
+69094,0s,0s,0,0s,0,0,1,2,3,2026-07-28T07:24:02Z,2026-07-28T10:12:10Z,2h 48m 8s,Webmekanic,https://github.com/freeCodeCamp/freeCodeCamp/pull/69094
+69084,1h 24m 30s,1h 24m 30s,84,1h 24m 30s,84,0,0,0,0,2026-07-27T18:07:48Z,2026-07-27T19:32:21Z,1h 24m 33s,owevertonguedes,https://github.com/freeCodeCamp/freeCodeCamp/pull/69084
+69083,8m 56s,8m 56s,8,8m 56s,8,0,0,0,0,2026-07-27T15:58:22Z,2026-07-27T16:41:47Z,43m 25s,owevertonguedes,https://github.com/freeCodeCamp/freeCodeCamp/pull/69083
+69081,3d 7h,9 days and 7h [Based on 8h on a working day],4740,6 days and 7h 57m [Based on 8h on a working day],3357,6,1,6,13,2026-07-27T14:31:41Z,2026-08-10T09:40:19Z,13d 19h 8m 38s,jaykumar14921,https://github.com/freeCodeCamp/freeCodeCamp/pull/69081
+69078,30m,30m,30,30m,30,0,1,0,1,2026-07-27T12:11:38Z,2026-07-27T14:08:35Z,1h 56m 57s,Hashim1999164,https://github.com/freeCodeCamp/freeCodeCamp/pull/69078
+69071,0s,0s,0,0s,0,1,0,0,1,2026-07-27T07:44:56Z,2026-07-27T08:26:15Z,41m 19s,laxitajain,https://github.com/freeCodeCamp/freeCodeCamp/pull/69071
+69070,0s,0s,0,0s,0,0,0,0,0,2026-07-27T07:38:17Z,2026-07-27T08:59:34Z,1h 21m 17s,Vam-si-krish,https://github.com/freeCodeCamp/freeCodeCamp/pull/69070
+69053,0s,0s,0,0s,0,0,0,0,0,2026-07-27T05:02:32Z,2026-07-27T06:43:17Z,1h 40m 45s,Ayush3396,https://github.com/freeCodeCamp/freeCodeCamp/pull/69053
+69052,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-27T03:53:37Z,2026-07-28T06:35:30Z,1d 2h 41m 53s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/69052
+69051,2d 17h 55m,8 days and 1h 55m [Based on 8h on a working day],3955,7 days and 46m [Based on 8h on a working day],3406,20,0,1,21,2026-07-27T02:48:33Z,2026-08-06T14:55:22Z,10d 12h 6m 49s,jeffrinkdev,https://github.com/freeCodeCamp/freeCodeCamp/pull/69051
+69046,23m,23m,23,23m,23,0,1,0,1,2026-07-26T14:27:25Z,2026-07-27T13:23:55Z,22h 56m 30s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/69046
+69038,0s,0s,0,0s,0,0,0,0,0,2026-07-25T17:24:23Z,2026-07-26T07:16:59Z,13h 52m 36s,Vanshdeep001,https://github.com/freeCodeCamp/freeCodeCamp/pull/69038
+69029,0s,0s,0,0s,0,0,0,0,0,2026-07-25T04:13:19Z,2026-07-25T07:54:33Z,3h 41m 14s,TexasAppz,https://github.com/freeCodeCamp/freeCodeCamp/pull/69029
+69025,6h,6h,360,1h 46m 51s,106,3,0,1,4,2026-07-24T15:31:50Z,2026-07-25T07:46:12Z,16h 14m 22s,Bhavani2016,https://github.com/freeCodeCamp/freeCodeCamp/pull/69025
+69018,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-24T10:07:22Z,2026-07-25T09:02:12Z,22h 54m 50s,ATURKIEH,https://github.com/freeCodeCamp/freeCodeCamp/pull/69018
+69011,0s,0s,0,0s,0,1,0,2,3,2026-07-24T07:23:32Z,2026-07-24T09:38:20Z,2h 14m 48s,alihamzaio,https://github.com/freeCodeCamp/freeCodeCamp/pull/69011
+69008,0s,0s,0,0s,0,0,0,0,0,2026-07-24T04:09:38Z,2026-07-24T06:50:31Z,2h 40m 53s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/69008
+69006,2h,2h,120,1h 29m 42s,89,1,0,1,2,2026-07-23T19:27:28Z,2026-07-24T07:03:47Z,11h 36m 19s,RAJ-A58,https://github.com/freeCodeCamp/freeCodeCamp/pull/69006
+69004,11h,1 day and 3h [Based on 8h on a working day],660,1 day and 3h [Based on 8h on a working day],660,0,0,0,0,2026-07-23T18:08:25Z,2026-07-26T06:40:38Z,2d 12h 32m 13s,eng-abdelrahman-sharaf,https://github.com/freeCodeCamp/freeCodeCamp/pull/69004
+69002,5h,5h,300,5h,300,0,0,0,0,2026-07-23T16:37:26Z,2026-07-24T07:13:02Z,14h 35m 36s,Benlite777,https://github.com/freeCodeCamp/freeCodeCamp/pull/69002
+69001,9h 39m,1 day and 1h 39m [Based on 8h on a working day],579,1 day and 1h 39m [Based on 8h on a working day],579,0,0,0,0,2026-07-23T16:17:19Z,2026-07-24T17:39:23Z,1d 1h 22m 4s,eng-abdelrahman-sharaf,https://github.com/freeCodeCamp/freeCodeCamp/pull/69001
+68993,1h 55m,1h 55m,115,0s,0,0,0,1,1,2026-07-23T09:38:23Z,2026-07-23T14:55:23Z,5h 17m,deepak-s-git,https://github.com/freeCodeCamp/freeCodeCamp/pull/68993
+68988,0s,0s,0,0s,0,2,0,2,4,2026-07-22T21:58:31Z,2026-07-23T08:26:08Z,10h 27m 37s,Pranayd555,https://github.com/freeCodeCamp/freeCodeCamp/pull/68988
+68986,1h,1h,60,1h,60,0,0,0,0,2026-07-22T20:09:51Z,2026-07-23T05:53:31Z,9h 43m 40s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68986
+68984,3h,3h,180,3h,180,0,0,0,0,2026-07-22T18:37:23Z,2026-07-23T06:12:02Z,11h 34m 39s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/68984
+68982,21h,2 days and 5h [Based on 8h on a working day],1260,2 days and 5h [Based on 8h on a working day],1260,1,0,0,1,2026-07-22T16:06:04Z,2026-07-27T05:56:22Z,4d 13h 50m 18s,typovrak,https://github.com/freeCodeCamp/freeCodeCamp/pull/68982
+68979,50m 28s,50m 28s,50,50m 28s,50,0,0,0,0,2026-07-22T13:49:13Z,2026-07-22T15:19:42Z,1h 30m 29s,TheDeveloperDoctor,https://github.com/freeCodeCamp/freeCodeCamp/pull/68979
+68969,5m,5m,5,5m,5,0,0,0,0,2026-07-22T12:59:26Z,2026-07-22T13:44:55Z,45m 29s,RAJ-A58,https://github.com/freeCodeCamp/freeCodeCamp/pull/68969
+68964,1d 16h,5 days [Based on 8h on a working day],2400,4 days [Based on 8h on a working day],1920,2,0,2,4,2026-07-22T12:01:06Z,2026-07-30T08:21:54Z,7d 20h 20m 48s,TEE0207,https://github.com/freeCodeCamp/freeCodeCamp/pull/68964
+68961,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-22T05:39:13Z,2026-07-23T09:45:32Z,1d 4h 6m 19s,ritishDas,https://github.com/freeCodeCamp/freeCodeCamp/pull/68961
+68960,0s,0s,0,0s,0,0,0,0,0,2026-07-22T04:39:04Z,2026-07-22T09:58:40Z,5h 19m 36s,Technoritesh152005,https://github.com/freeCodeCamp/freeCodeCamp/pull/68960
+68959,0s,0s,0,0s,0,0,0,0,0,2026-07-21T23:05:46Z,2026-07-22T09:29:55Z,10h 24m 9s,huyenltnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/68959
+68958,2d 17h,8 days and 1h [Based on 8h on a working day],3900,5 days and 1h [Based on 8h on a working day],2460,2,0,1,3,2026-07-21T20:56:40Z,2026-08-01T08:49:58Z,10d 11h 53m 18s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68958
+68956,3h 47m,3h 47m,227,3h 47m,227,0,0,0,0,2026-07-21T06:04:02Z,2026-07-21T16:47:34Z,10h 43m 32s,lennin331,https://github.com/freeCodeCamp/freeCodeCamp/pull/68956
+68951,17h,2 days and 1h [Based on 8h on a working day],1020,1 day and 3h 23m [Based on 8h on a working day],683,1,0,1,2,2026-07-20T20:54:54Z,2026-07-23T06:15:21Z,2d 9h 20m 27s,farchettiensis,https://github.com/freeCodeCamp/freeCodeCamp/pull/68951
+68947,3d 19h 14m,11 days and 3h 14m [Based on 8h on a working day],5474,4 days [Based on 8h on a working day],1920,28,0,4,32,2026-07-20T12:04:08Z,2026-08-05T16:59:02Z,16d 4h 54m 54s,Vishhh03,https://github.com/freeCodeCamp/freeCodeCamp/pull/68947
+68944,2h 33m,2h 33m,153,2h 33m,153,0,0,0,0,2026-07-20T06:40:04Z,2026-07-20T16:08:17Z,9h 28m 13s,adranjan4,https://github.com/freeCodeCamp/freeCodeCamp/pull/68944
+68937,0s,0s,0,0s,0,0,0,0,0,2026-07-19T12:25:04Z,2026-07-20T08:37:37Z,20h 12m 33s,kaushik552k,https://github.com/freeCodeCamp/freeCodeCamp/pull/68937
+68933,0s,0s,0,0s,0,0,0,0,0,2026-07-19T04:11:37Z,2026-07-20T07:42:40Z,1d 3h 31m 3s,spacesyntaxwho,https://github.com/freeCodeCamp/freeCodeCamp/pull/68933
+68927,0s,0s,0,0s,0,0,0,0,0,2026-07-18T12:53:59Z,2026-07-18T15:18:19Z,2h 24m 20s,shubhthakkar06,https://github.com/freeCodeCamp/freeCodeCamp/pull/68927
+68926,4h 18m,4h 18m,258,4h 9m,249,0,0,1,1,2026-07-18T11:59:31Z,2026-07-20T17:52:46Z,2d 5h 53m 15s,Atishay17,https://github.com/freeCodeCamp/freeCodeCamp/pull/68926
+68925,0s,0s,0,0s,0,0,0,0,0,2026-07-18T11:28:10Z,2026-07-20T09:01:47Z,1d 21h 33m 37s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68925
+68918,1h,1h,60,1h,60,0,0,0,0,2026-07-17T20:52:46Z,2026-07-18T08:09:13Z,11h 16m 27s,jaykumar14921,https://github.com/freeCodeCamp/freeCodeCamp/pull/68918
+68914,4h,4h,240,4h,240,0,0,0,0,2026-07-17T17:09:17Z,2026-07-18T08:12:27Z,15h 3m 10s,ayush-04jha,https://github.com/freeCodeCamp/freeCodeCamp/pull/68914
+68913,32m 26s,32m 26s,32,32m 26s,32,0,0,0,0,2026-07-17T15:46:05Z,2026-07-17T16:57:10Z,1h 11m 5s,AK47Kavan,https://github.com/freeCodeCamp/freeCodeCamp/pull/68913
+68912,7m 20s,7m 20s,7,7m 20s,7,0,0,0,0,2026-07-17T13:15:27Z,2026-07-17T14:04:01Z,48m 34s,enlorik,https://github.com/freeCodeCamp/freeCodeCamp/pull/68912
+68911,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-17T12:57:48Z,2026-07-18T08:24:48Z,19h 27m,xusnitdinov,https://github.com/freeCodeCamp/freeCodeCamp/pull/68911
+68900,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-17T04:35:54Z,2026-07-18T07:29:28Z,1d 2h 53m 34s,neetcodeprogress-lang,https://github.com/freeCodeCamp/freeCodeCamp/pull/68900
+68896,0s,0s,0,0s,0,0,0,0,0,2026-07-17T01:21:57Z,2026-07-17T06:03:06Z,4h 41m 9s,duna-akin,https://github.com/freeCodeCamp/freeCodeCamp/pull/68896
+68888,2h 11m 1s,2h 11m 1s,131,2h 11m 1s,131,0,0,0,0,2026-07-16T17:19:42Z,2026-07-16T20:10:16Z,2h 50m 34s,Gaurav-7065,https://github.com/freeCodeCamp/freeCodeCamp/pull/68888
+68887,12h,1 day and 4h [Based on 8h on a working day],720,1 day and 4h [Based on 8h on a working day],720,0,2,0,2,2026-07-16T17:06:36Z,2026-07-20T09:51:16Z,3d 16h 44m 40s,YYuan02,https://github.com/freeCodeCamp/freeCodeCamp/pull/68887
+68885,4d 5h,12 days and 5h [Based on 8h on a working day],6060,12 days and 5h [Based on 8h on a working day],6060,2,0,1,3,2026-07-16T16:33:05Z,2026-08-04T06:50:50Z,18d 14h 17m 45s,SanthoshBalagur,https://github.com/freeCodeCamp/freeCodeCamp/pull/68885
+68883,6m 41s,6m 41s,6,6m 41s,6,0,0,0,0,2026-07-16T15:50:06Z,2026-07-16T16:33:12Z,43m 6s,Pranayd555,https://github.com/freeCodeCamp/freeCodeCamp/pull/68883
+68868,0s,0s,0,0s,0,1,0,1,2,2026-07-16T07:56:23Z,2026-07-16T08:44:05Z,47m 42s,jeffrinkdev,https://github.com/freeCodeCamp/freeCodeCamp/pull/68868
+68866,1d,3 days [Based on 8h on a working day],1440,0s,0,2,0,5,7,2026-07-16T07:20:26Z,2026-07-22T09:44:27Z,6d 2h 24m 1s,TechGenius-Karan,https://github.com/freeCodeCamp/freeCodeCamp/pull/68866
+68857,20h,2 days and 4h [Based on 8h on a working day],1200,10m 30s,10,4,0,1,5,2026-07-15T17:26:04Z,2026-07-20T10:49:32Z,4d 17h 23m 28s,eng-abdelrahman-sharaf,https://github.com/freeCodeCamp/freeCodeCamp/pull/68857
+68853,1h 30m 5s,1h 30m 5s,90,1h 30m 5s,90,0,1,0,1,2026-07-15T15:39:26Z,2026-07-16T06:16:20Z,14h 36m 54s,superezzdev,https://github.com/freeCodeCamp/freeCodeCamp/pull/68853
+68849,15h 50m,1 day and 7h 50m [Based on 8h on a working day],950,1 day and 7h 50m [Based on 8h on a working day],950,0,0,0,0,2026-07-15T14:01:03Z,2026-07-17T14:29:45Z,2d 0h 28m 42s,ritishDas,https://github.com/freeCodeCamp/freeCodeCamp/pull/68849
+68847,49m 39s,49m 39s,49,49m 39s,49,0,0,0,0,2026-07-15T13:14:50Z,2026-07-15T15:16:07Z,2h 1m 17s,eva-lng,https://github.com/freeCodeCamp/freeCodeCamp/pull/68847
+68841,18h 11m,2 days and 2h 11m [Based on 8h on a working day],1091,2 days and 2h 11m [Based on 8h on a working day],1091,0,0,0,0,2026-07-15T07:26:52Z,2026-07-20T15:52:00Z,5d 8h 25m 8s,yashvi-jain,https://github.com/freeCodeCamp/freeCodeCamp/pull/68841
+68840,0s,0s,0,0s,0,0,1,0,1,2026-07-15T06:22:27Z,2026-07-15T09:12:31Z,2h 50m 4s,ayussh-2,https://github.com/freeCodeCamp/freeCodeCamp/pull/68840
+68839,0s,0s,0,0s,0,0,0,0,0,2026-07-15T05:12:19Z,2026-07-15T07:13:22Z,2h 1m 3s,Anwiii,https://github.com/freeCodeCamp/freeCodeCamp/pull/68839
+68838,0s,0s,0,0s,0,0,0,0,0,2026-07-15T05:11:21Z,2026-07-15T06:37:19Z,1h 25m 58s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/68838
+68833,2d 12h,7 days and 4h [Based on 8h on a working day],3600,7 days and 4h [Based on 8h on a working day],3600,0,0,0,0,2026-07-14T17:58:51Z,2026-07-24T06:58:58Z,9d 13h 0m 7s,eng-abdelrahman-sharaf,https://github.com/freeCodeCamp/freeCodeCamp/pull/68833
+68829,34m,34m,34,34m,34,0,0,0,0,2026-07-14T12:38:55Z,2026-07-14T14:12:55Z,1h 34m,coyaSONG,https://github.com/freeCodeCamp/freeCodeCamp/pull/68829
+68828,2d 8h,7 days [Based on 8h on a working day],3360,2 days and 1h [Based on 8h on a working day],1020,0,0,1,1,2026-07-14T12:34:13Z,2026-07-24T07:55:36Z,9d 19h 21m 23s,SanthoshBalagur,https://github.com/freeCodeCamp/freeCodeCamp/pull/68828
+68827,30m,30m,30,30m,30,0,0,0,0,2026-07-14T12:19:54Z,2026-07-14T14:09:34Z,1h 49m 40s,timovibes,https://github.com/freeCodeCamp/freeCodeCamp/pull/68827
+68824,49m,49m,49,49m,49,0,0,0,0,2026-07-14T10:13:27Z,2026-07-14T14:29:34Z,4h 16m 7s,anoopraj-dev,https://github.com/freeCodeCamp/freeCodeCamp/pull/68824
+68821,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-14T08:04:17Z,2026-07-15T07:27:28Z,23h 23m 11s,YYuan02,https://github.com/freeCodeCamp/freeCodeCamp/pull/68821
+68820,0s,0s,0,0s,0,0,0,1,1,2026-07-14T08:00:33Z,2026-07-14T10:02:10Z,2h 1m 37s,yehiahesham2938,https://github.com/freeCodeCamp/freeCodeCamp/pull/68820
+68808,1d 16h,5 days [Based on 8h on a working day],2400,0s,0,8,2,6,16,2026-07-14T05:20:28Z,2026-07-22T09:18:21Z,8d 3h 57m 53s,kanan010506,https://github.com/freeCodeCamp/freeCodeCamp/pull/68808
+68807,0s,0s,0,0s,0,0,1,0,1,2026-07-14T03:53:01Z,2026-07-14T10:16:52Z,6h 23m 51s,vijaykiran06,https://github.com/freeCodeCamp/freeCodeCamp/pull/68807
+68804,1d 21h 12m,5 days and 5h 12m [Based on 8h on a working day],2712,5 days and 5h 12m [Based on 8h on a working day],2712,0,0,0,0,2026-07-13T20:35:11Z,2026-07-21T17:12:10Z,7d 20h 36m 59s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/68804
+68803,0s,0s,0,0s,0,0,0,0,0,2026-07-15T22:07:14Z,2026-07-16T07:52:33Z,9h 45m 19s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68803
+68802,3h,3h,180,3h,180,0,0,0,0,2026-07-13T18:50:24Z,2026-07-14T06:57:37Z,12h 7m 13s,saikiranrayabarapu,https://github.com/freeCodeCamp/freeCodeCamp/pull/68802
+68799,4h 36m,4h 36m,276,15m 36s,15,3,4,4,11,2026-07-13T17:47:05Z,2026-07-14T14:14:14Z,20h 27m 9s,vijaykiran06,https://github.com/freeCodeCamp/freeCodeCamp/pull/68799
+68798,8m 5s,8m 5s,8,8m 5s,8,0,0,0,0,2026-07-13T17:35:10Z,2026-07-13T23:40:21Z,6h 5m 11s,RakshitKaintura,https://github.com/freeCodeCamp/freeCodeCamp/pull/68798
+68796,1d 0h 47m,3 days and 47m [Based on 8h on a working day],1487,2 days and 2h 45m [Based on 8h on a working day],1125,0,0,1,1,2026-07-13T16:29:46Z,2026-07-16T16:47:23Z,3d 0h 17m 37s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68796
+68793,5h,5h,300,5h,300,0,0,0,0,2026-07-13T16:03:43Z,2026-07-14T09:44:15Z,17h 40m 32s,typovrak,https://github.com/freeCodeCamp/freeCodeCamp/pull/68793
+68792,1d 16h 26m,5 days and 26m [Based on 8h on a working day],2426,6h,360,2,0,3,5,2026-07-13T15:40:41Z,2026-07-20T15:26:30Z,6d 23h 45m 49s,SanthoshBalagur,https://github.com/freeCodeCamp/freeCodeCamp/pull/68792
+68791,15m 28s,15m 28s,15,15m 28s,15,0,0,0,0,2026-07-13T14:59:27Z,2026-07-13T15:55:55Z,56m 28s,abyss-ux,https://github.com/freeCodeCamp/freeCodeCamp/pull/68791
+68790,19h 33m,2 days and 3h 33m [Based on 8h on a working day],1173,2 days and 3h 33m [Based on 8h on a working day],1173,1,0,0,1,2026-07-13T14:45:04Z,2026-07-15T17:51:09Z,2d 3h 6m 5s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68790
+68789,2h 0m 24s,2h 0m 24s,120,1h 5m 17s,65,2,1,1,4,2026-07-13T14:35:13Z,2026-07-13T17:43:08Z,3h 7m 55s,YYuan02,https://github.com/freeCodeCamp/freeCodeCamp/pull/68789
+68781,0s,0s,0,0s,0,0,1,0,1,2026-07-13T09:52:12Z,2026-07-13T11:24:47Z,1h 32m 35s,Jatinmor89,https://github.com/freeCodeCamp/freeCodeCamp/pull/68781
+68765,0s,0s,0,0s,0,1,0,1,2,2026-07-13T05:13:36Z,2026-07-13T08:24:35Z,3h 10m 59s,lennin331,https://github.com/freeCodeCamp/freeCodeCamp/pull/68765
+68753,0s,0s,0,0s,0,0,0,0,0,2026-07-12T13:33:36Z,2026-07-13T08:58:51Z,19h 25m 15s,laypatel13,https://github.com/freeCodeCamp/freeCodeCamp/pull/68753
+68750,16h,2 days [Based on 8h on a working day],960,0s,0,2,0,3,5,2026-07-12T12:21:28Z,2026-07-15T08:33:34Z,2d 20h 12m 6s,chauhan-varun,https://github.com/freeCodeCamp/freeCodeCamp/pull/68750
+68741,0s,0s,0,0s,0,0,1,0,1,2026-07-11T15:35:30Z,2026-07-13T07:52:11Z,1d 16h 16m 41s,SanthoshBalagur,https://github.com/freeCodeCamp/freeCodeCamp/pull/68741
+68737,16h,2 days [Based on 8h on a working day],960,0s,0,1,0,2,3,2026-07-11T12:45:06Z,2026-07-15T08:32:15Z,3d 19h 47m 9s,arunkumar0398,https://github.com/freeCodeCamp/freeCodeCamp/pull/68737
+68734,0s,0s,0,0s,0,0,0,0,0,2026-07-11T08:40:41Z,2026-07-11T18:34:49Z,9h 54m 8s,Dazzanova,https://github.com/freeCodeCamp/freeCodeCamp/pull/68734
+68730,0s,0s,0,0s,0,0,0,0,0,2026-07-11T06:06:57Z,2026-07-12T12:24:18Z,1d 6h 17m 21s,Sushanth012,https://github.com/freeCodeCamp/freeCodeCamp/pull/68730
+68729,0s,0s,0,0s,0,0,0,0,0,2026-07-11T05:25:23Z,2026-07-11T18:50:41Z,13h 25m 18s,neetcodeprogress-lang,https://github.com/freeCodeCamp/freeCodeCamp/pull/68729
+68667,0s,0s,0,0s,0,0,0,0,0,2026-07-10T04:37:07Z,2026-07-10T06:40:27Z,2h 3m 20s,vijaykiran06,https://github.com/freeCodeCamp/freeCodeCamp/pull/68667
+68654,3h 31m 37s,3h 31m 37s,211,54m 11s,54,2,0,1,3,2026-07-09T15:54:48Z,2026-07-09T19:34:15Z,3h 39m 27s,kamran1711,https://github.com/freeCodeCamp/freeCodeCamp/pull/68654
+68651,1h 49m 39s,1h 49m 39s,109,1h 49m 39s,109,0,0,0,0,2026-07-09T15:07:14Z,2026-07-09T17:33:32Z,2h 26m 18s,Jatin-saini-developer,https://github.com/freeCodeCamp/freeCodeCamp/pull/68651
+68630,2d 9h,7 days and 1h [Based on 8h on a working day],3420,1h,60,2,0,3,5,2026-07-08T20:37:20Z,2026-07-20T09:26:19Z,11d 12h 48m 59s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68630
+68628,2h 44m 9s,2h 44m 9s,164,2h 44m 9s,164,0,0,0,0,2026-07-08T15:12:12Z,2026-07-08T18:35:36Z,3h 23m 24s,pmanthan009,https://github.com/freeCodeCamp/freeCodeCamp/pull/68628
+68626,2d 16h,8 days [Based on 8h on a working day],3840,8 days [Based on 8h on a working day],3840,0,0,0,0,2026-07-08T13:19:44Z,2026-07-20T09:39:39Z,11d 20h 19m 55s,arunkumar0398,https://github.com/freeCodeCamp/freeCodeCamp/pull/68626
+68625,2d 10h 6m,7 days and 2h 6m [Based on 8h on a working day],3486,7 days and 2h 6m [Based on 8h on a working day],3486,0,0,0,0,2026-07-08T12:08:05Z,2026-07-20T15:11:27Z,12d 3h 3m 22s,harshlm15,https://github.com/freeCodeCamp/freeCodeCamp/pull/68625
+68618,9h 56m,1 day and 1h 56m [Based on 8h on a working day],596,1 day and 1h 56m [Based on 8h on a working day],596,0,0,0,0,2026-07-08T10:31:11Z,2026-07-10T16:14:21Z,2d 5h 43m 10s,SanthoshBalagur,https://github.com/freeCodeCamp/freeCodeCamp/pull/68618
+68615,0s,0s,0,0s,0,0,0,0,0,2026-07-08T00:54:00Z,2026-07-08T06:14:00Z,5h 20m,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/68615
+68612,25m 29s,25m 29s,25,25m 29s,25,0,0,0,0,2026-07-07T17:32:32Z,2026-07-07T18:40:36Z,1h 8m 4s,shivangiii18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68612
+68611,27m 48s,27m 48s,27,27m 48s,27,0,0,0,0,2026-07-07T15:17:02Z,2026-07-07T16:27:31Z,1h 10m 29s,runxii,https://github.com/freeCodeCamp/freeCodeCamp/pull/68611
+68607,1h 53m,1h 53m,113,1h 53m,113,0,0,0,0,2026-07-07T10:57:19Z,2026-07-07T15:34:33Z,4h 37m 14s,snehaaa-16,https://github.com/freeCodeCamp/freeCodeCamp/pull/68607
+68605,3h 41m,3h 41m,221,2h 5m,125,0,0,1,1,2026-07-07T08:58:21Z,2026-07-07T17:09:01Z,8h 10m 40s,Dazzanova,https://github.com/freeCodeCamp/freeCodeCamp/pull/68605
+68601,1d 8h,4 days [Based on 8h on a working day],1920,0s,0,1,1,3,5,2026-07-06T21:26:55Z,2026-07-11T14:35:33Z,4d 17h 8m 38s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68601
+68592,1h 53m 40s,1h 53m 40s,113,1h 53m 40s,113,0,0,0,0,2026-07-06T18:27:22Z,2026-07-06T21:01:42Z,2h 34m 20s,Akanshagore,https://github.com/freeCodeCamp/freeCodeCamp/pull/68592
+68591,4h 8m 7s,4h 8m 7s,248,4h 8m 7s,248,0,0,0,0,2026-07-06T16:05:07Z,2026-07-06T20:52:33Z,4h 47m 26s,ronits2407,https://github.com/freeCodeCamp/freeCodeCamp/pull/68591
+68589,1h 23m 32s,1h 23m 32s,83,1h 23m 32s,83,0,0,0,0,2026-07-06T15:08:15Z,2026-07-06T17:33:31Z,2h 25m 16s,bibashmanjusubedi,https://github.com/freeCodeCamp/freeCodeCamp/pull/68589
+68588,5h 28m 51s,5h 28m 51s,328,5h 28m 51s,328,0,0,0,0,2026-07-06T14:42:35Z,2026-07-06T20:51:26Z,6h 8m 51s,ruhaanpathan,https://github.com/freeCodeCamp/freeCodeCamp/pull/68588
+68586,3h 18m 6s,3h 18m 6s,198,3h 18m 6s,198,0,0,0,0,2026-07-06T13:24:49Z,2026-07-06T17:09:17Z,3h 44m 28s,DanielRosa74,https://github.com/freeCodeCamp/freeCodeCamp/pull/68586
+68583,7h,7h,420,0s,0,2,0,1,3,2026-07-06T11:06:46Z,2026-07-06T20:01:01Z,8h 54m 15s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68583
+68578,0s,0s,0,0s,0,0,0,0,0,2026-07-06T08:10:25Z,2026-07-06T08:53:34Z,43m 9s,AlyssaSuri,https://github.com/freeCodeCamp/freeCodeCamp/pull/68578
+68573,0s,0s,0,0s,0,0,0,0,0,2026-07-06T03:10:10Z,2026-07-06T08:00:59Z,4h 50m 49s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/68573
+68572,0s,0s,0,0s,0,0,0,0,0,2026-07-05T19:46:46Z,2026-07-06T08:24:26Z,12h 37m 40s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68572
+68570,0s,0s,0,0s,0,3,0,2,5,2026-07-05T19:07:50Z,2026-07-06T09:55:20Z,14h 47m 30s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68570
+68563,6d 16h,20 days [Based on 8h on a working day],9600,0s,0,3,0,5,8,2026-07-06T06:35:56Z,2026-08-04T06:31:08Z,28d 23h 55m 12s,SanthoshBalagur,https://github.com/freeCodeCamp/freeCodeCamp/pull/68563
+68560,1d 16h,5 days [Based on 8h on a working day],2400,1 day [Based on 8h on a working day],480,4,0,3,7,2026-07-05T10:03:29Z,2026-07-13T12:13:54Z,8d 2h 10m 25s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68560
+68555,3d 0h 44m,9 days and 44m [Based on 8h on a working day],4364,1 day and 5h 25m [Based on 8h on a working day],805,0,0,1,1,2026-07-04T18:47:41Z,2026-07-17T14:25:12Z,12d 19h 37m 31s,Vishhh03,https://github.com/freeCodeCamp/freeCodeCamp/pull/68555
+68553,0s,0s,0,0s,0,0,0,1,1,2026-07-04T16:39:53Z,2026-07-05T18:40:42Z,1d 2h 0m 49s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68553
+68552,0s,0s,0,0s,0,0,0,0,0,2026-07-04T14:10:03Z,2026-07-05T18:28:40Z,1d 4h 18m 37s,yashvi-jain,https://github.com/freeCodeCamp/freeCodeCamp/pull/68552
+68548,0s,0s,0,0s,0,0,1,0,1,2026-07-04T12:26:21Z,2026-07-05T18:47:40Z,1d 6h 21m 19s,itsabhay1,https://github.com/freeCodeCamp/freeCodeCamp/pull/68548
+68542,0s,0s,0,0s,0,0,0,0,0,2026-07-04T11:11:35Z,2026-07-05T18:32:41Z,1d 7h 21m 6s,ankush2311025,https://github.com/freeCodeCamp/freeCodeCamp/pull/68542
+68538,0s,0s,0,0s,0,0,0,0,0,2026-07-04T09:13:26Z,2026-07-04T09:56:40Z,43m 14s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68538
+68537,0s,0s,0,0s,0,0,0,0,0,2026-07-04T05:29:53Z,2026-07-04T09:36:09Z,4h 6m 16s,Ayush28051,https://github.com/freeCodeCamp/freeCodeCamp/pull/68537
+68536,0s,0s,0,0s,0,0,0,0,0,2026-07-04T03:49:35Z,2026-07-04T08:50:23Z,5h 0m 48s,clarencepenz,https://github.com/freeCodeCamp/freeCodeCamp/pull/68536
+68535,4d,12 days [Based on 8h on a working day],5760,1 day [Based on 8h on a working day],480,0,0,2,2,2026-07-04T03:09:26Z,2026-07-22T10:33:16Z,18d 7h 23m 50s,Vishhh03,https://github.com/freeCodeCamp/freeCodeCamp/pull/68535
+68534,3d 8h,10 days [Based on 8h on a working day],4800,1 day and 1h 49m [Based on 8h on a working day],589,1,0,2,3,2026-07-04T02:56:19Z,2026-07-20T09:11:26Z,16d 6h 15m 7s,Vishhh03,https://github.com/freeCodeCamp/freeCodeCamp/pull/68534
+68533,0s,0s,0,0s,0,0,0,0,0,2026-07-04T02:37:06Z,2026-07-04T09:25:06Z,6h 48m,lahoylaa,https://github.com/freeCodeCamp/freeCodeCamp/pull/68533
+68531,1d 16h,5 days [Based on 8h on a working day],2400,1 day and 2h 38m [Based on 8h on a working day],638,0,0,1,1,2026-07-04T05:34:45Z,2026-07-13T10:43:37Z,9d 5h 8m 52s,Ayan-Bain,https://github.com/freeCodeCamp/freeCodeCamp/pull/68531
+68528,5h,5h,300,5h,300,0,0,0,0,2026-07-03T16:52:15Z,2026-07-05T18:29:57Z,2d 1h 37m 42s,virendra9768,https://github.com/freeCodeCamp/freeCodeCamp/pull/68528
+68527,1d 21h,5 days and 5h [Based on 8h on a working day],2700,1 day and 5h [Based on 8h on a working day],780,7,1,4,12,2026-07-03T16:29:59Z,2026-07-11T18:30:30Z,8d 2h 0m 31s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68527
+68524,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-07-03T10:41:58Z,2026-07-04T08:58:41Z,22h 16m 43s,laxitajain,https://github.com/freeCodeCamp/freeCodeCamp/pull/68524
+68522,8h,1 day [Based on 8h on a working day],480,0s,0,6,0,3,9,2026-07-03T10:08:28Z,2026-07-05T18:24:12Z,2d 8h 15m 44s,Dazzanova,https://github.com/freeCodeCamp/freeCodeCamp/pull/68522
+68519,8h,1 day [Based on 8h on a working day],480,0s,0,0,0,1,1,2026-07-03T09:41:01Z,2026-07-04T09:05:08Z,23h 24m 7s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68519
+68516,0s,0s,0,0s,0,0,0,0,0,2026-07-03T09:12:51Z,2026-07-03T10:10:41Z,57m 50s,ManyaB2005,https://github.com/freeCodeCamp/freeCodeCamp/pull/68516
+68507,0s,0s,0,0s,0,0,0,0,0,2026-07-03T03:37:17Z,2026-07-03T08:11:49Z,4h 34m 32s,gideon-tech,https://github.com/freeCodeCamp/freeCodeCamp/pull/68507
+68506,8h,1 day [Based on 8h on a working day],480,0s,0,2,0,3,5,2026-07-03T01:09:50Z,2026-07-04T09:27:30Z,1d 8h 17m 40s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68506
+68504,2d,6 days [Based on 8h on a working day],2880,2 days [Based on 8h on a working day],960,0,0,1,1,2026-07-02T22:35:50Z,2026-07-11T18:44:23Z,8d 20h 8m 33s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68504
+68502,3m 33s,3m 33s,3,3m 33s,3,0,0,0,0,2026-07-02T20:33:42Z,2026-07-02T21:49:23Z,1h 15m 41s,suchismitab0511,https://github.com/freeCodeCamp/freeCodeCamp/pull/68502
+68498,18m 26s,18m 26s,18,18m 26s,18,0,0,0,0,2026-07-02T20:00:43Z,2026-07-02T20:58:40Z,57m 57s,rajv2er,https://github.com/freeCodeCamp/freeCodeCamp/pull/68498
+68495,2h 42m 20s,2h 42m 20s,162,2h 32m 37s,152,1,0,1,2,2026-07-02T18:01:44Z,2026-07-02T21:16:39Z,3h 14m 55s,laxitajain,https://github.com/freeCodeCamp/freeCodeCamp/pull/68495
+68488,1d 13h,4 days and 5h [Based on 8h on a working day],2220,2 days and 4h 16m [Based on 8h on a working day],1216,0,0,2,2,2026-07-02T16:04:12Z,2026-07-09T07:34:37Z,6d 15h 30m 25s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68488
+68485,3d 12h 36m,10 days and 4h 36m [Based on 8h on a working day],5076,1 day and 6h [Based on 8h on a working day],840,0,0,1,1,2026-07-02T15:46:28Z,2026-07-16T19:37:04Z,14d 3h 50m 36s,arunkumar0398,https://github.com/freeCodeCamp/freeCodeCamp/pull/68485
+68475,39m,39m,39,39m,39,0,0,0,0,2026-07-02T12:43:31Z,2026-07-02T14:32:30Z,1h 48m 59s,Joharika11,https://github.com/freeCodeCamp/freeCodeCamp/pull/68475
+68473,35m,35m,35,35m,35,0,0,0,0,2026-07-02T12:19:11Z,2026-07-02T14:26:40Z,2h 7m 29s,EduardF1,https://github.com/freeCodeCamp/freeCodeCamp/pull/68473
+68465,0s,0s,0,0s,0,0,0,0,0,2026-07-02T08:51:10Z,2026-07-02T10:30:55Z,1h 39m 45s,Dazzanova,https://github.com/freeCodeCamp/freeCodeCamp/pull/68465
+68461,1h,1h,60,1h,60,0,1,0,1,2026-07-01T20:57:33Z,2026-07-01T22:08:32Z,1h 10m 59s,timothysmithdev,https://github.com/freeCodeCamp/freeCodeCamp/pull/68461
+68458,1h,1h,60,1h,60,0,1,0,1,2026-07-01T20:31:09Z,2026-07-01T21:45:45Z,1h 14m 36s,TheForgottenJudge,https://github.com/freeCodeCamp/freeCodeCamp/pull/68458
+68451,2h 39m 9s,2h 39m 9s,159,3m 44s,3,0,0,1,1,2026-07-01T17:21:25Z,2026-07-01T20:39:12Z,3h 17m 47s,ashwiniwakchaure7777,https://github.com/freeCodeCamp/freeCodeCamp/pull/68451
+68450,28m 16s,28m 16s,28,28m 16s,28,0,0,0,0,2026-07-01T16:27:29Z,2026-07-01T17:34:55Z,1h 7m 26s,Chamith-Dilshan,https://github.com/freeCodeCamp/freeCodeCamp/pull/68450
+68449,3h 38m 35s,3h 38m 35s,218,9m 8s,9,2,0,2,4,2026-07-01T16:17:54Z,2026-07-01T19:56:39Z,3h 38m 45s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68449
+68448,4h 38m 1s,4h 38m 1s,278,4h 38m 1s,278,0,0,0,0,2026-07-01T15:59:53Z,2026-07-01T20:38:19Z,4h 38m 26s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68448
+68447,4h 15m 33s,4h 15m 33s,255,4h 15m 33s,255,0,0,0,0,2026-07-01T15:57:35Z,2026-07-01T20:13:20Z,4h 15m 45s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68447
+68443,2d 15h,7 days and 7h [Based on 8h on a working day],3780,2h 31m 9s,151,1,1,3,5,2026-07-01T14:48:10Z,2026-07-12T12:30:05Z,10d 21h 41m 55s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68443
+68442,1h 1m 30s,1h 1m 30s,61,1h 1m 30s,61,0,0,0,0,2026-07-01T14:00:19Z,2026-07-01T15:42:35Z,1h 42m 16s,yuting1008,https://github.com/freeCodeCamp/freeCodeCamp/pull/68442
+68422,0s,0s,0,0s,0,0,0,0,0,2026-06-30T23:39:03Z,2026-07-01T08:33:28Z,8h 54m 25s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/68422
+68419,1h,1h,60,1h,60,0,0,0,0,2026-06-30T20:47:02Z,2026-07-01T09:09:06Z,12h 22m 4s,k-anushka14,https://github.com/freeCodeCamp/freeCodeCamp/pull/68419
+68415,3h,3h,180,3h,180,0,0,0,0,2026-06-30T18:36:13Z,2026-07-01T09:09:57Z,14h 33m 44s,yash5749,https://github.com/freeCodeCamp/freeCodeCamp/pull/68415
+68412,3h,3h,180,3h,180,0,0,0,0,2026-06-30T18:12:50Z,2026-07-01T08:36:34Z,14h 23m 44s,thePranav-kpk,https://github.com/freeCodeCamp/freeCodeCamp/pull/68412
+68405,19m 31s,19m 31s,19,11m 33s,11,1,0,1,2,2026-06-30T16:44:40Z,2026-06-30T17:40:46Z,56m 6s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68405
+68396,8h 13m,1 day and 13m [Based on 8h on a working day],493,1 day [Based on 8h on a working day],480,1,1,1,3,2026-06-30T11:39:30Z,2026-07-02T13:13:22Z,2d 1h 33m 52s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68396
+68394,1h 24m,1h 24m,84,1h 24m,84,0,0,0,0,2026-06-30T10:24:12Z,2026-06-30T14:24:54Z,4h 0m 42s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68394
+68392,3h 30m,3h 30m,210,3h 30m,210,0,1,0,1,2026-06-30T09:48:37Z,2026-06-30T17:37:34Z,7h 48m 57s,thePranav-kpk,https://github.com/freeCodeCamp/freeCodeCamp/pull/68392
+68377,0s,0s,0,0s,0,0,1,0,1,2026-06-29T22:37:12Z,2026-06-30T08:20:40Z,9h 43m 28s,lMedeirosl,https://github.com/freeCodeCamp/freeCodeCamp/pull/68377
+68376,11h 49m,1 day and 3h 49m [Based on 8h on a working day],709,1 day and 3h 49m [Based on 8h on a working day],709,0,0,0,0,2026-06-29T20:58:28Z,2026-07-01T15:49:34Z,1d 18h 51m 6s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68376
+68375,11h 34m,1 day and 3h 34m [Based on 8h on a working day],694,1 day and 3h 34m [Based on 8h on a working day],694,0,0,0,0,2026-06-29T20:13:15Z,2026-07-01T15:35:07Z,1d 19h 21m 52s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68375
+68359,16h 31m,2 days and 31m [Based on 8h on a working day],991,1 day and 2h 12m [Based on 8h on a working day],612,0,0,2,2,2026-06-29T11:44:43Z,2026-07-02T13:31:39Z,3d 1h 46m 56s,arunkumar0398,https://github.com/freeCodeCamp/freeCodeCamp/pull/68359
+68355,9h 37m,1 day and 1h 37m [Based on 8h on a working day],577,1 day and 1h 37m [Based on 8h on a working day],577,0,2,0,2,2026-06-29T10:10:08Z,2026-06-30T14:37:55Z,1d 4h 27m 47s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68355
+68346,0s,0s,0,0s,0,0,0,0,0,2026-06-29T07:39:53Z,2026-06-29T09:05:01Z,1h 25m 8s,Kapilkrishnayadav,https://github.com/freeCodeCamp/freeCodeCamp/pull/68346
+68343,0s,0s,0,0s,0,0,0,0,0,2026-06-29T07:30:09Z,2026-06-29T08:24:05Z,53m 56s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68343
+68341,0s,0s,0,0s,0,0,0,0,0,2026-06-29T07:14:12Z,2026-06-29T08:25:12Z,1h 11m,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68341
+68340,4h 28m 32s,4h 28m 32s,268,4h 28m 19s,268,0,0,1,1,2026-07-01T16:24:16Z,2026-07-01T20:52:54Z,4h 28m 38s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68340
+68339,0s,0s,0,0s,0,0,0,0,0,2026-06-29T06:55:29Z,2026-06-29T08:28:12Z,1h 32m 43s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68339
+68336,0s,0s,0,0s,0,0,0,0,0,2026-06-28T23:06:09Z,2026-06-29T06:45:26Z,7h 39m 17s,yzakmuz,https://github.com/freeCodeCamp/freeCodeCamp/pull/68336
+68326,0s,0s,0,0s,0,0,0,0,0,2026-06-28T11:06:37Z,2026-06-29T06:29:45Z,19h 23m 8s,menika01012006,https://github.com/freeCodeCamp/freeCodeCamp/pull/68326
+68325,0s,0s,0,0s,0,0,1,0,1,2026-06-28T09:40:35Z,2026-06-29T07:22:53Z,21h 42m 18s,Ayush2029,https://github.com/freeCodeCamp/freeCodeCamp/pull/68325
+68323,0s,0s,0,0s,0,0,0,0,0,2026-06-28T06:47:59Z,2026-06-29T06:18:40Z,23h 30m 41s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68323
+68320,0s,0s,0,0s,0,0,0,0,0,2026-06-28T05:15:13Z,2026-06-29T06:47:49Z,1d 1h 32m 36s,Siddhant21007,https://github.com/freeCodeCamp/freeCodeCamp/pull/68320
+68319,0s,0s,0,0s,0,0,0,0,0,2026-06-28T04:05:10Z,2026-06-29T06:04:11Z,1d 1h 59m 1s,xNickRivera,https://github.com/freeCodeCamp/freeCodeCamp/pull/68319
+68317,0s,0s,0,0s,0,1,0,1,2,2026-06-27T20:05:46Z,2026-06-29T08:15:57Z,1d 12h 10m 11s,Yaswanthram-396,https://github.com/freeCodeCamp/freeCodeCamp/pull/68317
+68314,0s,0s,0,0s,0,0,0,0,0,2026-06-27T16:06:38Z,2026-06-29T06:33:13Z,1d 14h 26m 35s,vasslucas,https://github.com/freeCodeCamp/freeCodeCamp/pull/68314
+68311,0s,0s,0,0s,0,0,0,0,0,2026-06-27T14:25:52Z,2026-06-27T16:02:25Z,1h 36m 33s,Udhaya-kumar-N,https://github.com/freeCodeCamp/freeCodeCamp/pull/68311
+68305,0s,0s,0,0s,0,0,0,0,0,2026-06-27T12:53:14Z,2026-06-27T16:28:18Z,3h 35m 4s,Sudarshan180392,https://github.com/freeCodeCamp/freeCodeCamp/pull/68305
+68300,0s,0s,0,0s,0,0,0,0,0,2026-06-27T12:21:34Z,2026-06-27T13:16:11Z,54m 37s,mika943,https://github.com/freeCodeCamp/freeCodeCamp/pull/68300
+68299,0s,0s,0,0s,0,0,0,0,0,2026-06-27T11:58:09Z,2026-06-29T06:23:59Z,1d 18h 25m 50s,Psst02,https://github.com/freeCodeCamp/freeCodeCamp/pull/68299
+68283,0s,0s,0,0s,0,0,1,0,1,2026-06-27T05:10:14Z,2026-06-27T08:16:34Z,3h 6m 20s,naresh-coder123,https://github.com/freeCodeCamp/freeCodeCamp/pull/68283
+68278,13h 46m,1 day and 5h 46m [Based on 8h on a working day],826,2h,120,1,0,1,2,2026-06-26T19:31:23Z,2026-06-30T16:46:51Z,3d 21h 15m 28s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68278
+68273,1h 15m 20s,1h 15m 20s,75,3m 11s,3,0,0,1,1,2026-06-26T15:43:07Z,2026-06-26T17:35:55Z,1h 52m 48s,aksantimyakaroland,https://github.com/freeCodeCamp/freeCodeCamp/pull/68273
+68270,35m,35m,35,35m,35,0,0,0,0,2026-06-26T12:42:14Z,2026-06-26T14:10:22Z,1h 28m 8s,Budatichethana,https://github.com/freeCodeCamp/freeCodeCamp/pull/68270
+68263,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-06-26T08:04:07Z,2026-06-29T06:26:32Z,2d 22h 22m 25s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68263
+68253,1h 34m,1h 34m,94,1h 34m,94,0,0,0,0,2026-06-25T22:11:57Z,2026-06-26T15:11:45Z,16h 59m 48s,ayyagarisujanreddy123,https://github.com/freeCodeCamp/freeCodeCamp/pull/68253
+68248,2h 41m 23s,2h 41m 23s,161,2h 41m 23s,161,0,0,0,0,2026-06-25T15:57:47Z,2026-06-25T19:40:43Z,3h 42m 56s,royalknight71,https://github.com/freeCodeCamp/freeCodeCamp/pull/68248
+68246,16m 24s,16m 24s,16,16m 24s,16,0,0,0,0,2026-06-25T13:27:37Z,2026-06-25T14:20:46Z,53m 9s,NidhiPednekar,https://github.com/freeCodeCamp/freeCodeCamp/pull/68246
+68229,0s,0s,0,0s,0,0,0,0,0,2026-06-25T06:01:37Z,2026-06-25T09:26:20Z,3h 24m 43s,Ayan-Bain,https://github.com/freeCodeCamp/freeCodeCamp/pull/68229
+68225,0s,0s,0,0s,0,0,0,0,0,2026-06-25T00:05:50Z,2026-06-25T08:54:41Z,8h 48m 51s,PricedTuna,https://github.com/freeCodeCamp/freeCodeCamp/pull/68225
+68224,0s,0s,0,0s,0,0,0,0,0,2026-06-24T23:29:26Z,2026-06-25T07:21:34Z,7h 52m 8s,Eghani,https://github.com/freeCodeCamp/freeCodeCamp/pull/68224
+68222,1h,1h,60,1h,60,0,0,0,0,2026-06-24T20:24:31Z,2026-06-25T17:42:16Z,21h 17m 45s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68222
+68220,2h,2h,120,2h,120,0,0,0,0,2026-06-24T19:03:11Z,2026-06-25T06:39:08Z,11h 35m 57s,AlistairHeus,https://github.com/freeCodeCamp/freeCodeCamp/pull/68220
+68215,10h 55m,1 day and 2h 55m [Based on 8h on a working day],655,5h,300,1,0,1,2,2026-06-24T16:50:08Z,2026-06-25T18:56:05Z,1d 2h 5m 57s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68215
+68213,10h 59m,1 day and 2h 59m [Based on 8h on a working day],659,5h,300,0,0,1,1,2026-06-24T16:03:15Z,2026-06-25T19:00:08Z,1d 2h 56m 53s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68213
+68207,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-06-24T10:11:26Z,2026-06-25T05:57:51Z,19h 46m 25s,omarhossdev,https://github.com/freeCodeCamp/freeCodeCamp/pull/68207
+68203,0s,0s,0,0s,0,3,0,1,4,2026-06-24T09:37:24Z,2026-06-24T10:23:59Z,46m 35s,TechGenius-Karan,https://github.com/freeCodeCamp/freeCodeCamp/pull/68203
+68196,0s,0s,0,0s,0,1,0,1,2,2026-06-24T07:15:34Z,2026-06-24T11:54:06Z,4h 38m 32s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68196
+68194,0s,0s,0,0s,0,0,0,0,0,2026-06-24T06:21:16Z,2026-06-24T07:00:07Z,38m 51s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68194
+68192,0s,0s,0,0s,0,0,0,0,0,2026-06-24T06:03:56Z,2026-06-24T06:48:38Z,44m 42s,TScom-dew,https://github.com/freeCodeCamp/freeCodeCamp/pull/68192
+68186,1d 1h,3 days and 1h [Based on 8h on a working day],1500,3 days and 1h [Based on 8h on a working day],1500,0,1,0,1,2026-06-23T20:51:52Z,2026-06-29T06:59:31Z,5d 10h 7m 39s,rixyll,https://github.com/freeCodeCamp/freeCodeCamp/pull/68186
+68184,2h,2h,120,2h,120,0,1,0,1,2026-06-23T19:50:51Z,2026-06-24T06:55:17Z,11h 4m 26s,RandomPerson208,https://github.com/freeCodeCamp/freeCodeCamp/pull/68184
+68182,4h,4h,240,4h,240,0,1,0,1,2026-06-23T17:45:00Z,2026-06-24T07:39:07Z,13h 54m 7s,Shush-6,https://github.com/freeCodeCamp/freeCodeCamp/pull/68182
+68175,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-06-23T13:04:44Z,2026-06-24T06:53:48Z,17h 49m 4s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68175
+68174,8h,1 day [Based on 8h on a working day],480,1h 37m,97,2,0,1,3,2026-06-23T12:52:57Z,2026-06-24T07:03:59Z,18h 11m 2s,asura-king-sys,https://github.com/freeCodeCamp/freeCodeCamp/pull/68174
+68173,1h 42m,1h 42m,102,1h 42m,102,0,0,0,0,2026-06-23T12:24:39Z,2026-06-23T15:19:44Z,2h 55m 5s,karthi1048,https://github.com/freeCodeCamp/freeCodeCamp/pull/68173
+68166,1h 36m,1h 36m,96,1h 36m,96,0,0,0,0,2026-06-23T09:45:32Z,2026-06-23T15:13:29Z,5h 27m 57s,AsthaChoudhury,https://github.com/freeCodeCamp/freeCodeCamp/pull/68166
+68165,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,3,1,1,5,2026-06-23T09:18:08Z,2026-06-24T07:04:22Z,21h 46m 14s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68165
+68151,0s,0s,0,0s,0,0,0,0,0,2026-06-23T05:35:41Z,2026-06-23T06:41:28Z,1h 5m 47s,jayasimha-reddy-code,https://github.com/freeCodeCamp/freeCodeCamp/pull/68151
+68150,0s,0s,0,0s,0,0,0,0,0,2026-06-23T04:41:55Z,2026-06-23T06:51:51Z,2h 9m 56s,Vishhh03,https://github.com/freeCodeCamp/freeCodeCamp/pull/68150
+68148,0s,0s,0,0s,0,0,0,0,0,2026-06-22T23:50:30Z,2026-06-23T06:25:37Z,6h 35m 7s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/68148
+68143,12m 15s,12m 15s,12,12m 15s,12,0,0,0,0,2026-06-22T15:20:02Z,2026-06-22T16:09:17Z,49m 15s,Soubhagya003,https://github.com/freeCodeCamp/freeCodeCamp/pull/68143
+68141,4h 38m,4h 38m,278,2h 47m,167,1,0,1,2,2026-06-22T12:29:58Z,2026-06-22T18:11:19Z,5h 41m 21s,Lonny154,https://github.com/freeCodeCamp/freeCodeCamp/pull/68141
+68136,2h 51m,2h 51m,171,2h 51m,171,0,0,0,0,2026-06-22T10:28:06Z,2026-06-22T16:28:41Z,6h 0m 35s,Atulya-Juyal,https://github.com/freeCodeCamp/freeCodeCamp/pull/68136
+68133,2h 42m,2h 42m,162,2h 42m,162,0,0,0,0,2026-06-22T09:29:36Z,2026-06-22T16:18:34Z,6h 48m 58s,Pranav-0018,https://github.com/freeCodeCamp/freeCodeCamp/pull/68133
+68130,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-06-22T08:42:26Z,2026-06-23T06:10:44Z,21h 28m 18s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68130
+68122,0s,0s,0,0s,0,0,0,0,0,2026-06-22T01:52:59Z,2026-06-22T07:22:48Z,5h 29m 49s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/68122
+68113,9h 49m,1 day and 1h 49m [Based on 8h on a working day],589,1 day [Based on 8h on a working day],480,0,0,1,1,2026-06-21T13:13:02Z,2026-06-23T14:49:26Z,2d 1h 36m 24s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68113
+68112,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-06-21T13:11:37Z,2026-06-23T07:12:14Z,1d 18h 0m 37s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68112
+68108,4h 32m,4h 32m,272,4h 32m,272,0,0,0,0,2026-06-20T17:53:07Z,2026-06-22T17:32:31Z,1d 23h 39m 24s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68108
+68107,23h 37m,2 days and 7h 37m [Based on 8h on a working day],1417,4h 13m,253,2,0,3,5,2026-06-20T17:08:22Z,2026-06-24T20:51:56Z,4d 3h 43m 34s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/68107
+68105,0s,0s,0,0s,0,0,0,0,0,2026-06-20T08:46:39Z,2026-06-22T08:04:39Z,1d 23h 18m,umang-jpg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68105
+68094,0s,0s,0,0s,0,0,0,0,0,2026-06-19T06:41:40Z,2026-06-19T07:51:05Z,1h 9m 25s,itsmdshahin,https://github.com/freeCodeCamp/freeCodeCamp/pull/68094
+68089,0s,0s,0,0s,0,0,0,0,0,2026-06-19T02:59:56Z,2026-06-19T07:24:35Z,4h 24m 39s,vrbaghel,https://github.com/freeCodeCamp/freeCodeCamp/pull/68089
+68088,0s,0s,0,0s,0,0,0,0,0,2026-06-19T00:00:39Z,2026-06-19T07:08:55Z,7h 8m 16s,amaad31,https://github.com/freeCodeCamp/freeCodeCamp/pull/68088
+68074,1h 4m 56s,1h 4m 56s,64,1h 4m 56s,64,0,0,0,0,2026-06-18T16:23:00Z,2026-06-18T18:05:38Z,1h 42m 38s,ferdefalco,https://github.com/freeCodeCamp/freeCodeCamp/pull/68074
+68060,1h 12m 29s,1h 12m 29s,72,1h 12m 29s,72,0,0,0,0,2026-06-18T13:23:23Z,2026-06-18T15:12:40Z,1h 49m 17s,Dhananjay0376,https://github.com/freeCodeCamp/freeCodeCamp/pull/68060
+68058,1h 21m,1h 21m,81,1h 21m,81,0,0,0,0,2026-06-18T12:15:23Z,2026-06-18T14:56:02Z,2h 40m 39s,Javedshah11,https://github.com/freeCodeCamp/freeCodeCamp/pull/68058
+68055,1h 29m,1h 29m,89,1h 29m,89,0,0,0,0,2026-06-18T11:20:30Z,2026-06-18T14:29:16Z,3h 8m 46s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68055
+68054,1h 24m,1h 24m,84,1h 24m,84,0,0,0,0,2026-06-18T11:15:23Z,2026-06-18T14:24:03Z,3h 8m 40s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68054
+68044,0s,0s,0,0s,0,1,0,1,2,2026-06-18T08:09:26Z,2026-06-18T14:55:32Z,6h 46m 6s,tejasz29,https://github.com/freeCodeCamp/freeCodeCamp/pull/68044
+68043,0s,0s,0,0s,0,0,0,0,0,2026-06-18T07:39:46Z,2026-06-18T08:21:10Z,41m 24s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68043
+68041,0s,0s,0,0s,0,1,0,1,2,2026-06-18T07:28:44Z,2026-06-18T09:12:53Z,1h 44m 9s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68041
+68034,0s,0s,0,0s,0,0,0,0,0,2026-06-18T01:13:41Z,2026-06-18T06:31:42Z,5h 18m 1s,gustavopurkoot,https://github.com/freeCodeCamp/freeCodeCamp/pull/68034
+68033,0s,0s,0,0s,0,0,0,0,0,2026-06-18T00:11:40Z,2026-06-18T06:25:44Z,6h 14m 4s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68033
+68025,22m 36s,22m 36s,22,22m 36s,22,0,0,0,0,2026-06-17T17:18:53Z,2026-06-17T18:16:57Z,58m 4s,DogAwesome21,https://github.com/freeCodeCamp/freeCodeCamp/pull/68025
+68024,34m,34m,34,34m,34,0,1,0,1,2026-06-17T17:05:17Z,2026-06-17T18:14:32Z,1h 9m 15s,kanan010506,https://github.com/freeCodeCamp/freeCodeCamp/pull/68024
+68022,37m 29s,37m 29s,37,37m 29s,37,0,0,0,0,2026-06-17T16:22:29Z,2026-06-17T17:00:02Z,37m 33s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/68022
+68015,32m,32m,32,32m,32,0,0,0,0,2026-06-17T12:58:22Z,2026-06-17T13:38:26Z,40m 4s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/68015
+68012,26m,26m,26,26m,26,0,1,0,1,2026-06-17T09:58:04Z,2026-06-17T13:26:33Z,3h 28m 29s,TEE0207,https://github.com/freeCodeCamp/freeCodeCamp/pull/68012
+68006,1h 15m,1h 15m,75,0s,0,1,0,1,2,2026-06-17T06:46:08Z,2026-06-17T16:40:52Z,9h 54m 44s,Mayank777-hub,https://github.com/freeCodeCamp/freeCodeCamp/pull/68006
+67997,1h 7m 19s,1h 7m 19s,67,1h 3m 14s,63,2,0,1,3,2026-06-16T17:34:19Z,2026-06-16T19:17:16Z,1h 42m 57s,oLucasJard,https://github.com/freeCodeCamp/freeCodeCamp/pull/67997
+67992,7h 33m,7h 33m,453,6h,360,6,0,6,12,2026-06-16T15:06:52Z,2026-06-17T14:37:01Z,23h 30m 9s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67992
+67991,12m 41s,12m 41s,12,12m 41s,12,0,0,0,0,2026-06-16T14:04:07Z,2026-06-16T14:43:13Z,39m 6s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67991
+67989,23m,23m,23,23m,23,0,0,1,1,2026-06-16T12:13:10Z,2026-06-16T14:02:32Z,1h 49m 22s,divyaanshupal,https://github.com/freeCodeCamp/freeCodeCamp/pull/67989
+67988,0s,0s,0,0s,0,0,1,0,1,2026-06-16T08:31:46Z,2026-06-16T10:01:17Z,1h 29m 31s,kanan010506,https://github.com/freeCodeCamp/freeCodeCamp/pull/67988
+67981,8h 45m,1 day and 45m [Based on 8h on a working day],525,1 day and 45m [Based on 8h on a working day],525,0,1,0,1,2026-06-16T05:39:32Z,2026-06-17T14:10:10Z,1d 8h 30m 38s,bikeshgyawali,https://github.com/freeCodeCamp/freeCodeCamp/pull/67981
+67973,11h,1 day and 3h [Based on 8h on a working day],660,1h 20m 47s,80,1,1,3,5,2026-06-15T18:56:07Z,2026-06-17T07:17:30Z,1d 12h 21m 23s,Vanishagupta18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67973
+67972,18h 46m,2 days and 2h 46m [Based on 8h on a working day],1126,2 days and 2h 46m [Based on 8h on a working day],1126,0,1,0,1,2026-06-15T17:08:18Z,2026-06-17T19:46:41Z,2d 2h 38m 23s,Adarsh-N-Mogaveera,https://github.com/freeCodeCamp/freeCodeCamp/pull/67972
+67971,5h,5h,300,5h,300,0,0,0,0,2026-06-15T16:54:44Z,2026-06-16T10:33:18Z,17h 38m 34s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67971
+67970,6h,6h,360,6h,360,0,0,0,0,2026-06-15T15:55:43Z,2026-06-16T08:39:41Z,16h 43m 58s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67970
+67968,1h 54m 49s,1h 54m 49s,114,1h 54m 49s,114,0,1,0,1,2026-06-15T15:14:34Z,2026-06-15T17:47:10Z,2h 32m 36s,mariamanbar,https://github.com/freeCodeCamp/freeCodeCamp/pull/67968
+67961,19h,2 days and 3h [Based on 8h on a working day],1140,5h,300,38,0,10,48,2026-06-15T16:02:54Z,2026-06-19T14:53:38Z,3d 22h 50m 44s,moT01,https://github.com/freeCodeCamp/freeCodeCamp/pull/67961
+67960,1h 27m,1h 27m,87,1h 27m,87,0,0,0,0,2026-06-15T10:59:46Z,2026-06-15T14:27:13Z,3h 27m 27s,dragon-slayer27,https://github.com/freeCodeCamp/freeCodeCamp/pull/67960
+67951,10h 2m,1 day and 2h 2m [Based on 8h on a working day],602,0s,0,8,0,3,11,2026-06-14T18:06:14Z,2026-06-16T15:27:26Z,1d 21h 21m 12s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67951
+67946,10h 26m,1 day and 2h 26m [Based on 8h on a working day],626,1 day and 1h 25m [Based on 8h on a working day],565,1,0,1,2,2026-06-14T14:43:03Z,2026-06-16T15:53:11Z,2d 1h 10m 8s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67946
+67945,0s,0s,0,0s,0,0,0,0,0,2026-06-14T14:34:31Z,2026-06-15T08:00:44Z,17h 26m 13s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67945
+67940,8h,1 day [Based on 8h on a working day],480,0s,0,0,0,1,1,2026-06-13T20:06:30Z,2026-06-16T09:44:52Z,2d 13h 38m 22s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/67940
+67935,1h 37m,1h 37m,97,0s,0,0,0,1,1,2026-06-13T14:48:33Z,2026-06-15T14:37:35Z,1d 23h 49m 2s,Anurag-Mishra2006,https://github.com/freeCodeCamp/freeCodeCamp/pull/67935
+67915,2h 19m 16s,2h 19m 16s,139,2h 19m 16s,139,0,0,0,0,2026-06-12T16:45:31Z,2026-06-12T19:41:29Z,2h 55m 58s,Mudassir55,https://github.com/freeCodeCamp/freeCodeCamp/pull/67915
+67911,0s,0s,0,0s,0,0,3,0,3,2026-06-12T11:47:54Z,2026-06-12T13:21:59Z,1h 34m 5s,lissy93,https://github.com/freeCodeCamp/freeCodeCamp/pull/67911
+67910,17m,17m,17,17m,17,0,0,0,0,2026-06-12T10:12:26Z,2026-06-12T13:53:54Z,3h 41m 28s,flopez0294,https://github.com/freeCodeCamp/freeCodeCamp/pull/67910
+67905,6h 32m,6h 32m,392,6h 32m,392,0,0,0,0,2026-06-12T06:45:07Z,2026-06-12T20:08:41Z,13h 23m 34s,omarkurtovic,https://github.com/freeCodeCamp/freeCodeCamp/pull/67905
+67902,0s,0s,0,0s,0,0,0,0,0,2026-06-12T02:45:27Z,2026-06-12T08:55:32Z,6h 10m 5s,ezforhamza,https://github.com/freeCodeCamp/freeCodeCamp/pull/67902
+67898,9h 17m,1 day and 1h 17m [Based on 8h on a working day],557,0s,0,2,0,2,4,2026-06-11T22:48:45Z,2026-06-15T14:39:01Z,3d 15h 50m 16s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/67898
+67892,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-06-11T11:03:17Z,2026-06-12T08:06:46Z,21h 3m 29s,kmohan12-code,https://github.com/freeCodeCamp/freeCodeCamp/pull/67892
+67889,0s,0s,0,0s,0,0,0,0,0,2026-06-11T08:41:17Z,2026-06-11T09:37:18Z,56m 1s,mahimathacker,https://github.com/freeCodeCamp/freeCodeCamp/pull/67889
+67883,1d 1h,3 days and 1h [Based on 8h on a working day],1500,1 day and 1h [Based on 8h on a working day],540,19,0,2,21,2026-06-10T20:38:32Z,2026-06-16T09:16:27Z,5d 12h 37m 55s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/67883
+67880,17h 57m,2 days and 1h 57m [Based on 8h on a working day],1077,2 days and 1h 57m [Based on 8h on a working day],1077,0,0,0,0,2026-06-10T17:00:16Z,2026-06-12T18:57:15Z,2d 1h 56m 59s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67880
+67879,51m 16s,51m 16s,51,5m 50s,5,2,0,3,5,2026-06-10T14:50:58Z,2026-06-10T16:21:11Z,1h 30m 13s,kavyabhand,https://github.com/freeCodeCamp/freeCodeCamp/pull/67879
+67878,1h 17m 36s,1h 17m 36s,77,1h 17m 36s,77,0,0,0,0,2026-06-10T13:34:50Z,2026-06-10T16:33:15Z,2h 58m 25s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67878
+67869,0s,0s,0,0s,0,0,0,0,0,2026-06-10T05:52:22Z,2026-06-10T07:22:54Z,1h 30m 32s,arunkumar0398,https://github.com/freeCodeCamp/freeCodeCamp/pull/67869
+67864,3h,3h,180,3h,180,1,0,1,2,2026-06-09T18:10:14Z,2026-06-10T10:46:36Z,16h 36m 22s,debojeetmitra,https://github.com/freeCodeCamp/freeCodeCamp/pull/67864
+67862,1h 47m 16s,1h 47m 16s,107,1h 47m 16s,107,0,0,0,0,2026-06-09T16:02:59Z,2026-06-09T17:50:25Z,1h 47m 26s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67862
+67861,4h 58m,4h 58m,298,4h 16m,256,2,0,1,3,2026-06-09T12:31:26Z,2026-06-09T18:28:36Z,5h 57m 10s,dragon-slayer27,https://github.com/freeCodeCamp/freeCodeCamp/pull/67861
+67859,1h 18m 34s,1h 18m 34s,78,10m 7s,10,1,1,1,3,2026-06-08T18:28:06Z,2026-06-08T20:23:26Z,1h 55m 20s,Medo-ID,https://github.com/freeCodeCamp/freeCodeCamp/pull/67859
+67858,31m 25s,31m 25s,31,25m 53s,25,0,0,1,1,2026-06-08T17:43:36Z,2026-06-08T18:51:27Z,1h 7m 51s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67858
+67855,3h 38m,3h 38m,218,3h 38m,218,0,0,0,0,2026-06-08T12:24:09Z,2026-06-08T16:38:48Z,4h 14m 39s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/67855
+67854,4h 52m,4h 52m,292,3h 32m,212,1,0,2,3,2026-06-08T11:27:39Z,2026-06-08T17:52:24Z,6h 24m 45s,Kd1880,https://github.com/freeCodeCamp/freeCodeCamp/pull/67854
+67852,3h 54m,3h 54m,234,3h 54m,234,0,0,0,0,2026-06-08T11:39:08Z,2026-06-08T16:54:40Z,5h 15m 32s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/67852
+67834,17h,2 days and 1h [Based on 8h on a working day],1020,1 day and 1h [Based on 8h on a working day],540,12,0,4,16,2026-06-05T20:29:17Z,2026-06-10T10:11:55Z,4d 13h 42m 38s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67834
+67832,11h,1 day and 3h [Based on 8h on a working day],660,1 day and 6m [Based on 8h on a working day],486,0,0,1,1,2026-06-05T18:50:16Z,2026-06-09T08:21:16Z,3d 13h 31m,dragon-slayer27,https://github.com/freeCodeCamp/freeCodeCamp/pull/67832
+67828,16h 46m,2 days and 46m [Based on 8h on a working day],1006,1 day and 6h [Based on 8h on a working day],840,1,0,1,2,2026-06-05T15:23:22Z,2026-06-09T15:46:12Z,4d 0h 22m 50s,jimjoice2804,https://github.com/freeCodeCamp/freeCodeCamp/pull/67828
+67827,22h,2 days and 6h [Based on 8h on a working day],1320,1 day and 4h 55m [Based on 8h on a working day],775,8,0,4,12,2026-06-05T15:03:49Z,2026-06-10T10:12:53Z,4d 19h 9m 4s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67827
+67813,15h 44m,1 day and 7h 44m [Based on 8h on a working day],944,2h,120,0,0,1,1,2026-06-04T19:43:01Z,2026-06-08T18:44:14Z,3d 23h 1m 13s,Anurag-Mishra2006,https://github.com/freeCodeCamp/freeCodeCamp/pull/67813
+67811,4h,4h,240,4h,240,0,1,0,1,2026-06-04T17:51:29Z,2026-06-05T06:53:44Z,13h 2m 15s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67811
+67810,4h,4h,240,4h,240,0,2,1,3,2026-06-04T17:27:08Z,2026-06-05T07:50:52Z,14h 23m 44s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67810
+67805,2d 16h,8 days [Based on 8h on a working day],3840,1 day [Based on 8h on a working day],480,18,1,12,31,2026-06-04T07:44:54Z,2026-06-17T06:44:52Z,12d 22h 59m 58s,harshlm15,https://github.com/freeCodeCamp/freeCodeCamp/pull/67805
+67802,11h 47m,1 day and 3h 47m [Based on 8h on a working day],707,1 day and 3h 47m [Based on 8h on a working day],707,0,0,0,0,2026-06-04T05:26:43Z,2026-06-08T16:47:10Z,4d 11h 20m 27s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67802
+67801,16h,2 days [Based on 8h on a working day],960,1 day [Based on 8h on a working day],480,1,0,2,3,2026-06-04T05:05:05Z,2026-06-09T08:27:21Z,5d 3h 22m 16s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67801
+67799,1d 8h,4 days [Based on 8h on a working day],1920,0s,0,4,0,3,7,2026-06-03T21:43:56Z,2026-06-10T08:09:11Z,6d 10h 25m 15s,andiedoescode,https://github.com/freeCodeCamp/freeCodeCamp/pull/67799
+67797,1d 0h 6m,3 days and 6m [Based on 8h on a working day],1446,4h,240,1,0,1,2,2026-06-03T17:28:46Z,2026-06-08T17:06:38Z,4d 23h 37m 52s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67797
+67796,5h,5h,300,16m 50s,16,0,0,1,1,2026-06-03T16:45:02Z,2026-06-04T08:03:01Z,15h 17m 59s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67796
+67795,1h 6m,1h 6m,66,1h 6m,66,0,0,0,0,2026-06-03T16:22:02Z,2026-06-03T17:28:06Z,1h 6m 4s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67795
+67794,21h,2 days and 5h [Based on 8h on a working day],1260,5h,300,1,0,4,5,2026-06-03T16:08:52Z,2026-06-06T21:11:20Z,3d 5h 2m 28s,nico457,https://github.com/freeCodeCamp/freeCodeCamp/pull/67794
+67793,1h 20m 28s,1h 20m 28s,80,1h 20m 28s,80,0,1,0,1,2026-06-03T16:03:52Z,2026-06-03T17:24:24Z,1h 20m 32s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67793
+67783,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,2,0,2,2026-06-03T09:15:07Z,2026-06-04T08:48:35Z,23h 33m 28s,Kd1880,https://github.com/freeCodeCamp/freeCodeCamp/pull/67783
+67782,1d 14h 57m,4 days and 6h 57m [Based on 8h on a working day],2337,0s,0,4,0,4,8,2026-06-03T09:14:35Z,2026-06-10T20:55:48Z,7d 11h 41m 13s,rustom-yadav,https://github.com/freeCodeCamp/freeCodeCamp/pull/67782
+67780,0s,0s,0,0s,0,0,0,0,0,2026-06-03T06:53:32Z,2026-06-03T07:49:06Z,55m 34s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67780
+67779,0s,0s,0,0s,0,1,0,1,2,2026-06-03T06:31:43Z,2026-06-03T08:22:50Z,1h 51m 7s,jimjoice2804,https://github.com/freeCodeCamp/freeCodeCamp/pull/67779
+67778,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-06-03T12:50:51Z,2026-06-04T07:56:20Z,19h 5m 29s,Ahmed-Aashour,https://github.com/freeCodeCamp/freeCodeCamp/pull/67778
+67776,16h,2 days [Based on 8h on a working day],960,1 day [Based on 8h on a working day],480,1,0,1,2,2026-06-02T13:13:38Z,2026-06-04T07:08:43Z,1d 17h 55m 5s,Venkat-Entropik,https://github.com/freeCodeCamp/freeCodeCamp/pull/67776
+67774,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,1,1,1,3,2026-06-02T11:03:54Z,2026-06-03T11:05:08Z,1d 0h 1m 14s,Anurag-Mishra2006,https://github.com/freeCodeCamp/freeCodeCamp/pull/67774
+67768,0s,0s,0,0s,0,0,0,0,0,2026-06-02T02:54:56Z,2026-06-02T09:49:02Z,6h 54m 6s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/67768
+67766,0s,0s,0,0s,0,0,0,0,0,2026-06-02T02:02:10Z,2026-06-02T09:49:47Z,7h 47m 37s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/67766
+67761,8h,1 day [Based on 8h on a working day],480,0s,0,1,0,1,2,2026-06-02T00:52:42Z,2026-06-03T08:07:25Z,1d 7h 14m 43s,TJForrest,https://github.com/freeCodeCamp/freeCodeCamp/pull/67761
+67753,1d 13h 48m,4 days and 5h 48m [Based on 8h on a working day],2268,13m 15s,13,0,2,1,3,2026-06-01T19:56:51Z,2026-06-08T18:13:33Z,6d 22h 16m 42s,BilgeGates,https://github.com/freeCodeCamp/freeCodeCamp/pull/67753
+67749,1d 16h 39m,5 days and 39m [Based on 8h on a working day],2439,5h,300,10,0,2,12,2026-06-01T16:48:56Z,2026-06-13T15:43:32Z,11d 22h 54m 36s,moT01,https://github.com/freeCodeCamp/freeCodeCamp/pull/67749
+67734,0s,0s,0,0s,0,0,0,0,0,2026-05-31T13:11:59Z,2026-06-01T10:23:48Z,21h 11m 49s,meaqua9420,https://github.com/freeCodeCamp/freeCodeCamp/pull/67734
+67733,0s,0s,0,0s,0,0,0,0,0,2026-05-31T12:57:32Z,2026-06-01T07:45:29Z,18h 47m 57s,Sidak-321,https://github.com/freeCodeCamp/freeCodeCamp/pull/67733
+67731,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-05-31T11:14:21Z,2026-06-02T09:52:25Z,1d 22h 38m 4s,Akshatshukla-25,https://github.com/freeCodeCamp/freeCodeCamp/pull/67731
+67724,0s,0s,0,0s,0,0,0,0,0,2026-05-31T05:20:17Z,2026-06-01T07:38:49Z,1d 2h 18m 32s,Venkat-Entropik,https://github.com/freeCodeCamp/freeCodeCamp/pull/67724
+67719,0s,0s,0,0s,0,0,0,0,0,2026-05-30T17:32:18Z,2026-06-01T07:19:38Z,1d 13h 47m 20s,imsomilg,https://github.com/freeCodeCamp/freeCodeCamp/pull/67719
+67710,0s,0s,0,0s,0,0,0,0,0,2026-05-30T13:33:09Z,2026-05-30T16:16:47Z,2h 43m 38s,Laurence165,https://github.com/freeCodeCamp/freeCodeCamp/pull/67710
+67709,0s,0s,0,0s,0,0,0,1,1,2026-05-30T13:14:40Z,2026-05-30T19:26:11Z,6h 11m 31s,harshlm15,https://github.com/freeCodeCamp/freeCodeCamp/pull/67709
+67708,0s,0s,0,0s,0,0,0,0,0,2026-05-30T13:07:14Z,2026-05-30T16:15:07Z,3h 7m 53s,Akshatshukla-25,https://github.com/freeCodeCamp/freeCodeCamp/pull/67708
+67700,0s,0s,0,0s,0,3,1,2,6,2026-05-30T04:48:22Z,2026-06-01T07:12:28Z,2d 2h 24m 6s,Aman-Hegde,https://github.com/freeCodeCamp/freeCodeCamp/pull/67700
+67685,3h 55m,3h 55m,235,0s,0,1,1,1,3,2026-05-29T10:30:55Z,2026-05-29T18:41:44Z,8h 10m 49s,Mitraaxx,https://github.com/freeCodeCamp/freeCodeCamp/pull/67685
+67679,0s,0s,0,0s,0,0,0,0,0,2026-05-29T07:48:02Z,2026-05-29T14:41:32Z,6h 53m 30s,anup48045,https://github.com/freeCodeCamp/freeCodeCamp/pull/67679
+67660,10h,1 day and 2h [Based on 8h on a working day],600,41m 47s,41,0,0,1,1,2026-05-28T19:25:34Z,2026-05-30T13:24:15Z,1d 17h 58m 41s,Yachna-123,https://github.com/freeCodeCamp/freeCodeCamp/pull/67660
+67648,22m 13s,22m 13s,22,22m 13s,22,0,1,0,1,2026-05-28T14:49:59Z,2026-05-29T16:59:24Z,1d 2h 9m 25s,santiyorio,https://github.com/freeCodeCamp/freeCodeCamp/pull/67648
+67647,56m 57s,56m 57s,56,56m 57s,56,0,0,0,0,2026-05-28T14:17:22Z,2026-05-28T15:14:30Z,57m 8s,Rehan-M-395,https://github.com/freeCodeCamp/freeCodeCamp/pull/67647
+67624,5d 5h,15 days and 5h [Based on 8h on a working day],7500,15 days and 5h [Based on 8h on a working day],7500,0,0,0,0,2026-05-27T16:35:40Z,2026-06-18T08:53:16Z,21d 16h 17m 36s,Nithin0620,https://github.com/freeCodeCamp/freeCodeCamp/pull/67624
+67614,11h 40m,1 day and 3h 40m [Based on 8h on a working day],700,1 day [Based on 8h on a working day],480,2,1,1,4,2026-05-27T05:05:31Z,2026-05-29T17:15:09Z,2d 12h 9m 38s,TheSeydiCharyyev,https://github.com/freeCodeCamp/freeCodeCamp/pull/67614
+67609,10h,1 day and 2h [Based on 8h on a working day],600,1 day and 2h [Based on 8h on a working day],600,0,1,0,1,2026-05-26T19:21:57Z,2026-05-29T14:52:09Z,2d 19h 30m 12s,BilgeGates,https://github.com/freeCodeCamp/freeCodeCamp/pull/67609
+67607,13h 19m,1 day and 5h 19m [Based on 8h on a working day],799,6h 7m,367,1,0,1,2,2026-05-26T08:01:45Z,2026-05-28T00:20:40Z,1d 16h 18m 55s,GandotraDiya,https://github.com/freeCodeCamp/freeCodeCamp/pull/67607
+67603,1d 8h 25m,4 days and 25m [Based on 8h on a working day],1945,4 days and 25m [Based on 8h on a working day],1945,0,1,0,1,2026-05-25T16:13:46Z,2026-05-29T17:03:46Z,4d 0h 50m,adul11s,https://github.com/freeCodeCamp/freeCodeCamp/pull/67603
+67558,1d 8h,4 days [Based on 8h on a working day],1920,0s,0,0,1,1,2,2026-05-23T16:01:26Z,2026-05-29T17:11:48Z,6d 1h 10m 22s,HAWKZ4,https://github.com/freeCodeCamp/freeCodeCamp/pull/67558
+67542,3m 51s,3m 51s,3,3m 51s,3,0,0,0,0,2026-05-22T16:42:21Z,2026-05-22T17:25:16Z,42m 55s,divy-dawda,https://github.com/freeCodeCamp/freeCodeCamp/pull/67542
+67539,49m 51s,49m 51s,49,49m 51s,49,0,0,0,0,2026-05-22T15:11:53Z,2026-05-22T16:40:45Z,1h 28m 52s,Barreratomas,https://github.com/freeCodeCamp/freeCodeCamp/pull/67539
+67533,0s,0s,0,0s,0,0,0,0,0,2026-05-22T09:12:07Z,2026-05-22T10:20:13Z,1h 8m 6s,Baisayan,https://github.com/freeCodeCamp/freeCodeCamp/pull/67533
+67532,0s,0s,0,0s,0,0,1,0,1,2026-05-22T07:40:05Z,2026-05-22T08:41:24Z,1h 1m 19s,imayuss,https://github.com/freeCodeCamp/freeCodeCamp/pull/67532
+67531,0s,0s,0,0s,0,0,0,0,0,2026-05-22T06:35:21Z,2026-05-22T07:31:07Z,55m 46s,deb2000-sudo,https://github.com/freeCodeCamp/freeCodeCamp/pull/67531
+67529,4h 50m,4h 50m,290,0s,0,1,0,1,2,2026-05-22T01:58:08Z,2026-05-22T18:27:04Z,16h 28m 56s,shreesakhi-ch,https://github.com/freeCodeCamp/freeCodeCamp/pull/67529
+67527,0s,0s,0,0s,0,0,0,0,0,2026-05-21T23:09:22Z,2026-05-22T07:51:24Z,8h 42m 2s,bindpratapsingh,https://github.com/freeCodeCamp/freeCodeCamp/pull/67527
+67513,14h,1 day and 6h [Based on 8h on a working day],840,1 day and 6h [Based on 8h on a working day],840,0,0,0,0,2026-06-02T15:46:24Z,2026-06-04T07:15:03Z,1d 15h 28m 39s,jdwilkin4,https://github.com/freeCodeCamp/freeCodeCamp/pull/67513
+67467,0s,0s,0,0s,0,0,0,0,0,2026-05-20T06:35:12Z,2026-05-20T08:28:51Z,1h 53m 39s,priyanshupundir,https://github.com/freeCodeCamp/freeCodeCamp/pull/67467
+67452,0s,0s,0,0s,0,0,0,0,0,2026-05-19T01:05:58Z,2026-05-19T09:59:15Z,8h 53m 17s,DanielRosa74,https://github.com/freeCodeCamp/freeCodeCamp/pull/67452
+67441,3d 3h 23m,9 days and 3h 23m [Based on 8h on a working day],4523,9 days [Based on 8h on a working day],4320,2,0,2,4,2026-05-17T09:31:19Z,2026-05-29T18:54:25Z,12d 9h 23m 6s,narasimhan-lakshmi,https://github.com/freeCodeCamp/freeCodeCamp/pull/67441
+67426,2h 7m,2h 7m,127,0s,0,3,0,1,4,2026-05-15T09:17:20Z,2026-05-15T15:07:56Z,5h 50m 36s,narasimhan-lakshmi,https://github.com/freeCodeCamp/freeCodeCamp/pull/67426
+67424,0s,0s,0,0s,0,0,0,0,0,2026-05-15T08:19:03Z,2026-05-15T10:11:05Z,1h 52m 2s,narasimhan-lakshmi,https://github.com/freeCodeCamp/freeCodeCamp/pull/67424
+67414,0s,0s,0,0s,0,0,0,0,0,2026-05-15T02:09:53Z,2026-05-15T08:12:42Z,6h 2m 49s,HarshMangaraj,https://github.com/freeCodeCamp/freeCodeCamp/pull/67414
+67406,1h 12m 7s,1h 12m 7s,72,1h 12m 7s,72,0,0,0,0,2026-05-14T18:26:54Z,2026-05-14T20:16:29Z,1h 49m 35s,vinodM09,https://github.com/freeCodeCamp/freeCodeCamp/pull/67406
+67397,2h 56m 21s,2h 56m 21s,176,2h 56m 21s,176,0,0,0,0,2026-05-14T16:41:20Z,2026-05-14T19:38:49Z,2h 57m 29s,caio-bittencourt,https://github.com/freeCodeCamp/freeCodeCamp/pull/67397
+67392,13h 36m,1 day and 5h 36m [Based on 8h on a working day],816,1 day and 5h 36m [Based on 8h on a working day],816,0,2,0,2,2026-05-14T12:29:02Z,2026-05-15T18:36:33Z,1d 6h 7m 31s,deepak-s-git,https://github.com/freeCodeCamp/freeCodeCamp/pull/67392
+67391,0s,0s,0,0s,0,3,0,3,6,2026-05-14T12:09:17Z,2026-05-14T13:09:39Z,1h 0m 22s,deepak-s-git,https://github.com/freeCodeCamp/freeCodeCamp/pull/67391
+67390,0s,0s,0,0s,0,1,0,1,2,2026-05-14T12:00:46Z,2026-05-14T13:08:58Z,1h 8m 12s,deepak-s-git,https://github.com/freeCodeCamp/freeCodeCamp/pull/67390
+67389,0s,0s,0,0s,0,0,0,0,0,2026-05-14T11:46:49Z,2026-05-14T12:24:11Z,37m 22s,deepak-s-git,https://github.com/freeCodeCamp/freeCodeCamp/pull/67389
+67388,0s,0s,0,0s,0,0,0,0,0,2026-05-14T11:21:34Z,2026-05-14T11:59:42Z,38m 8s,deepak-s-git,https://github.com/freeCodeCamp/freeCodeCamp/pull/67388
+67361,0s,0s,0,0s,0,0,0,0,0,2026-05-13T23:41:57Z,2026-05-14T10:01:39Z,10h 19m 42s,HritikKaushik,https://github.com/freeCodeCamp/freeCodeCamp/pull/67361
+67360,0s,0s,0,0s,0,0,0,0,0,2026-05-13T23:27:10Z,2026-05-14T12:39:29Z,13h 12m 19s,HritikKaushik,https://github.com/freeCodeCamp/freeCodeCamp/pull/67360
+67350,5h 10m,5h 10m,310,0s,0,1,0,1,2,2026-05-13T07:36:15Z,2026-05-13T18:42:26Z,11h 6m 11s,caio-bittencourt,https://github.com/freeCodeCamp/freeCodeCamp/pull/67350
+67330,0s,0s,0,0s,0,0,0,0,0,2026-05-11T21:01:39Z,2026-05-12T08:23:41Z,11h 22m 2s,MukundaKatta,https://github.com/freeCodeCamp/freeCodeCamp/pull/67330
+67328,3m 58s,3m 58s,3,3m 58s,3,0,0,0,0,2026-05-11T19:06:49Z,2026-05-11T19:46:01Z,39m 12s,PaperCodeGithub,https://github.com/freeCodeCamp/freeCodeCamp/pull/67328
+67325,1h 20m 43s,1h 20m 43s,80,1h 20m 43s,80,0,0,0,0,2026-05-11T15:46:42Z,2026-05-11T17:45:41Z,1h 58m 59s,atharv96k,https://github.com/freeCodeCamp/freeCodeCamp/pull/67325
+67295,0s,0s,0,0s,0,1,0,1,2,2026-05-09T05:35:22Z,2026-05-09T14:41:27Z,9h 6m 5s,deepak-s-git,https://github.com/freeCodeCamp/freeCodeCamp/pull/67295
+67195,6h,6h,360,1h 45m 43s,105,1,0,1,2,2026-05-01T15:56:27Z,2026-05-04T07:46:33Z,2d 15h 50m 6s,bdtripp,https://github.com/freeCodeCamp/freeCodeCamp/pull/67195
+67159,1h 58m 36s,1h 58m 36s,118,1h 58m 36s,118,0,0,0,0,2026-04-28T18:16:03Z,2026-04-28T20:14:45Z,1h 58m 42s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/67159
+67067,0s,0s,0,0s,0,0,0,0,0,2026-04-22T22:36:21Z,2026-04-23T08:26:07Z,9h 49m 46s,huyenltnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/67067
+67055,4d 8h,13 days [Based on 8h on a working day],6240,1 day [Based on 8h on a working day],480,1,1,1,3,2026-04-21T22:17:05Z,2026-05-11T07:24:33Z,19d 9h 7m 28s,AyushK5ingh,https://github.com/freeCodeCamp/freeCodeCamp/pull/67055
+67044,2d 23h,8 days and 7h [Based on 8h on a working day],4260,8 days and 7h [Based on 8h on a working day],4260,0,3,0,3,2026-04-21T14:15:00Z,2026-05-04T07:40:25Z,12d 17h 25m 25s,AyushK5ingh,https://github.com/freeCodeCamp/freeCodeCamp/pull/67044
+67019,6d 16h,20 days [Based on 8h on a working day],9600,14 days [Based on 8h on a working day],6720,5,0,5,10,2026-04-20T09:37:17Z,2026-05-19T09:59:51Z,29d 0h 22m 34s,Venkat-Entropik,https://github.com/freeCodeCamp/freeCodeCamp/pull/67019
+67011,1d 11h 40m,4 days and 3h 40m [Based on 8h on a working day],2140,4 days and 3h 40m [Based on 8h on a working day],2140,0,0,0,0,2026-04-19T21:16:42Z,2026-04-24T16:40:12Z,4d 19h 23m 30s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/67011
+66981,1d 13h 44m,4 days and 5h 44m [Based on 8h on a working day],2264,4 days and 5h 44m [Based on 8h on a working day],2264,0,0,0,0,2026-04-17T19:01:58Z,2026-04-24T16:44:22Z,6d 21h 42m 24s,ohchanwu,https://github.com/freeCodeCamp/freeCodeCamp/pull/66981
+66965,13h,1 day and 5h [Based on 8h on a working day],780,1 day and 5h [Based on 8h on a working day],780,0,0,0,0,2026-04-16T16:45:23Z,2026-04-20T08:05:55Z,3d 15h 20m 32s,AyushK5ingh,https://github.com/freeCodeCamp/freeCodeCamp/pull/66965
+66940,4d,12 days [Based on 8h on a working day],5760,9 days and 6h 46m [Based on 8h on a working day],4726,2,2,4,8,2026-04-27T07:36:04Z,2026-05-14T10:03:49Z,17d 2h 27m 45s,arunkumar0398,https://github.com/freeCodeCamp/freeCodeCamp/pull/66940
+66937,6h 8m,6h 8m,368,6h,360,2,0,1,3,2026-04-14T15:10:53Z,2026-04-15T13:08:36Z,21h 57m 43s,lakshay122007,https://github.com/freeCodeCamp/freeCodeCamp/pull/66937
+66934,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-04-14T12:28:56Z,2026-04-15T06:38:19Z,18h 9m 23s,Venkat-Entropik,https://github.com/freeCodeCamp/freeCodeCamp/pull/66934
+66890,6d 19h 40m,20 days and 3h 40m [Based on 8h on a working day],9820,10 days and 9m [Based on 8h on a working day],4809,1,0,4,5,2026-04-10T18:51:34Z,2026-05-11T14:18:17Z,30d 19h 26m 43s,Umesh-Tiruvalluru,https://github.com/freeCodeCamp/freeCodeCamp/pull/66890
+66867,25d 9h 6m,76 days and 1h 6m [Based on 8h on a working day],36546,11 days and 4h 46m [Based on 8h on a working day],5566,18,0,7,25,2026-04-08T22:22:35Z,2026-07-24T14:43:20Z,106d 16h 20m 45s,Webmekanic,https://github.com/freeCodeCamp/freeCodeCamp/pull/66867
+66526,3h 30m 3s,3h 30m 3s,210,3h 30m 3s,210,0,0,0,0,2026-03-17T13:02:00Z,2026-03-17T16:32:06Z,3h 30m 6s,KadamPrasad01,https://github.com/freeCodeCamp/freeCodeCamp/pull/66526
+66523,0s,0s,0,0s,0,0,0,0,0,2026-03-17T10:18:21Z,2026-03-17T10:53:30Z,35m 9s,huyenltnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/66523
+66516,0s,0s,0,0s,0,0,1,0,1,2026-03-17T01:51:31Z,2026-03-17T07:53:49Z,6h 2m 18s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/66516
+66510,17d 0h 26m,51 days and 26m [Based on 8h on a working day],24506,26 days and 2h 59m [Based on 8h on a working day],12659,7,2,6,15,2026-04-03T17:39:01Z,2026-06-15T17:26:43Z,72d 23h 47m 42s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66510
+66505,7h,7h,420,7h,420,0,0,0,0,2026-03-16T14:00:26Z,2026-03-17T09:59:07Z,19h 58m 41s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66505
+66504,7h,7h,420,7h,420,0,0,0,0,2026-03-16T14:00:23Z,2026-03-17T09:59:04Z,19h 58m 41s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66504
+66503,7h,7h,420,7h,420,0,0,0,0,2026-03-16T14:00:21Z,2026-03-17T09:59:01Z,19h 58m 40s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66503
+66499,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-03-16T09:30:52Z,2026-03-17T09:58:58Z,1d 0h 28m 6s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66499
+66498,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-03-16T09:30:50Z,2026-03-17T09:58:54Z,1d 0h 28m 4s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66498
+66497,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-03-16T09:30:48Z,2026-03-17T09:58:50Z,1d 0h 28m 2s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66497
+66496,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-03-16T09:30:46Z,2026-03-17T09:56:29Z,1d 0h 25m 43s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66496
+66495,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-03-16T09:30:43Z,2026-03-17T09:56:25Z,1d 0h 25m 42s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66495
+66488,0s,0s,0,0s,0,0,0,0,0,2026-03-15T19:33:14Z,2026-03-16T09:08:49Z,13h 35m 35s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66488
+66487,0s,0s,0,0s,0,0,0,0,0,2026-03-15T19:32:35Z,2026-03-16T09:11:04Z,13h 38m 29s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66487
+66486,0s,0s,0,0s,0,0,0,0,0,2026-03-15T19:31:35Z,2026-03-16T09:10:56Z,13h 39m 21s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66486
+66485,0s,0s,0,0s,0,0,0,0,0,2026-03-15T19:30:42Z,2026-03-16T09:10:52Z,13h 40m 10s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66485
+66484,0s,0s,0,0s,0,0,0,0,0,2026-03-15T19:10:25Z,2026-03-16T09:10:48Z,14h 0m 23s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66484
+66483,0s,0s,0,0s,0,0,0,0,0,2026-03-15T19:04:43Z,2026-03-16T09:08:35Z,14h 3m 52s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66483
+66482,0s,0s,0,0s,0,0,0,0,0,2026-03-15T18:55:02Z,2026-03-16T09:08:30Z,14h 13m 28s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66482
+66474,0s,0s,0,0s,0,0,0,0,0,2026-03-15T17:38:05Z,2026-03-15T18:13:16Z,35m 11s,p-rhodes,https://github.com/freeCodeCamp/freeCodeCamp/pull/66474
+66473,0s,0s,0,0s,0,0,0,0,0,2026-03-15T16:49:08Z,2026-03-15T17:29:18Z,40m 10s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66473
+66472,0s,0s,0,0s,0,0,0,0,0,2026-03-15T16:48:19Z,2026-03-15T17:30:41Z,42m 22s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66472
+66471,0s,0s,0,0s,0,0,0,0,0,2026-03-15T16:46:59Z,2026-03-15T17:21:26Z,34m 27s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66471
+66470,0s,0s,0,0s,0,0,0,0,0,2026-03-15T16:45:00Z,2026-03-15T17:30:37Z,45m 37s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66470
+66469,0s,0s,0,0s,0,0,0,0,0,2026-03-15T16:44:16Z,2026-03-15T17:19:24Z,35m 8s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66469
+66468,0s,0s,0,0s,0,0,0,0,0,2026-03-15T15:29:02Z,2026-03-15T16:02:36Z,33m 34s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66468
+66467,0s,0s,0,0s,0,0,0,0,0,2026-03-15T15:28:05Z,2026-03-15T16:02:28Z,34m 23s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66467
+66466,0s,0s,0,0s,0,0,0,0,0,2026-03-15T15:27:04Z,2026-03-15T16:02:25Z,35m 21s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66466
+66465,0s,0s,0,0s,0,0,0,0,0,2026-03-15T15:25:37Z,2026-03-15T16:02:03Z,36m 26s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66465
+66464,0s,0s,0,0s,0,0,0,0,0,2026-03-15T15:12:19Z,2026-03-15T15:44:33Z,32m 14s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66464
+66458,0s,0s,0,0s,0,0,0,1,1,2026-03-14T18:03:31Z,2026-03-15T19:04:52Z,1d 1h 1m 21s,Harshithk951,https://github.com/freeCodeCamp/freeCodeCamp/pull/66458
+66455,0s,0s,0,0s,0,0,0,0,0,2026-03-14T14:00:52Z,2026-03-14T18:27:44Z,4h 26m 52s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66455
+66454,0s,0s,0,0s,0,0,0,0,0,2026-03-14T13:59:29Z,2026-03-14T18:27:40Z,4h 28m 11s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66454
+66453,0s,0s,0,0s,0,0,0,0,0,2026-03-14T13:58:28Z,2026-03-14T18:27:25Z,4h 28m 57s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66453
+66452,0s,0s,0,0s,0,0,0,0,0,2026-03-14T13:56:11Z,2026-03-14T18:26:23Z,4h 30m 12s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66452
+66441,4h 22m,4h 22m,262,4h 22m,262,0,0,0,0,2026-03-13T22:19:49Z,2026-03-16T17:22:31Z,2d 19h 2m 42s,huyenltnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/66441
+66431,3h 8m 57s,3h 8m 57s,188,3h 8m 57s,188,0,0,0,0,2026-03-13T14:44:15Z,2026-03-13T18:34:39Z,3h 50m 24s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66431
+66430,3h 13m 16s,3h 13m 16s,193,3h 13m 16s,193,0,0,0,0,2026-03-13T14:41:53Z,2026-03-13T17:55:13Z,3h 13m 20s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66430
+66429,3h 15m 3s,3h 15m 3s,195,3h 15m 3s,195,0,0,0,0,2026-03-13T14:40:12Z,2026-03-13T17:55:18Z,3h 15m 6s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66429
+66425,4h 51m,4h 51m,291,4h 51m,291,0,0,0,0,2026-03-13T12:45:27Z,2026-03-13T17:52:03Z,5h 6m 36s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66425
+66420,0s,0s,0,0s,0,0,0,0,0,2026-03-13T12:04:30Z,2026-03-14T09:13:18Z,21h 8m 48s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66420
+66417,0s,0s,0,0s,0,0,0,0,0,2026-03-13T10:28:19Z,2026-03-13T12:12:21Z,1h 44m 2s,shOumik-saha,https://github.com/freeCodeCamp/freeCodeCamp/pull/66417
+66403,3h,3h,180,3h,180,0,0,0,0,2026-03-12T18:47:33Z,2026-03-14T10:29:12Z,1d 15h 41m 39s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66403
+66399,7h 16m,7h 16m,436,5m 23s,5,2,0,1,3,2026-03-12T17:01:50Z,2026-03-13T16:54:55Z,23h 53m 5s,octavio-js,https://github.com/freeCodeCamp/freeCodeCamp/pull/66399
+66398,13h,1 day and 5h [Based on 8h on a working day],780,1 day and 1h 36m [Based on 8h on a working day],576,0,3,1,4,2026-03-12T16:52:05Z,2026-03-14T11:08:46Z,1d 18h 16m 41s,octavio-js,https://github.com/freeCodeCamp/freeCodeCamp/pull/66398
+66391,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-03-12T12:00:12Z,2026-03-13T10:35:08Z,22h 34m 56s,Sembauke,https://github.com/freeCodeCamp/freeCodeCamp/pull/66391
+66380,0s,0s,0,0s,0,0,1,0,1,2026-03-13T23:16:56Z,2026-03-15T11:09:32Z,1d 11h 52m 36s,huyenltnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/66380
+66355,10h,1 day and 2h [Based on 8h on a working day],600,2h,120,1,1,2,4,2026-03-10T19:48:44Z,2026-03-12T18:37:35Z,1d 22h 48m 51s,ragini-pandey,https://github.com/freeCodeCamp/freeCodeCamp/pull/66355
+66351,12m 17s,12m 17s,12,12m 17s,12,0,0,0,0,2026-03-10T16:54:05Z,2026-03-10T17:33:55Z,39m 50s,Julien-Desbard,https://github.com/freeCodeCamp/freeCodeCamp/pull/66351
+66349,5h,5h,300,29m 41s,29,4,0,1,5,2026-03-10T16:35:14Z,2026-03-11T10:54:02Z,18h 18m 48s,farchettiensis,https://github.com/freeCodeCamp/freeCodeCamp/pull/66349
+66343,10h,1 day and 2h [Based on 8h on a working day],600,1 day and 2h [Based on 8h on a working day],600,1,0,0,1,2026-03-12T19:04:36Z,2026-03-16T20:40:03Z,4d 1h 35m 27s,jdwilkin4,https://github.com/freeCodeCamp/freeCodeCamp/pull/66343
+66327,10d 19h 48m,32 days and 3h 48m [Based on 8h on a working day],15588,32 days and 3h 48m [Based on 8h on a working day],15588,0,0,0,0,2026-03-10T10:37:53Z,2026-04-24T16:48:13Z,45d 6h 10m 20s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66327
+66282,0s,0s,0,0s,0,0,0,0,0,2026-03-07T10:43:11Z,2026-03-07T11:52:28Z,1h 9m 17s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66282
+66269,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,2,0,1,3,2026-03-06T11:07:17Z,2026-03-09T11:43:42Z,3d 0h 36m 25s,larymak,https://github.com/freeCodeCamp/freeCodeCamp/pull/66269
+66265,0s,0s,0,0s,0,0,0,0,0,2026-03-06T06:50:32Z,2026-03-06T08:54:02Z,2h 3m 30s,ekwak47,https://github.com/freeCodeCamp/freeCodeCamp/pull/66265
+66256,15h,1 day and 7h [Based on 8h on a working day],900,3h 29m 38s,209,2,1,1,4,2026-03-05T15:12:13Z,2026-03-17T09:11:36Z,11d 17h 59m 23s,zairahira,https://github.com/freeCodeCamp/freeCodeCamp/pull/66256
+66255,4h 38m,4h 38m,278,4h 35m,275,2,1,2,5,2026-03-05T13:57:45Z,2026-03-13T08:30:59Z,7d 18h 33m 14s,zairahira,https://github.com/freeCodeCamp/freeCodeCamp/pull/66255
+66250,10h 55m,1 day and 2h 55m [Based on 8h on a working day],655,0s,0,28,1,3,32,2026-03-05T09:13:40Z,2026-04-24T18:25:02Z,50d 9h 11m 22s,zairahira,https://github.com/freeCodeCamp/freeCodeCamp/pull/66250
+66247,4h 23m,4h 23m,263,4h 23m,263,0,0,0,0,2026-03-05T02:54:32Z,2026-03-05T18:23:22Z,15h 28m 50s,Venkat-Entropik,https://github.com/freeCodeCamp/freeCodeCamp/pull/66247
+66236,0s,0s,0,0s,0,0,0,0,0,2026-03-04T10:42:36Z,2026-03-04T11:19:21Z,36m 45s,Anshit-Sony,https://github.com/freeCodeCamp/freeCodeCamp/pull/66236
+66235,33d 16h,101 days [Based on 8h on a working day],48480,3 days [Based on 8h on a working day],1440,0,0,2,2,2026-03-04T12:49:55Z,2026-07-24T07:58:41Z,141d 19h 8m 46s,Fixito,https://github.com/freeCodeCamp/freeCodeCamp/pull/66235
+66232,0s,0s,0,0s,0,0,0,0,0,2026-03-04T08:04:26Z,2026-03-04T08:52:48Z,48m 22s,phoenix66666,https://github.com/freeCodeCamp/freeCodeCamp/pull/66232
+66216,5h 48m 8s,5h 48m 8s,348,5h 48m 8s,348,0,0,0,0,2026-03-03T15:33:45Z,2026-03-03T21:22:04Z,5h 48m 19s,abhishekDeshmukh74,https://github.com/freeCodeCamp/freeCodeCamp/pull/66216
+66197,3d 22h 16m,11 days and 6h 16m [Based on 8h on a working day],5656,1h 32m 5s,92,22,4,7,33,2026-03-02T16:44:35Z,2026-03-18T13:16:53Z,15d 20h 32m 18s,LGH831,https://github.com/freeCodeCamp/freeCodeCamp/pull/66197
+66191,9h 43m,1 day and 1h 43m [Based on 8h on a working day],583,5h,300,4,0,1,5,2026-03-02T17:41:23Z,2026-03-03T20:52:51Z,1d 3h 11m 28s,moT01,https://github.com/freeCodeCamp/freeCodeCamp/pull/66191
+66164,4h 1m,4h 1m,241,4h 1m,241,0,1,0,1,2026-03-01T19:39:51Z,2026-03-02T18:01:53Z,22h 22m 2s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/66164
+66161,16h,2 days [Based on 8h on a working day],960,3h 59m,239,2,0,2,4,2026-03-01T14:21:30Z,2026-03-05T10:38:06Z,3d 20h 16m 36s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66161
+66149,0s,0s,0,0s,0,0,0,0,0,2026-02-28T17:57:55Z,2026-02-28T19:14:40Z,1h 16m 45s,PrafulVRaj,https://github.com/freeCodeCamp/freeCodeCamp/pull/66149
+66147,0s,0s,0,0s,0,0,0,0,0,2026-02-28T17:00:01Z,2026-02-28T18:40:59Z,1h 40m 58s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66147
+66143,0s,0s,0,0s,0,0,0,0,0,2026-02-28T13:25:58Z,2026-02-28T15:51:45Z,2h 25m 47s,gangulysiddhartha22-cmyk,https://github.com/freeCodeCamp/freeCodeCamp/pull/66143
+66140,0s,0s,0,0s,0,1,0,1,2,2026-02-28T08:53:24Z,2026-02-28T18:43:53Z,9h 50m 29s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/66140
+66132,16d 16h,50 days [Based on 8h on a working day],24000,1 day and 7h 50m [Based on 8h on a working day],950,1,0,1,2,2026-02-27T22:01:07Z,2026-05-09T10:25:09Z,70d 12h 24m 2s,a2937,https://github.com/freeCodeCamp/freeCodeCamp/pull/66132
+66130,4h,4h,240,1m 32s,1,2,1,2,5,2026-02-27T18:24:00Z,2026-02-28T08:09:38Z,13h 45m 38s,imsanupm,https://github.com/freeCodeCamp/freeCodeCamp/pull/66130
+66126,0s,0s,0,0s,0,0,0,0,0,2026-02-27T09:21:27Z,2026-02-27T09:49:50Z,28m 23s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66126
+66124,6h 45m,6h 45m,405,0s,0,2,5,2,9,2026-02-27T07:54:49Z,2026-02-28T00:55:46Z,17h 0m 57s,ash-win19,https://github.com/freeCodeCamp/freeCodeCamp/pull/66124
+66122,4h 12m,4h 12m,252,4h 12m,252,0,0,0,0,2026-02-26T22:41:38Z,2026-02-27T18:12:31Z,19h 30m 53s,cesarinsalad,https://github.com/freeCodeCamp/freeCodeCamp/pull/66122
+66116,8m 7s,8m 7s,8,8m 7s,8,0,0,2,2,2026-02-26T19:00:33Z,2026-02-27T18:12:49Z,23h 12m 16s,iAakash1,https://github.com/freeCodeCamp/freeCodeCamp/pull/66116
+66113,7h,7h,420,7h,420,0,1,0,1,2026-02-26T15:01:31Z,2026-02-27T09:56:12Z,18h 54m 41s,lockinginfor2026-arch,https://github.com/freeCodeCamp/freeCodeCamp/pull/66113
+66112,1h 9m 44s,1h 9m 44s,69,1h 9m 44s,69,0,0,0,0,2026-02-26T14:09:01Z,2026-02-26T15:46:54Z,1h 37m 53s,thefool309,https://github.com/freeCodeCamp/freeCodeCamp/pull/66112
+66106,2h,2h,120,2h,120,0,0,0,0,2026-02-26T12:26:01Z,2026-02-27T14:24:44Z,1d 1h 58m 43s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66106
+66103,8h,1 day [Based on 8h on a working day],480,1 day [Based on 8h on a working day],480,0,0,0,0,2026-02-26T10:50:55Z,2026-02-28T08:23:12Z,1d 21h 32m 17s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66103
+66102,1d 8h,4 days [Based on 8h on a working day],1920,1 day [Based on 8h on a working day],480,0,0,1,1,2026-02-26T10:46:54Z,2026-03-05T09:50:48Z,6d 23h 3m 54s,nguyenduybao1,https://github.com/freeCodeCamp/freeCodeCamp/pull/66102
+66097,8h,1 day [Based on 8h on a working day],480,0s,0,2,0,2,4,2026-02-26T10:10:06Z,2026-02-27T09:22:45Z,23h 12m 39s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66097
+66082,0s,0s,0,0s,0,0,0,0,0,2026-02-25T22:10:32Z,2026-02-26T08:04:20Z,9h 53m 48s,Aryankpoor,https://github.com/freeCodeCamp/freeCodeCamp/pull/66082
+66080,1h,1h,60,1h,60,0,0,0,0,2026-02-25T21:57:49Z,2026-02-26T08:04:59Z,10h 7m 10s,jordantrent,https://github.com/freeCodeCamp/freeCodeCamp/pull/66080
+66070,42m 46s,42m 46s,42,34m 53s,34,2,0,1,3,2026-02-25T18:57:04Z,2026-02-25T20:07:24Z,1h 10m 20s,ragini-pandey,https://github.com/freeCodeCamp/freeCodeCamp/pull/66070
+66059,8h,1 day [Based on 8h on a working day],480,1h 54m 5s,114,2,0,1,3,2026-02-25T14:18:45Z,2026-02-26T08:20:31Z,18h 1m 46s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66059
+66047,1d 7h 38m,3 days and 7h 38m [Based on 8h on a working day],1898,0s,0,1,0,1,2,2026-02-25T11:31:24Z,2026-03-04T07:37:42Z,6d 20h 6m 18s,nguyenduybao1,https://github.com/freeCodeCamp/freeCodeCamp/pull/66047
+66039,0s,0s,0,0s,0,0,0,0,0,2026-02-25T01:04:18Z,2026-02-25T08:39:40Z,7h 35m 22s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/66039
+66038,0s,0s,0,0s,0,0,0,0,0,2026-02-24T22:01:24Z,2026-02-25T08:37:31Z,10h 36m 7s,farchettiensis,https://github.com/freeCodeCamp/freeCodeCamp/pull/66038
+66032,2m 30s,2m 30s,2,2m 30s,2,0,0,0,0,2026-02-24T17:44:23Z,2026-02-24T18:11:37Z,27m 14s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66032
+66030,5h,5h,300,5h,300,0,0,0,0,2026-02-24T17:04:12Z,2026-02-25T13:55:40Z,20h 51m 28s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66030
+66027,5h 40m 52s,5h 40m 52s,340,1h 13m 50s,73,1,1,1,3,2026-02-24T15:18:49Z,2026-02-24T21:40:43Z,6h 21m 54s,ragini-pandey,https://github.com/freeCodeCamp/freeCodeCamp/pull/66027
+66023,0s,0s,0,0s,0,0,0,0,0,2026-02-24T05:19:33Z,2026-02-24T08:38:00Z,3h 18m 27s,Supravisor,https://github.com/freeCodeCamp/freeCodeCamp/pull/66023
+66019,1d 16h,5 days [Based on 8h on a working day],2400,5 days [Based on 8h on a working day],2400,6,0,3,9,2026-02-24T05:22:34Z,2026-03-04T13:38:48Z,8d 8h 16m 14s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/66019
+66009,1d 16h,5 days [Based on 8h on a working day],2400,5 days [Based on 8h on a working day],2400,2,1,3,6,2026-02-24T05:22:29Z,2026-03-09T12:59:47Z,13d 7h 37m 18s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/66009
+66008,1d 15h 34m,4 days and 7h 34m [Based on 8h on a working day],2374,4 days [Based on 8h on a working day],1920,4,0,1,5,2026-02-24T05:22:25Z,2026-03-03T21:56:06Z,7d 16h 33m 41s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/66008
+66007,4d 13h 20m,13 days and 5h 20m [Based on 8h on a working day],6560,10 days [Based on 8h on a working day],4800,3,0,1,4,2026-02-23T08:15:18Z,2026-03-17T10:04:06Z,22d 1h 48m 48s,zairahira,https://github.com/freeCodeCamp/freeCodeCamp/pull/66007
+66004,0s,0s,0,0s,0,0,0,0,0,2026-02-22T19:42:26Z,2026-02-23T10:47:55Z,15h 5m 29s,MostafaElsehy,https://github.com/freeCodeCamp/freeCodeCamp/pull/66004
+66001,3d,9 days [Based on 8h on a working day],4320,8 days and 5h 57m [Based on 8h on a working day],4197,1,2,2,5,2026-02-22T09:37:12Z,2026-03-06T13:04:08Z,12d 3h 26m 56s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/66001
+65995,1d 16h,5 days [Based on 8h on a working day],2400,5 days [Based on 8h on a working day],2400,0,0,0,0,2026-02-22T10:50:31Z,2026-03-01T17:39:40Z,7d 6h 49m 9s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/65995
+65991,2d 8h,7 days [Based on 8h on a working day],3360,7 days [Based on 8h on a working day],3360,2,0,2,4,2026-02-22T10:50:31Z,2026-03-04T11:52:39Z,10d 1h 2m 8s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/65991
+65987,2d 8h,7 days [Based on 8h on a working day],3360,1 day [Based on 8h on a working day],480,3,0,4,7,2026-02-22T10:50:33Z,2026-03-04T21:46:42Z,10d 10h 56m 9s,Ksound22,https://github.com/freeCodeCamp/freeCodeCamp/pull/65987
+65986,2h 45m,2h 45m,165,2h 45m,165,0,0,0,0,2026-02-21T07:05:00Z,2026-02-23T16:45:55Z,2d 9h 40m 55s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/65986
+65980,23h,2 days and 7h [Based on 8h on a working day],1380,1h 48m 35s,108,25,1,15,41,2026-02-25T15:01:46Z,2026-03-24T14:07:59Z,26d 23h 6m 13s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65980
+65965,35m 8s,35m 8s,35,35m 8s,35,0,0,0,0,2026-02-19T16:32:48Z,2026-02-19T17:22:23Z,49m 35s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/65965
+65957,0s,0s,0,0s,0,0,0,0,0,2026-02-19T09:55:31Z,2026-02-19T15:12:52Z,5h 17m 21s,Dario-DC,https://github.com/freeCodeCamp/freeCodeCamp/pull/65957
+65949,7h 13m,7h 13m,433,7h 13m,433,1,0,0,1,2026-02-18T19:50:41Z,2026-02-20T17:54:36Z,1d 22h 3m 55s,Dario-DC,https://github.com/freeCodeCamp/freeCodeCamp/pull/65949
+65948,1h 1m 23s,1h 1m 23s,61,1h 1m 23s,61,0,3,0,3,2026-02-18T16:52:38Z,2026-02-18T18:21:59Z,1h 29m 21s,CaliYost,https://github.com/freeCodeCamp/freeCodeCamp/pull/65948
+65945,1h 37m 36s,1h 37m 36s,97,1h 37m 36s,97,0,0,0,0,2026-02-18T16:05:38Z,2026-02-18T18:11:32Z,2h 5m 54s,shubham-t-rai,https://github.com/freeCodeCamp/freeCodeCamp/pull/65945
+65927,4h,4h,240,2h 37m 56s,157,3,1,3,7,2026-02-17T18:58:35Z,2026-03-05T10:04:21Z,15d 15h 5m 46s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65927
+65924,1h 38m 15s,1h 38m 15s,98,1h 38m 15s,98,0,0,0,0,2026-02-17T15:32:56Z,2026-02-17T17:11:17Z,1h 38m 21s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65924
+65917,16m,16m,16,16m,16,0,2,0,2,2026-02-17T12:58:03Z,2026-02-17T14:44:08Z,1h 46m 5s,tarant28,https://github.com/freeCodeCamp/freeCodeCamp/pull/65917
+65914,0s,0s,0,0s,0,0,1,0,1,2026-02-17T10:17:02Z,2026-02-17T12:27:58Z,2h 10m 56s,AnanthuNarashimman,https://github.com/freeCodeCamp/freeCodeCamp/pull/65914
+65899,6h 15m,6h 15m,375,6h 7m,367,1,0,1,2,2026-02-16T19:15:17Z,2026-02-17T17:41:02Z,22h 25m 45s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65899
+65888,5d,15 days [Based on 8h on a working day],7200,15 days [Based on 8h on a working day],7200,0,0,0,0,2026-02-15T08:12:20Z,2026-03-07T10:19:08Z,20d 2h 6m 48s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/65888
+65885,8h,1 day [Based on 8h on a working day],480,0s,0,0,1,1,2,2026-02-14T17:55:52Z,2026-02-17T12:16:56Z,2d 18h 21m 4s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65885
+65884,0s,0s,0,0s,0,1,0,2,3,2026-02-14T17:39:16Z,2026-02-14T18:38:01Z,58m 45s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65884
+65879,20d,60 days [Based on 8h on a working day],28800,60 days [Based on 8h on a working day],28800,0,0,0,0,2026-02-14T03:44:52Z,2026-05-09T10:24:46Z,84d 6h 39m 54s,a2937,https://github.com/freeCodeCamp/freeCodeCamp/pull/65879
+65876,58m 3s,58m 3s,58,7m 9s,7,2,1,4,7,2026-02-13T17:53:43Z,2026-02-13T19:22:57Z,1h 29m 14s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65876
+65864,17h 2m,2 days and 1h 2m [Based on 8h on a working day],1022,2 days [Based on 8h on a working day],960,2,0,1,3,2026-02-17T22:12:14Z,2026-02-20T15:34:38Z,2d 17h 22m 24s,moT01,https://github.com/freeCodeCamp/freeCodeCamp/pull/65864
+65856,0s,0s,0,0s,0,0,0,0,0,2026-02-12T11:28:03Z,2026-02-12T13:15:25Z,1h 47m 22s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65856
+65853,0s,0s,0,0s,0,1,1,1,3,2026-02-12T10:05:22Z,2026-02-12T12:45:29Z,2h 40m 7s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/65853
+65841,3h,3h,180,3h,180,1,0,1,2,2026-02-11T19:01:21Z,2026-02-12T10:09:21Z,15h 8m,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65841
+65831,0s,0s,0,0s,0,0,1,0,1,2026-02-11T12:52:28Z,2026-02-11T13:38:55Z,46m 27s,Raam751,https://github.com/freeCodeCamp/freeCodeCamp/pull/65831
+65827,0s,0s,0,0s,0,0,0,0,0,2026-02-11T11:38:19Z,2026-02-11T13:36:12Z,1h 57m 53s,nguyenduybao1,https://github.com/freeCodeCamp/freeCodeCamp/pull/65827
+65801,9h 27m,1 day and 1h 27m [Based on 8h on a working day],567,0s,0,5,0,2,7,2026-02-10T05:29:06Z,2026-02-12T15:27:50Z,2d 9h 58m 44s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/65801
+65799,0s,0s,0,0s,0,0,0,0,0,2026-02-10T05:25:37Z,2026-02-10T09:03:30Z,3h 37m 53s,scissorsneedfoodtoo,https://github.com/freeCodeCamp/freeCodeCamp/pull/65799
+65778,1d,3 days [Based on 8h on a working day],1440,0s,0,2,0,2,4,2026-02-12T07:38:31Z,2026-03-13T07:59:54Z,29d 0h 21m 23s,zairahira,https://github.com/freeCodeCamp/freeCodeCamp/pull/65778
+65770,0s,0s,0,0s,0,1,0,1,2,2026-02-08T16:21:38Z,2026-02-09T13:24:04Z,21h 2m 26s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/65770
+65767,0s,0s,0,0s,0,0,0,0,0,2026-02-08T12:33:08Z,2026-02-09T10:46:42Z,22h 13m 34s,AdityaSingh-18,https://github.com/freeCodeCamp/freeCodeCamp/pull/65767
+65764,0s,0s,0,0s,0,0,0,0,0,2026-02-08T05:07:28Z,2026-02-08T08:28:49Z,3h 21m 21s,Sukruthr,https://github.com/freeCodeCamp/freeCodeCamp/pull/65764
+65752,20h 39m,2 days and 4h 39m [Based on 8h on a working day],1239,1 day and 2h [Based on 8h on a working day],600,2,3,2,7,2026-02-06T20:10:07Z,2026-02-13T16:03:33Z,6d 19h 53m 26s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65752
+65750,1d 3h,3 days and 3h [Based on 8h on a working day],1620,3h,180,0,2,1,3,2026-02-06T19:30:44Z,2026-02-12T11:28:30Z,5d 15h 57m 46s,SilentDeath53,https://github.com/freeCodeCamp/freeCodeCamp/pull/65750
+65748,1d 3h,3 days and 3h [Based on 8h on a working day],1620,3h,180,1,0,1,2,2026-02-06T19:21:37Z,2026-02-12T08:17:01Z,5d 12h 55m 24s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65748
+65739,23h,2 days and 7h [Based on 8h on a working day],1380,2 days and 2h 44m [Based on 8h on a working day],1124,4,0,4,8,2026-02-06T15:08:30Z,2026-02-11T09:30:41Z,4d 18h 22m 11s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65739
+65725,14h,1 day and 6h [Based on 8h on a working day],840,2h 8m 20s,128,7,1,5,13,2026-02-05T16:16:59Z,2026-02-09T09:16:01Z,3d 16h 59m 2s,bengguankoay,https://github.com/freeCodeCamp/freeCodeCamp/pull/65725
+65716,8h,1 day [Based on 8h on a working day],480,0s,0,0,0,1,1,2026-02-05T10:13:10Z,2026-02-06T09:07:10Z,22h 54m,kiruthikadev-r,https://github.com/freeCodeCamp/freeCodeCamp/pull/65716
+65708,2h 7m,2h 7m,127,2h 7m,127,0,0,0,0,2026-02-05T08:22:59Z,2026-02-06T19:04:27Z,1d 10h 41m 28s,Dario-DC,https://github.com/freeCodeCamp/freeCodeCamp/pull/65708
+65701,0s,0s,0,0s,0,0,0,0,0,2026-02-04T09:31:09Z,2026-02-04T09:59:19Z,28m 10s,ojeytonwilliams,https://github.com/freeCodeCamp/freeCodeCamp/pull/65701
+65700,8h,1 day [Based on 8h on a working day],480,0s,0,7,0,4,11,2026-02-04T09:29:29Z,2026-02-06T11:04:00Z,2d 1h 34m 31s,Dario-DC,https://github.com/freeCodeCamp/freeCodeCamp/pull/65700
+65694,0s,0s,0,0s,0,0,0,0,0,2026-02-04T08:21:27Z,2026-02-04T08:49:37Z,28m 10s,ahmaxed,https://github.com/freeCodeCamp/freeCodeCamp/pull/65694
+65686,3h,3h,180,3h,180,0,0,0,0,2026-02-03T19:20:24Z,2026-02-04T08:38:42Z,13h 18m 18s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65686
+65666,2d 13h,7 days and 5h [Based on 8h on a working day],3660,46m 12s,46,6,0,3,9,2026-02-02T17:25:54Z,2026-02-12T11:06:52Z,9d 17h 40m 58s,Jeevankumar-s,https://github.com/freeCodeCamp/freeCodeCamp/pull/65666
+65649,0s,0s,0,0s,0,0,0,1,1,2026-02-02T09:37:19Z,2026-02-02T12:35:36Z,2h 58m 17s,Shashikant2005,https://github.com/freeCodeCamp/freeCodeCamp/pull/65649
+65642,0s,0s,0,0s,0,0,0,0,0,2026-02-01T17:49:31Z,2026-02-01T18:32:48Z,43m 17s,ragini-pandey,https://github.com/freeCodeCamp/freeCodeCamp/pull/65642

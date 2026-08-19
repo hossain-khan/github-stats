@@ -49,7 +49,12 @@ jobs:
            gradle-version: '8.12'
 
       - name: Build with Gradle
-        run: gradle clean dokkaGeneratePublicationHtml
+        run: ./gradlew clean dokkaGeneratePublicationHtml
+
+      - name: Copy demo reports to Pages output
+        run: |
+          mkdir -p ./build/dokka/html/demo-report
+          cp -R sample-resources/demo-output/* ./build/dokka/html/demo-report/
         
       - name: Setup Pages
         uses: actions/configure-pages@v5

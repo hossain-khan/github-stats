@@ -1,0 +1,11 @@
+Reviewer,PR Number,Review time (mins),Initial Response time (mins),Code Review Comments,PR Issue Comments,PR Review Comments,Total Comments,PR URL
+moT01,PR 67993,180,180,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/67993
+moT01,PR 67969,536,536,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/67969
+moT01,PR 66296,633,633,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/66296
+moT01,PR 66295,588,588,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/66295
+moT01,PR 66294,587,587,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/66294
+moT01,PR 66293,585,585,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/66293
+moT01,PR 66292,584,584,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/66292
+moT01,PR 66291,583,583,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/66291
+moT01,PR 66290,580,580,0,1,0,1,https://github.com/freeCodeCamp/freeCodeCamp/pull/66290
+moT01,PR 65872,2820,2820,0,0,0,0,https://github.com/freeCodeCamp/freeCodeCamp/pull/65872

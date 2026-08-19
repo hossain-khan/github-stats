@@ -1,0 +1,9 @@
+PR#,Review Time,Review Time (working days),Review Time (mins),Initial Response Time (working days),Initial Response Time (mins),Code Review Comments,PR Issue Comments,PR Review Comments,Total Comments,PR Ready On,PR Merged On,Ready->Merge,PR Author,PR URL
+69460,8h 13m,1 day and 13m [Based on 8h on a working day],493,1 day and 13m [Based on 8h on a working day],493,0,1,0,1,2026-08-10T11:33:37Z,2026-08-14T17:22:09Z,4d 5h 48m 32s,ahmaxed,https://github.com/freeCodeCamp/freeCodeCamp/pull/69460
+69455,1d 4h 24m,3 days and 4h 24m [Based on 8h on a working day],1704,3 days and 4h 24m [Based on 8h on a working day],1704,0,0,0,0,2026-08-10T11:36:44Z,2026-08-14T17:25:00Z,4d 5h 48m 16s,ahmaxed,https://github.com/freeCodeCamp/freeCodeCamp/pull/69455
+69077,1h 25m,1h 25m,85,1h 25m,85,0,0,0,0,2026-07-27T11:38:29Z,2026-07-27T14:26:23Z,2h 47m 54s,ahmaxed,https://github.com/freeCodeCamp/freeCodeCamp/pull/69077
+68916,2h,2h,120,2h,120,0,0,0,0,2026-07-17T19:02:39Z,2026-07-20T12:53:17Z,2d 17h 50m 38s,ahmaxed,https://github.com/freeCodeCamp/freeCodeCamp/pull/68916
+68881,2m 15s,2m 15s,2,2m 15s,2,0,0,0,0,2026-07-16T19:48:02Z,2026-07-16T21:07:55Z,1h 19m 53s,ahmaxed,https://github.com/freeCodeCamp/freeCodeCamp/pull/68881
+68001,0s,0s,0,0s,0,0,0,0,0,2026-06-16T21:10:32Z,2026-06-17T01:14:52Z,4h 4m 20s,huyenltnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/68001
+66976,8m 9s,8m 9s,8,8m 9s,8,0,0,0,0,2026-04-17T13:01:17Z,2026-04-17T13:21:45Z,20m 28s,huyenltnguyen,https://github.com/freeCodeCamp/freeCodeCamp/pull/66976
+66110,0s,0s,0,0s,0,0,0,0,0,2026-02-26T13:13:45Z,2026-02-26T13:42:47Z,29m 2s,ojeytonwilliams,https://github.com/freeCodeCamp/freeCodeCamp/pull/66110

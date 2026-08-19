@@ -1,0 +1,1977 @@
+        <!DOCTYPE html>
+        <html lang="en" data-bs-theme="light">
+        <head>
+                    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="light dark">
+        <title>freeCodeCamp Analytics Dashboard</title>
+        
+        <!-- Google Fonts: Inter -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+        
+        <!-- FOUC Prevention Script -->
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const activeTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', activeTheme);
+            })();
+        </script>
+        
+        <style>
+            :root {
+    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --card-radius: 14px;
+    --btn-radius: 8px;
+    --accent-primary: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-rose: #f43f5e;
+    --accent-cyan: #06b6d4;
+}
+
+[data-bs-theme="light"] {
+    --body-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --text-heading: #0f172a;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --table-hover-bg: #f1f5f9;
+    --header-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(226, 232, 240, 0.8);
+    --kpi-bg: #f8fafc;
+}
+
+[data-bs-theme="dark"] {
+    --body-bg: #0b0f19;
+    --card-bg: #131b2e;
+    --card-border: #1e293b;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    --text-heading: #f8fafc;
+    --text-body: #cbd5e1;
+    --text-muted: #94a3b8;
+    --table-hover-bg: #1a233a;
+    --header-bg: rgba(19, 27, 46, 0.85);
+    --glass-border: rgba(30, 41, 59, 0.8);
+    --kpi-bg: #0f172a;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    color: var(--text-body);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Glassmorphism Header */
+.app-navbar {
+    background-color: var(--header-bg) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-heading) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-badge {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Cards & Surfaces */
+.dash-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dash-card:hover {
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-header-clean {
+    background: transparent;
+    border-bottom: 1px solid var(--card-border);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title-clean {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* KPI Metric Cards */
+.kpi-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.kpi-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.kpi-icon-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.kpi-icon-purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+.kpi-icon-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.kpi-icon-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.kpi-icon-rose { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+
+.kpi-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.kpi-label {
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+/* User Profile Badge */
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--card-border);
+    object-fit: cover;
+}
+
+.user-avatar-lg {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-primary);
+    object-fit: cover;
+}
+
+/* Charts */
+.chart-container-fluid {
+    position: relative;
+    min-height: 320px;
+    width: 100%;
+}
+
+/* Modern Tables */
+.table-modern {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-body);
+}
+
+.table-modern th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background-color: var(--kpi-bg);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0.85rem 1.25rem;
+    white-space: nowrap;
+}
+
+.table-modern td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 0.9rem;
+}
+
+.table-modern tr:hover td {
+    background-color: var(--table-hover-bg);
+}
+
+.table-modern tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges & Pills */
+.badge-subtle {
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+}
+
+.badge-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.badge-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.badge-purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+.badge-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+/* Search input */
+.search-input-group {
+    position: relative;
+    max-width: 320px;
+}
+
+.search-input-group .bi-search {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.search-input-group input {
+    padding-left: 36px;
+    border-radius: var(--btn-radius);
+    background-color: var(--kpi-bg);
+    border-color: var(--card-border);
+    color: var(--text-body);
+}
+
+.search-input-group input:focus {
+    background-color: var(--card-bg);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    color: var(--text-heading);
+}
+
+/* Theme Toggle Button */
+.btn-theme-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-body);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-theme-toggle:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+/* Nav Pills / Tabs */
+.nav-pills-modern .nav-link {
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.nav-pills-modern .nav-link:hover {
+    color: var(--text-heading);
+    background-color: var(--table-hover-bg);
+}
+
+.nav-pills-modern .nav-link.active {
+    background-color: var(--accent-primary);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Footer */
+.dash-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--card-border);
+    padding: 1.5rem 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+        </style>
+        </head>
+        <body>
+            <!-- Modern Top Navigation Bar -->
+            <nav class="navbar navbar-expand-lg app-navbar">
+                <div class="container-fluid px-lg-4">
+                    <a class="navbar-brand" href="#overview">
+                        <i class="bi bi-bar-chart-line-fill text-primary"></i>
+                        <span>GitHub Stats</span>
+                        <span class="brand-badge">freeCodeCamp</span>
+                    </a>
+                    
+                    <div class="d-flex align-items-center gap-3 ms-auto">
+                        <div class="d-none d-md-flex align-items-center text-muted small me-2">
+                            <i class="bi bi-calendar3 me-2"></i> 2026-02-01 to 2026-08-31
+                        </div>
+                        
+                        <ul class="nav nav-pills nav-pills-modern d-none d-lg-flex me-2">
+                            <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#aggregated">Repository</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#authors">Authors</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#reviewers">Reviewers</a></li>
+                        </ul>
+
+                        <!-- Light/Dark Mode Switcher -->
+                        <button class="btn-theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                            <i class="bi bi-moon-stars-fill text-primary" id="themeToggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="container-fluid px-lg-4 py-4">
+                <!-- Overview Header / Executive Hero -->
+                <section id="overview" class="mb-4">
+                    <div class="dash-card p-4">
+                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <span class="badge badge-subtle badge-blue"><i class="bi bi-git me-1"></i>Repository Analytics</span>
+                                    <span class="badge badge-subtle badge-purple"><i class="bi bi-calendar-range me-1"></i>2026-02-01 to 2026-08-31</span>
+                                </div>
+                                <h1 class="h3 fw-bold text-heading mb-1">freeCodeCamp Analytics Dashboard</h1>
+                                <p class="text-muted mb-0">Comprehensive pull request velocity, code review participation, and collaboration insights.</p>
+                            </div>
+                        </div>
+
+                                <div class="row g-3">
+            <div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-git"></i>
+        </div>
+        <div>
+            <div class="kpi-label">Total PRs Analyzed</div>
+            <div class="kpi-value">268</div>
+            
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div>
+            <div class="kpi-label">Contributors Tracked</div>
+            <div class="kpi-value">8</div>
+            
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-emerald">
+            <i class="bi bi-chat-left-code-fill"></i>
+        </div>
+        <div>
+            <div class="kpi-label">Code Review Comments</div>
+            <div class="kpi-value">215</div>
+            
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-check2-square"></i>
+        </div>
+        <div>
+            <div class="kpi-label">Review Submissions</div>
+            <div class="kpi-value">71</div>
+            
+        </div>
+    </div>
+</div>
+        </div>
+                    </div>
+                </section>
+
+                        <section id="aggregated" class="mb-4">
+            <div class="dash-card">
+                <div class="card-header-clean">
+                    <h2 class="card-title-clean">
+                        <i class="bi bi-graph-up-arrow text-primary"></i>
+                        <span>Aggregated Contributor Activity</span>
+                    </h2>
+                </div>
+                <div class="p-4">
+                                <div class="chart-container-fluid">
+                <canvas id="aggregatedStatsChart"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('aggregatedStatsChart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["DanielRosa74","majestic-owl448","QuincyLarson","ShaunSHamilton","moT01","huyenltnguyen","ojeytonwilliams","raisedadead"],
+                        datasets: [{
+    label: "PRs Created",
+    data: [16,55,1,15,22,42,73,44],
+    backgroundColor: "#3b82f6",
+    borderColor: "#3b82f6",
+    borderWidth: 1,
+    borderRadius: 6
+},{
+    label: "Code Review Comments",
+    data: [3,27,0,21,137,15,8,4],
+    backgroundColor: "#8b5cf6",
+    borderColor: "#8b5cf6",
+    borderWidth: 1,
+    borderRadius: 6
+},{
+    label: "Issue Comments",
+    data: [2,12,1,4,4,14,21,5],
+    backgroundColor: "#f59e0b",
+    borderColor: "#f59e0b",
+    borderWidth: 1,
+    borderRadius: 6
+},{
+    label: "Review Submissions",
+    data: [4,18,0,7,26,3,10,3],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PR Creation and Review Activity by Contributor',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                </div>
+            </div>
+        </section>
+        <section id="authors" class="mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h4 fw-bold text-heading mb-0">
+                    <i class="bi bi-person-workspace text-primary me-2"></i>PR Author Analytics
+                </h2>
+            </div>
+            <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: DanielRosa74</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/DanielRosa74.png?size=96" alt="DanielRosa74" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">DanielRosa74</h4>
+                                <span class="badge badge-subtle badge-blue">16 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">8 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart0"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart0').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["huyenltnguyen","majestic-owl448","Sembauke","anastasiiauk","ojeytonwilliams","nieldakarla","ahmaxed","jdwilkin4"],
+            datasets: [{
+                data: [7,2,2,2,2,2,1,1],
+                backgroundColor: ["#3b82f6","#8b5cf6","#10b981","#f59e0b","#f43f5e","#06b6d4","#6366f1","#ec4899"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for DanielRosa74',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-DanielRosa74/REPORT_-_pr-author-DanielRosa74-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: majestic-owl448</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/majestic-owl448.png?size=96" alt="majestic-owl448" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">majestic-owl448</h4>
+                                <span class="badge badge-subtle badge-blue">55 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">12 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart1"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart1').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["moT01","Sembauke","raisedadead","Dario-DC","ojeytonwilliams","zairahira","jdwilkin4","huyenltnguyen","Ksound22","a2937","ShaunSHamilton","Jeevankumar-s"],
+            datasets: [{
+                data: [10,9,8,8,7,6,4,4,2,2,1,1],
+                backgroundColor: ["#3b82f6","#8b5cf6","#10b981","#f59e0b","#f43f5e","#06b6d4","#6366f1","#ec4899","#14b8a6","#64748b","#3b82f6","#8b5cf6"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for majestic-owl448',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-majestic-owl448/REPORT_-_pr-author-majestic-owl448-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: QuincyLarson</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/QuincyLarson.png?size=96" alt="QuincyLarson" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">QuincyLarson</h4>
+                                <span class="badge badge-subtle badge-blue">1 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">2 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart2"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart2').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["raisedadead","moT01"],
+            datasets: [{
+                data: [1,1],
+                backgroundColor: ["#3b82f6","#8b5cf6"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for QuincyLarson',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-QuincyLarson/REPORT_-_pr-author-QuincyLarson-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: ShaunSHamilton</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/ShaunSHamilton.png?size=96" alt="ShaunSHamilton" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">ShaunSHamilton</h4>
+                                <span class="badge badge-subtle badge-blue">15 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">6 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart3"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart3').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["huyenltnguyen","raisedadead","ojeytonwilliams","Sembauke","Ksound22","majestic-owl448"],
+            datasets: [{
+                data: [9,4,3,2,2,1],
+                backgroundColor: ["#3b82f6","#8b5cf6","#10b981","#f59e0b","#f43f5e","#06b6d4"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for ShaunSHamilton',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-ShaunSHamilton/REPORT_-_pr-author-ShaunSHamilton-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: moT01</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/moT01.png?size=96" alt="moT01" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">moT01</h4>
+                                <span class="badge badge-subtle badge-blue">22 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">6 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart4"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart4').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["ojeytonwilliams","huyenltnguyen","raisedadead","majestic-owl448","Sembauke","ShaunSHamilton"],
+            datasets: [{
+                data: [10,5,4,4,2,1],
+                backgroundColor: ["#3b82f6","#8b5cf6","#10b981","#f59e0b","#f43f5e","#06b6d4"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for moT01',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-moT01/REPORT_-_pr-author-moT01-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: huyenltnguyen</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/huyenltnguyen.png?size=96" alt="huyenltnguyen" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">huyenltnguyen</h4>
+                                <span class="badge badge-subtle badge-blue">42 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">10 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart5"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart5').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["raisedadead","Sembauke","majestic-owl448","ojeytonwilliams","DanielRosa74","Nirajn2311","miyaliu666","nieldakarla","a2937","jdwilkin4"],
+            datasets: [{
+                data: [18,6,5,4,2,1,1,1,1,1],
+                backgroundColor: ["#3b82f6","#8b5cf6","#10b981","#f59e0b","#f43f5e","#06b6d4","#6366f1","#ec4899","#14b8a6","#64748b"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for huyenltnguyen',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-huyenltnguyen/REPORT_-_pr-author-huyenltnguyen-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: ojeytonwilliams</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/ojeytonwilliams.png?size=96" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">ojeytonwilliams</h4>
+                                <span class="badge badge-subtle badge-blue">73 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">12 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart6"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart6').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["raisedadead","Sembauke","huyenltnguyen","ShaunSHamilton","moT01","naomi-freecodecamp","Ksound22","ahmaxed","jdwilkin4","DanielRosa74","Dario-DC","majestic-owl448"],
+            datasets: [{
+                data: [29,15,9,8,4,2,2,1,1,1,1,1],
+                backgroundColor: ["#3b82f6","#8b5cf6","#10b981","#f59e0b","#f43f5e","#06b6d4","#6366f1","#ec4899","#14b8a6","#64748b","#3b82f6","#8b5cf6"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for ojeytonwilliams',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-ojeytonwilliams/REPORT_-_pr-author-ojeytonwilliams-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-person-fill text-primary me-2"></i>Author: raisedadead</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/raisedadead.png?size=96" alt="raisedadead" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">raisedadead</h4>
+                                <span class="badge badge-subtle badge-blue">44 PRs Created</span>
+                                <span class="badge badge-subtle badge-purple">7 Reviewers</span>
+                            </div>
+                        </div>
+                        <div class="chart-container-fluid" style="min-height: 280px;">
+    <canvas id="authorPieChart7"></canvas>
+</div>
+<script>
+(function() {
+    const ctx = document.getElementById('authorPieChart7').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["huyenltnguyen","ojeytonwilliams","moT01","Sembauke","Nirajn2311","ShaunSHamilton","ahmaxed"],
+            datasets: [{
+                data: [6,6,2,1,1,1,1],
+                backgroundColor: ["#3b82f6","#8b5cf6","#10b981","#f59e0b","#f43f5e","#06b6d4","#6366f1"],
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Reviewers for raisedadead',
+                    font: { size: 14, weight: '600' },
+                    padding: { bottom: 16 }
+                },
+                legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 12
+                    }
+                },
+                tooltip: {
+                    padding: 12,
+                    cornerRadius: 8
+                }
+            },
+            cutout: '65%'
+        }
+    });
+    window.activeCharts.push(chart);
+})();
+</script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-raisedadead/REPORT_-_pr-author-raisedadead-pie-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Author Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </section>
+        <section id="reviewers" class="mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h2 class="h4 fw-bold text-heading mb-0">
+                    <i class="bi bi-search-heart text-purple me-2"></i>PR Reviewer Analytics
+                </h2>
+            </div>
+            <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-search-heart-fill text-purple me-2"></i>Reviewer: DanielRosa74</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/DanielRosa74.png?size=96" alt="DanielRosa74" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">DanielRosa74</h4>
+                                <span class="badge badge-subtle badge-purple">8 PRs Reviewed</span>
+                                <span class="badge badge-subtle badge-emerald">3 Authors Helped</span>
+                            </div>
+                        </div>
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorChart0"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorChart0').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["ahmaxed","huyenltnguyen","ojeytonwilliams"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [5,2,1],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-DanielRosa74/REPORT_-_all-prs-reviewed-by-DanielRosa74-bar-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Reviewer Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-search-heart-fill text-purple me-2"></i>Reviewer: majestic-owl448</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/majestic-owl448.png?size=96" alt="majestic-owl448" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">majestic-owl448</h4>
+                                <span class="badge badge-subtle badge-purple">612 PRs Reviewed</span>
+                                <span class="badge badge-subtle badge-emerald">309 Authors Helped</span>
+                            </div>
+                        </div>
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorChart1"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorChart1').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Aman739-code","Abhi-kumar23","Supravisor","Kunal241207","Dazzanova","dev-sriramp","caio-bittencourt","AnandKumar-001","laypatel13","BaconMan1168","subodh-77","wunianze666-netizen","Ksound22","jacobptnguyen","d4-dhiraj","Dario-DC","MahyarCode","fuentez145","arjun2075","waleed-akram","SachaKefif","saikiranrayabarapu","Naman-bh","KesleyDavid","gideonadeti","SudhamshuH","jeffrinkdev","typovrak","MkhalFadel","priyansh3010","Webmekanic","Sembauke","Priyesh1311421","ShaunSHamilton","Rikka-8964","SnehaAN144","mannoz369","nguyenduybao1","masroorhosseini","4ktLuffy","Siripb2","abdulwaarith0","lyeba19","siuu07","NitheshNaik","SujayBWJ","enamulhasan01","mohamedmastouri-hue","MeiSiristhebest","d3vpool","anjupathak03","benpaul2002","TheRodzz","vinniit-23","Nishant9764","Jamwilltim","prateek-dagar","rohit-h11","Er-SarthakBansal","bhavana-mb","eng-abdelrahman-sharaf","priyaaa405","ladanhamoud","Vendetaaaa","dishamittalnitb","TheSeydiCharyyev","Anavyarai","Aimwee","eva-lng","TEE0207","owevertonguedes","jaykumar14921","Hashim1999164","laxitajain","Vam-si-krish","Ayush3396","Vanshdeep001","TexasAppz","Bhavani2016","ATURKIEH","alihamzaio","RAJ-A58","Benlite777","deepak-s-git","Pranayd555","imsomilg","TheDeveloperDoctor","ritishDas","Technoritesh152005","huyenltnguyen","bdtripp","lennin331","farchettiensis","Vishhh03","adranjan4","kaushik552k","spacesyntaxwho","shubhthakkar06","Atishay17","AdityaSingh-18","ayush-04jha","AK47Kavan","enlorik","xusnitdinov","neetcodeprogress-lang","duna-akin","Gaurav-7065","YYuan02","SanthoshBalagur","TechGenius-Karan","superezzdev","yashvi-jain","ayussh-2","Anwiii","coyaSONG","timovibes","anoopraj-dev","yehiahesham2938","kanan010506","vijaykiran06","RakshitKaintura","abyss-ux","Jatinmor89","chauhan-varun","arunkumar0398","Sushanth012","kamran1711","Jatin-saini-developer","pmanthan009","harshlm15","shivangiii18","runxii","snehaaa-16","Akanshagore","ronits2407","bibashmanjusubedi","ruhaanpathan","DanielRosa74","AlyssaSuri","itsabhay1","ankush2311025","Ayush28051","clarencepenz","lahoylaa","Ayan-Bain","virendra9768","ManyaB2005","gideon-tech","suchismitab0511","rajv2er","Joharika11","EduardF1","timothysmithdev","TheForgottenJudge","ashwiniwakchaure7777","Chamith-Dilshan","yuting1008","k-anushka14","yash5749","thePranav-kpk","lMedeirosl","Kapilkrishnayadav","yzakmuz","menika01012006","Ayush2029","Siddhant21007","xNickRivera","Yaswanthram-396","vasslucas","Udhaya-kumar-N","Sudarshan180392","mika943","Psst02","naresh-coder123","aksantimyakaroland","Budatichethana","ayyagarisujanreddy123","royalknight71","NidhiPednekar","PricedTuna","Eghani","AlistairHeus","omarhossdev","TScom-dew","rixyll","RandomPerson208","Shush-6","asura-king-sys","karthi1048","AsthaChoudhury","jayasimha-reddy-code","Soubhagya003","Lonny154","Atulya-Juyal","Pranav-0018","umang-jpg","itsmdshahin","vrbaghel","amaad31","ferdefalco","Dhananjay0376","Javedshah11","tejasz29","gustavopurkoot","DogAwesome21","Mayank777-hub","oLucasJard","divyaanshupal","bikeshgyawali","Vanishagupta18","Adarsh-N-Mogaveera","mariamanbar","moT01","dragon-slayer27","Anurag-Mishra2006","Mudassir55","lissy93","flopez0294","omarkurtovic","ezforhamza","kmohan12-code","mahimathacker","kavyabhand","debojeetmitra","Medo-ID","Kd1880","jimjoice2804","andiedoescode","nico457","rustom-yadav","Ahmed-Aashour","Venkat-Entropik","TJForrest","BilgeGates","meaqua9420","Sidak-321","Akshatshukla-25","Laurence165","Aman-Hegde","Mitraaxx","anup48045","Yachna-123","santiyorio","Rehan-M-395","Nithin0620","GandotraDiya","adul11s","HAWKZ4","divy-dawda","Barreratomas","Baisayan","imayuss","deb2000-sudo","shreesakhi-ch","bindpratapsingh","jdwilkin4","priyanshupundir","narasimhan-lakshmi","HarshMangaraj","vinodM09","HritikKaushik","MukundaKatta","PaperCodeGithub","atharv96k","Jeevankumar-s","AyushK5ingh","ohchanwu","lakshay122007","Umesh-Tiruvalluru","KadamPrasad01","p-rhodes","Harshithk951","shOumik-saha","octavio-js","ragini-pandey","Julien-Desbard","larymak","ekwak47","zairahira","Anshit-Sony","Fixito","phoenix66666","abhishekDeshmukh74","LGH831","PrafulVRaj","gangulysiddhartha22-cmyk","a2937","imsanupm","ash-win19","cesarinsalad","iAakash1","lockinginfor2026-arch","thefool309","Aryankpoor","jordantrent","MostafaElsehy","CaliYost","shubham-t-rai","tarant28","AnanthuNarashimman","Raam751","scissorsneedfoodtoo","Sukruthr","SilentDeath53","bengguankoay","kiruthikadev-r","ojeytonwilliams","ahmaxed","Shashikant2005"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [2,1,16,2,5,1,4,1,9,2,1,1,9,1,1,5,1,1,1,2,1,2,1,1,1,3,3,3,3,1,3,40,1,1,1,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,5,1,1,1,1,2,1,1,2,3,2,2,1,3,1,1,1,1,1,1,1,2,1,7,2,42,1,2,1,5,12,2,3,5,1,1,1,1,1,51,1,1,1,1,2,1,1,3,6,2,1,2,1,1,1,1,1,1,3,3,1,1,1,1,6,1,1,1,1,3,1,1,1,1,1,1,1,2,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,3,3,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,5,1,2,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,3,1,1,2,1,1,1,16,3,1,1,1,1,1,1,1,2,4,1,1,1,5,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-majestic-owl448/REPORT_-_all-prs-reviewed-by-majestic-owl448-bar-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Reviewer Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-search-heart-fill text-purple me-2"></i>Reviewer: ShaunSHamilton</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/ShaunSHamilton.png?size=96" alt="ShaunSHamilton" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">ShaunSHamilton</h4>
+                                <span class="badge badge-subtle badge-purple">29 PRs Reviewed</span>
+                                <span class="badge badge-subtle badge-emerald">12 Authors Helped</span>
+                            </div>
+                        </div>
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorChart2"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorChart2').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["majestic-owl448","Sembauke","ojeytonwilliams","Ksound22","raisedadead","ahmaxed","moT01","Tidjani1Bachir","neerajgouda06","Harshithk951","Jeevankumar-s","AdityaSingh-18"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [1,9,8,3,1,1,1,1,1,1,1,1],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-ShaunSHamilton/REPORT_-_all-prs-reviewed-by-ShaunSHamilton-bar-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Reviewer Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-search-heart-fill text-purple me-2"></i>Reviewer: moT01</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/moT01.png?size=96" alt="moT01" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">moT01</h4>
+                                <span class="badge badge-subtle badge-purple">63 PRs Reviewed</span>
+                                <span class="badge badge-subtle badge-emerald">13 Authors Helped</span>
+                            </div>
+                        </div>
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorChart3"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorChart3').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["raisedadead","ojeytonwilliams","homayounmmdy","Sembauke","imsomilg","Dennis01601","majestic-owl448","neerajgouda06","QuincyLarson","jdwilkin4","AdityaSingh-18","Dario-DC","Jeevankumar-s"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [2,4,1,35,1,1,10,1,1,2,2,2,1],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-moT01/REPORT_-_all-prs-reviewed-by-moT01-bar-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Reviewer Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-search-heart-fill text-purple me-2"></i>Reviewer: huyenltnguyen</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/huyenltnguyen.png?size=96" alt="huyenltnguyen" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">huyenltnguyen</h4>
+                                <span class="badge badge-subtle badge-purple">213 PRs Reviewed</span>
+                                <span class="badge badge-subtle badge-emerald">114 Authors Helped</span>
+                            </div>
+                        </div>
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorChart4"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorChart4').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["muhammadali-se","Dario-DC","noqokhxnh","lberge17","Pastalikek65","Dazzanova","syedsohailhussain1","Anwiii","Kunal241207","abdulwaarith0","Lavanya-N24","AzazelSensei","ojeytonwilliams","Sembauke","Supravisor","sk-nayaz","caige13","wehamed","soumyakumari0205-svg","minutechreview","raitaskeen","Rashid0312","ShaunSHamilton","manjushree66","duna-akin","nmleuz","aryanraj7791","moT01","raahu1l","Funmax365","developmentwithparth1311","nahidh-os","akashwi","vinniit-23","syeda-hira-batool","ashis-baral","anupamme","khushi-gupta-dev","santhiprakash","majestic-owl448","DanielRosa74","Priyadharshinidhandapani","byte-Raccoon","typovrak","thetalhamubarak","rarestpreet","vijaykiran06","Vader069","Arpit483","Mohith174","neetcodeprogress-lang","qsy123-coder","SK-Sathyavada-008","PuddleOfFat","imsomilg","priyanshubarnwal122-ai","klaus007p","TruptiAgrawal","Jaun-van-Deventer","rohanbyale","fraternebahirwe","TEE0207","TechGenius-Karan","saugatkarke","KaushikBalaji05","pdtrang","fremendes","ms-misty-eyed","annafreidl","TheSeydiCharyyev","Vanishagupta18","DanielcoderIA","Rafaelkocharli","jdwilkin4","yaseen-vm","vipin8797","wittjeff","tenzin-4776","debabratasaha-dev","vinodM09","clarencepenz","caio-bittencourt","moaedy","Agent-A345","Ksound22","bdtripp","AyushK5ingh","AdityaSinghWebDev","AdityaSingh-18","riddhimachawla","raisedadead","anastasiiauk","TuomasJalonen","narasimhan-lakshmi","Tiago-Vier-Preto","GalacticAvenger","amish-pratap-singh-1","Misrilal-Sah","danzolotov","AsmaAouiti","nieldakarla","octavio-js","c0d1ng-ma5ter","RafaelDavisH","farchettiensis","larymak","timmy471","thor8126","MalakGdaea","renyapeter","umutKaracelebi","scissorsneedfoodtoo","FBID10","jeeva-004"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [1,2,1,1,1,2,1,1,2,1,1,1,9,14,8,1,1,1,1,1,1,1,9,1,1,1,1,5,1,1,1,1,1,1,1,1,1,1,1,4,7,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,18,1,1,1,1,1,1,6,4,1,1,5,1,2,1,3,1,6,8,1,2,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-huyenltnguyen/REPORT_-_all-prs-reviewed-by-huyenltnguyen-bar-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Reviewer Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-search-heart-fill text-purple me-2"></i>Reviewer: ojeytonwilliams</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/ojeytonwilliams.png?size=96" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">ojeytonwilliams</h4>
+                                <span class="badge badge-subtle badge-purple">57 PRs Reviewed</span>
+                                <span class="badge badge-subtle badge-emerald">13 Authors Helped</span>
+                            </div>
+                        </div>
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorChart5"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorChart5').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Sembauke","ShaunSHamilton","majestic-owl448","moT01","Nithin0620","AyushK5ingh","raisedadead","DanielRosa74","ragini-pandey","Jeevankumar-s","huyenltnguyen","nieldakarla","ahmaxed"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [17,3,7,10,1,1,6,2,1,2,4,1,2],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-ojeytonwilliams/REPORT_-_all-prs-reviewed-by-ojeytonwilliams-bar-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Reviewer Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="dash-card h-100">
+                <div class="card-header-clean">
+                    <h3 class="card-title-clean"><i class="bi bi-search-heart-fill text-purple me-2"></i>Reviewer: raisedadead</h3>
+                </div>
+                <div class="p-4">
+                                            <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="https://github.com/raisedadead.png?size=96" alt="raisedadead" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                            <div>
+                                <h4 class="h5 fw-bold text-heading mb-0">raisedadead</h4>
+                                <span class="badge badge-subtle badge-purple">95 PRs Reviewed</span>
+                                <span class="badge badge-subtle badge-emerald">23 Authors Helped</span>
+                            </div>
+                        </div>
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorChart6"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorChart6').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["ahmaxed","Sembauke","anupamme","mariamanbar","ShaunSHamilton","ojeytonwilliams","huyenltnguyen","moT01","majestic-owl448","QuincyLarson","NotYash1066","GulshanJha00","Nouhaaouiti","Harshithk951","Supravisor","jeevithdev","yeonjuan","realMelTuc","umutKaracelebi","Jeevankumar-s","vicgolding","scissorsneedfoodtoo","a2937"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [3,13,1,1,4,29,18,4,8,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                        <div class="mt-3 text-end">
+                            <a href="REPORTS-freeCodeCamp-raisedadead/REPORT_-_all-prs-reviewed-by-raisedadead-bar-chart.html" class="btn btn-sm btn-outline-primary">
+                                View Reviewer Hub <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </section>
+
+                            <section id="contributors-table" class="mb-4">
+                <div class="dash-card">
+                    <div class="card-header-clean flex-wrap gap-2">
+                        <h2 class="card-title-clean">
+                            <i class="bi bi-people-fill text-primary"></i>
+                            <span>Contributors Summary</span>
+                        </h2>
+                        <div class="search-input-group">
+                            <i class="bi bi-search"></i>
+                            <input type="text" class="form-control form-control-sm" id="authorSearch" onkeyup="filterTable('authorSearch', 'authorsTable')" placeholder="Search contributors...">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-modern" id="authorsTable">
+                            <thead>
+                                <tr>
+                                    <th>Contributor</th>
+                                    <th>PRs Created</th>
+                                    <th>Code Comments</th>
+                                    <th>Issue Comments</th>
+                                    <th>Review Submissions</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/DanielRosa74.png?size=48" alt="DanielRosa74" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">DanielRosa74</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">16</span></td>
+    <td>3</td>
+    <td>2</td>
+    <td>4</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-DanielRosa74/REPORT_-_pr-author-DanielRosa74-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/majestic-owl448.png?size=48" alt="majestic-owl448" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">majestic-owl448</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">55</span></td>
+    <td>27</td>
+    <td>12</td>
+    <td>18</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-majestic-owl448/REPORT_-_pr-author-majestic-owl448-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/QuincyLarson.png?size=48" alt="QuincyLarson" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">QuincyLarson</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">1</span></td>
+    <td>0</td>
+    <td>1</td>
+    <td>0</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-QuincyLarson/REPORT_-_pr-author-QuincyLarson-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ShaunSHamilton.png?size=48" alt="ShaunSHamilton" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">ShaunSHamilton</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">15</span></td>
+    <td>21</td>
+    <td>4</td>
+    <td>7</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-ShaunSHamilton/REPORT_-_pr-author-ShaunSHamilton-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/moT01.png?size=48" alt="moT01" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">moT01</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">22</span></td>
+    <td>137</td>
+    <td>4</td>
+    <td>26</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-moT01/REPORT_-_pr-author-moT01-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/huyenltnguyen.png?size=48" alt="huyenltnguyen" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">huyenltnguyen</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">42</span></td>
+    <td>15</td>
+    <td>14</td>
+    <td>3</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-huyenltnguyen/REPORT_-_pr-author-huyenltnguyen-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">73</span></td>
+    <td>8</td>
+    <td>21</td>
+    <td>10</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-ojeytonwilliams/REPORT_-_pr-author-ojeytonwilliams-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/raisedadead.png?size=48" alt="raisedadead" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 32px; height: 32px;">
+            <span class="fw-semibold text-heading">raisedadead</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-blue">44</span></td>
+    <td>4</td>
+    <td>5</td>
+    <td>3</td>
+    <td>
+        <a href="REPORTS-freeCodeCamp-raisedadead/REPORT_-_pr-author-raisedadead-pie-chart.html" class="btn btn-sm btn-outline-secondary py-0">
+            Details <i class="bi bi-arrow-right"></i>
+        </a>
+    </td>
+</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            </main>
+
+            <footer class="dash-footer text-center">
+                <div class="container">
+                    <p class="mb-0">Generated by <strong>GitHub Stats</strong> • Open-source PR Analytics & Metrics</p>
+                </div>
+            </footer>
+
+            <!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // -------------------------------------------------------------
+    // Theme Management (Light / Dark Mode)
+    // -------------------------------------------------------------
+    function getTheme() {
+        return document.documentElement.getAttribute('data-bs-theme') || 'light';
+    }
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateThemeToggleIcon(theme);
+        updateChartsTheme(theme);
+    }
+
+    function toggleTheme() {
+        const currentTheme = getTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    }
+
+    function updateThemeToggleIcon(theme) {
+        const icon = document.getElementById('themeToggleIcon');
+        if (icon) {
+            if (theme === 'dark') {
+                icon.className = 'bi bi-sun-fill text-warning';
+            } else {
+                icon.className = 'bi bi-moon-stars-fill text-primary';
+            }
+        }
+    }
+
+    // Listen for system theme changes if user hasn't set an explicit preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+    // Initialize Icon on Load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateThemeToggleIcon(getTheme());
+    });
+
+    // -------------------------------------------------------------
+    // Chart.js Theme Defaults & Responsive Adapter
+    // -------------------------------------------------------------
+    Chart.defaults.font.family = "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+    Chart.defaults.font.size = 12;
+    
+    function getChartColors(theme) {
+        const isDark = theme === 'dark';
+        return {
+            text: isDark ? '#94a3b8' : '#64748b',
+            grid: isDark ? '#1e293b' : '#e2e8f0',
+            tooltipBg: isDark ? '#1e293b' : '#0f172a',
+            tooltipText: '#ffffff'
+        };
+    }
+
+    function updateChartsTheme(theme) {
+        const colors = getChartColors(theme);
+        Chart.defaults.color = colors.text;
+        Chart.defaults.borderColor = colors.grid;
+        
+        // Update all existing chart instances
+        if (window.activeCharts) {
+            window.activeCharts.forEach(chart => {
+                if (chart.options.scales) {
+                    if (chart.options.scales.x) {
+                        chart.options.scales.x.grid.color = colors.grid;
+                        chart.options.scales.x.ticks.color = colors.text;
+                    }
+                    if (chart.options.scales.y) {
+                        chart.options.scales.y.grid.color = colors.grid;
+                        chart.options.scales.y.ticks.color = colors.text;
+                    }
+                }
+                chart.update();
+            });
+        }
+    }
+
+    window.activeCharts = window.activeCharts || [];
+
+    // -------------------------------------------------------------
+    // Table Search Filter
+    // -------------------------------------------------------------
+    function filterTable(inputId, tableId) {
+        const input = document.getElementById(inputId);
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById(tableId);
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+</script>
+        </body>
+        </html>
