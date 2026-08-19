@@ -1,4 +1,4 @@
-[![Gradle CI](https://github.com/hossain-khan/github-stats/actions/workflows/build.yml/badge.svg)](https://github.com/hossain-khan/github-stats/actions/workflows/build.yml)
+[![Gradle CI](https://github.com/hossain-khan/github-stats/actions/workflows/build.yml/badge.svg)](https://github.com/hossain-khan/github-stats/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/hossain-khan/github-stats/graph/badge.svg?token=447IZ4HE0B)](https://codecov.io/gh/hossain-khan/github-stats)
 
 # GitHub Stats 📈
 Playground for exploring Github API and collect some PR review stats for different users/contributors.
