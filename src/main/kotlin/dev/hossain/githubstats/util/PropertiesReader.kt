@@ -80,7 +80,7 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
 
     /**
      * Gets configured database cache type.
-     * Determines whether to use SQLITE, POSTGRESQL, or NONE.
+     * Defaults to SQLITE unless explicitly disabled (NONE / DISABLED) or configured for POSTGRESQL.
      */
     fun getDbCacheType(): dev.hossain.githubstats.cache.DatabaseType {
         val configuredType = getProperty(KEY_DB_CACHE_TYPE)
@@ -89,12 +89,13 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
                 .fromString(configuredType)
         }
 
-        // Auto-detect if type is omitted but explicit connection parameters exist
-        return when {
-            !getDbCacheUrl().isNullOrBlank() -> dev.hossain.githubstats.cache.DatabaseType.POSTGRESQL
-            !getProperty(KEY_DB_CACHE_SQLITE_FILE).isNullOrBlank() -> dev.hossain.githubstats.cache.DatabaseType.SQLITE
-            else -> dev.hossain.githubstats.cache.DatabaseType.NONE
+        // If PostgreSQL URL is explicitly provided, use POSTGRESQL
+        if (!getDbCacheUrl().isNullOrBlank()) {
+            return dev.hossain.githubstats.cache.DatabaseType.POSTGRESQL
         }
+
+        // Default to local file-based SQLite
+        return dev.hossain.githubstats.cache.DatabaseType.SQLITE
     }
 
     /**

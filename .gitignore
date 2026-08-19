@@ -19,6 +19,12 @@ local.properties
 http-cache/*
 !http-cache/README.md
 
+# SQLite Database Cache
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
 # SQLDelight generated files
 build/generated/sqldelight/
 
