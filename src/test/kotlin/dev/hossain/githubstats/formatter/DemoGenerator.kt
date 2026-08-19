@@ -26,6 +26,16 @@ fun createDemoDashboard(): String {
     val dateRange = "2025-07-01 to 2025-07-31"
     val title = "GitHub Stats Dashboard - $repoId"
 
+    // Create KPI cards
+    val kpiCards =
+        listOf(
+            BootstrapTemplate.kpiCard("Total PRs Analyzed", "15", "bi-git", "kpi-icon-blue"),
+            BootstrapTemplate.kpiCard("Contributors Tracked", "4", "bi-people-fill", "kpi-icon-purple"),
+            BootstrapTemplate.kpiCard("Code Review Comments", "24", "bi-chat-left-code-fill", "kpi-icon-emerald"),
+            BootstrapTemplate.kpiCard("Review Submissions", "13", "bi-check2-square", "kpi-icon-amber"),
+        )
+    val kpiCardsHtml = BootstrapTemplate.kpiGrid(kpiCards)
+
     // Create aggregated section
     val aggregatedSectionHtml = createAggregatedSection()
 
@@ -47,6 +57,7 @@ fun createDemoDashboard(): String {
         repoId = repoId,
         dateRange = dateRange,
         sectionsHtml = sectionsHtml,
+        kpiCardsHtml = kpiCardsHtml,
     )
 }
 
