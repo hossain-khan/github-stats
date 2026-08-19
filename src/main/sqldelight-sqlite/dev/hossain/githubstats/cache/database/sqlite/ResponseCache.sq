@@ -1,0 +1,59 @@
+-- Response cache table for storing GitHub API responses in SQLite
+-- Uses TEXT for JSON response storage and INTEGER for timestamps (unix epoch ms)
+
+CREATE TABLE IF NOT EXISTS response_cache (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  cache_key TEXT NOT NULL UNIQUE,
+  response_data TEXT NOT NULL,
+  created_at INTEGER NOT NULL,
+  expires_at INTEGER,
+  request_url TEXT NOT NULL,
+  http_status INTEGER NOT NULL DEFAULT 200
+);
+
+-- Index for fast lookups by cache key
+CREATE INDEX IF NOT EXISTS idx_response_cache_key ON response_cache(cache_key);
+
+-- Index for cleanup of expired entries
+CREATE INDEX IF NOT EXISTS idx_response_cache_expires ON response_cache(expires_at);
+
+-- Index for querying by URL pattern
+CREATE INDEX IF NOT EXISTS idx_response_cache_url ON response_cache(request_url);
+
+-- Queries for cache operations
+
+insertOrReplaceResponse:
+INSERT INTO response_cache (cache_key, response_data, request_url, http_status, created_at, expires_at)
+VALUES (?, ?, ?, ?, ?, ?)
+ON CONFLICT (cache_key) 
+DO UPDATE SET 
+    response_data = excluded.response_data,
+    created_at = excluded.created_at,
+    expires_at = excluded.expires_at,
+    request_url = excluded.request_url,
+    http_status = excluded.http_status;
+
+getCachedResponse:
+SELECT cache_key, response_data, created_at, expires_at, request_url, http_status
+FROM response_cache 
+WHERE cache_key = ? 
+  AND (expires_at IS NULL OR expires_at > :currentTime);
+
+deleteCachedResponse:
+DELETE FROM response_cache WHERE cache_key = ?;
+
+deleteExpiredResponses:
+DELETE FROM response_cache WHERE expires_at IS NOT NULL AND expires_at <= :currentTime;
+
+getAllCachedResponses:
+SELECT cache_key, response_data, created_at, expires_at, request_url, http_status
+FROM response_cache 
+WHERE expires_at IS NULL OR expires_at > :currentTime
+ORDER BY created_at DESC;
+
+getCacheStats:
+SELECT 
+  COUNT(*) AS total_entries,
+  COUNT(CASE WHEN expires_at IS NULL OR expires_at > :currentTime THEN 1 END) AS valid_entries,
+  COUNT(CASE WHEN expires_at IS NOT NULL AND expires_at <= :currentTime THEN 1 END) AS expired_entries
+FROM response_cache;
