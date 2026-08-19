@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+            <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="light dark">
+        <title>Reviewer Analytics - ShaunSHamilton (freeCodeCamp)</title>
+        
+        <!-- Google Fonts: Inter -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+        
+        <!-- FOUC Prevention Script -->
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const activeTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', activeTheme);
+            })();
+        </script>
+        
+        <style>
+            :root {
+    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --card-radius: 14px;
+    --btn-radius: 8px;
+    --accent-primary: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-rose: #f43f5e;
+    --accent-cyan: #06b6d4;
+}
+
+[data-bs-theme="light"] {
+    --body-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --text-heading: #0f172a;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --table-hover-bg: #f1f5f9;
+    --header-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(226, 232, 240, 0.8);
+    --kpi-bg: #f8fafc;
+}
+
+[data-bs-theme="dark"] {
+    --body-bg: #0b0f19;
+    --card-bg: #131b2e;
+    --card-border: #1e293b;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    --text-heading: #f8fafc;
+    --text-body: #cbd5e1;
+    --text-muted: #94a3b8;
+    --table-hover-bg: #1a233a;
+    --header-bg: rgba(19, 27, 46, 0.85);
+    --glass-border: rgba(30, 41, 59, 0.8);
+    --kpi-bg: #0f172a;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    color: var(--text-body);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Glassmorphism Header */
+.app-navbar {
+    background-color: var(--header-bg) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-heading) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-badge {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Cards & Surfaces */
+.dash-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dash-card:hover {
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-header-clean {
+    background: transparent;
+    border-bottom: 1px solid var(--card-border);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title-clean {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* KPI Metric Cards */
+.kpi-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.kpi-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.kpi-icon-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.kpi-icon-purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+.kpi-icon-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.kpi-icon-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.kpi-icon-rose { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+
+.kpi-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.kpi-label {
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+/* User Profile Badge */
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--card-border);
+    object-fit: cover;
+}
+
+.user-avatar-lg {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-primary);
+    object-fit: cover;
+}
+
+/* Charts */
+.chart-container-fluid {
+    position: relative;
+    min-height: 320px;
+    width: 100%;
+}
+
+/* Modern Tables */
+.table-modern {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-body);
+}
+
+.table-modern th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background-color: var(--kpi-bg);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0.85rem 1.25rem;
+    white-space: nowrap;
+}
+
+.table-modern td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 0.9rem;
+}
+
+.table-modern tr:hover td {
+    background-color: var(--table-hover-bg);
+}
+
+.table-modern tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges & Pills */
+.badge-subtle {
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+}
+
+.badge-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.badge-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.badge-purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+.badge-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+/* Search input */
+.search-input-group {
+    position: relative;
+    max-width: 320px;
+}
+
+.search-input-group .bi-search {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.search-input-group input {
+    padding-left: 36px;
+    border-radius: var(--btn-radius);
+    background-color: var(--kpi-bg);
+    border-color: var(--card-border);
+    color: var(--text-body);
+}
+
+.search-input-group input:focus {
+    background-color: var(--card-bg);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    color: var(--text-heading);
+}
+
+/* Theme Toggle Button */
+.btn-theme-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-body);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-theme-toggle:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+/* Nav Pills / Tabs */
+.nav-pills-modern .nav-link {
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.nav-pills-modern .nav-link:hover {
+    color: var(--text-heading);
+    background-color: var(--table-hover-bg);
+}
+
+.nav-pills-modern .nav-link.active {
+    background-color: var(--accent-primary);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Footer */
+.dash-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--card-border);
+    padding: 1.5rem 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+        </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg app-navbar">
+        <div class="container-fluid px-lg-4">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-search-heart-fill text-purple"></i>
+                <span>Reviewer Analytics</span>
+                <span class="brand-badge">ShaunSHamilton</span>
+            </a>
+            
+            <div class="d-flex align-items-center gap-3 ms-auto">
+                <div class="d-none d-md-flex align-items-center text-muted small me-2">
+                    <i class="bi bi-calendar3 me-2"></i> 2026-02-01 to 2026-08-31
+                </div>
+                <button class="btn-theme-toggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="themeToggleIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid px-lg-4 py-4">
+        <!-- Reviewer Profile & KPI Header -->
+        <div class="dash-card p-4 mb-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="https://github.com/ShaunSHamilton.png?size=128" alt="ShaunSHamilton" class="user-avatar-lg" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="border-color: var(--accent-purple);">
+                    <div>
+                        <div class="d-flex align-items-center gap-2">
+                            <h1 class="h3 fw-bold text-heading mb-0">ShaunSHamilton</h1>
+                            <a href="https://github.com/ShaunSHamilton" target="_blank" class="badge badge-subtle badge-purple text-decoration-none">
+                                <i class="bi bi-github me-1"></i>GitHub Profile
+                            </a>
+                        </div>
+                        <p class="text-muted mb-0">Repository: <strong>freeCodeCamp</strong> • Analyzed Period: <strong>2026-02-01 to 2026-08-31</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Cards Grid -->
+                    <div class="row g-3">
+            <div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-emerald">
+            <i class="bi bi-check-all"></i>
+        </div>
+        <div>
+            <div class="kpi-label">PRs Reviewed</div>
+            <div class="kpi-value">29</div>
+            
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-blue">
+            <i class="bi bi-people"></i>
+        </div>
+        <div>
+            <div class="kpi-label">Authors Supported</div>
+            <div class="kpi-value">12</div>
+            
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-purple">
+            <i class="bi bi-chat-dots"></i>
+        </div>
+        <div>
+            <div class="kpi-label">Comments Written</div>
+            <div class="kpi-value">41</div>
+            
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+    <div class="kpi-card h-100">
+        <div class="kpi-icon-wrapper kpi-icon-amber">
+            <i class="bi bi-stopwatch"></i>
+        </div>
+        <div>
+            <div class="kpi-label">Avg Response Time</div>
+            <div class="kpi-value">1d 11h</div>
+            
+        </div>
+    </div>
+</div>
+        </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-lg-6">
+                <div class="dash-card h-100">
+                    <div class="card-header-clean">
+                        <h2 class="card-title-clean">
+                            <i class="bi bi-bar-chart-fill text-emerald"></i>
+                            <span>PRs Reviewed by Author</span>
+                        </h2>
+                    </div>
+                    <div class="p-4">
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerAuthorBarChart"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerAuthorBarChart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["majestic-owl448","Sembauke","ojeytonwilliams","Ksound22","raisedadead","ahmaxed","moT01","Tidjani1Bachir","neerajgouda06","Harshithk951","Jeevankumar-s","AdityaSingh-18"],
+                        datasets: [{
+    label: "PRs Reviewed",
+    data: [1,9,8,3,1,1,1,1,1,1,1,1],
+    backgroundColor: "#10b981",
+    borderColor: "#10b981",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'PRs Reviewed by Author',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="dash-card h-100">
+                    <div class="card-header-clean">
+                        <h2 class="card-title-clean">
+                            <i class="bi bi-lightning-charge-fill text-amber"></i>
+                            <span>Review Turnaround Distribution</span>
+                        </h2>
+                    </div>
+                    <div class="p-4">
+                                    <div class="chart-container-fluid">
+                <canvas id="reviewerTurnaroundChart"></canvas>
+            </div>
+            <script>
+            (function() {
+                const ctx = document.getElementById('reviewerTurnaroundChart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["PR #69495","PR #69477","PR #68992","PR #68954","PR #68809","PR #68795","PR #68794","PR #68610","PR #68408","PR #68177","PR #68172","PR #68036","PR #67680","PR #67234","PR #67230"],
+                        datasets: [{
+    label: "Initial Response (mins)",
+    data: [480,120,0,480,272,2005,275,420,118,8729,89,7200,289,0,246],
+    backgroundColor: "#f59e0b",
+    borderColor: "#f59e0b",
+    borderWidth: 1,
+    borderRadius: 6
+},{
+    label: "Review Completion (mins)",
+    data: [480,120,0,480,272,2005,275,420,118,9086,640,7272,289,0,746],
+    backgroundColor: "#8b5cf6",
+    borderColor: "#8b5cf6",
+    borderWidth: 1,
+    borderRadius: 6
+}]
+                    },
+                    options: {
+                        
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        borderRadius: 6,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Review Turnaround Times (Recent PRs in Minutes)',
+                                font: { size: 14, weight: '600' },
+                                padding: { bottom: 16 }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    boxWidth: 8,
+                                    padding: 16
+                                }
+                            },
+                            tooltip: {
+                                padding: 12,
+                                cornerRadius: 8,
+                                usePointStyle: true
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { drawBorder: false }
+                            },
+                            x: {
+                                grid: { drawBorder: false }
+                            }
+                        }
+                    }
+                });
+                window.activeCharts.push(chart);
+            })();
+            </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviewed PRs Table -->
+        <div class="dash-card">
+            <div class="card-header-clean flex-wrap gap-2">
+                <h2 class="card-title-clean">
+                    <i class="bi bi-list-task text-primary"></i>
+                    <span>Reviewed Pull Requests</span>
+                </h2>
+                <div class="search-input-group">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control form-control-sm" id="prSearch" onkeyup="filterTable('prSearch', 'reviewedPrsTable')" placeholder="Search PRs or authors...">
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-modern" id="reviewedPrsTable">
+                    <thead>
+                        <tr>
+                            <th>Pull Request</th>
+                            <th>Author</th>
+                            <th>Initial Response</th>
+                            <th>Review Completion</th>
+                            <th>Comments</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/69495" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #69495
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(curriculum): stop file metadata test from using Response.blob()</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/majestic-owl448.png?size=48" alt="majestic-owl448" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>majestic-owl448</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">8h 0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">8h 0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/69477" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #69477
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">test(e2e): make donation payment widgets run on every PR</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">2h 0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">2h 0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68992" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68992
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">ci: free up space before tarring client</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68954" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68954
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">feat(curriculum): release backend cert</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Ksound22.png?size=48" alt="Ksound22" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Ksound22</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">8h 0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">8h 0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68809" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68809
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">feat(curriculum): add backend auth lab and workshop to main</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Ksound22.png?size=48" alt="Ksound22" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Ksound22</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">4h 32m</span></td>
+    <td><span class="badge badge-subtle badge-purple">4h 32m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68795" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68795
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(api): sentry hygiene and coverage</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/raisedadead.png?size=48" alt="raisedadead" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>raisedadead</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">1d 9h</span></td>
+    <td><span class="badge badge-subtle badge-purple">1d 9h</span></td>
+    <td><span class="badge badge-subtle badge-blue">3</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68794" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68794
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(curriculum): rename workshops to follow naming convention</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Ksound22.png?size=48" alt="Ksound22" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Ksound22</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">4h 35m</span></td>
+    <td><span class="badge badge-subtle badge-purple">4h 35m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68610" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68610
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(client): split socrates and button analytics events</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ahmaxed.png?size=48" alt="ahmaxed" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ahmaxed</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">7h 0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">7h 0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68408" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68408
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(api): validate coderoad tokens before querying db</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">1h 58m</span></td>
+    <td><span class="badge badge-subtle badge-purple">1h 58m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68177" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68177
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">feat(client): loop daily challenges</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/moT01.png?size=48" alt="moT01" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>moT01</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">6d 1h</span></td>
+    <td><span class="badge badge-subtle badge-purple">6d 7h</span></td>
+    <td><span class="badge badge-subtle badge-blue">3</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68172" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68172
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">test: move exam show coverage to client</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">1h 29m</span></td>
+    <td><span class="badge badge-subtle badge-purple">10h 40m</span></td>
+    <td><span class="badge badge-subtle badge-blue">2</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/68036" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #68036
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">test: move certification rendering to client</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">5d 0h</span></td>
+    <td><span class="badge badge-subtle badge-purple">5d 1h</span></td>
+    <td><span class="badge badge-subtle badge-blue">2</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/67680" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #67680
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">refactor: replace mongodb with bson</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">4h 49m</span></td>
+    <td><span class="badge badge-subtle badge-purple">4h 49m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/67234" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #67234
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix: replace broken tone version</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/67230" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #67230
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(client): privacy save button state</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Tidjani1Bachir.png?size=48" alt="Tidjani1Bachir" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Tidjani1Bachir</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">4h 6m</span></td>
+    <td><span class="badge badge-subtle badge-purple">12h 26m</span></td>
+    <td><span class="badge badge-subtle badge-blue">2</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/67204" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #67204
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(client): add language selector to mobile layout for daily coding challenge</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/neerajgouda06.png?size=48" alt="neerajgouda06" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>neerajgouda06</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">10h 1m</span></td>
+    <td><span class="badge badge-subtle badge-purple">6d 0h</span></td>
+    <td><span class="badge badge-subtle badge-blue">1</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66961" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66961
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix: use session-user endpoint on client</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">13m</span></td>
+    <td><span class="badge badge-subtle badge-purple">11h 32m</span></td>
+    <td><span class="badge badge-subtle badge-blue">2</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66771" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66771
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">refactor(tooling): allow markdownlint to handle multiple files</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">15h 0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">15h 0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66367" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66367
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">refactor(client): migrate Gatsby setup files to TypeScript</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">2d 8h</span></td>
+    <td><span class="badge badge-subtle badge-purple">2d 8h</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66303" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66303
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(client): handle navbar style in high contrast mode</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Harshithk951.png?size=48" alt="Harshithk951" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Harshithk951</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">6h 11m</span></td>
+    <td><span class="badge badge-subtle badge-purple">1d 1h</span></td>
+    <td><span class="badge badge-subtle badge-blue">6</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66259" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66259
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">feat(client): add tsconfig support to editor and use it in ts compiler</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">21h 45m</span></td>
+    <td><span class="badge badge-subtle badge-purple">1d 12h</span></td>
+    <td><span class="badge badge-subtle badge-blue">5</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66214" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66214
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">refactor: move static curriculum data out of redux</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">1d 8h</span></td>
+    <td><span class="badge badge-subtle badge-purple">1d 8h</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66212" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66212
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">feat(client): mobile advert for small screen sizes</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">23h 0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">4d 15h</span></td>
+    <td><span class="badge badge-subtle badge-blue">9</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66139" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66139
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">refactor(tools) : migrate inquirer prompts</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Jeevankumar-s.png?size=48" alt="Jeevankumar-s" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Jeevankumar-s</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">16h 0m</span></td>
+    <td><span class="badge badge-subtle badge-purple">16h 0m</span></td>
+    <td><span class="badge badge-subtle badge-blue">1</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/66093" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #66093
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(challenge-builder): preserve defer behavior when embedding external scripts</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">3d 8h</span></td>
+    <td><span class="badge badge-subtle badge-purple">3d 10h</span></td>
+    <td><span class="badge badge-subtle badge-blue">2</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/65968" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #65968
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(tooling): return all superblocks containing a filtered block</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/ojeytonwilliams.png?size=48" alt="ojeytonwilliams" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>ojeytonwilliams</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">3d 3h</span></td>
+    <td><span class="badge badge-subtle badge-purple">3d 3h</span></td>
+    <td><span class="badge badge-subtle badge-blue">0</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/65897" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #65897
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">feat(client): sidebar-nav on review-pages</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">3d 8h</span></td>
+    <td><span class="badge badge-subtle badge-purple">6d 0h</span></td>
+    <td><span class="badge badge-subtle badge-blue">1</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/65889" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #65889
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(client): update text container for fsd lessons</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/AdityaSingh-18.png?size=48" alt="AdityaSingh-18" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>AdityaSingh-18</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">4d 0h</span></td>
+    <td><span class="badge badge-subtle badge-purple">4d 0h</span></td>
+    <td><span class="badge badge-subtle badge-blue">1</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <a href="https://github.com/freeCodeCamp/pull/65652" target="_blank" class="fw-bold text-decoration-none text-primary">
+            #65652
+        </a>
+        <span class="d-block text-muted small text-truncate" style="max-width: 280px;">fix(api): handle unauthenticated users in get-session-user endpoint</span>
+    </td>
+    <td>
+        <div class="d-flex align-items-center gap-2">
+            <img src="https://github.com/Sembauke.png?size=48" alt="Sembauke" class="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'" style="width: 28px; height: 28px;">
+            <span>Sembauke</span>
+        </div>
+    </td>
+    <td><span class="badge badge-subtle badge-amber">6d 14h</span></td>
+    <td><span class="badge badge-subtle badge-purple">6d 14h</span></td>
+    <td><span class="badge badge-subtle badge-blue">1</span></td>
+    <td>
+        <span class="badge badge-subtle badge-emerald"><i class="bi bi-git me-1"></i>Merged</span>
+    </td>
+</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="dash-footer text-center">
+        <div class="container">
+            <p class="mb-0">Generated by <strong>GitHub Stats</strong> • Reviewer Analytics for <strong>ShaunSHamilton</strong></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // -------------------------------------------------------------
+    // Theme Management (Light / Dark Mode)
+    // -------------------------------------------------------------
+    function getTheme() {
+        return document.documentElement.getAttribute('data-bs-theme') || 'light';
+    }
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateThemeToggleIcon(theme);
+        updateChartsTheme(theme);
+    }
+
+    function toggleTheme() {
+        const currentTheme = getTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    }
+
+    function updateThemeToggleIcon(theme) {
+        const icon = document.getElementById('themeToggleIcon');
+        if (icon) {
+            if (theme === 'dark') {
+                icon.className = 'bi bi-sun-fill text-warning';
+            } else {
+                icon.className = 'bi bi-moon-stars-fill text-primary';
+            }
+        }
+    }
+
+    // Listen for system theme changes if user hasn't set an explicit preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+    // Initialize Icon on Load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateThemeToggleIcon(getTheme());
+    });
+
+    // -------------------------------------------------------------
+    // Chart.js Theme Defaults & Responsive Adapter
+    // -------------------------------------------------------------
+    Chart.defaults.font.family = "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+    Chart.defaults.font.size = 12;
+    
+    function getChartColors(theme) {
+        const isDark = theme === 'dark';
+        return {
+            text: isDark ? '#94a3b8' : '#64748b',
+            grid: isDark ? '#1e293b' : '#e2e8f0',
+            tooltipBg: isDark ? '#1e293b' : '#0f172a',
+            tooltipText: '#ffffff'
+        };
+    }
+
+    function updateChartsTheme(theme) {
+        const colors = getChartColors(theme);
+        Chart.defaults.color = colors.text;
+        Chart.defaults.borderColor = colors.grid;
+        
+        // Update all existing chart instances
+        if (window.activeCharts) {
+            window.activeCharts.forEach(chart => {
+                if (chart.options.scales) {
+                    if (chart.options.scales.x) {
+                        chart.options.scales.x.grid.color = colors.grid;
+                        chart.options.scales.x.ticks.color = colors.text;
+                    }
+                    if (chart.options.scales.y) {
+                        chart.options.scales.y.grid.color = colors.grid;
+                        chart.options.scales.y.ticks.color = colors.text;
+                    }
+                }
+                chart.update();
+            });
+        }
+    }
+
+    window.activeCharts = window.activeCharts || [];
+
+    // -------------------------------------------------------------
+    // Table Search Filter
+    // -------------------------------------------------------------
+    function filterTable(inputId, tableId) {
+        const input = document.getElementById(inputId);
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById(tableId);
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+</script>
+</body>
+</html>

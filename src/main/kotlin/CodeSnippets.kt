@@ -22,7 +22,7 @@ fun main() {
     runBlocking {
         val apiClient: GitHubApiClient by inject(GitHubApiClient::class.java)
         // Sample parameter to get top contributors from https://github.com/square/okhttp
-        val contributors = apiClient.topContributors(owner = "square", repo = "okhttp")
+        val contributors = apiClient.topContributors(owner = "freeCodeCamp", repo = "freeCodeCamp")
 
         println("Here are top contributors: ${contributors.map { it.login }}")
     }

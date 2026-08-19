@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+            <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="light dark">
+        <title>PR reviewer's stats for PRs created by `majestic-owl448` on `freeCodeCamp` (2026-02-01 to 2026-08-31)</title>
+        
+        <!-- Google Fonts: Inter -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+        
+        <!-- FOUC Prevention Script -->
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const activeTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', activeTheme);
+            })();
+        </script>
+        
+        <style>
+            :root {
+    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --card-radius: 14px;
+    --btn-radius: 8px;
+    --accent-primary: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-rose: #f43f5e;
+    --accent-cyan: #06b6d4;
+}
+
+[data-bs-theme="light"] {
+    --body-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --text-heading: #0f172a;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --table-hover-bg: #f1f5f9;
+    --header-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(226, 232, 240, 0.8);
+    --kpi-bg: #f8fafc;
+}
+
+[data-bs-theme="dark"] {
+    --body-bg: #0b0f19;
+    --card-bg: #131b2e;
+    --card-border: #1e293b;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    --text-heading: #f8fafc;
+    --text-body: #cbd5e1;
+    --text-muted: #94a3b8;
+    --table-hover-bg: #1a233a;
+    --header-bg: rgba(19, 27, 46, 0.85);
+    --glass-border: rgba(30, 41, 59, 0.8);
+    --kpi-bg: #0f172a;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--body-bg);
+    color: var(--text-body);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Glassmorphism Header */
+.app-navbar {
+    background-color: var(--header-bg) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-heading) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-badge {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Cards & Surfaces */
+.dash-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dash-card:hover {
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-header-clean {
+    background: transparent;
+    border-bottom: 1px solid var(--card-border);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title-clean {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* KPI Metric Cards */
+.kpi-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.kpi-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.kpi-icon-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.kpi-icon-purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+.kpi-icon-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.kpi-icon-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.kpi-icon-rose { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+
+.kpi-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.kpi-label {
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+/* User Profile Badge */
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--card-border);
+    object-fit: cover;
+}
+
+.user-avatar-lg {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-primary);
+    object-fit: cover;
+}
+
+/* Charts */
+.chart-container-fluid {
+    position: relative;
+    min-height: 320px;
+    width: 100%;
+}
+
+/* Modern Tables */
+.table-modern {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-body);
+}
+
+.table-modern th {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background-color: var(--kpi-bg);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0.85rem 1.25rem;
+    white-space: nowrap;
+}
+
+.table-modern td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 0.9rem;
+}
+
+.table-modern tr:hover td {
+    background-color: var(--table-hover-bg);
+}
+
+.table-modern tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges & Pills */
+.badge-subtle {
+    font-weight: 600;
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+}
+
+.badge-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+.badge-emerald { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+.badge-purple { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+.badge-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+/* Search input */
+.search-input-group {
+    position: relative;
+    max-width: 320px;
+}
+
+.search-input-group .bi-search {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.search-input-group input {
+    padding-left: 36px;
+    border-radius: var(--btn-radius);
+    background-color: var(--kpi-bg);
+    border-color: var(--card-border);
+    color: var(--text-body);
+}
+
+.search-input-group input:focus {
+    background-color: var(--card-bg);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    color: var(--text-heading);
+}
+
+/* Theme Toggle Button */
+.btn-theme-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-body);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-theme-toggle:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+/* Nav Pills / Tabs */
+.nav-pills-modern .nav-link {
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.nav-pills-modern .nav-link:hover {
+    color: var(--text-heading);
+    background-color: var(--table-hover-bg);
+}
+
+.nav-pills-modern .nav-link.active {
+    background-color: var(--accent-primary);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Footer */
+.dash-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--card-border);
+    padding: 1.5rem 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+        </style>
+</head>
+<body class="p-4">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h4 fw-bold text-heading mb-0">PR reviewer's stats for PRs created by `majestic-owl448` on `freeCodeCamp` (2026-02-01 to 2026-08-31)</h1>
+            <button class="btn-theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+                <i class="bi bi-moon-stars-fill text-primary" id="themeToggleIcon"></i>
+            </button>
+        </div>
+        <div class="dash-card p-4">
+            <div class="chart-container-fluid" style="min-height: 480px;">
+                <canvas id="standaloneBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const rawData = [['Reviewer', 'Total Reviewed', 'Total Commented'], ['moT01', 10, 1], ['Sembauke', 9, 8], ['raisedadead', 8, 2], ['Dario-DC', 8, 6], ['ojeytonwilliams', 7, 5], ['zairahira', 6, 10], ['jdwilkin4', 4, 0], ['huyenltnguyen', 4, 2], ['Ksound22', 2, 1], ['a2937', 2, 1], ['ShaunSHamilton', 1, 0], ['Jeevankumar-s', 1, 4]];
+        if (rawData.length > 1) {
+            const headers = rawData[0];
+            const rows = rawData.slice(1);
+            const labels = rows.map(r => r[0]);
+            const colors = ["#3b82f6", "#8b5cf6", "#10b981", "#f59e0b", "#f43f5e", "#06b6d4", "#6366f1"];
+            
+            const datasets = [];
+            for (let col = 1; col < headers.length; col++) {
+                datasets.push({
+                    label: headers[col],
+                    data: rows.map(r => r[col]),
+                    backgroundColor: colors[(col - 1) % colors.length],
+                    borderRadius: 6
+                });
+            }
+
+            const ctx = document.getElementById('standaloneBarChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { usePointStyle: true, padding: 14 } },
+                        tooltip: { padding: 12, cornerRadius: 8 }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { drawBorder: false } },
+                        x: { grid: { drawBorder: false } }
+                    }
+                }
+            });
+            window.activeCharts = window.activeCharts || [];
+            window.activeCharts.push(chart);
+        }
+    })();
+    </script>
+    <!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // -------------------------------------------------------------
+    // Theme Management (Light / Dark Mode)
+    // -------------------------------------------------------------
+    function getTheme() {
+        return document.documentElement.getAttribute('data-bs-theme') || 'light';
+    }
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateThemeToggleIcon(theme);
+        updateChartsTheme(theme);
+    }
+
+    function toggleTheme() {
+        const currentTheme = getTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    }
+
+    function updateThemeToggleIcon(theme) {
+        const icon = document.getElementById('themeToggleIcon');
+        if (icon) {
+            if (theme === 'dark') {
+                icon.className = 'bi bi-sun-fill text-warning';
+            } else {
+                icon.className = 'bi bi-moon-stars-fill text-primary';
+            }
+        }
+    }
+
+    // Listen for system theme changes if user hasn't set an explicit preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+    // Initialize Icon on Load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateThemeToggleIcon(getTheme());
+    });
+
+    // -------------------------------------------------------------
+    // Chart.js Theme Defaults & Responsive Adapter
+    // -------------------------------------------------------------
+    Chart.defaults.font.family = "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+    Chart.defaults.font.size = 12;
+    
+    function getChartColors(theme) {
+        const isDark = theme === 'dark';
+        return {
+            text: isDark ? '#94a3b8' : '#64748b',
+            grid: isDark ? '#1e293b' : '#e2e8f0',
+            tooltipBg: isDark ? '#1e293b' : '#0f172a',
+            tooltipText: '#ffffff'
+        };
+    }
+
+    function updateChartsTheme(theme) {
+        const colors = getChartColors(theme);
+        Chart.defaults.color = colors.text;
+        Chart.defaults.borderColor = colors.grid;
+        
+        // Update all existing chart instances
+        if (window.activeCharts) {
+            window.activeCharts.forEach(chart => {
+                if (chart.options.scales) {
+                    if (chart.options.scales.x) {
+                        chart.options.scales.x.grid.color = colors.grid;
+                        chart.options.scales.x.ticks.color = colors.text;
+                    }
+                    if (chart.options.scales.y) {
+                        chart.options.scales.y.grid.color = colors.grid;
+                        chart.options.scales.y.ticks.color = colors.text;
+                    }
+                }
+                chart.update();
+            });
+        }
+    }
+
+    window.activeCharts = window.activeCharts || [];
+
+    // -------------------------------------------------------------
+    // Table Search Filter
+    // -------------------------------------------------------------
+    function filterTable(inputId, tableId) {
+        const input = document.getElementById(inputId);
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById(tableId);
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+</script>
+</body>
+</html>

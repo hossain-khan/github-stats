@@ -28,8 +28,8 @@ http-cache/*
 # SQLDelight generated files
 build/generated/sqldelight/
 
-# All generate github stats reports
-REPORTS-*
+# All generated github stats reports in root directory
+/REPORTS-*
 
 
 
