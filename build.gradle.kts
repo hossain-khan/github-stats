@@ -14,8 +14,8 @@ plugins {
     id("org.jetbrains.dokka") version "2.1.0"
 
     // SQLDelight plugin for database code generation
-    // https://sqldelight.github.io/sqldelight/2.1.0/
-    id("app.cash.sqldelight") version "2.2.1"
+    // https://sqldelight.github.io/sqldelight/
+    id("app.cash.sqldelight") version "2.3.2"
 
     // Kotlinx Kover - Code coverage tool for Kotlin
     // https://github.com/Kotlin/kotlinx-kover
@@ -70,12 +70,14 @@ dependencies {
     // ASCII Progress Bar https://github.com/ctongfei/progressbar
     implementation("me.tongfei:progressbar:0.10.1")
 
-    // SQLDelight for database operations and PostgreSQL driver
-    // https://sqldelight.github.io/sqldelight/2.1.0/
-    implementation("app.cash.sqldelight:runtime:2.2.1")
-    implementation("app.cash.sqldelight:coroutines-extensions:2.2.1")
-    implementation("app.cash.sqldelight:jdbc-driver:2.2.1")
+    // SQLDelight for database operations (SQLite & PostgreSQL)
+    // https://sqldelight.github.io/sqldelight/
+    implementation("app.cash.sqldelight:runtime:2.3.2")
+    implementation("app.cash.sqldelight:coroutines-extensions:2.3.2")
+    implementation("app.cash.sqldelight:jdbc-driver:2.3.2")
+    implementation("app.cash.sqldelight:sqlite-driver:2.3.2")
     implementation("org.postgresql:postgresql:42.7.9")
+    implementation("org.xerial:sqlite-jdbc:3.49.1.0")
 
     //
     // =======================
@@ -114,13 +116,18 @@ application {
     mainClass.set("MainKt")
 }
 
-// SQLDelight configuration for PostgreSQL
+// SQLDelight configuration for PostgreSQL and SQLite databases
 sqldelight {
     databases {
-        create("GitHubStatsDatabase") {
-            packageName.set("dev.hossain.githubstats.cache.database")
-            dialect("app.cash.sqldelight:postgresql-dialect:2.2.1")
-            // deriveSchemaFromMigrations.set(true) // Remove this for direct .sq files
+        create("PostgreSqlDatabase") {
+            packageName.set("dev.hossain.githubstats.cache.database.postgres")
+            srcDirs.setFrom("src/main/sqldelight-postgres")
+            dialect("app.cash.sqldelight:postgresql-dialect:2.3.2")
+        }
+        create("SqliteDatabase") {
+            packageName.set("dev.hossain.githubstats.cache.database.sqlite")
+            srcDirs.setFrom("src/main/sqldelight-sqlite")
+            dialect("app.cash.sqldelight:sqlite-3-38-dialect:2.3.2")
         }
     }
 }
@@ -142,6 +149,8 @@ kover {
                 classes(
                     // Exclude generated SQLDelight database classes
                     "dev.hossain.githubstats.cache.database.*",
+                    "dev.hossain.githubstats.cache.database.postgres.*",
+                    "dev.hossain.githubstats.cache.database.sqlite.*",
                 )
             }
         }

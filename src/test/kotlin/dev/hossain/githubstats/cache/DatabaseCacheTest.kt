@@ -1,13 +1,17 @@
 package dev.hossain.githubstats.cache
 
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.google.common.truth.Truth.assertThat
+import dev.hossain.githubstats.cache.database.sqlite.SqliteDatabase
 import dev.hossain.githubstats.util.LocalProperties
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import java.io.File
 
 /**
- * Tests for database cache related functionality.
+ * Tests for database cache related functionality for SQLite and PostgreSQL.
  */
 class DatabaseCacheTest {
     @Test
@@ -17,58 +21,113 @@ class DatabaseCacheTest {
         every { localProperties.isDatabaseCacheEnabled() } returns false
 
         // When
-        val result = DatabaseManager.initializeDatabase(localProperties)
+        val result = DatabaseManager.createDatabaseCacheService(localProperties)
 
         // Then
         assertThat(result).isNull()
     }
 
     @Test
-    fun `database manager logs configuration found but returns null when connection fails`() {
+    fun `database manager logs configuration found but returns null when postgres connection fails`() {
         // Given
         val localProperties = mockk<LocalProperties>()
         every { localProperties.isDatabaseCacheEnabled() } returns true
+        every { localProperties.getDbCacheType() } returns DatabaseType.POSTGRESQL
         every { localProperties.getDbCacheUrl() } returns "jdbc:postgresql://invalid-host:9999/nonexistent_db"
         every { localProperties.getDbCacheUsername() } returns "invalid_user"
         every { localProperties.getDbCachePassword() } returns "invalid_pass"
+        every { localProperties.getDbCacheExpirationHours() } returns 24L
 
         // When
-        val result = DatabaseManager.initializeDatabase(localProperties)
+        val result = DatabaseManager.createDatabaseCacheService(localProperties)
 
         // Then
         assertThat(result).isNull() // Connection will fail gracefully
-        // Note: We don't test isDatabaseAvailable() here as it's a singleton state
-        // that might be affected by other tests or successful initializations
     }
 
     @Test
-    fun `local properties database config validation works correctly`() {
-        // Given
-        val localPropertiesEnabled = mockk<LocalProperties>()
-        every { localPropertiesEnabled.getDbCacheUrl() } returns "jdbc:postgresql://localhost:5432/test"
-        every { localPropertiesEnabled.getDbCacheUsername() } returns "user"
-        every { localPropertiesEnabled.getDbCachePassword() } returns "pass"
-        every { localPropertiesEnabled.isDatabaseCacheEnabled() } returns true
+    fun `local properties database config validation works correctly for postgres and sqlite`() {
+        // Given - Postgres enabled
+        val postgresEnabled = mockk<LocalProperties>()
+        every { postgresEnabled.getDbCacheType() } returns DatabaseType.POSTGRESQL
+        every { postgresEnabled.getDbCacheUrl() } returns "jdbc:postgresql://localhost:5432/test"
+        every { postgresEnabled.getDbCacheUsername() } returns "user"
+        every { postgresEnabled.getDbCachePassword() } returns "pass"
+        every { postgresEnabled.isDatabaseCacheEnabled() } answers { callOriginal() }
 
-        val localPropertiesDisabled = mockk<LocalProperties>()
-        every { localPropertiesDisabled.getDbCacheUrl() } returns null
-        every { localPropertiesDisabled.getDbCacheUsername() } returns null
-        every { localPropertiesDisabled.getDbCachePassword() } returns null
-        every { localPropertiesDisabled.isDatabaseCacheEnabled() } returns false
+        // Given - SQLite enabled
+        val sqliteEnabled = mockk<LocalProperties>()
+        every { sqliteEnabled.getDbCacheType() } returns DatabaseType.SQLITE
+        every { sqliteEnabled.getDbCacheSqliteFile() } returns "test-cache.db"
+        every { sqliteEnabled.isDatabaseCacheEnabled() } answers { callOriginal() }
+
+        // Given - Disabled
+        val disabled = mockk<LocalProperties>()
+        every { disabled.getDbCacheType() } returns DatabaseType.NONE
+        every { disabled.isDatabaseCacheEnabled() } answers { callOriginal() }
 
         // When/Then
-        assertThat(localPropertiesEnabled.isDatabaseCacheEnabled()).isTrue()
-        assertThat(localPropertiesDisabled.isDatabaseCacheEnabled()).isFalse()
+        assertThat(postgresEnabled.isDatabaseCacheEnabled()).isTrue()
+        assertThat(sqliteEnabled.isDatabaseCacheEnabled()).isTrue()
+        assertThat(disabled.isDatabaseCacheEnabled()).isFalse()
     }
 
     @Test
-    fun `cache service can be constructed with database`() {
-        // This test demonstrates the cache service API structure
-        // In a real implementation, this would use an actual database instance
+    fun `sqlite database cache service stores and retrieves cached responses`() =
+        runBlocking {
+            val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+            SqliteDatabase.Schema.create(driver)
+            val database = SqliteDatabase(driver)
+            val cacheService = SqliteDatabaseCacheService(database, expirationHours = 24L)
 
-        // For now, we verify that the classes are properly structured
-        assertThat(CacheStats::class.java).isNotNull()
-        assertThat(DatabaseCacheService::class.java).isNotNull()
-        assertThat(DatabaseCacheInterceptor::class.java).isNotNull()
+            val testUrl = "https://api.github.com/repos/square/okhttp/pulls/100"
+            val testJson = """{"id": 100, "title": "Test PR"}"""
+
+            // Verify miss initially
+            val initial = cacheService.getCachedResponse(testUrl)
+            assertThat(initial).isNull()
+
+            // Cache response
+            cacheService.cacheResponse(testUrl, testJson, 200)
+
+            // Verify hit
+            val cached = cacheService.getCachedResponse(testUrl)
+            assertThat(cached).isEqualTo(testJson)
+
+            // Check cache stats
+            val stats = cacheService.getCacheStats()
+            assertThat(stats).isNotNull()
+            assertThat(stats!!.totalEntries).isEqualTo(1)
+            assertThat(stats.validEntries).isEqualTo(1)
+            assertThat(stats.expiredEntries).isEqualTo(0)
+        }
+
+    @Test
+    fun `database manager initializes sqlite database cache service successfully`() {
+        val tempDbFile = File.createTempFile("github-stats-test", ".db")
+        tempDbFile.deleteOnExit()
+
+        val localProperties = mockk<LocalProperties>()
+        every { localProperties.isDatabaseCacheEnabled() } returns true
+        every { localProperties.getDbCacheType() } returns DatabaseType.SQLITE
+        every { localProperties.getDbCacheSqliteFile() } returns tempDbFile.absolutePath
+        every { localProperties.getDbCacheExpirationHours() } returns 24L
+
+        val service = DatabaseManager.createDatabaseCacheService(localProperties)
+        assertThat(service).isNotNull()
+        assertThat(service).isInstanceOf(SqliteDatabaseCacheService::class.java)
+
+        DatabaseManager.closeDatabase()
+    }
+
+    @Test
+    fun `DatabaseType fromString parses correctly`() {
+        assertThat(DatabaseType.fromString("SQLITE")).isEqualTo(DatabaseType.SQLITE)
+        assertThat(DatabaseType.fromString("sqlite3")).isEqualTo(DatabaseType.SQLITE)
+        assertThat(DatabaseType.fromString("POSTGRESQL")).isEqualTo(DatabaseType.POSTGRESQL)
+        assertThat(DatabaseType.fromString("postgres")).isEqualTo(DatabaseType.POSTGRESQL)
+        assertThat(DatabaseType.fromString("NONE")).isEqualTo(DatabaseType.NONE)
+        assertThat(DatabaseType.fromString("disabled")).isEqualTo(DatabaseType.NONE)
+        assertThat(DatabaseType.fromString(null)).isEqualTo(DatabaseType.NONE)
     }
 }

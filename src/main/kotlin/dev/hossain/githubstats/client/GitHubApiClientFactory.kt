@@ -67,15 +67,7 @@ object GitHubApiClientFactory {
         try {
             val localProperties = LocalProperties()
             if (localProperties.isDatabaseCacheEnabled()) {
-                val database = DatabaseManager.initializeDatabase(localProperties)
-                if (database != null) {
-                    DatabaseCacheService(
-                        database = database,
-                        expirationHours = localProperties.getDbCacheExpirationHours(),
-                    )
-                } else {
-                    null
-                }
+                DatabaseManager.createDatabaseCacheService(localProperties)
             } else {
                 null
             }

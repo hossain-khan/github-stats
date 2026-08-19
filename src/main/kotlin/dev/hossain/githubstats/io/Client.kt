@@ -150,13 +150,8 @@ class Client(
     private fun setupDatabaseCaching(builder: OkHttpClient.Builder) {
         try {
             if (localProperties.isDatabaseCacheEnabled()) {
-                val database = DatabaseManager.initializeDatabase(localProperties)
-                if (database != null) {
-                    val cacheService =
-                        DatabaseCacheService(
-                            database = database,
-                            expirationHours = localProperties.getDbCacheExpirationHours(),
-                        )
+                val cacheService = DatabaseManager.createDatabaseCacheService(localProperties)
+                if (cacheService != null) {
                     val cacheInterceptor =
                         DatabaseCacheInterceptor(
                             cacheService = cacheService,

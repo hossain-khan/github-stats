@@ -43,6 +43,8 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
         private const val KEY_DATE_LIMIT_BEFORE = "date_limit_before"
 
         // Database cache configuration keys
+        private const val KEY_DB_CACHE_TYPE = "db_cache_type"
+        private const val KEY_DB_CACHE_SQLITE_FILE = "db_cache_sqlite_file"
         private const val KEY_DB_CACHE_URL = "db_cache_url"
         private const val KEY_DB_CACHE_USERNAME = "db_cache_username"
         private const val KEY_DB_CACHE_PASSWORD = "db_cache_password"
@@ -75,6 +77,31 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
     fun getDateLimitAfter(): String? = getProperty(KEY_DATE_LIMIT_AFTER)
 
     fun getDateLimitBefore(): String? = getProperty(KEY_DATE_LIMIT_BEFORE)
+
+    /**
+     * Gets configured database cache type.
+     * Determines whether to use SQLITE, POSTGRESQL, or NONE.
+     */
+    fun getDbCacheType(): dev.hossain.githubstats.cache.DatabaseType {
+        val configuredType = getProperty(KEY_DB_CACHE_TYPE)
+        if (configuredType != null) {
+            return dev.hossain.githubstats.cache.DatabaseType
+                .fromString(configuredType)
+        }
+
+        // Auto-detect if type is omitted but explicit connection parameters exist
+        return when {
+            !getDbCacheUrl().isNullOrBlank() -> dev.hossain.githubstats.cache.DatabaseType.POSTGRESQL
+            !getProperty(KEY_DB_CACHE_SQLITE_FILE).isNullOrBlank() -> dev.hossain.githubstats.cache.DatabaseType.SQLITE
+            else -> dev.hossain.githubstats.cache.DatabaseType.NONE
+        }
+    }
+
+    /**
+     * Gets the SQLite database file path.
+     * Defaults to `github-stats-cache.db` if not specified.
+     */
+    fun getDbCacheSqliteFile(): String = getProperty(KEY_DB_CACHE_SQLITE_FILE) ?: "github-stats-cache.db"
 
     /**
      * Gets database cache URL for PostgreSQL connection.
@@ -112,9 +139,21 @@ class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
      * Checks if database caching is configured by verifying required properties are present.
      */
     fun isDatabaseCacheEnabled(): Boolean =
-        !getDbCacheUrl().isNullOrBlank() &&
-            !getDbCacheUsername().isNullOrBlank() &&
-            !getDbCachePassword().isNullOrBlank()
+        when (getDbCacheType()) {
+            dev.hossain.githubstats.cache.DatabaseType.SQLITE -> {
+                getDbCacheSqliteFile().isNotBlank()
+            }
+
+            dev.hossain.githubstats.cache.DatabaseType.POSTGRESQL -> {
+                !getDbCacheUrl().isNullOrBlank() &&
+                    !getDbCacheUsername().isNullOrBlank() &&
+                    !getDbCachePassword().isNullOrBlank()
+            }
+
+            dev.hossain.githubstats.cache.DatabaseType.NONE -> {
+                false
+            }
+        }
 
     /**
      * Gets GH CLI command timeout in seconds.
