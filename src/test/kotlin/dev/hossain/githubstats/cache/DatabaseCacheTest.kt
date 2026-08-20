@@ -113,6 +113,24 @@ class DatabaseCacheTest {
             assertThat(stats!!.totalEntries).isEqualTo(1)
             assertThat(stats.validEntries).isEqualTo(1)
             assertThat(stats.expiredEntries).isEqualTo(0)
+
+            // Clean up expired entries (none expired yet)
+            cacheService.cleanupExpiredEntries()
+            assertThat(cacheService.getCachedResponse(testUrl)).isEqualTo(testJson)
+        }
+
+    @Test
+    fun `sqlite database cache service handles errors gracefully`() =
+        runBlocking {
+            val mockDatabase = mockk<SqliteDatabase>()
+            every { mockDatabase.responseCacheQueries } throws RuntimeException("DB failure")
+
+            val service = SqliteDatabaseCacheService(mockDatabase)
+
+            assertThat(service.getCachedResponse("https://api.github.com/test")).isNull()
+            assertThat(service.getCacheStats()).isNull()
+            service.cacheResponse("https://api.github.com/test", "{}", 200)
+            service.cleanupExpiredEntries()
         }
 
     @Test
@@ -142,5 +160,30 @@ class DatabaseCacheTest {
         assertThat(DatabaseType.fromString("NONE")).isEqualTo(DatabaseType.NONE)
         assertThat(DatabaseType.fromString("disabled")).isEqualTo(DatabaseType.NONE)
         assertThat(DatabaseType.fromString(null)).isEqualTo(DatabaseType.NONE)
+    }
+
+    @Test
+    fun `generateCacheKey produces consistent SHA-256 hash for identical URLs`() {
+        val service =
+            object : DatabaseCacheService {
+                override suspend fun getCachedResponse(url: String): String? = null
+
+                override suspend fun cacheResponse(
+                    url: String,
+                    responseJson: String,
+                    httpStatus: Int,
+                ) {}
+
+                override suspend fun cleanupExpiredEntries() {}
+
+                override suspend fun getCacheStats(): CacheStats? = null
+            }
+
+        val url = "https://api.github.com/repos/owner/repo/pulls/42"
+        val key1 = service.generateCacheKey(url)
+        val key2 = service.generateCacheKey(url)
+
+        assertThat(key1).isEqualTo(key2)
+        assertThat(key1).hasLength(64) // SHA-256 hex string length
     }
 }
