@@ -32,7 +32,9 @@ abstract class PropertiesReader(
     fun getProperty(key: String): String? = properties.getProperty(key)
 }
 
-class LocalProperties : PropertiesReader(LOCAL_PROPERTIES_FILE) {
+open class LocalProperties(
+    fileName: String = LOCAL_PROPERTIES_FILE,
+) : PropertiesReader(fileName) {
     companion object {
         private const val KEY_API_CLIENT_TYPE = "api_client_type"
         private const val KEY_REPO_OWNER = "repository_owner"
