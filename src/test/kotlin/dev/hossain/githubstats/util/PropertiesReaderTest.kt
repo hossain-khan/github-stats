@@ -1,7 +1,7 @@
 package dev.hossain.githubstats.util
 
 import com.google.common.truth.Truth.assertThat
-import dev.hossain.githubstats.AppConstants
+import dev.hossain.githubstats.cache.DatabaseType
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.io.TempDir
@@ -12,31 +12,221 @@ class PropertiesReaderTest {
     @TempDir
     lateinit var tempDir: Path
 
+    // ==========================================
+    // LocalProperties - General App Config Tests
+    // ==========================================
+
+    @Test
+    fun `getApiClientType returns RETROFIT by default`() {
+        val propertiesFile = createPropertiesFile("")
+        val properties = TestProperties(propertiesFile.absolutePath)
+
+        assertThat(properties.getApiClientType()).isEqualTo("RETROFIT")
+    }
+
+    @Test
+    fun `getApiClientType returns configured client type`() {
+        val propertiesFile = createPropertiesFile("api_client_type=GH_CLI")
+        val properties = TestProperties(propertiesFile.absolutePath)
+
+        assertThat(properties.getApiClientType()).isEqualTo("GH_CLI")
+    }
+
+    @Test
+    fun `getRepoOwner returns configured owner`() {
+        val propertiesFile = createPropertiesFile("repository_owner=testowner")
+        val properties = TestProperties(propertiesFile.absolutePath)
+
+        assertThat(properties.getRepoOwner()).isEqualTo("testowner")
+    }
+
+    @Test
+    fun `getRepoOwner throws exception when missing`() {
+        val propertiesFile = createPropertiesFile("")
+        val properties = TestProperties(propertiesFile.absolutePath)
+
+        assertThrows<IllegalArgumentException> {
+            properties.getRepoOwner()
+        }
+    }
+
+    @Test
+    fun `getRepoId returns configured repo id`() {
+        val propertiesFile = createPropertiesFile("repository_id=testrepo")
+        val properties = TestProperties(propertiesFile.absolutePath)
+
+        assertThat(properties.getRepoId()).isEqualTo("testrepo")
+    }
+
+    @Test
+    fun `getRepoId throws exception when missing`() {
+        val propertiesFile = createPropertiesFile("")
+        val properties = TestProperties(propertiesFile.absolutePath)
+
+        assertThrows<IllegalArgumentException> {
+            properties.getRepoId()
+        }
+    }
+
+    @Test
+    fun `getAuthors returns configured authors or null`() {
+        val withAuthors = TestProperties(createPropertiesFile("authors=user1,user2").absolutePath)
+        val withoutAuthors = TestProperties(createPropertiesFile("").absolutePath)
+
+        assertThat(withAuthors.getAuthors()).isEqualTo("user1,user2")
+        assertThat(withoutAuthors.getAuthors()).isNull()
+    }
+
+    @Test
+    fun `getBotUsers returns configured bot users or null`() {
+        val withBots = TestProperties(createPropertiesFile("bot_users=bot1,bot2").absolutePath)
+        val withoutBots = TestProperties(createPropertiesFile("").absolutePath)
+
+        assertThat(withBots.getBotUsers()).isEqualTo("bot1,bot2")
+        assertThat(withoutBots.getBotUsers()).isNull()
+    }
+
+    @Test
+    fun `getDateLimits returns configured dates or null`() {
+        val withDates =
+            TestProperties(
+                createPropertiesFile(
+                    """
+                    date_limit_after=2024-01-01
+                    date_limit_before=2024-12-31
+                    """.trimIndent(),
+                ).absolutePath,
+            )
+        val withoutDates = TestProperties(createPropertiesFile("").absolutePath)
+
+        assertThat(withDates.getDateLimitAfter()).isEqualTo("2024-01-01")
+        assertThat(withDates.getDateLimitBefore()).isEqualTo("2024-12-31")
+        assertThat(withoutDates.getDateLimitAfter()).isNull()
+        assertThat(withoutDates.getDateLimitBefore()).isNull()
+    }
+
+    // ==========================================
+    // LocalProperties - Database Cache Tests
+    // ==========================================
+
+    @Test
+    fun `getDbCacheType defaults to SQLITE when not specified`() {
+        val properties = TestProperties(createPropertiesFile("").absolutePath)
+        assertThat(properties.getDbCacheType()).isEqualTo(DatabaseType.SQLITE)
+    }
+
+    @Test
+    fun `getDbCacheType parses explicit configuration`() {
+        val sqlite = TestProperties(createPropertiesFile("db_cache_type=SQLITE").absolutePath)
+        val postgres = TestProperties(createPropertiesFile("db_cache_type=POSTGRESQL").absolutePath)
+        val none = TestProperties(createPropertiesFile("db_cache_type=NONE").absolutePath)
+
+        assertThat(sqlite.getDbCacheType()).isEqualTo(DatabaseType.SQLITE)
+        assertThat(postgres.getDbCacheType()).isEqualTo(DatabaseType.POSTGRESQL)
+        assertThat(none.getDbCacheType()).isEqualTo(DatabaseType.NONE)
+    }
+
+    @Test
+    fun `getDbCacheType auto-detects POSTGRESQL when postgres URL provided without explicit type`() {
+        val properties =
+            TestProperties(
+                createPropertiesFile("db_cache_url=jdbc:postgresql://localhost:5432/github_stats_cache").absolutePath,
+            )
+        assertThat(properties.getDbCacheType()).isEqualTo(DatabaseType.POSTGRESQL)
+    }
+
+    @Test
+    fun `getDbCacheSqliteFile returns default filename or configured value`() {
+        val defaultFile = TestProperties(createPropertiesFile("").absolutePath)
+        val customFile = TestProperties(createPropertiesFile("db_cache_sqlite_file=custom.db").absolutePath)
+
+        assertThat(defaultFile.getDbCacheSqliteFile()).isEqualTo("github-stats-cache.db")
+        assertThat(customFile.getDbCacheSqliteFile()).isEqualTo("custom.db")
+    }
+
+    @Test
+    fun `getDbCacheCredentials returns configured username and password or null`() {
+        val withCreds =
+            TestProperties(
+                createPropertiesFile(
+                    """
+                    db_cache_username=testuser
+                    db_cache_password=testpass
+                    """.trimIndent(),
+                ).absolutePath,
+            )
+        val withoutCreds = TestProperties(createPropertiesFile("").absolutePath)
+
+        assertThat(withCreds.getDbCacheUsername()).isEqualTo("testuser")
+        assertThat(withCreds.getDbCachePassword()).isEqualTo("testpass")
+        assertThat(withoutCreds.getDbCacheUsername()).isNull()
+        assertThat(withoutCreds.getDbCachePassword()).isNull()
+    }
+
+    @Test
+    fun `getDbCacheExpirationHours returns default 24 or configured value`() {
+        val defaultExpiry = TestProperties(createPropertiesFile("").absolutePath)
+        val customExpiry = TestProperties(createPropertiesFile("db_cache_expiration_hours=168").absolutePath)
+        val invalidExpiry = TestProperties(createPropertiesFile("db_cache_expiration_hours=invalid").absolutePath)
+
+        assertThat(defaultExpiry.getDbCacheExpirationHours()).isEqualTo(24L)
+        assertThat(customExpiry.getDbCacheExpirationHours()).isEqualTo(168L)
+        assertThat(invalidExpiry.getDbCacheExpirationHours()).isEqualTo(24L)
+    }
+
+    @Test
+    fun `isDatabaseCacheEnabled evaluates correctly for SQLite, Postgres, and None`() {
+        val sqliteDefault = TestProperties(createPropertiesFile("").absolutePath)
+        val sqliteExplicit =
+            TestProperties(
+                createPropertiesFile(
+                    """
+                    db_cache_type=SQLITE
+                    db_cache_sqlite_file=test.db
+                    """.trimIndent(),
+                ).absolutePath,
+            )
+        val postgresValid =
+            TestProperties(
+                createPropertiesFile(
+                    """
+                    db_cache_type=POSTGRESQL
+                    db_cache_url=jdbc:postgresql://localhost:5432/github_stats_cache
+                    db_cache_username=user
+                    db_cache_password=pass
+                    """.trimIndent(),
+                ).absolutePath,
+            )
+        val postgresIncomplete =
+            TestProperties(
+                createPropertiesFile(
+                    """
+                    db_cache_type=POSTGRESQL
+                    db_cache_url=jdbc:postgresql://localhost:5432/github_stats_cache
+                    """.trimIndent(),
+                ).absolutePath,
+            )
+        val none = TestProperties(createPropertiesFile("db_cache_type=NONE").absolutePath)
+
+        assertThat(sqliteDefault.isDatabaseCacheEnabled()).isTrue()
+        assertThat(sqliteExplicit.isDatabaseCacheEnabled()).isTrue()
+        assertThat(postgresValid.isDatabaseCacheEnabled()).isTrue()
+        assertThat(postgresIncomplete.isDatabaseCacheEnabled()).isFalse()
+        assertThat(none.isDatabaseCacheEnabled()).isFalse()
+    }
+
     @Test
     fun `getDbCacheUrl returns null when property is not set`() {
-        // Given
-        val propertiesFile = createPropertiesFile("")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When
-        val result = localProperties.getDbCacheUrl()
-
-        // Then
-        assertThat(result).isNull()
+        val properties = TestProperties(createPropertiesFile("").absolutePath)
+        assertThat(properties.getDbCacheUrl()).isNull()
     }
 
     @Test
     fun `getDbCacheUrl returns valid URL when property is correctly formatted`() {
-        // Given
         val validUrl = "jdbc:postgresql://localhost:5432/github_stats_cache"
-        val propertiesFile = createPropertiesFile("db_cache_url=$validUrl")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
+        val properties = TestProperties(createPropertiesFile("db_cache_url=$validUrl").absolutePath)
 
-        // When
-        val result = localProperties.getDbCacheUrl()
-
-        // Then
-        assertThat(result).isEqualTo(validUrl)
+        assertThat(properties.getDbCacheUrl()).isEqualTo(validUrl)
     }
 
     @Test
@@ -51,12 +241,8 @@ class PropertiesReaderTest {
             )
 
         validUrls.forEach { validUrl ->
-            // Given
-            val propertiesFile = createPropertiesFile("db_cache_url=$validUrl")
-            val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-            // When & Then
-            assertThat(localProperties.getDbCacheUrl()).isEqualTo(validUrl)
+            val properties = TestProperties(createPropertiesFile("db_cache_url=$validUrl").absolutePath)
+            assertThat(properties.getDbCacheUrl()).isEqualTo(validUrl)
         }
     }
 
@@ -71,203 +257,64 @@ class PropertiesReaderTest {
             )
 
         validUrls.forEach { validUrl ->
-            // Given
-            val propertiesFile = createPropertiesFile("db_cache_url=$validUrl")
-            val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-            // When & Then
-            assertThat(localProperties.getDbCacheUrl()).isEqualTo(validUrl)
+            val properties = TestProperties(createPropertiesFile("db_cache_url=$validUrl").absolutePath)
+            assertThat(properties.getDbCacheUrl()).isEqualTo(validUrl)
         }
     }
 
     @Test
-    fun `getDbCacheUrl throws exception for invalid URL - wrong database type`() {
-        // Given
-        val invalidUrl = "jdbc:mysql://localhost:3306/github_stats_cache"
-        val propertiesFile = createPropertiesFile("db_cache_url=$invalidUrl")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When & Then
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                localProperties.getDbCacheUrl()
-            }
-        assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-        assertThat(exception.message).contains("jdbc:postgresql://host[:port]/database")
-    }
-
-    @Test
-    fun `getDbCacheUrl throws exception for invalid URL - missing jdbc prefix`() {
-        // Given
-        val invalidUrl = "postgresql://localhost:5432/github_stats_cache"
-        val propertiesFile = createPropertiesFile("db_cache_url=$invalidUrl")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When & Then
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                localProperties.getDbCacheUrl()
-            }
-        assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-    }
-
-    @Test
-    fun `getDbCacheUrl throws exception for invalid URL - missing database path separator`() {
-        // Given
-        val invalidUrl = "jdbc:postgresql://localhost:5432"
-        val propertiesFile = createPropertiesFile("db_cache_url=$invalidUrl")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When & Then
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                localProperties.getDbCacheUrl()
-            }
-        assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-    }
-
-    @Test
-    fun `getDbCacheUrl throws exception for invalid URL - non-numeric port`() {
-        // Given
-        val invalidUrl = "jdbc:postgresql://localhost:abc/github_stats_cache"
-        val propertiesFile = createPropertiesFile("db_cache_url=$invalidUrl")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When & Then
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                localProperties.getDbCacheUrl()
-            }
-        assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-    }
-
-    @Test
-    fun `getDbCacheUrl throws exception for invalid URL - missing database name`() {
-        // Given
-        val invalidUrl = "jdbc:postgresql://localhost:5432/"
-        val propertiesFile = createPropertiesFile("db_cache_url=$invalidUrl")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When & Then
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                localProperties.getDbCacheUrl()
-            }
-        assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-    }
-
-    @Test
-    fun `getDbCacheUrl throws exception for invalid URL - invalid characters in database name`() {
-        // Given
-        val invalidUrl = "jdbc:postgresql://localhost:5432/database-with-hyphens"
-        val propertiesFile = createPropertiesFile("db_cache_url=$invalidUrl")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When & Then
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                localProperties.getDbCacheUrl()
-            }
-        assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-    }
-
-    @Test
-    fun `getDbCacheUrl throws exception for empty URL`() {
-        // Given
-        val propertiesFile = createPropertiesFile("db_cache_url=")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When & Then
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                localProperties.getDbCacheUrl()
-            }
-        assertThat(exception.message).contains("Invalid PostgreSQL JDBC URL format")
-    }
-
-    @Test
-    fun `getDbCacheUrl accepts database names with underscores and numbers`() {
-        val validUrls =
+    fun `getDbCacheUrl throws exception for invalid URL formats`() {
+        val invalidUrls =
             listOf(
-                "jdbc:postgresql://localhost:5432/github_stats_cache",
-                "jdbc:postgresql://localhost:5432/db123",
-                "jdbc:postgresql://localhost:5432/my_database_2024",
-                "jdbc:postgresql://localhost:5432/test_db_v1",
+                "jdbc:mysql://localhost:3306/github_stats_cache",
+                "postgresql://localhost:5432/github_stats_cache",
+                "jdbc:postgresql://localhost:5432",
+                "jdbc:postgresql://localhost:abc/github_stats_cache",
+                "jdbc:postgresql://localhost:5432/",
+                "jdbc:postgresql://localhost:5432/database-with-hyphens",
+                "",
             )
 
-        validUrls.forEach { validUrl ->
-            // Given
-            val propertiesFile = createPropertiesFile("db_cache_url=$validUrl")
-            val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-            // When & Then
-            assertThat(localProperties.getDbCacheUrl()).isEqualTo(validUrl)
+        invalidUrls.forEach { invalidUrl ->
+            val properties = TestProperties(createPropertiesFile("db_cache_url=$invalidUrl").absolutePath)
+            assertThrows<IllegalArgumentException> {
+                properties.getDbCacheUrl()
+            }
         }
     }
+
+    // ==========================================
+    // LocalProperties - GH CLI Config Tests
+    // ==========================================
 
     @Test
     fun `getGhCliTimeoutSeconds returns default 10 when property is not set`() {
-        // Given
-        val propertiesFile = createPropertiesFile("")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When
-        val result = localProperties.getGhCliTimeoutSeconds()
-
-        // Then
-        assertThat(result).isEqualTo(10L)
+        val properties = TestProperties(createPropertiesFile("").absolutePath)
+        assertThat(properties.getGhCliTimeoutSeconds()).isEqualTo(10L)
     }
 
     @Test
     fun `getGhCliTimeoutSeconds returns configured value when property is set`() {
-        // Given
-        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=60")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When
-        val result = localProperties.getGhCliTimeoutSeconds()
-
-        // Then
-        assertThat(result).isEqualTo(60L)
+        val properties = TestProperties(createPropertiesFile("gh_cli_timeout_seconds=60").absolutePath)
+        assertThat(properties.getGhCliTimeoutSeconds()).isEqualTo(60L)
     }
 
     @Test
     fun `getGhCliTimeoutSeconds returns default when property is invalid`() {
-        // Given
-        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=invalid")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When
-        val result = localProperties.getGhCliTimeoutSeconds()
-
-        // Then - Should fall back to default
-        assertThat(result).isEqualTo(10L)
+        val properties = TestProperties(createPropertiesFile("gh_cli_timeout_seconds=invalid").absolutePath)
+        assertThat(properties.getGhCliTimeoutSeconds()).isEqualTo(10L)
     }
 
     @Test
     fun `getGhCliTimeoutSeconds accepts zero timeout`() {
-        // Given
-        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=0")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When
-        val result = localProperties.getGhCliTimeoutSeconds()
-
-        // Then
-        assertThat(result).isEqualTo(0L)
+        val properties = TestProperties(createPropertiesFile("gh_cli_timeout_seconds=0").absolutePath)
+        assertThat(properties.getGhCliTimeoutSeconds()).isEqualTo(0L)
     }
 
     @Test
     fun `getGhCliTimeoutSeconds accepts large timeout values`() {
-        // Given
-        val propertiesFile = createPropertiesFile("gh_cli_timeout_seconds=3600")
-        val localProperties = TestLocalProperties(propertiesFile.absolutePath)
-
-        // When
-        val result = localProperties.getGhCliTimeoutSeconds()
-
-        // Then
-        assertThat(result).isEqualTo(3600L)
+        val properties = TestProperties(createPropertiesFile("gh_cli_timeout_seconds=3600").absolutePath)
+        assertThat(properties.getGhCliTimeoutSeconds()).isEqualTo(3600L)
     }
 
     private fun createPropertiesFile(content: String): File {
@@ -277,36 +324,9 @@ class PropertiesReaderTest {
     }
 
     /**
-     * Test implementation of LocalProperties that uses a custom file path
+     * Test implementation that directly subclasses [LocalProperties] with a custom file path.
      */
-    private class TestLocalProperties(
+    private class TestProperties(
         filePath: String,
-    ) : PropertiesReader(filePath) {
-        fun getDbCacheUrl(): String? {
-            val url = getProperty("db_cache_url")
-            if (url != null) {
-                validatePostgreSqlUrl(url)
-            }
-            return url
-        }
-
-        fun getGhCliTimeoutSeconds(): Long =
-            getProperty("gh_cli_timeout_seconds")?.toLongOrNull()
-                ?: AppConstants.GH_CLI_DEFAULT_TIMEOUT_SECONDS
-
-        private fun validatePostgreSqlUrl(url: String) {
-            val postgresUrlPattern =
-                Regex(
-                    "^jdbc:postgresql://[a-zA-Z0-9.-]+(?::[0-9]+)?/[a-zA-Z0-9_]+$",
-                )
-
-            if (!postgresUrlPattern.matches(url)) {
-                throw IllegalArgumentException(
-                    "Invalid PostgreSQL JDBC URL format: '$url'. " +
-                        "Expected format: jdbc:postgresql://host[:port]/database " +
-                        "(e.g., jdbc:postgresql://localhost:5432/github_stats_cache or jdbc:postgresql://host.com/database)",
-                )
-            }
-        }
-    }
+    ) : LocalProperties(filePath)
 }
