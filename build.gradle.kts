@@ -6,12 +6,12 @@ plugins {
     // For build.gradle.kts (Kotlin DSL)
     // https://kotlinlang.org/docs/releases.html#release-details
     kotlin("jvm") version "2.2.21"
-    id("org.jmailen.kotlinter") version "5.3.0"
+    id("org.jmailen.kotlinter") version "5.5.0"
 
     // Dokka - API documentation engine for Kotlin
     // https://github.com/Kotlin/dokka
     // https://kotlinlang.org/docs/dokka-migration.html
-    id("org.jetbrains.dokka") version "2.1.0"
+    id("org.jetbrains.dokka") version "2.2.0"
 
     // SQLDelight plugin for database code generation
     // https://sqldelight.github.io/sqldelight/
@@ -65,7 +65,7 @@ dependencies {
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.10.0") //for JVM platform
 
     // Koin Core features - https://insert-koin.io/
-    implementation("io.insert-koin:koin-core:4.1.1")
+    implementation("io.insert-koin:koin-core:4.2.2")
 
     // ASCII Progress Bar https://github.com/ctongfei/progressbar
     implementation("me.tongfei:progressbar:0.10.1")
@@ -89,7 +89,7 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:5.3.2")
     // MockK - https://mockk.io/ : don't use 1.13.8 due to
     // https://github.com/mockk/mockk/issues/1168#issuecomment-1823071494
-    testImplementation("io.mockk:mockk:1.14.7")
+    testImplementation("io.mockk:mockk:1.14.11")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.2.21")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.2")
