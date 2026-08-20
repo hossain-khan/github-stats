@@ -79,7 +79,7 @@ jobs:
       # https://github.com/codecov/codecov-action
       - name: Upload coverage reports to Codecov
         if: steps.filter.outputs.src == 'true'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./build/reports/kover/report.xml
